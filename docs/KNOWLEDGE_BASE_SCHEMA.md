@@ -1,6 +1,6 @@
 # Knowledge Base Schema
 
-Status: **draft (2026-10-23)**, Phase 0. Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
+Status: **draft (2026-10-23)**, Phase 0. Owner answers of 2026-10-23 applied (Q2–Q19, Q24, Q25 decided); open: Q26. Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
 
 The KB is a set of JSON files in the repo, validated with **Zod** (a TypeScript library that checks data against a schema) at build time and in tests. It has a semantic `kbVersion`; every result records the version it was computed with (same as sibling ADR-003).
 
@@ -54,7 +54,7 @@ A **part** is one slot in the stack. Each part has one or two levels. Level 1 op
 ]
 ```
 
-### Proposed v1 options (Q4, Q10)
+### v1 options (decided 2026-10-23, Q4, Q10)
 | Part | Types (level 1) | Products (level 2) → their types |
 |---|---|---|
 | language | — | `typescript-node` (JS/TS on Node.js), `python`, `java` (JVM, incl. Kotlin), `csharp`, `go`, `php` |
@@ -94,7 +94,7 @@ Shape of an entry (as in the sibling, plus `appliesTo`):
 { "id": "real-time", "name": "Real-time support", "short": "...", "help": "...", "example": "A chat app that shows new messages instantly",
   "appliesTo": ["backend", "database", "hosting"], "visibility": "default", "source": { "kind": "book", "ref": "fosa", "locator": "ch.4" } }
 ```
-`visibility: "default"` criteria are on the form; `"advanced"` ones are hidden behind "More priorities" (proposed advanced: `portability`, `schema-flexibility`, `interactivity`). Q6.
+`visibility: "default"` criteria are on the form; `"advanced"` ones are hidden behind "More priorities" (advanced: `portability`, `schema-flexibility`, `interactivity`; decided Q6).
 
 ## 5. Options (`options.json`)
 ```json
@@ -137,7 +137,7 @@ Three relation kinds between options in **different parts**. Conditions use the 
 | Kind | Meaning | Engine effect | Example |
 |---|---|---|---|
 | `requires` | A only works if the other part is one of X | Hard filter during stack assembly; the option is labelled "needs: Python" when the stack doesn't match | `django` requires language `python`; `frontend-server` requires frontend ∈ {`nextjs`, `nuxt`, `sveltekit`, `astro`}; `github-pages` requires backend `none` |
-| `conflicts` | A and B can't be used together | Hard filter | `vercel` conflicts with language `java`, `csharp`, `php` (no first-party runtime: **verify**, Q21); `plain-html` conflicts with backend `frontend-server` |
+| `conflicts` | A and B can't be used together | Hard filter | `netlify` conflicts with language `java`, `csharp`, `php` (Netlify Functions run JS/TS and Go: GK, verify); `github-pages` conflicts with any backend; `plain-html` conflicts with backend `frontend-server` |
 | `worksBestWith` | A known good pairing | Small bonus to the **stack** score (+1 to +3, total capped at +6); shown as "goes well with" | `nextjs` + `vercel` (first-party support); `laravel` + `mysql`; `django` + `postgresql` (Django's PostgreSQL-only extras) |
 
 ```json
@@ -165,6 +165,25 @@ Effect types:
 | `note` | No score change; adds a message and an AI hint |
 
 Every rule has `id`, `name`, `explanation` (shown when it fires), `source`, and optionally `otherwise` + `otherwiseExplanation`. Rule ids: `S…` situation, `D…` data shape, `K…` constraint, `A…` architecture-style link, `N…` notes. Team-skill rules live in `skills.json` (§7.4).
+
+### 7.0 Form questions (`questions.json`)
+Every question has "Not sure". Ids are the `q.` paths used by rules.
+| id | Asks | Options (short) |
+|---|---|---|
+| `app-kind` | What are you building? | content/marketing site, portfolio, interactive web app, API only, e-commerce, internal tool / dashboard, backend for a mobile app |
+| `traffic` | Expected users and growth | tiny, small and stable, growing, large, spiky |
+| `data-shape` | What does your data look like? | linked records, self-contained documents, highly connected, simple lookups, no stored data |
+| `data-flags` | Extra data facts (multi) | fields vary a lot, money / strict consistency, single user / offline |
+| `real-time` | Live updates needed? | yes / no |
+| `seo` | Must pages be found by search engines? | yes / no |
+| `team-size`, `experience` | Team | solo, 2–5, 6–15, 16+; beginner, some, experienced |
+| `budget` | Monthly budget for running it | free only, small paid, moderate, comfortable |
+| `deadline`, `lifespan` | Time | very tight (< 1 month), tight, relaxed; prototype, 1–3 years, 5+ years |
+| `commercial` | Is this a commercial project? (Q15) | yes / no |
+| `hosting-rule` | Hosting constraint | none, must self-host, must use AWS / Azure / Google Cloud |
+| `open-source-only` | Only OSI open-source licences? (Q16) | yes / no |
+
+Team skills, known frameworks, goal, locks (Q12) and the optional style come from their own form sections (`SCORING_ENGINE.md` step 1).
 
 ### 7.1 Situation rules (examples)
 | id | When | Effect | Source |
@@ -195,16 +214,18 @@ Every rule has `id`, `name`, `explanation` (shown when it fires), `source`, and 
 | id | When | Effect | Source |
 |---|---|---|---|
 | K1 | commercial = yes **and** budget = free only | exclude `vercel` (Hobby is non-commercial) | `ref:vercel-docs` (S, verify Q21) |
+| K1b | app kind ∈ {e-commerce, web app} **and** commercial = yes | exclude `github-pages` (not allowed for online businesses, e-commerce or commercial SaaS); for other commercial sites: note | `ref:github-docs` "GitHub Pages limits" (P, 2026-10-23) |
 | K2 | commercial = yes, budget > free | `vercel` note: "needs the paid Pro plan for commercial use" | same |
 | K3 | must self-host / on-premises | exclude all `frontend-platform`, `paas`, `cloud` products except where the provider offers on-prem (none in v1) | DESIGN |
 | K4 | must use cloud X | lock hosting to X (as if the user locked it) | DESIGN |
 | K5 | budget = free only | exclude hosting products with no lasting free tier (`railway`, `fly-io` for new accounts, `vps`); note cloud free tiers expire | RESEARCH §4 (S) |
 | K6 | open-source licences only | exclude products with `licence.osi = false` (e.g. `mongodb` SSPL); note: Redis 8 can be used under AGPLv3, Valkey is BSD | RESEARCH §2 (P) |
-| K7 | real-time = yes | `vercel`, `netlify` −15 (serverless functions don't hold long-lived WebSocket connections; GK, verify) | GK |
-| K8 | backend needs a long-running server (Spring Boot, ASP.NET Core, Laravel, Django with WebSockets) | `static-hosting` excluded; `frontend-platform` −15 | GK |
+| K7 | real-time = yes | `netlify` −15 (Netlify Functions don't hold WebSocket connections). `vercel`: **no penalty**, note: "WebSockets work on Vercel Functions, but each connection stays on one instance; to send a message to everyone you need a pub/sub service such as Redis/Valkey" | RESEARCH §4b (P + S, 2026-10-23; owner Q24) |
+| K8 | backend is a separate server framework (Spring Boot, ASP.NET Core, Laravel, Django, ...) | `static-hosting` excluded | GK |
+| K9 | the stack only works on a hosting product through a **beta** feature (e.g. Java/C#/PHP on Vercel via its container runtime) | that hosting product −5; note "uses a beta feature" | DESIGN (Q26, draft) + RESEARCH §4b |
 
 ### 7.4 Team-skill rules (`skills.json`)
-Input: `skills: { [languageId]: "none" | "some" | "strong" }` and `knownFrameworks: optionId[]`. Proposed defaults (DESIGN, tune in calibration; Q11):
+Input (decided Q11): `skills: { [languageId]: "none" | "some" | "strong" }`, `knownFrameworks: optionId[]` and `goal: "ship" | "learn"`. Starting values (DESIGN, tune in calibration):
 
 | id | When | Effect |
 |---|---|---|
@@ -212,7 +233,7 @@ Input: `skills: { [languageId]: "none" | "some" | "strong" }` and `knownFramewor
 | T2 | language skill = some | language +10; products requiring it +5 |
 | T3 | framework known | that product +10 |
 | T4 | deadline tight or very tight, and the team knows ≥ 1 language at some/strong | languages with skill `none` −10 |
-| T5 | goal = learn something new (Q11) | T1–T4 effects halved; `learning-curve` floor medium |
+| T5 | goal = learn something new | T1–T4 effects halved; `learning-curve` floor medium |
 
 Skill effects go into their own bucket, capped to **−10…+25** per option, separate from the ±30 rules bucket, so "the team knows Java" can count a lot without being cancelled out by unrelated rules. Source: `book:fosa ch.19` (team and organisational factors) + DESIGN.
 
@@ -255,7 +276,7 @@ Windows live in `meta.json` (`staleAfterDays`) so they're data. How they're enfo
 - **The engine never reads the clock.** Staleness is checked by tests and the build, and the UI compares `checked` with today's date only for display.
 - `npm run kb:stale` lists overdue facts. In development: warning. **Release gate:** the production build fails if any fact is more than **2×** its window overdue, or any `support.until` date has passed for the version we describe as current.
 - The UI shows "checked on <date>" in the comparison table, and a "may be out of date" badge for overdue facts.
-- A refresh session (proposed: every 3 months, Q7) re-checks overdue facts, logs changes in `docs/RESEARCH.md`, and bumps `kbVersion`.
+- A refresh session (every 3 months, decided Q7) re-checks overdue facts, logs changes in `docs/RESEARCH.md`, and bumps `kbVersion`.
 - An option whose project is abandoned or deprecated gets `status: "deprecated"` and moves to the glossary.
 
 ## 10. Bundles and glossary

@@ -26,7 +26,7 @@ interface UserInput {
                                                     // every question has "Not sure"
   skills: Partial<Record<LanguageId, "none" | "some" | "strong">>;  // unset = "none"
   knownFrameworks: OptionId[];
-  goal: "ship" | "learn";                          // Q11; default "ship"
+  goal: "ship" | "learn";                          // default "ship" (decided Q11)
   locked: Partial<Record<PartId, OptionId>>;       // "we must use MongoDB"
   style?: ArchStyleId;                             // from Architecture Advisor (optional)
   notes: string;                                   // ≤ 1,000 chars; AI only, never read by the engine
@@ -118,7 +118,7 @@ Fit labels as in the sibling: ≥ 75 strong · 60–74.9 good · 45–59.9 possi
 | Django | 64 | 0 | 0 | 64 |
 | NestJS | 61 | 0 | 0 | 61 |
 
-**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel is ruled out by the Java backend (`conflicts`) and only gets a note from K2; the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
+**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel could only run Spring Boot through its container runtime (beta, −5 from K9) and needs the paid plan for commercial use (K2 note); the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
 
 ## Determinism and safety properties (tested)
 1. Same input ⇒ deep-equal output.
