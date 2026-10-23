@@ -11,7 +11,8 @@ This repo is built mostly in **Claude Code cloud sessions** (claude.ai/code). Re
 3. `docs/ROADMAP.md`: phases and the next task
 4. `docs/SIBLING_PROJECT.md`: how to learn from Architecture Advisor (reuse its patterns, don't copy blindly)
 5. `references/INDEX.md`: what source material is available for knowledge-base rules
-6. Then the docs for the phase you're on (`KNOWLEDGE_BASE_SCHEMA.md`, `ARCHITECTURE.md`, ...)
+6. `docs/RESEARCH.md`: facts that change (versions, licences, free tiers) with checked dates
+7. Then the docs for the phase you're on (`KNOWLEDGE_BASE_SCHEMA.md`, `SCORING_ENGINE.md`, `TESTING_STRATEGY.md`, `ARCHITECTURE.md`, ...)
 
 ## Hard rules
 

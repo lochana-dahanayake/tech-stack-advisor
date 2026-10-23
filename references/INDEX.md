@@ -16,14 +16,16 @@ Source material for knowledge-base rules. Each entry gets a short id; KB entries
 | id | Title / author | Type | Location | Covers | Added |
 |---|---|---|---|---|---|
 | ddia | Kleppmann, *Designing Data-Intensive Applications*, 1st ed. (O'Reilly, 2017) | book | `books/ddia-1st-ed-2017.pdf` | SQL vs NoSQL, data models, replication, partitioning, consistency. A 2nd ed. (Kleppmann & Riccomini, 2026) exists; check online for anything that changed. | 2026-10-24 |
-| fosa | Richards & Ford, *Fundamentals of Software Architecture*, 2nd ed. (O'Reilly, 2025) | book | `books/fosa-2nd-ed-2025.pdf` | Definitions of quality attributes (scalability, performance, ...) and trade-off thinking. Background only. | 2026-10-24 |
+| fosa | Richards & Ford, *Fundamentals of Software Architecture*, 2nd ed. (O'Reilly, 2025) | book | `books/fosa-2nd-ed-2025.pdf` | Definitions of quality attributes (scalability, performance, ...) and trade-off thinking. Background only. The PDF is the **German translation** (chapter numbers match the English edition). | 2026-10-24 |
 | mpg17 | Schönig, *Mastering PostgreSQL 17*, 6th ed. (Packt, 2024) | book | `books/mastering-postgresql-17.pdf` | PostgreSQL features: JSON, indexing, extensions, replication, performance. | 2026-10-24 |
-| sixstep | *Six-Step Relational Database Design*, 2nd ed. | book | `books/six-step-relational-db-design-2nd-ed.pdf` | How to design a relational (SQL) database step by step; when relational modelling fits. | 2026-10-24 |
-| so-survey | Stack Overflow Developer Survey (latest year) | link | https://survey.stackoverflow.co/ | Usage and how much developers like each language, framework and database; hiring signal. | 2026-10-24 |
+| sixstep | Fidel A. Captain, *Six-Step Relational Database Design*, 2nd ed., revised (2015) | book | `books/six-step-relational-db-design-2nd-ed.pdf` | How to design a relational (SQL) database step by step; when relational modelling fits. | 2026-10-24 |
+| so-survey | Stack Overflow Developer Survey (latest: 2026, published 2026-10-06) | link | https://survey.stackoverflow.co/2026 | Usage and how much developers like each language, framework and database; hiring signal. | 2026-10-24 |
 | jb-eco | JetBrains State of Developer Ecosystem | link | https://www.jetbrains.com/lp/devecosystem-2025/ (check for newer year) | Second survey to cross-check usage. | 2026-10-24 |
 | state-js | State of JS | link | https://stateofjs.com/ | Frontend and Node framework satisfaction. | 2026-10-24 |
 | db-engines | DB-Engines ranking | link | https://db-engines.com/en/ranking | Database popularity and per-database facts. | 2026-10-24 |
-| tw-radar | Thoughtworks Technology Radar | link | https://www.thoughtworks.com/radar | Expert adopt / trial / hold verdicts on tools. | 2026-10-24 |
+| tw-radar | Thoughtworks Technology Radar (latest found: Vol. 34, April 2026) | link | https://www.thoughtworks.com/radar | Expert adopt / trial / hold verdicts on tools. | 2026-10-24 |
 | web-rendering | web.dev, "Rendering on the Web" | link | https://web.dev/articles/rendering-on-the-web | SPA vs server rendering vs static sites. | 2026-10-24 |
-| eol | endoflife.date | link | https://endoflife.date/ | Support and end-of-life dates for each version. | 2026-10-24 |
+| eol | endoflife.date | link | https://endoflife.date/ (blocked in cloud sessions: use its data repo https://github.com/endoflife-date/endoflife.date, `products/*.md`) | Support and end-of-life dates for each version. | 2026-10-24 |
 | techempower | TechEmpower Framework Benchmarks | link | https://www.techempower.com/benchmarks/ | Backend framework speed. Rough signal only. | 2026-10-24 |
+
+Every file in `books/` has a row above (checked 2026-10-23). Facts taken from the links, with their checked dates, are in `docs/RESEARCH.md`.
