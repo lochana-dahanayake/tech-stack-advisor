@@ -4,7 +4,7 @@ A free web app (planned) that recommends **frameworks and a technical stack** fo
 
 It is the sibling of **[Architecture Advisor](https://github.com/lochana-dahanayake/architecture-advisor)** ([live](https://architecture-advisor-pink.vercel.app)), which recommends *architectural styles*. Tech Stack Advisor answers the next question: "I picked a style, now which tools should I build it with?"
 
-**Status:** planning. No code yet. Start with `CLAUDE.md`, then `docs/`.
+**Status:** planning (Phase 0 drafts done 2026-10-23, waiting on owner answers in `docs/OPEN_QUESTIONS.md`). No code yet. Start with `CLAUDE.md`, then `docs/`.
 
 | Folder | What's in it |
 |---|---|
