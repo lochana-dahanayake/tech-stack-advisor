@@ -6,7 +6,6 @@ Product decisions belong to the owner. Claude: add new questions here instead of
 
 | # | Question | Notes / proposed default |
 |---|---|---|
-| Q1 | Final product name? | Working name "Stack Advisor". |
 | Q2 | How does it connect to Architecture Advisor? Separate app with a link / shared URL params, or a new section inside the same app? | Proposed: separate app; Architecture Advisor's result page gets a "Pick a stack for this" link passing the style id in the URL. |
 | Q3 | Rank each layer separately, rank whole-stack bundles (e.g. "Next.js + Postgres + Vercel"), or both? | Proposed: per-layer ranking + compatibility rules, plus a few curated bundles shown as info (like patterns in Architecture Advisor). |
 | Q4 | Which layers are in v1? | Proposed: language, frontend framework, backend framework, database, hosting. Later: mobile, messaging, auth, CI/CD. |
@@ -22,3 +21,4 @@ Product decisions belong to the owner. Claude: add new questions here instead of
 |---|---|---|
 | D1 | Separate repo; built mainly in Claude Code cloud sessions. | 2026-10-24 |
 | D2 | Claude owns the PR flow (opens and merges), same as Architecture Advisor. | 2026-10-24 |
+| D3 | Name: **Tech Stack Advisor** (repo `tech-stack-advisor`). "Framework Advisor" was too narrow: it also covers databases and hosting. | 2026-10-24 |

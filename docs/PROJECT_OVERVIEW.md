@@ -1,6 +1,6 @@
-# Project Overview: Stack Advisor
+# Project Overview: Tech Stack Advisor
 
-> Working name. Final name is open (see `OPEN_QUESTIONS.md` Q1).
+> Name decided 2026-10-24 (D3).
 
 ## What it is
 A free web app that recommends a **technical stack** for a software project. The user describes:

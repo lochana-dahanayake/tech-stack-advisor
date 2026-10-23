@@ -1,4 +1,4 @@
-# Stack Advisor: instructions for Claude
+# Tech Stack Advisor: instructions for Claude
 
 A free web app that recommends frameworks and a technical stack. Same approach as the sibling project **Architecture Advisor**: a deterministic rule engine ranks options from a curated, sourced knowledge base; a free-tier LLM may add small bounded adjustments and a plain-language explanation. The plan lives in `docs/`. Read it before changing anything.
 
