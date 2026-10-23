@@ -1,6 +1,6 @@
 # Learning from Architecture Advisor
 
-Architecture Advisor is the finished sibling project (v1.1, live). Stack Advisor should follow the same overall design. Read it to understand the approach, then adapt; don't copy code blindly.
+Architecture Advisor is the finished sibling project (v1.1, live). Tech Stack Advisor should follow the same overall design. Read it to understand the approach, then adapt; don't copy code blindly.
 
 - Repo (public): https://github.com/lochana-dahanayake/architecture-advisor
 - Live app: https://architecture-advisor-pink.vercel.app
@@ -20,7 +20,7 @@ Never commit it into this repo. If cloning fails, read single files from
 | File | Why |
 |---|---|
 | `CLAUDE.md` | Its working rules. This repo's `CLAUDE.md` is based on it. |
-| `docs/PROJECT_OVERVIEW.md` | Goals, non-goals, success criteria. Stack Advisor mirrors them. |
+| `docs/PROJECT_OVERVIEW.md` | Goals, non-goals, success criteria. Tech Stack Advisor mirrors them. |
 | `docs/KNOWLEDGE_BASE_SCHEMA.md` | How KB entries, source tags and rules are shaped. Start the stack KB schema from this. |
 | `docs/KNOWLEDGE_BASE_DRAFT.md` | Real KB content; §8 is the calibration log. Shows the level of sourcing expected. |
 | `docs/SCORING_ENGINE.md` | Weighted scoring, constraint rules, tie-breaks. The core idea to reuse. |
@@ -32,8 +32,8 @@ Never commit it into this repo. If cloning fails, read single files from
 | `src/modules/scoring/`, `src/modules/knowledge-base/` | Working engine and KB loader. |
 
 ## The link between the two apps
-Architecture Advisor outputs a ranked list of **architectural style ids** (layered, modular monolith, microservices, event-driven, ...). Stack Advisor can take a style id as input that changes weights and rules (e.g. microservices raises the value of container-friendly hosting and per-service databases). Use the **same style ids** as Architecture Advisor's KB so a URL hand-off works. How the hand-off works is still open: `OPEN_QUESTIONS.md` Q2.
+Architecture Advisor outputs a ranked list of **architectural style ids** (layered, modular monolith, microservices, event-driven, ...). Tech Stack Advisor can take a style id as input that changes weights and rules (e.g. microservices raises the value of container-friendly hosting and per-service databases). Use the **same style ids** as Architecture Advisor's KB so a URL hand-off works. How the hand-off works is still open: `OPEN_QUESTIONS.md` Q2.
 
 ## What not to bring over
 - Any private course material (it isn't in the public repo anyway).
-- Its style scores. Stack Advisor needs its own sourced facts.
+- Its style scores. Tech Stack Advisor needs its own sourced facts.
