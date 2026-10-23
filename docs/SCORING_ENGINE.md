@@ -26,7 +26,7 @@ interface UserInput {
                                                     // every question has "Not sure"
   skills: Partial<Record<LanguageId, "none" | "some" | "strong">>;  // unset = "none"
   knownFrameworks: OptionId[];
-  goal: "ship" | "learn";                          // Q11; default "ship"
+  goal: "ship" | "learn";                          // default "ship" (decided Q11)
   locked: Partial<Record<PartId, OptionId>>;       // "we must use MongoDB"
   style?: ArchStyleId;                             // from Architecture Advisor (optional)
   notes: string;                                   // ≤ 1,000 chars; AI only, never read by the engine
@@ -42,10 +42,10 @@ w[c] = levelValue( max(userLevel[c], floorsFromAnswers[c], floorsFromRules[c]) )
 If a floor raises a level the user set **explicitly** lower, record an **input conflict** and show it ("You marked real-time Low but said it's a chat app. We used High."). Critical = 5 so a must-have outweighs several Highs.
 
 ## Step 3: Part relevance
-A part is **not needed** when a `not-needed` rule fires (e.g. no stored data → database) or its `none` type wins step 4. A locked part is always needed. Not-needed parts are skipped in steps 5–6 and shown with the reason. Parts are processed in a fixed order (backend, frontend, database, hosting, then language), so a rule that depends on another part's type (S9: no backend → no server language) sees it already decided.
+A part is **not needed** when a `not-needed` rule fires (e.g. no stored data → database). `none` types have no scores, so they never win by points. A locked part is always needed. Not-needed parts are skipped in steps 5–6 and shown with the reason. Parts are processed in a fixed order (backend, frontend, database, hosting, then language), so a rule that depends on another part's type (S9: no backend → no server language) sees it already decided.
 
 ## Step 4: Level 1, types
-For each part `p` and each type `t` of `p`, using only criteria that apply to `p` (`C_p`):
+For each part `p` and each type `t` of `p`, using only the part's **fit criteria** (`C_p` = `typeCriteria` of `p`; popularity, ecosystem, cost and lock-in are product-only, see KB schema §5):
 ```
 avg[t]  = Σ_{c∈C_p} w[c]·x[t][c] / Σ_{c∈C_p} w[c]       (1–5)
 base[t] = (avg[t] − 1) / 4 × 100                          (0–100)
@@ -118,7 +118,7 @@ Fit labels as in the sibling: ≥ 75 strong · 60–74.9 good · 45–59.9 possi
 | Django | 64 | 0 | 0 | 64 |
 | NestJS | 61 | 0 | 0 | 61 |
 
-**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel is ruled out by the Java backend (`conflicts`) and only gets a note from K2; the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
+**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel could only run Spring Boot through its container runtime (beta, −5 from K9) and needs the paid plan for commercial use (K2 note); the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
 
 ## Determinism and safety properties (tested)
 1. Same input ⇒ deep-equal output.

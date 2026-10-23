@@ -2,11 +2,11 @@
 
 Status: **draft (2026-10-23)**, Phase 0. Adapted from Architecture Advisor's `docs/TESTING_STRATEGY.md`.
 
-Test pyramid: many fast unit tests on the KB and the engine, focused tests on the AI layer with mocked providers, a few end-to-end tests. No test calls a real AI provider or the network. Proposed: everything runs locally with `npm run check`, no CI server (as the sibling decided in its Q23; Q25 here).
+Test pyramid: many fast unit tests on the KB and the engine, focused tests on the AI layer with mocked providers, a few end-to-end tests. No test calls a real AI provider or the network. Everything runs locally with `npm run check`; no CI server (decided Q25, same as the sibling's Q23).
 
 ## 1. Knowledge base tests (`tests/kb/`)
 - Every JSON file passes its Zod schema.
-- Every option scores every criterion that applies to its part; values are integers 1–5; each score has a source and a `checked` date.
+- Every product scores every criterion that applies to its part; every type scores its part's `typeCriteria` only (no popularity criteria at type level); values are integers 1–5; each score has a source and a `checked` date.
 - Every product has ≥ 1 type in its own part; `none` types have no products; bridge options have a matching `requires` relation.
 - Every id referenced in rules, compatibility, skills, bundles and glossary exists.
 - Every rule and relation has a user-facing explanation and a source.
@@ -45,8 +45,8 @@ Abbreviations: lang = language, FE = frontend (approach / framework), BE = backe
 | # | Scenario (inputs in short) | Expected | Must not happen | Tests |
 |---|---|---|---|---|
 | G1 | **Student portfolio site.** Solo, beginner, content site, no stored data, free only, non-commercial, SEO High | FE `static`; framework `astro` or `plain-html` #1. BE, DB and lang **not needed**. Host type `static-hosting` or `frontend-platform`; `github-pages`, `netlify`, `cloudflare` or `vercel` | Any database or backend picked; `spa` approach #1 | S1, D8, not-needed parts |
-| G2 | **E-commerce store, small team that knows Java.** 4 devs, Java strong, linked records, money, commercial, small paid budget, SEO High, lifespan 5+ | lang `java`; BE `spring-boot`; DB `relational`, `postgresql` or `mysql`; FE `ssr` or `server-templates`; host `paas` or `cloud` | `vercel` in the stack (Java conflict); `document` DB type #1 | T1, D1, D5, compatibility |
-| G3 | **Real-time chat app.** 3 devs, TypeScript strong, real-time yes, moderate growth, small budget | lang `typescript-node`; BE `fastify`, `nestjs` or `express`; FE `spa`; host type `paas` or `cloud`; note about a key-value store for presence/pub-sub | `vercel` or `netlify` in the stack (K7) | S5, K7, T1 |
+| G2 | **E-commerce store, small team that knows Java.** 4 devs, Java strong, linked records, money, commercial, small paid budget, SEO High, lifespan 5+ | lang `java`; BE `spring-boot`; DB `relational`, `postgresql` or `mysql`; FE `ssr` or `server-templates`; host `paas` or `cloud` | `github-pages` or `netlify` in the stack (no Java runtime / K1b); `document` DB type #1 | T1, D1, D5, K9, compatibility |
+| G3 | **Real-time chat app.** 3 devs, TypeScript strong, real-time yes, moderate growth, small budget | lang `typescript-node`; BE `fastify`, `nestjs` or `express`; FE `spa`; host type `paas`, `cloud` or `frontend-platform` with `vercel` (WebSockets supported since 2026); note about a pub/sub store (Redis/Valkey) to broadcast messages, shown whenever Vercel is picked | `netlify` in the stack (K7); Vercel excluded or penalised *only* for real-time (owner Q24) | S5, K7, T1 |
 | G4 | **Data dashboard for a Python team.** Internal tool, 2 devs, Python strong, ~50 users, data in SQL, small budget | lang `python`; BE `fastapi` or `django`; DB `postgresql`; FE `spa` or `server-templates`; host `paas` | Java or C# picked | T1, D1 |
 | G5 | **Startup MVP that must ship in 4 weeks.** 2 devs, TypeScript some, deadline very tight, budget small paid, commercial, linked records | lang `typescript-node`; FE `ssr` with `nextjs`, `nuxt` or `sveltekit`; BE `fullstack` (`frontend-server`); DB `postgresql`; host `frontend-platform` (Vercel shown with the "needs Pro" note) | A separate BE framework #1; `vps` hosting | S6, T2, T4, bridge options, K2 |
 | G6 | **Internal business app at a .NET company.** 12 devs, C# strong, must use Azure, lifespan 5+, linked records | lang `csharp`; BE `aspnet-core`; host `azure` (K4 lock); DB `relational` | Any other cloud in the stack | K4, T1 |
@@ -54,12 +54,24 @@ Abbreviations: lang = language, FE = frontend (approach / framework), BE = backe
 | G8 | **High-throughput REST API.** 6 experienced devs, Go some, API only, steady heavy load, performance Critical, cost High | FE **not needed**; lang `go` #1 (Java or C# in top 3); BE `gin` or `aspnet-core`; DB `postgresql`; host `cloud` or `vps` | `frontend-server` backend | S2, performance weighting |
 | G9 | **Beginner's hobby app (habit tracker).** Solo, beginner, Python some, free only, non-commercial, small linked data | lang `python`; BE `django` (built-in admin, auth, templates) or `fastapi`; FE `server-templates` or `spa`; DB `sqlite` or `postgresql`; host `render` or another free option | `railway`, `fly-io` or `vps` in the stack (K5) | T2, K5, D6 |
 | G10 | **Social app with "friends of friends" suggestions.** 4 devs, TypeScript strong, highly connected data, moderate growth | DB type `graph` in top 2 (relational allowed #1 with a close call); product `neo4j` or `postgresql` | `document` DB type #1 | D3, close call |
-| G11 | **Microservices from Architecture Advisor.** 20 devs, Java strong, Go some, `style=microservices`, rapid growth, comfortable budget | host type `cloud` or `paas`; BE `spring-boot`; note "one database per service"; `frontend-server` not picked | `vercel` or `github-pages` in the stack | A1, S7, T1 |
+| G11 | **Microservices from Architecture Advisor.** 20 devs, Java strong, Go some, `style=microservices`, rapid growth, comfortable budget | host type `cloud` or `paas`; BE `spring-boot`; note "one database per service"; `frontend-server` not picked | `github-pages` or `netlify` in the stack; `frontend-platform` as the #1 hosting type | A1, S7, T1, K9 |
+| G13 | **Product catalogue with very different items.** 3 devs, TypeScript strong; items (books, laptops, clothes) each have their own set of fields that change often; each item is read and shown as a whole; few relationships (no orders or payments in this part); moderate growth, small budget | DB type `document` #1, product `mongodb` #1; `postgresql` (JSONB) allowed as #2 with the "PostgreSQL can store documents too" note | `relational` DB type #1 | D2, D4, fairness: a fair NoSQL win (owner Q24, `ddia` ch.2: document model for tree-shaped data loaded as a whole; schema-on-read helps when items don't share one structure) |
 | G12 | **Neutral input.** Only `maturity` High, every question "Not sure", no skills | No fixed picks; a complete stack is returned; no part marked not needed; result stable under re-run | Crash or empty result | defaults, warnings |
 
-Extra rule checks that don't need their own scenario (unit tests): K1 (commercial + free only → Vercel excluded), K3 (self-host → only `vps`), K6 (open-source only → `mongodb` excluded, PostgreSQL JSONB note shown), T5 (`goal: learn` with Java strong → Java's lead shrinks).
+**Type-win coverage (Q27).** No hidden bias: every ranked type must be the #1 type of its part in at least one scenario. Exception, recorded in the KB: `key-value`, which is mainly a secondary store (rule D7). A test fails if a type loses everywhere.
 
-**Status:** planned. Inputs are written in full in Phase 2 (`tests/scoring/golden.ts`, with `npm run golden:print` for the top 5 per part). A calibration log in the KB draft records every run and any change made to pass a scenario, with sources. When a KB change breaks a golden test: stop and decide whether the change or the expectation is wrong, and record why.
+| Part | Type → scenario(s) where it should win |
+|---|---|
+| frontend | `static` G1 · `spa` G3, G4 · `ssr` G5 · `server-templates` G7, G9 · `none` G8 |
+| backend | `none` G1 · `fullstack` G5 · `minimal` G3, G8 · `batteries` G2, G9 |
+| database | `none` G1 · `relational` G2, G4, G5 · `document` **G13** · `graph` G10 (close call allowed) · `key-value` exempt |
+| hosting | `static-hosting` or `frontend-platform` G1 · `frontend-platform` G5 · `paas` G4, G9 · `cloud` G6, G11 · `vps` G8 (or `cloud`) |
+
+G10's graph win is allowed to be a close call. Database calibration (2026-10-23, `KNOWLEDGE_BASE_DRAFT.md` §5): every database type wins at least one case; G10 holds with default weights (graph 65.8 vs relational 62.5) but **not** with scalability High (document 61.9 vs graph 60.6), so G10's input keeps scalability at its default. G13: document 93.1 vs relational 59.4.
+
+Extra rule checks that don't need their own scenario (unit tests): K1 (commercial + free only → Vercel excluded), K1b (commercial e-commerce → GitHub Pages excluded), K7 (real-time → Netlify −15, Vercel note only), K9 (beta feature → −5 + note), K3 (self-host → only `vps`), K6 (open-source only → `mongodb` excluded, PostgreSQL JSONB note shown), T5 (`goal: learn` with Java strong → Java's lead shrinks).
+
+**Status:** approved by the owner 2026-10-23 (Q24) with two changes: G3/K7 re-checked (Vercel WebSockets), G13 added. Planned for Phase 2. Inputs are written in full in Phase 2 (`tests/scoring/golden.ts`, with `npm run golden:print` for the top 5 per part). A calibration log in the KB draft records every run and any change made to pass a scenario, with sources. When a KB change breaks a golden test: stop and decide whether the change or the expectation is wrong, and record why.
 
 ## 4. AI layer tests (`tests/ai/`, mocked providers)
 As in the sibling: schema (delta 0, 6, −7, 2.5; > 3 adjustments; unknown or excluded ids), JSON parsing (fences, prose, truncation), consistency (the explanation's stack must equal the stack **after** adjustments and re-assembly), clamping, sanitising, fallback chain with fake timers, prompt snapshot and token budget, cache, rate limit. New: an adjustment may target only options in the top 5 of their part; after adjustments the server re-runs stack assembly (the AI can't pick the stack directly).

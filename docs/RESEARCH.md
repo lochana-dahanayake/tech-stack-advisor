@@ -43,7 +43,7 @@ Source: endoflife.date data repo (P) unless noted; latest package versions from 
 | ASP.NET Core | ships with .NET 10 | — |
 | Gin | 1.12.0 (2026-02-28) | — |
 | PostgreSQL | 18.6 | 18 to 2030-11; 17 to 2029-11 |
-| MySQL | 9.7 (LTS, 2026-04-21); 26.7 (innovation, 2026-07-28) | Version numbering changed to year-based after 9.7. **Confirm on mysql.com** (Q21) |
+| MySQL | 9.7 (LTS, 2026-04-21); 26.10.0 (newest tag) | Year.month numbering after 9.7: tags `mysql-26.7.0` and `mysql-26.10.0` exist in `mysql/mysql-server` (P, checked 2026-10-23). LTS policy for the new scheme still to confirm on mysql.com |
 | SQLite | 3.54.1 | Public domain (GK) |
 | MongoDB | 9.0.4 (2026-09-30) | — |
 | Redis | 8.10.2 | — |
@@ -59,7 +59,7 @@ Source: endoflife.date data repo (P) unless noted; latest package versions from 
 | Astro, React, Vue, Angular, Svelte, Next.js, Nuxt, Express, Fastify, NestJS, Hono | MIT | npm metadata (P) |
 | TypeScript, Drizzle, Prisma | Apache-2.0 | npm metadata (P) |
 | Django, Flask | BSD-3-Clause | PyPI (P) |
-| Neo4j Community | GPLv3 (GK) | Not checked; Q21 |
+| Neo4j Community | GPLv3 | `LICENSE.txt` in `neo4j/neo4j` (P) |
 
 ## 3. Usage and popularity surveys
 | Source | What we found | Mark |
@@ -82,10 +82,25 @@ These matter for two rules: "free-only budget" and "commercial project". Every n
 | Render Free | Web services sleep after 15 min with no HTTP request **or WebSocket message** (Feb 2026 change); ~1 min to wake; 750 instance hours/month; free Postgres 1 GB, expires 30 days after creation (+14-day grace) | Render docs: free instances not for production |
 | Railway | No lasting free tier: one-time trial credit; sources conflict on details | — |
 | Fly.io | Free allowance only for orgs created before Oct 2024; new accounts get a short trial | — |
-| Cloudflare Workers / Pages | Workers ~100,000 requests/day; Pages 500 builds/month; R2 10 GB. Sources disagree on the CPU-time cap | Commercial use allowed (GK, verify) |
-| Supabase Free | Projects pause after 7 days without activity; 500 MB database; 2 active projects | Relevant if we later suggest database hosting (Q18) |
+| Cloudflare Workers / Pages | **Workers Free: 100,000 requests/day, 10 ms CPU time per request, 128 MB memory per isolate (P: `cloudflare/cloudflare-docs`, `workers/platform/limits.mdx`).** Pages 500 builds/month; R2 10 GB (S) | Commercial use allowed (GK, verify) |
+| Supabase Free | **Pauses Free-plan projects with low database activity over 7 days; warning email about a week before; paid plans never auto-pause (P: `supabase/supabase` docs, `free-project-pausing.mdx`).** 500 MB database, 2 active projects (S) | Needed for v1.1 (Q13) and database-hosting notes (Q18) |
 | AWS / Azure / GCP | Not checked this session (AWS changed its free tier in 2025, GK: verify) | Q21 |
-| GitHub Pages | Not checked (GK: free for public repos, static only, not meant for commercial SaaS) | Q21 |
+| GitHub Pages | **Not allowed as free hosting for an online business, e-commerce or commercial SaaS; published site ≤ 1 GB; soft bandwidth limit 100 GB/month (P: `github/docs`, `github-pages-limits.md`).** Static only (GK) | Rule K1b |
+
+## 4b. Real-time and runtimes on frontend platforms (session 2, checked 2026-10-23)
+Owner asked (Q24) to re-check WebSocket support. Vendor sites are still blocked, so evidence comes from the vendors' own packages and repos (P) plus search summaries of their changelogs (S).
+
+| Item | Finding | Mark |
+|---|---|---|
+| Vercel WebSockets | **Supported.** Public beta 2026-06-22 (Node.js, incl. Socket.IO), Python Functions 2026-07-23 (ASGI/WSGI: FastAPI, Django, Flask), **generally available 2026-10-20**; same limits and pricing as other function invocations | S (changelog titles and summaries) |
+| | `@vercel/functions` 3.10.3 (npm, 2026-10-22) exports a stable `upgradeWebSocket()` (plus the older `experimental_upgradeWebSocket`) | P |
+| | Caveat: connections are pinned to one instance; no built-in broadcast to connections on other instances, so a chat app needs a pub/sub service (e.g. Redis/Valkey or a hosted real-time service) | S (Vercel docs as quoted in summaries) |
+| | Duration limits per plan (one source: 5 min default) | S, from a competitor's article (Ably); not used |
+| Netlify WebSockets | **Not supported** by Netlify Functions. The current `@netlify/functions` 6.0.3, `@netlify/edge-functions` 4.0.3 and `@netlify/runtime` 5.0.10 (npm, 2026-10-20/21) contain no WebSocket API; Netlify "durable functions" (2026) extend run time but don't hold connections | P (absence in packages) + S |
+| Vercel runtimes | `vercel/vercel` repo has runtime packages for Node.js, Python, Go, Ruby, Rust, plus presets for Express, Fastify, NestJS, Hono, Koa and others | P (repo, commit 2026-09-08) |
+| Vercel containers | `packages/container` builds a `Dockerfile.vercel` / `Containerfile.vercel` into an image and runs it as a function. Reported as **beta on all plans**, Hobby functions up to 300 s | P (code) + S (status, plans, limits) |
+
+Consequences for the KB: rule K7 (real-time penalty) applies to Netlify only; Vercel gets a broadcast note; the Vercel–Java/C#/PHP conflict becomes "allowed via container runtime (beta)", Q26.
 
 ## 5. Reference books: what they give the KB
 Summaries in our own words; cite by chapter, never quote at length.

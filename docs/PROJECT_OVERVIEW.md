@@ -13,7 +13,7 @@ A free web app that helps people choose the **concrete technologies** for a soft
 | Database | Type: none, relational (SQL), document, key-value, graph | PostgreSQL, MySQL, SQLite, MongoDB, Redis, Valkey, Neo4j |
 | Hosting | Type: static hosting, frontend platform, platform-as-a-service, cloud provider, virtual private server (VPS) | GitHub Pages, Netlify, Vercel, Cloudflare, Render, Railway, Fly.io, AWS, Azure, Google Cloud, a VPS |
 
-The v1 list is a proposal (`OPEN_QUESTIONS.md` Q4, Q10). Later parts, in suggested order: ORM (a library that maps database tables to code objects), authentication, caching/queues, mobile.
+This v1 list was decided on 2026-10-23 (`OPEN_QUESTIONS.md` Q4, Q10). **v1.1 starts with backend-as-a-service (Supabase, Firebase)**, which is popular with students (Q13). After that: ORM (a library that maps database tables to code objects), authentication, caching/queues, mobile.
 
 Two things make this harder than a simple ranking:
 1. **Two levels.** First the type (SQL vs NoSQL), then the product (PostgreSQL vs MySQL).
@@ -63,10 +63,10 @@ A deterministic **rule engine** ranks options from a curated, sourced **knowledg
 - No live benchmarks, no scraping GitHub stars or prices at runtime. Facts are curated and dated.
 - No chat interface. One form in, one result out.
 - No login or saved history.
-- No ranking of CMSs, no-code tools or backend-as-a-service products in v1 (recognised in the glossary instead; Q13, Q14).
+- No ranking of CMSs, no-code tools or backend-as-a-service products in v1 (recognised in the glossary instead; decided Q13, Q14). Supabase and Firebase are ranked in v1.1.
 - No paid or self-hosted AI models.
 
-## Success criteria for v1 (proposed)
+## Success criteria for v1
 - All golden scenarios pass (`TESTING_STRATEGY.md`).
 - Rules-only result in under 200 ms in the browser.
 - No KB fact past its stale window at release.

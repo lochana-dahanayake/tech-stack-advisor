@@ -27,5 +27,10 @@ Source material for knowledge-base rules. Each entry gets a short id; KB entries
 | web-rendering | web.dev, "Rendering on the Web" | link | https://web.dev/articles/rendering-on-the-web | SPA vs server rendering vs static sites. | 2026-10-24 |
 | eol | endoflife.date | link | https://endoflife.date/ (blocked in cloud sessions: use its data repo https://github.com/endoflife-date/endoflife.date, `products/*.md`) | Support and end-of-life dates for each version. | 2026-10-24 |
 | techempower | TechEmpower Framework Benchmarks | link | https://www.techempower.com/benchmarks/ | Backend framework speed. Rough signal only. | 2026-10-24 |
+| mdb-docs | MongoDB manual (official docs source) | link | https://github.com/mongodb/docs (`content/manual/`) | MongoDB facts only (transactions, `$lookup`); vendor source: own facts, never comparisons | 2026-10-23 |
+| github-docs | GitHub Docs (official docs source) | link | https://github.com/github/docs | GitHub Pages limits and allowed use | 2026-10-23 |
+| cloudflare-docs | Cloudflare Docs (official docs source) | link | https://github.com/cloudflare/cloudflare-docs | Workers/Pages limits | 2026-10-23 |
+| supabase-docs | Supabase Docs (official docs source) | link | https://github.com/supabase/supabase (`apps/docs/`) | Free-plan pausing; needed for v1.1 | 2026-10-23 |
+| vercel-repo | Vercel CLI and runtimes (official repo) + `@vercel/functions` on npm | link | https://github.com/vercel/vercel | Supported runtimes, container runtime, WebSocket API | 2026-10-23 |
 
 Every file in `books/` has a row above (checked 2026-10-23). Facts taken from the links, with their checked dates, are in `docs/RESEARCH.md`.
