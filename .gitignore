@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+coverage/
+.env*
+!.env.example
+.vercel
+*.log
+.DS_Store
+Thumbs.db
+# Private material must never be committed
+lectures/
+private/
