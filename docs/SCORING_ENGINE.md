@@ -1,0 +1,131 @@
+# Scoring Engine
+
+Status: **draft (2026-10-23)**, Phase 0. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
+
+`score(input, kb) → StackResult` is a pure TypeScript function: no network, no clock, no randomness, no global state, no React/Next imports. Same input, same output. It runs in the browser (instant result) and on the server (trusted copy for the AI prompt), as in sibling ADR-004.
+
+## Pipeline
+```
+UserInput
+  1. validate + normalise (Zod)
+  2. effective weights        = max(user level, question floors, rule floors)
+  3. part relevance           = which parts are needed (not-needed rules, app kind)
+  4. level 1: score types     = weighted average → 0–100, + rules (±30) → pick the type per part
+  5. level 2: score products  = weighted average → 0–100, + rules (±30) + skills (−10…+25)
+  6. stack assembly           = best compatible combination (requires / conflicts / works-best-with)
+  7. explanation data         = contributions, fired rules, conflicts, "needs: …" labels, close calls
+→ StackResult
+```
+
+## Step 1: Input
+```ts
+interface UserInput {
+  weights: Partial<Record<CriterionId, Level>>;    // unset = "low"
+  answers: Record<QuestionId, string | boolean>;   // app kind, traffic, data shape, budget, deadline, lifespan,
+                                                    // commercial, real-time, SEO, hosting constraint, licences...;
+                                                    // every question has "Not sure"
+  skills: Partial<Record<LanguageId, "none" | "some" | "strong">>;  // unset = "none"
+  knownFrameworks: OptionId[];
+  goal: "ship" | "learn";                          // Q11; default "ship"
+  locked: Partial<Record<PartId, OptionId>>;       // "we must use MongoDB"
+  style?: ArchStyleId;                             // from Architecture Advisor (optional)
+  notes: string;                                   // ≤ 1,000 chars; AI only, never read by the engine
+}
+```
+Validation: unknown ids rejected; at least one criterion at High or Critical **or** an app kind other than "Not sure" (otherwise there's nothing to rank on); more than 3 Critical → warning; a locked option that a rule would exclude → kept, with a warning ("You chose Vercel; for a commercial project it needs the paid plan").
+
+## Step 2: Effective weights
+Exactly as the sibling: `none 0, low 1, medium 2, high 3, critical 5`.
+```
+w[c] = levelValue( max(userLevel[c], floorsFromAnswers[c], floorsFromRules[c]) )
+```
+If a floor raises a level the user set **explicitly** lower, record an **input conflict** and show it ("You marked real-time Low but said it's a chat app. We used High."). Critical = 5 so a must-have outweighs several Highs.
+
+## Step 3: Part relevance
+A part is **not needed** when a `not-needed` rule fires (e.g. no stored data → database) or its `none` type wins step 4. A locked part is always needed. Not-needed parts are skipped in steps 5–6 and shown with the reason. Parts are processed in a fixed order (backend, frontend, database, hosting, then language), so a rule that depends on another part's type (S9: no backend → no server language) sees it already decided.
+
+## Step 4: Level 1, types
+For each part `p` and each type `t` of `p`, using only criteria that apply to `p` (`C_p`):
+```
+avg[t]  = Σ_{c∈C_p} w[c]·x[t][c] / Σ_{c∈C_p} w[c]       (1–5)
+base[t] = (avg[t] − 1) / 4 × 100                          (0–100)
+final[t] = clamp(base[t] + clamp(Σ rule points[t], −30, +30), 0, 100)
+```
+Excluded types are removed. The **chosen type** is the highest `final[t]` (tie-break: `base` → KB order). If a locked product exists, its type is chosen.
+
+**Close call:** if the runner-up type is within `closeCallPoints` (5) of the winner, the result says "either works" and shows both groups of products. The chosen type is still the higher one.
+
+Why types first: the sibling's v1.1 lesson (its Q30). A weighted average over many criteria favours whichever option is decent at everything. Deciding the category from the situation first (data shape, app kind, constraints) keeps a strong product of the *wrong* type from winning.
+
+## Step 5: Level 2, products
+Same formula with product scores, plus the skills bucket:
+```
+rules[o]  = clamp(Σ rule points[o], −30, +30)
+skill[o]  = clamp(Σ skill points[o], −10, +25)
+final[o]  = clamp(base[o] + rules[o] + skill[o], 0, 100)
+```
+Products are listed per type. The main list holds products of the chosen type (and of the runner-up on a close call); products of other types are folded under "Other types".
+
+For assembly, each product gets a **candidate score** that keeps the type decision in charge:
+```
+cand[o] = final[o] − max(0, final[chosenType] − final[bestTypeOf(o)])
+```
+So a product outside the chosen type pays the type gap. It can still be picked when compatibility forces it, and the result says why.
+
+The `language` part has one level: its options are scored as products directly.
+
+## Step 6: Stack assembly
+1. **Candidates per needed part:** the top 5 by `cand` plus any locked option (locked = the only candidate).
+2. **Enumerate** combinations (≤ 5⁵ = 3,125; cheap) and drop any that break a `requires` or `conflicts` relation.
+3. **Stack score:**
+   ```
+   stack = mean over needed parts of cand[pick] + min(Σ worksBestWith points, 6)
+   ```
+   All parts weigh the same in v1 (DESIGN; revisit in calibration).
+4. **Pick** the highest stack score. Tie-break: higher sum of `final` → fewer languages across the stack → option ids in KB order. Deterministic.
+5. **No valid combination** (e.g. locks that conflict): return the best per-part picks, flag the conflicting pair, and explain it. Never fail silently.
+
+Every option in each part's list is then labelled against the chosen stack: **in the stack**, **fits** (would also be compatible), or **needs: X** (e.g. "Django — needs: Python").
+
+## Step 7: Explanation data
+- `contributions[o][c] = w[c]·x[o][c] / Σw` for "why this score" bars.
+- `firedRules[]`, `skillEffects[]` (kept separate so the UI can say "+20 because your team knows Java"), `compatibility[]` (which relations shaped the stack and why a part's pick isn't its #1).
+- `conflicts[]`, `warnings[]`, `closeCalls[]`, `notNeeded[]`, `excluded[]` with reasons.
+- `factsUsed[]`: ids of dated facts behind the result, so the UI can show "checked on".
+
+## Result type (sketch)
+```ts
+interface OptionResult { optionId; level: "type" | "product"; base; rules; skill; final; cand?; rank;
+  fit: "strong" | "good" | "possible" | "weak"; label?: "in-stack" | "fits" | { needs: OptionId[] };
+  contributions: Record<CriterionId, number>; firedRuleIds: string[]; }
+interface PartResult { partId; needed: boolean; notNeededReason?: string; chosenType?: OptionId;
+  closeCall?: OptionId; types: OptionResult[]; products: OptionResult[]; pick?: OptionId; }
+interface StackResult { kbVersion; engineVersion; effectiveWeights; parts: PartResult[];
+  stack: Record<PartId, OptionId>; stackScore: number; pairings: { ids: OptionId[]; points; explanation }[];
+  excluded; firedRules; conflicts; warnings; topCriteria: CriterionId[]; }
+```
+Fit labels as in the sibling: ≥ 75 strong · 60–74.9 good · 45–59.9 possible · < 45 weak (DESIGN, tune).
+
+## Worked example (illustrative numbers, not KB values)
+"E-commerce store, small team that knows Java" (golden G2). Answers: app kind e-commerce, linked records, money involved, commercial, budget small-paid, SEO important. Skills: Java strong. Weights: maturity High, productivity Medium, rest Low; floors raise `data-integrity` to Critical (D5) and `seo` to High (S4).
+
+**Database, level 1:** relational wins clearly: D1 +15, D5 −5 for document, and the Critical `data-integrity` weight. **Level 2:** PostgreSQL vs MySQL within relational, close on most criteria; the comparison table shows both.
+
+**Backend, level 2** (made-up bases to show the skill bucket):
+| Product | Base | Rules | Skill | Final |
+|---|---|---|---|---|
+| Spring Boot | 62 | 0 | +10 (T1: requires Java) | **72** |
+| Django | 64 | 0 | 0 | 64 |
+| NestJS | 61 | 0 | 0 | 61 |
+
+**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel is ruled out by the Java backend (`conflicts`) and only gets a note from K2; the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
+
+## Determinism and safety properties (tested)
+1. Same input ⇒ deep-equal output.
+2. `|rules[o]| ≤ 30`, `−10 ≤ skill[o] ≤ 25`, `0 ≤ final ≤ 100`.
+3. Excluded options never appear in a stack or a ranked list.
+4. The chosen stack satisfies every `requires` and `conflicts` relation (or the result carries an explicit conflict).
+5. Locked options are always in the stack.
+6. Raising a criterion's weight never lowers the base score of an option scoring above its own average on it (sibling property 2).
+7. Not-needed parts have no pick.
+8. The notes field never changes the rule result.
