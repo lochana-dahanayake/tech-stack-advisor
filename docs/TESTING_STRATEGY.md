@@ -6,7 +6,7 @@ Test pyramid: many fast unit tests on the KB and the engine, focused tests on th
 
 ## 1. Knowledge base tests (`tests/kb/`)
 - Every JSON file passes its Zod schema.
-- Every option scores every criterion that applies to its part; values are integers 1–5; each score has a source and a `checked` date.
+- Every product scores every criterion that applies to its part; every type scores its part's `typeCriteria` only (no popularity criteria at type level); values are integers 1–5; each score has a source and a `checked` date.
 - Every product has ≥ 1 type in its own part; `none` types have no products; bridge options have a matching `requires` relation.
 - Every id referenced in rules, compatibility, skills, bundles and glossary exists.
 - Every rule and relation has a user-facing explanation and a source.
@@ -67,7 +67,7 @@ Abbreviations: lang = language, FE = frontend (approach / framework), BE = backe
 | database | `none` G1 · `relational` G2, G4, G5 · `document` **G13** · `graph` G10 (close call allowed) · `key-value` exempt |
 | hosting | `static-hosting` or `frontend-platform` G1 · `frontend-platform` G5 · `paas` G4, G9 · `cloud` G6, G11 · `vps` G8 (or `cloud`) |
 
-G10's graph win is allowed to be a close call; if calibration shows graph never wins, either the KB is wrong or G10 needs a stronger "highly connected" input, and the calibration log says which.
+G10's graph win is allowed to be a close call. Database calibration (2026-10-23, `KNOWLEDGE_BASE_DRAFT.md` §5): every database type wins at least one case; G10 holds with default weights (graph 65.8 vs relational 62.5) but **not** with scalability High (document 61.9 vs graph 60.6), so G10's input keeps scalability at its default. G13: document 93.1 vs relational 59.4.
 
 Extra rule checks that don't need their own scenario (unit tests): K1 (commercial + free only → Vercel excluded), K1b (commercial e-commerce → GitHub Pages excluded), K7 (real-time → Netlify −15, Vercel note only), K9 (beta feature → −5 + note), K3 (self-host → only `vps`), K6 (open-source only → `mongodb` excluded, PostgreSQL JSONB note shown), T5 (`goal: learn` with Java strong → Java's lead shrinks).
 

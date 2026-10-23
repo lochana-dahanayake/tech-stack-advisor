@@ -49,7 +49,8 @@ A **part** is one slot in the stack. Each part has one or two levels. Level 1 op
   { "id": "frontend", "name": "Frontend", "levels": ["type", "product"],
     "typeLabel": "Approach", "productLabel": "Framework" },
   { "id": "backend",  "name": "Backend",  "levels": ["type", "product"] },
-  { "id": "database", "name": "Database", "levels": ["type", "product"] },
+  { "id": "database", "name": "Database", "levels": ["type", "product"],
+    "typeCriteria": ["learning-curve", "performance", "scalability", "real-time", "data-integrity", "schema-flexibility"] },
   { "id": "hosting",  "name": "Hosting",  "levels": ["type", "product"] }
 ]
 ```
@@ -123,13 +124,13 @@ Shape of an entry (as in the sibling, plus `appliesTo`):
 }
 ```
 Validation rules (integrity checks, like the sibling's):
-- every option scores **every** criterion that applies to its part; values are integers 1–5; each score has ≥ 1 source and a `checked` date;
+- every product scores **every** criterion that applies to its part, and every type (except `none`) scores every criterion in its part's `typeCriteria`; values are integers 1–5; each score has ≥ 1 source and a `checked` date;
 - every product lists ≥ 1 type, and each type exists in the same part;
 - each part has exactly one `none` type at most, and `none` types have no products;
 - `licence.osi` is set for every product; `freeTier.commercialUse` is set for every hosting product;
 - `deprecated` options are referenced by nothing except the glossary.
 
-Types are scored on the same criteria as products, but their scores describe the **category** (e.g. relational `data-integrity` 5, `schema-flexibility` 2, from `ddia` ch.2). Type scores mainly break ties; situation rules (§7) do most of the type choice.
+Types are scored only on their part's **fit criteria** (`parts.json` → `typeCriteria`), never on popularity, ecosystem, cost or lock-in, which describe a product, not a category. Without this, niche but well-fitting categories (graph databases) could never win (calibration finding 1, `KNOWLEDGE_BASE_DRAFT.md` §5). Database fit criteria: `learning-curve`, `performance`, `scalability`, `real-time`, `data-integrity`, `schema-flexibility`. `none` types have no scores; they are chosen only by a `not-needed` rule. Situation rules (§7) do most of the type choice.
 
 ## 6. Compatibility (`compatibility.json`)
 Three relation kinds between options in **different parts**. Conditions use the same tiny language as rules (§7).
@@ -201,13 +202,14 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 ### 7.2 Data-shape rules (`ddia` ch.2, `sixstep`)
 | id | When (q.data-shape / flags) | Effect |
 |---|---|---|
+| D0 | data shape "Not sure" | `relational` +10, with the reason shown (`ddia` ch.2: data tends to become more interconnected as features are added) |
 | D1 | linked records (many-to-one, many-to-many) | database `relational` +15, `document` −10 (`ddia` ch.2: joins; `sixstep` ch.1: entity–relationship data) |
 | D2 | self-contained documents loaded as a whole | `document` +15; note: "PostgreSQL's JSONB also stores documents" (`ddia` ch.2 convergence; `mpg17`) |
 | D3 | highly connected (friends of friends, recommendations) | `graph` +20, `document` −10 (`ddia` ch.2: graph models most natural) |
 | D4 | fields vary a lot between items / change often | `schema-flexibility` floor high (`ddia` ch.2 schema-on-read) |
 | D5 | money or strict consistency | `data-integrity` floor critical; `document` −5 |
 | D6 | single user / offline / embedded / very small | `sqlite` +15; note on backups (GK, verify with sqlite.org "appropriate uses") |
-| D7 | only simple lookups / cache / sessions | `key-value` +15; note: "most apps use a key-value store *next to* a main database" |
+| D7 | only simple lookups / cache / sessions | `key-value` +15 · **otherwise** `key-value` −20 ("most apps use a key-value store *next to* a main database") |
 | D8 | no stored data | database `not-needed` |
 
 ### 7.3 Constraint rules

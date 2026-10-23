@@ -42,10 +42,10 @@ w[c] = levelValue( max(userLevel[c], floorsFromAnswers[c], floorsFromRules[c]) )
 If a floor raises a level the user set **explicitly** lower, record an **input conflict** and show it ("You marked real-time Low but said it's a chat app. We used High."). Critical = 5 so a must-have outweighs several Highs.
 
 ## Step 3: Part relevance
-A part is **not needed** when a `not-needed` rule fires (e.g. no stored data → database) or its `none` type wins step 4. A locked part is always needed. Not-needed parts are skipped in steps 5–6 and shown with the reason. Parts are processed in a fixed order (backend, frontend, database, hosting, then language), so a rule that depends on another part's type (S9: no backend → no server language) sees it already decided.
+A part is **not needed** when a `not-needed` rule fires (e.g. no stored data → database). `none` types have no scores, so they never win by points. A locked part is always needed. Not-needed parts are skipped in steps 5–6 and shown with the reason. Parts are processed in a fixed order (backend, frontend, database, hosting, then language), so a rule that depends on another part's type (S9: no backend → no server language) sees it already decided.
 
 ## Step 4: Level 1, types
-For each part `p` and each type `t` of `p`, using only criteria that apply to `p` (`C_p`):
+For each part `p` and each type `t` of `p`, using only the part's **fit criteria** (`C_p` = `typeCriteria` of `p`; popularity, ecosystem, cost and lock-in are product-only, see KB schema §5):
 ```
 avg[t]  = Σ_{c∈C_p} w[c]·x[t][c] / Σ_{c∈C_p} w[c]       (1–5)
 base[t] = (avg[t] − 1) / 4 × 100                          (0–100)
