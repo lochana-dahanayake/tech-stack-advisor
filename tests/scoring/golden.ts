@@ -11,14 +11,26 @@ export interface PartExpectation {
   typeIn?: string[]; // allowed #1 types
   typeInTop2?: string; // must be #1 or #2
   typeNot?: string[]; // must never be #1
-  productIn?: string[]; // allowed #1 product (database: in the chosen type; backend: in the team's language, see teamLanguagePick)
+  productIn?: string[]; // allowed pick: the stack's pick for the part (database: also #1 in the chosen type)
   productNotSecond?: string;
+}
+/** A close call in the assembled stack (step 6.7): the part's own #1 loses the stack by < 5 points; both are shown. */
+export interface StackCloseCallExpectation {
+  partId: string;
+  pick: string; // the stack's pick for the part
+  best: string; // the part's #1, kept in the alternative stack
+  alternative: Record<string, string>; // picks the alternative stack must contain
 }
 export interface Scenario {
   id: string;
   title: string;
   input: UserInput;
-  expect: { database?: PartExpectation; backend?: PartExpectation };
+  expect: {
+    database?: PartExpectation;
+    backend?: PartExpectation;
+    language?: PartExpectation & { inTop3?: string[] };
+    stackCloseCall?: StackCloseCallExpectation;
+  };
 }
 
 export const golden: Scenario[] = [
@@ -36,7 +48,7 @@ export const golden: Scenario[] = [
         experience: "beginner",
       },
     },
-    expect: { database: { notNeeded: true }, backend: { notNeeded: true } },
+    expect: { language: { notNeeded: true }, database: { notNeeded: true }, backend: { notNeeded: true } },
   },
   {
     id: "G2",
@@ -56,6 +68,7 @@ export const golden: Scenario[] = [
       skills: { java: "strong" },
     },
     expect: {
+      language: { productIn: ["java"] },
       database: {
         typeIn: ["relational"],
         typeNot: ["document"],
@@ -78,7 +91,7 @@ export const golden: Scenario[] = [
       },
       skills: { "typescript-node": "strong" },
     },
-    expect: { backend: { productIn: ["fastify", "nestjs", "express"] } },
+    expect: { language: { productIn: ["typescript-node"] }, backend: { productIn: ["fastify", "nestjs", "express"] } },
   },
   {
     id: "G4",
@@ -94,6 +107,7 @@ export const golden: Scenario[] = [
       skills: { python: "strong" },
     },
     expect: {
+      language: { productIn: ["python"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { productIn: ["fastapi", "django"] },
     },
@@ -113,6 +127,7 @@ export const golden: Scenario[] = [
       skills: { "typescript-node": "some" },
     },
     expect: {
+      language: { productIn: ["typescript-node"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeIn: ["fullstack"], productIn: ["frontend-server"] },
     },
@@ -130,7 +145,11 @@ export const golden: Scenario[] = [
       },
       skills: { csharp: "strong" },
     },
-    expect: { database: { typeIn: ["relational"] }, backend: { productIn: ["aspnet-core"] } },
+    expect: {
+      language: { productIn: ["csharp"] },
+      database: { typeIn: ["relational"] },
+      backend: { productIn: ["aspnet-core"] },
+    },
   },
   {
     id: "G7",
@@ -147,6 +166,7 @@ export const golden: Scenario[] = [
       skills: { php: "strong" },
     },
     expect: {
+      language: { productIn: ["php"] },
       database: { typeIn: ["relational"], productIn: ["mysql", "postgresql"] },
       backend: { productIn: ["laravel"] },
     },
@@ -166,9 +186,18 @@ export const golden: Scenario[] = [
       weights: { performance: "critical" },
       skills: { go: "some" },
     },
+    // Q29 (owner, 2026-10-24): with primary numbers C# + ASP.NET Core still beats Go + Gin by less than 5 points,
+    // so G8 expects a close call that shows both stacks (calibration log §13, session 7). T6 stays "strong" only.
     expect: {
+      language: { productIn: ["go", "csharp"], inTop3: ["java", "csharp"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeNot: ["fullstack"], productIn: ["gin", "aspnet-core"] },
+      stackCloseCall: {
+        partId: "language",
+        pick: "csharp",
+        best: "go",
+        alternative: { language: "go", backend: "gin" },
+      },
     },
   },
   {
@@ -189,6 +218,7 @@ export const golden: Scenario[] = [
       skills: { python: "some" },
     },
     expect: {
+      language: { productIn: ["python"] },
       database: { typeIn: ["relational"], productIn: ["sqlite", "postgresql"] },
       backend: { productIn: ["django", "fastapi"] },
     },
@@ -210,7 +240,7 @@ export const golden: Scenario[] = [
       skills: { java: "strong", go: "some" },
       style: "microservices",
     },
-    expect: { backend: { productIn: ["spring-boot"] } },
+    expect: { language: { productIn: ["java"] }, backend: { productIn: ["spring-boot"] } },
   },
   {
     id: "G12",
@@ -259,7 +289,8 @@ export const probes: Scenario[] = [
 ];
 
 /**
- * STAND-IN until the language part and stack assembly exist (ROADMAP Next up, Part 3): the best backend product
+ * HISTORIC STAND-IN, kept so the calibration log's session 3–4 tables stay reproducible. Replaced by stack assembly
+ * (`result.stack`) on 2026-10-24. Was: until the language part and stack assembly exist (ROADMAP Next up, Part 3): the best backend product
  * (by candidate score) among products that run on the team's strongest language(s). With no skills, the plain #1.
  */
 export function teamLanguagePick(result: ScoreResult, input: UserInput, kb: KnowledgeBase): string | undefined {

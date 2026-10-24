@@ -41,5 +41,39 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
     }
     out.push("");
   }
+  // Added 2026-10-24 (Part 3): the language part and the assembled stack (step 6). Earlier log entries used the
+  // "team language" stand-in above instead.
+  out.push("## language", "| Scenario | Languages (final) |", "|---|---|");
+  for (const s of [...golden, ...probes]) {
+    const p = score(s.input, k).parts.language;
+    if (!p) continue;
+    out.push(
+      `| ${s.id} ${s.title} | ${p.needed ? p.products.map((x) => `${x.id} ${f(x.final)}`).join(", ") : `not needed (${p.notNeededBy})`} |`,
+    );
+  }
+  out.push(
+    "",
+    "## stack",
+    "| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |",
+    "|---|---|---|---|---|---|",
+  );
+  for (const s of [...golden, ...probes]) {
+    const st = score(s.input, k).stack;
+    const pick = (id: string) => st.picks[id] ?? "—";
+    const adj = st.adjusted.map((a) => `${a.partId}: ${a.best} → ${a.pick} (${a.relation})`).join("; ") || "—";
+    const ties =
+      st.ties.map((t) => `${t.partId}: ${t.options.join(" = ")} → ${t.pick} (${t.reason})`).join("; ") || "—";
+    const close =
+      st.closeCalls
+        .map(
+          (c) =>
+            `${c.picks.backend ?? "—"} · ${c.picks.database ?? "—"} · ${c.picks.language ?? "—"} ${f(c.score)} (−${f(c.gap)})`,
+        )
+        .join("; ") || "—";
+    out.push(
+      `| ${s.id} ${s.title} | ${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} | ${close} |`,
+    );
+  }
+  out.push("");
   return out.join("\n");
 }

@@ -61,5 +61,73 @@
         "reviewed": false
       }
     ]
+  },
+  {
+    "id": "T4",
+    "name": "Tight deadline: stay with a known language",
+    "when": {
+      "deadline": [
+        "very-tight",
+        "tight"
+      ],
+      "languageSkill": "none",
+      "teamKnowsALanguage": true
+    },
+    "productPoints": 0,
+    "languagePoints": -10,
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.19"
+      },
+      {
+        "kind": "design",
+        "note": "starting value",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "T5",
+    "name": "Goal: learn something new",
+    "when": {
+      "goal": "learn"
+    },
+    "factor": 0.5,
+    "floor": {
+      "criterion": "learning-curve",
+      "level": "medium"
+    },
+    "productPoints": 0,
+    "languagePoints": 0,
+    "sources": [
+      {
+        "kind": "design",
+        "note": "owner decision Q11: halve skill effects",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "T6",
+    "name": "A strongly known language beats one nobody knows",
+    "when": {
+      "protectStrong": true
+    },
+    "productPoints": 0,
+    "languagePoints": 0,
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.19"
+      },
+      {
+        "kind": "design",
+        "note": "owner 2026-10-24: hard rule, only for 'strong', only with goal 'Use what we know'; 'some' stays a points bonus",
+        "reviewed": false
+      }
+    ]
   }
 ]

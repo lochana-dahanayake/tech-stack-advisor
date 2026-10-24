@@ -157,7 +157,7 @@ Language requirements are written once on each backend/frontend product as `requ
 Fairness note: `worksBestWith` bonuses are small on purpose. A vendor's own product working best on its own platform is a fact, but it must not decide the stack.
 
 ## 7. Rules (`rules.json`)
-Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `has` (a multi-select answer contains a value), `all`, `any`, `not`, `gte` (weight levels are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
+Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `has` (a multi-select answer contains a value), `all`, `any`, `not`, `gte` (weight levels are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `part.<partId>` (`needed` / `not-needed`, after pass 1; used by S9), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
 
 Effect types:
 | Effect | Meaning |
@@ -225,7 +225,7 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | K3 | must self-host / on-premises | exclude all `frontend-platform`, `paas`, `cloud` products except where the provider offers on-prem (none in v1) | DESIGN |
 | K4 | must use cloud X | lock hosting to X (as if the user locked it) | DESIGN |
 | K5 | budget = free only | exclude hosting products with no lasting free tier (`railway`, `fly-io` for new accounts, `vps`); note cloud free tiers expire | RESEARCH §4 (S) |
-| K6 | open-source licences only | exclude products with `licence.osi = false` (e.g. `mongodb` SSPL); note: Redis 8 can be used under AGPLv3, Valkey is BSD | RESEARCH §2 (P) |
+| K6 | open-source licences only | exclude products with `licence.osi = false` unless `licence.publicDomain` (e.g. `mongodb` SSPL is excluded; `sqlite` public domain is allowed and its badge says "public domain", not OSI: owner Q28, 2026-10-24); note: Redis 8 can be used under AGPLv3, Valkey is BSD. Helpers: `isOpenSourceAllowed`, `licenceBadge` | RESEARCH §2 (P) + owner |
 | K7 | real-time = yes | `netlify` −15 (Netlify Functions don't hold WebSocket connections). `vercel`: **no penalty**, note: "WebSockets work on Vercel Functions, but each connection stays on one instance; to send a message to everyone you need a pub/sub service such as Redis/Valkey" | RESEARCH §4b (P + S, 2026-10-23; owner Q24) |
 | K8 | backend is a separate server framework (Spring Boot, ASP.NET Core, Laravel, Django, ...) | `static-hosting` excluded | GK |
 | K9 | the stack only works on a hosting product through a feature whose `release-status` fact says **beta** (e.g. Java/C#/PHP on Vercel via its container runtime) | that hosting product −5, or **−10 when `weight.maturity` ≥ high** (set by the user, or by S8 when lifespan is 5+ years); note "uses a beta feature (status checked on <date>)". The rule reads the fact, so marking the feature GA switches it off, and the 90-day stale window forces a re-check | DESIGN (owner Q26, 2026-10-24) + RESEARCH §4b |
@@ -248,6 +248,7 @@ Input (decided Q11): `skills: { [languageId]: "none" | "some" | "strong" }`, `kn
 | T3 | framework known | that product +10 |
 | T4 | deadline tight or very tight, and the team knows ≥ 1 language at some/strong | languages with skill `none` −10 |
 | T5 | goal = learn something new | T1–T4 effects halved; `learning-curve` floor medium |
+| T6 | goal = "Use what we know" and a language at skill **strong** | hard rule: a strongly known language never ranks below, and the stack never picks, a language nobody knows, unless a rule excludes it (owner 2026-10-24; `book:fosa ch.19`) |
 
 Skill effects go into their own bucket, capped to **−10…+25** per option, separate from the ±30 rules bucket, so "the team knows Java" can count a lot without being cancelled out by unrelated rules. Source: `book:fosa ch.19` (team and organisational factors) + DESIGN.
 
@@ -311,6 +312,5 @@ Windows live in `meta.json` (`staleAfterDays`) so they're data. How they're enfo
   "caps": { "rules": 30, "skillsMin": -10, "skillsMax": 25, "stackPairBonus": 6, "ai": 5 },
   "closeCallPoints": 5,
   "staleAfterDays": { "pricing": 90, "release-status": 90, "version": 180, "support": 180, "licence": 365, "ownership": 365, "score": 365 },
-  "languageIds": ["typescript-node", "python", "java", "csharp", "go", "php"]   // until the language part is in the KB
 }
 ```

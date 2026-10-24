@@ -42,6 +42,7 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
     optionIds.add(o.id);
   }
   const parts = new Map(kb.parts.map((x) => [x.id, x]));
+  const languageIds = kb.options.filter((o) => o.part === "language").map((o) => o.id);
   const criteria = new Map(kb.criteria.map((c) => [c.id, c]));
   const byId = new Map(kb.options.map((o) => [o.id, o]));
   for (const c of kb.criteria)
@@ -73,7 +74,9 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
       } else expectScores(o, part.typeCriteria ?? []);
     } else {
       if (o.none) p.push(`${o.id}: only types can be none`);
-      if (!o.types?.length) p.push(`${o.id}: a product needs at least one type`);
+      const hasTypes = part.levels.includes("type");
+      if (hasTypes && !o.types?.length) p.push(`${o.id}: a product needs at least one type`);
+      if (!hasTypes && o.types?.length) p.push(`${o.id}: ${o.part} has no type level`);
       for (const t of o.types ?? []) {
         const type = byId.get(t);
         if (!type || type.level !== "type" || type.part !== o.part) p.push(`${o.id}: ${t} is not a type of ${o.part}`);
@@ -119,9 +122,15 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
           if (op !== "has" && q.kind === "multi") p.push(`rule ${r.id}: use 'has' for multi-select ${key}`);
         }
       } else if (scope === "skill") {
-        if (!kb.meta.languageIds.includes(key)) p.push(`rule ${r.id}: unknown language ${key}`);
+        if (!languageIds.includes(key)) p.push(`rule ${r.id}: unknown language ${key}`);
         for (const v of values)
           if (!["none", "some", "strong"].includes(v)) p.push(`rule ${r.id}: bad skill level ${v}`);
+      } else if (scope === "part") {
+        if (!parts.has(key)) p.push(`rule ${r.id}: unknown part ${key}`);
+        for (const v of values)
+          if (!["needed", "not-needed"].includes(v)) p.push(`rule ${r.id}: part state is needed or not-needed`);
+        if ([...r.effects, ...(r.otherwise ?? [])].some((e) => e.type === "floor"))
+          p.push(`rule ${r.id}: a rule that sets floors can't depend on other parts`);
       } else if (scope === "weight") {
         if (!criteria.has(key)) p.push(`rule ${r.id}: unknown criterion ${key}`);
         for (const v of values) if (!levels.includes(v)) p.push(`rule ${r.id}: bad level ${v}`);
@@ -132,10 +141,18 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
     }
     if (r.otherwise && !r.otherwiseExplanation) p.push(`rule ${r.id}: otherwise needs an explanation`);
   }
+  for (const t of kb.skills) {
+    if (t.floor && !criteria.has(t.floor.criterion)) p.push(`skill ${t.id}: unknown criterion ${t.floor.criterion}`);
+    if ("deadline" in t.when) {
+      const q = questions.get("deadline");
+      for (const d of t.when.deadline)
+        if (!q?.options.includes(d)) p.push(`skill ${t.id}: deadline has no option ${d}`);
+    }
+  }
   for (const c of kb.compatibility) {
     if (!optionIds.has(c.option)) p.push(`${c.id}: unknown option ${c.option}`);
     if (c.part === "language") {
-      for (const l of c.anyOf) if (!kb.meta.languageIds.includes(l)) p.push(`${c.id}: unknown language ${l}`);
+      for (const l of c.anyOf) if (!languageIds.includes(l)) p.push(`${c.id}: unknown language ${l}`);
     } else for (const x of c.anyOf) if (!optionIds.has(x)) p.push(`${c.id}: unknown option ${x}`);
   }
   return p;

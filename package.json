@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "check": "npm run lint && npm run typecheck && npm run format:check && npm run coverage",
     "calibrate": "tsx scripts/calibrate.ts",
+    "sources": "tsx scripts/sources.ts",
     "kb:release-gate": "KB_RELEASE_GATE=1 vitest run tests/kb"
   },
   "dependencies": {

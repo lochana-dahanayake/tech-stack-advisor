@@ -409,9 +409,15 @@
     "explanation": "SQLite lets one writer change the database at a time and runs inside one server, so it's a poor fit for a shop or app where many users save data at once.",
     "sources": [
       {
+        "kind": "ref",
+        "ref": "sqlite-whentouse",
+        "quality": "P",
+        "note": "reason checked 2026-10-24: one writer at a time; client/server for many concurrent writers, write-intensive or multi-server sites"
+      },
+      {
         "kind": "general",
         "reviewed": false,
-        "note": "unverified: check against sqlite.org 'Appropriate uses' (owner, 2026-10-24)"
+        "note": "trigger (commercial multi-user app) is the owner's choice, not the page's: narrower rule proposed in Q30"
       }
     ]
   },
@@ -600,6 +606,30 @@
         "kind": "book",
         "ref": "fosa",
         "locator": "ch.10"
+      }
+    ]
+  },
+  {
+    "id": "S9",
+    "name": "No backend, no server language",
+    "when": {
+      "eq": [
+        "part.backend",
+        "not-needed"
+      ]
+    },
+    "effects": [
+      {
+        "type": "not-needed",
+        "part": "language"
+      }
+    ],
+    "explanation": "The frontend uses HTML, CSS and JavaScript; no server language is needed.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "no backend means no server language",
+        "reviewed": false
       }
     ]
   }

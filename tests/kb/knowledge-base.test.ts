@@ -1,6 +1,13 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { findIntegrityProblems, kb, listSources, rawKnowledgeBase } from "@/modules/knowledge-base";
+import {
+  findIntegrityProblems,
+  isOpenSourceAllowed,
+  kb,
+  licenceBadge,
+  listSources,
+  rawKnowledgeBase,
+} from "@/modules/knowledge-base";
 import { knowledgeBaseSchema, type KnowledgeBase } from "@/modules/knowledge-base/schema";
 
 const index = readFileSync(new URL("../../references/INDEX.md", import.meta.url), "utf8");
@@ -9,6 +16,17 @@ const indexIds = new Set([...index.matchAll(/^\| ([a-z0-9-]+) \|/gm)].map((m) =>
 describe("knowledge base", () => {
   it("passes the Zod schema", () => {
     expect(() => knowledgeBaseSchema.parse(rawKnowledgeBase)).not.toThrow();
+  });
+
+  it("allows SQLite (public domain) under 'open source only' and labels it public domain, not OSI (Q28)", () => {
+    const opt = (id: string) => kb.options.find((o) => o.id === id)!;
+    expect(isOpenSourceAllowed(opt("sqlite"))).toBe(true);
+    expect(licenceBadge(opt("sqlite"))).toBe("public domain");
+    expect(opt("sqlite").licence!.osi).toBe(false);
+    expect(isOpenSourceAllowed(opt("mongodb"))).toBe(false); // SSPL
+    expect(licenceBadge(opt("postgresql"))).toBe("OSI: yes");
+    const publicDomain = kb.options.filter((o) => licenceBadge(o) === "public domain").map((o) => o.id);
+    expect(publicDomain).toEqual(["sqlite"]);
   });
 
   it("passes the integrity checks", () => {

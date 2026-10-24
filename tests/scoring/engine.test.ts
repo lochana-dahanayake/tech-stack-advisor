@@ -112,3 +112,136 @@ describe("score", () => {
     expect(r.parts.database!.closeCall).toBeUndefined();
   });
 });
+
+describe("language part, team skills and stack assembly", () => {
+  it("scores languages as one-level products and adds T1/T2 language points", () => {
+    const r = score({ skills: { go: "strong", php: "some" } }, kb);
+    const lang = r.parts.language!;
+    expect(lang.chosenType).toBeUndefined();
+    expect(lang.products.find((p) => p.id === "go")!.skill).toBe(20);
+    expect(lang.products.find((p) => p.id === "php")!.skill).toBe(10);
+  });
+
+  it("T4: a tight deadline costs languages nobody knows, if the team knows another", () => {
+    const r = score({ answers: { deadline: "tight" }, skills: { python: "some" } }, kb);
+    expect(r.parts.language!.products.find((p) => p.id === "go")!.skill).toBe(-10);
+    expect(
+      score({ answers: { deadline: "tight" } }, kb).parts.language!.products.find((p) => p.id === "go")!.skill,
+    ).toBe(0);
+  });
+
+  it("T5: goal 'learn' halves skill effects and raises learning-curve to at least medium", () => {
+    const r = score({ skills: { java: "strong" }, goal: "learn" }, kb);
+    expect(r.parts.language!.products.find((p) => p.id === "java")!.skill).toBe(10);
+    expect(r.effectiveWeights["learning-curve"]).toBe("medium");
+    expect(r.parts.backend!.products.find((p) => p.id === "spring-boot")!.skill).toBe(5);
+  });
+
+  it("T6: a strongly known language never loses to one nobody knows, in the list and the stack", () => {
+    const r = score({ skills: { php: "strong", python: "some" }, weights: { performance: "critical" } }, kb);
+    const ids = r.parts.language!.products.map((p) => p.id);
+    for (const unknown of ["typescript-node", "java", "csharp", "go"])
+      expect(ids.indexOf("php")).toBeLessThan(ids.indexOf(unknown));
+    expect(["php", "python"]).toContain(r.stack.picks.language);
+    // With goal "learn" the hard rule is off.
+    const learn = score({ skills: { php: "strong" }, weights: { performance: "critical" }, goal: "learn" }, kb);
+    expect(learn.parts.language!.products[0]!.id).not.toBe("php");
+  });
+
+  it("T6 doesn't apply when a rule excludes the strong language", () => {
+    const k = withRules([
+      rule({ id: "K91", when: { eq: ["style", "x"] }, effects: [{ type: "exclude", target: "php" }] }),
+    ]);
+    const r = score({ skills: { php: "strong" }, style: "x" }, k);
+    expect(r.parts.language!.products.map((p) => p.id)).not.toContain("php");
+    expect(r.stack.picks.language).toBeDefined();
+  });
+
+  it("S9: no backend, no server language", () => {
+    const r = score({ answers: { "app-kind": "portfolio", "data-shape": "none" } }, kb);
+    expect(r.parts.language!.needed).toBe(false);
+    expect(r.parts.language!.notNeededBy).toBe("S9");
+    expect(r.stack.picks).toEqual({});
+  });
+
+  it("assembles a stack that satisfies every requires relation and says which picks moved", () => {
+    const r = score({ skills: { "typescript-node": "strong" } }, kb);
+    const backend = r.stack.picks.backend!;
+    const runsOn = kb.compatibility.find((c) => c.option === backend)!.anyOf;
+    expect(runsOn).toContain(r.stack.picks.language);
+    for (const a of r.stack.adjusted) expect(r.parts[a.partId]!.products[0]!.id).toBe(a.best);
+  });
+
+  it("settles a tie at the top of a part by the stack rule and reports it as a tie, not an adjusted pick", () => {
+    // Neutral input: Java and C# have the same language score (calibration log §13).
+    const r = score({ weights: { maturity: "high" } }, kb);
+    const [first, second] = r.parts.language!.products;
+    expect(first!.final).toBe(second!.final);
+    const tie = r.stack.ties.find((t) => t.partId === "language")!;
+    expect(tie.options).toEqual(expect.arrayContaining([first!.id, second!.id]));
+    expect(tie.options).toContain(r.stack.picks.language);
+    expect(tie.reason).toBe("stack score");
+    expect(r.stack.adjusted.map((a) => a.partId)).not.toContain("language");
+  });
+
+  it("falls back to KB order when tied options also tie on the stack score", () => {
+    const k: KnowledgeBase = {
+      ...kb,
+      options: kb.options.map((o) =>
+        o.part === "language" ? { ...o, scores: { ...kb.options.find((x) => x.id === "go")!.scores } } : o,
+      ),
+      compatibility: kb.compatibility.map((c) => (c.part === "language" ? { ...c, anyOf: ["java", "csharp"] } : c)),
+    };
+    const r = score({ weights: { maturity: "high" } }, k);
+    const tie = r.stack.ties.find((t) => t.partId === "language")!;
+    expect(tie.reason).toBe("KB order");
+    const order = k.options.map((o) => o.id);
+    expect(r.stack.picks.language).toBe(["java", "csharp"].sort((a, b) => order.indexOf(a) - order.indexOf(b))[0]);
+  });
+
+  it("shows the best stack with a part's own #1 as a close call when the pick beats it by less than 5 points", () => {
+    // G8 input: Go is the language #1, but ASP.NET Core + C# wins the stack (calibration log §13, session 7).
+    const input = {
+      answers: { "app-kind": "api-only", "data-shape": "linked", traffic: "large", "team-size": "6-15" },
+      weights: { performance: "critical" },
+      skills: { go: "some" },
+    } as const;
+    const r = score(input, kb);
+    const moved = r.stack.adjusted.find((a) => a.partId === "language")!;
+    const close = r.stack.closeCalls.find((c) => c.partId === "language")!;
+    expect(close.best).toBe(moved.best);
+    expect(close.picks.language).toBe(moved.best);
+    expect(close.gap).toBeCloseTo(r.stack.score - close.score, 9);
+    expect(close.gap).toBeGreaterThan(0);
+    expect(close.gap).toBeLessThan(kb.meta.closeCallPoints);
+    const runsOn = kb.compatibility.find((c) => c.option === close.picks.backend)!.anyOf;
+    expect(runsOn).toContain(close.picks.language);
+
+    // Same input with the threshold at 1 point: no close call, the pick alone.
+    const strict = score(input, { ...kb, meta: { ...kb.meta, closeCallPoints: 1 } });
+    expect(strict.stack.closeCalls).toEqual([]);
+  });
+
+  it("reports a conflict instead of failing when no combination fits", () => {
+    const k: KnowledgeBase = {
+      ...kb,
+      compatibility: kb.compatibility.map((c) => ({ ...c, anyOf: ["php"] })),
+      rules: [
+        ...kb.rules,
+        rule({ id: "K92", when: { eq: ["style", "x"] }, effects: [{ type: "exclude", target: "php" }] }),
+      ],
+    };
+    const r = score({ style: "x" }, k);
+    expect(r.stack.conflict).toMatch(/No combination/);
+    expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "language"]);
+  });
+
+  it("evaluates part paths only after pass 1", () => {
+    expect(() => evaluateCondition({ eq: ["part.backend", "needed"] }, { answers: {}, skills: {} })).toThrow(
+      /before parts/,
+    );
+    expect(evaluateCondition({ eq: ["part.backend", "needed"] }, { answers: {}, skills: {}, partState: {} })).toBe(
+      true,
+    );
+  });
+});

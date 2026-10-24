@@ -1986,13 +1986,13 @@
       },
       "community": {
         "value": 5,
-        "why": "Next.js: 20.8% usage in 2025 (backend rubric: ≥ 15% → 5)",
+        "why": "Next.js: 20.6% usage in 2026 (rubric: ≥ 15% → 5)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -2079,11 +2079,19 @@
       },
       "performance": {
         "value": 3,
-        "why": "Node.js; not the fastest Node framework",
+        "why": "TechEmpower Round 23 Fortunes 13.0% of the round's best (band 3); JavaScript runtime 6.52× C (band 4); mean rounded down → 3",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: express-postgresjs; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: JavaScript 6.52 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -2125,13 +2133,13 @@
       },
       "community": {
         "value": 5,
-        "why": "19.9% usage in 2025 (rubric: ≥ 15% → 5)",
+        "why": "Express: 15.6% usage in 2026 (rubric: ≥ 15% → 5)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -2216,11 +2224,19 @@
       },
       "performance": {
         "value": 4,
-        "why": "Designed for low overhead",
+        "why": "TechEmpower Round 23 Fortunes 20.0% of the round's best (band 4); JavaScript runtime 6.52× C (band 4); mean rounded down → 4",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: fastify-postgres; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: JavaScript 6.52 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -2260,18 +2276,17 @@
         "checked": "2026-10-24"
       },
       "community": {
-        "value": 3,
-        "why": "Not found in the 2025 survey numbers (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 2,
+        "why": "Fastify: 3.5% usage in 2026 (rubric: 2–5% → 2)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "placeholder"
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 2
+        "checked": "2026-10-24"
       },
       "maturity": {
         "value": 4,
@@ -2346,12 +2361,20 @@
         "checked": "2026-10-24"
       },
       "performance": {
-        "value": 3,
-        "why": "Async Python",
+        "value": 2,
+        "why": "TechEmpower Round 23 Fortunes 8.2% of the round's best (band 3); Python runtime 71.9× C (band 1); mean rounded down → 2",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: fastapi; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Python 71.9 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -2391,14 +2414,14 @@
         "checked": "2026-10-24"
       },
       "community": {
-        "value": 4,
-        "why": "14.8% usage in 2025 (rubric: 10–15% → 4)",
+        "value": 5,
+        "why": "FastAPI: 18.5% usage in 2026 (rubric: ≥ 15% → 5)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -2476,18 +2499,23 @@
         "checked": "2026-10-24"
       },
       "performance": {
-        "value": 3,
-        "why": "Compiled Go; high throughput (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "TechEmpower Round 23 Fortunes 8.3% of the round's best (band 3); Go runtime 2.83× C (band 5); mean rounded down → 4. Gin's only Fortunes test uses MySQL, which is slower than PostgreSQL in this round",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "TechEmpower blocked"
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: gin, MySQL; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Go 2.83 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-10-24"
       },
       "scalability": {
         "value": 3,
@@ -2526,12 +2554,12 @@
       },
       "community": {
         "value": 3,
-        "why": "Not found in the 2025 survey numbers (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Gin is not an answer option in the 2026 (or 2025) survey (Unsourced: held at 3 until a non-GK source is found.)",
         "sources": [
           {
             "kind": "general",
             "reviewed": false,
-            "note": "placeholder"
+            "note": "placeholder: no survey lists Gin"
           }
         ],
         "checked": "2026-10-24",
@@ -2551,18 +2579,17 @@
         "checked": "2026-10-24"
       },
       "type-safety": {
-        "value": 3,
-        "why": "Go's compiler checks types (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 5,
+        "why": "Go's compiler checks types ('strongly typed')",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "source with the language part (Part 3)"
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "Go spec"
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-10-24"
       }
     },
     "facts": []
@@ -2615,11 +2642,19 @@
       },
       "performance": {
         "value": 3,
-        "why": "Runs on Express by default",
+        "why": "TechEmpower Round 23 Fortunes 12.1% of the round's best (band 3); JavaScript runtime 6.52× C (band 4); mean rounded down → 3",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: nestjs-fastify; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: JavaScript 6.52 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -2660,17 +2695,16 @@
       },
       "community": {
         "value": 3,
-        "why": "Not found in the 2025 survey numbers (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "NestJS: 5.8% usage in 2026 (rubric: 5–10% → 3)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "placeholder"
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 3
+        "checked": "2026-10-24"
       },
       "maturity": {
         "value": 4,
@@ -2745,12 +2779,20 @@
         "checked": "2026-10-24"
       },
       "performance": {
-        "value": 2,
-        "why": "Synchronous Python by default",
+        "value": 1,
+        "why": "TechEmpower Round 23 Fortunes 2.5% of the round's best (band 1); Python runtime 71.9× C (band 1); mean rounded down → 1",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: django-postgresql; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Python 71.9 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -2793,13 +2835,13 @@
       },
       "community": {
         "value": 4,
-        "why": "12.6% usage in 2025 (rubric: 10–15% → 4)",
+        "why": "Django: 11.3% usage in 2026 (rubric: 10–15% → 4)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -2879,11 +2921,19 @@
       },
       "performance": {
         "value": 4,
-        "why": "JVM; fast once warm",
+        "why": "TechEmpower Round 23 Fortunes 18.5% of the round's best (band 4); Java runtime 1.89× C (band 5); mean rounded down → 4 (TechEmpower's \"spring\" tests)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: spring-webflux; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Java 1.89 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -2928,13 +2978,13 @@
       },
       "community": {
         "value": 4,
-        "why": "14.7% usage in 2025 (rubric: 10–15% → 4)",
+        "why": "Spring Boot: 12.8% usage in 2026 (rubric: 10–15% → 4)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -2958,18 +3008,22 @@
         "checked": "2026-10-24"
       },
       "type-safety": {
-        "value": 3,
-        "why": "Java's compiler checks types (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 5,
+        "why": "Compiler-enforced static types (Kotlin: 'statically typed'; Java: GK, its spec site is blocked)",
         "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "Kotlin FAQ"
+          },
           {
             "kind": "general",
             "reviewed": false,
-            "note": "source with the language part (Part 3)"
+            "note": "Java Language Specification not reachable"
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-10-24"
       }
     },
     "facts": []
@@ -3022,11 +3076,19 @@
       },
       "performance": {
         "value": 2,
-        "why": "PHP per request",
+        "why": "TechEmpower Round 23 Fortunes 3.7% of the round's best (band 2); PHP runtime 27.64× C (band 2); mean rounded down → 2. Best test runs on Workerman; plain Laravel (PHP-FPM) is 1.2%",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: laravel-workerman; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: PHP 27.64 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
         "checked": "2026-10-24"
@@ -3069,13 +3131,13 @@
       },
       "community": {
         "value": 3,
-        "why": "8.9% usage in 2025 (rubric: 5–10% → 3)",
+        "why": "Laravel: 7.6% usage in 2026 (rubric: 5–10% → 3)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -3155,18 +3217,23 @@
         "checked": "2026-10-24"
       },
       "performance": {
-        "value": 3,
-        "why": "High throughput (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 5,
+        "why": "TechEmpower Round 23 Fortunes 46.0% of the round's best (band 5); C# runtime 3.14× C (band 5); mean rounded down → 5",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "TechEmpower blocked"
+            "kind": "ref",
+            "ref": "techempower",
+            "quality": "P",
+            "note": "Round 23 (2025-02-24, physical), Fortunes, best realistic non-platform test: aspnetcore-minimal; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: C# 3.14 (arXiv 2410.05460 Table I, read 2026-10-24)"
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-10-24"
       },
       "scalability": {
         "value": 3,
@@ -3208,13 +3275,13 @@
       },
       "community": {
         "value": 5,
-        "why": "19.7% usage in 2025 (rubric: ≥ 15% → 5)",
+        "why": "ASP.NET Core: 19.9% usage in 2026 (rubric: ≥ 15% → 5)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "so-survey-2025",
-            "quality": "S",
-            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents (n = 10,281), official data StackExchange/Survey `packages/archive/2026/json/technology.json`; `npm run sources`"
           }
         ],
         "checked": "2026-10-24"
@@ -3233,20 +3300,852 @@
         "checked": "2026-10-24"
       },
       "type-safety": {
+        "value": 5,
+        "why": "C#: 'the compiler enforces type safety'",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "C# docs, Types"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "typescript-node",
+    "part": "language",
+    "level": "product",
+    "name": "TypeScript / JavaScript on Node.js",
+    "summary": "JavaScript (TypeScript recommended) running on the server with Node.js.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "lang-repos",
+          "quality": "P",
+          "note": "LICENSE in nodejs/node"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Same language as the browser; async code takes practice",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "One language across frontend and backend",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 4,
+        "why": "JIT-compiled; rubric band 4–10× C → 4. TypeScript compiles to JavaScript, so the JavaScript figure is used (the paper's TypeScript figure, 46×, is an outlier of its benchmark code)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: JavaScript 6.52 (Pereira et al. 2021, arXiv 2410.05460 Table I, read 2026-10-24)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
         "value": 3,
-        "why": "C#'s compiler checks types (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "npm is the largest package registry (Unsourced: held at 3 until a non-GK source is found.)",
         "sources": [
           {
             "kind": "general",
             "reviewed": false,
-            "note": "source with the language part (Part 3)"
+            "note": "npm count not reachable from cloud sessions"
           }
         ],
         "checked": "2026-10-24",
         "unsourced": true,
         "proposed": 5
+      },
+      "community": {
+        "value": 5,
+        "why": "Stack Overflow 2026: JavaScript 62.0%, TypeScript 43.8% (rubric ≥ 40% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, all respondents (n = 14,099), official data StackExchange/Survey `technology.json`: JavaScript 62.0%, TypeScript 43.8%; `npm run sources`"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Node.js LTS releases (26 to 2029-04)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript adds a static type checker; types are optional and erased at runtime (rubric: optional static types widely used → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "TypeScript handbook, Basics"
+          }
+        ],
+        "checked": "2026-10-24"
       }
     },
-    "facts": []
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Node.js 26.12 (LTS from 2026-10-28); 24 LTS",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": "Node.js 26 supported to 2029-04-30",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "until": "2029-04-30"
+      }
+    ]
+  },
+  {
+    "id": "python",
+    "part": "language",
+    "level": "product",
+    "name": "Python",
+    "summary": "Readable general-purpose language, strong in data and AI.",
+    "status": "active",
+    "licence": {
+      "spdx": "PSF-2.0",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "lang-repos",
+          "quality": "P",
+          "note": "LICENSE in python/cpython"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 5,
+        "why": "The language people learning to code use most, and the most common intro language at top US universities (rubric: both → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 results blog: Python is #1 among people learning to code"
+          },
+          {
+            "kind": "ref",
+            "ref": "guo-2014",
+            "quality": "S",
+            "note": "Python the most common intro teaching language at top US departments (CACM blog, 2014)"
+          },
+          {
+            "kind": "ref",
+            "ref": "siegfried-2021",
+            "quality": "S",
+            "note": "CS1 is mostly Java, Python, C++ or C; Python growing (IEEE, 2021)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Concise; huge standard library",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 1,
+        "why": "Interpreted; rubric band > 50× C → 1. Benchmarks are CPU-bound; web apps are often waiting on the database instead",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Python 71.90 (Pereira et al. 2021, arXiv 2410.05460 Table I, read 2026-10-24)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "PyPI has 921,802 projects (P), but no comparable counts for every registry yet (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "registry-size rubric needs all six registries"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 5,
+        "why": "Stack Overflow 2026: Python 58.0% (rubric ≥ 40% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, all respondents (n = 14,099), official data StackExchange/Survey `technology.json`: Python 58.0%; `npm run sources`"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Each version supported about 5 years",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "Type hints exist but no type checking happens at runtime; a separate checker is optional (rubric → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "PEP 484"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Python 3.15.1 (2026-10-09)",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "java",
+    "part": "language",
+    "level": "product",
+    "name": "Java / Kotlin on the JVM",
+    "summary": "Java or Kotlin on the Java Virtual Machine.",
+    "status": "active",
+    "licence": {
+      "spdx": "GPL-2.0-only WITH Classpath-exception-2.0",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "lang-repos",
+          "quality": "P",
+          "note": "LICENSE in openjdk/jdk"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "A top introductory teaching language (UK, US CS1 surveys), though verbose (rubric: widely taught first → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "uk-cs1-2016",
+            "quality": "S",
+            "note": "Java the most common intro language at UK universities (2016 survey)"
+          },
+          {
+            "kind": "ref",
+            "ref": "siegfried-2021",
+            "quality": "S",
+            "note": "CS1 is mostly Java, Python, C++ or C; Python growing (IEEE, 2021)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 3,
+        "why": "Strong tooling, more ceremony",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 5,
+        "why": "Rubric band < 4× C → 5",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Java 1.89 (Pereira et al. 2021, arXiv 2410.05460 Table I, read 2026-10-24)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Maven Central and the Spring ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 4,
+        "why": "Stack Overflow 2026: Java 27.6%, Kotlin 10.8% (rubric 20–40% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, all respondents (n = 14,099), official data StackExchange/Survey `technology.json`: Java 27.6%, Kotlin 10.8%; `npm run sources`"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "LTS releases (25 to 2030-09)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 5,
+        "why": "Compiler-enforced static types (Kotlin: 'statically typed'; Java: GK, its spec site is blocked)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "Kotlin FAQ"
+          },
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "Java Language Specification not reachable"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Java 25 LTS; 27 current",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": "Java 25 supported to 2030-09",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "until": "2030-09-30"
+      }
+    ]
+  },
+  {
+    "id": "csharp",
+    "part": "language",
+    "level": "product",
+    "name": "C# (.NET)",
+    "summary": "Microsoft's typed language on .NET.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "lang-repos",
+          "quality": "P",
+          "note": "LICENSE.TXT in dotnet/runtime"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Many concepts; good tooling",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Strong tooling and libraries",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 5,
+        "why": "Rubric band < 4× C → 5",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: C# 3.14 (Pereira et al. 2021, arXiv 2410.05460 Table I, read 2026-10-24)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "NuGet and the .NET libraries",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 4,
+        "why": "Stack Overflow 2026: C# 27.1% (rubric 20–40% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, all respondents (n = 14,099), official data StackExchange/Survey `technology.json`: C# 27.1%; `npm run sources`"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": ".NET LTS releases (10 to 2028-11)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 5,
+        "why": "'C# is a strongly typed language … the compiler enforces type safety'",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "C# docs, Types"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": ".NET 10 LTS",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": ".NET 10 supported to 2028-11-14",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "until": "2028-11-14"
+      }
+    ]
+  },
+  {
+    "id": "go",
+    "part": "language",
+    "level": "product",
+    "name": "Go",
+    "summary": "Small compiled language for servers and tools.",
+    "status": "active",
+    "licence": {
+      "spdx": "BSD-3-Clause",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "lang-repos",
+          "quality": "P",
+          "note": "LICENSE in golang/go"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Small language with few features",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 3,
+        "why": "Simple, but more code by hand",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 5,
+        "why": "Rubric band < 4× C → 5",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: Go 2.83 (Pereira et al. 2021, arXiv 2410.05460 Table I, read 2026-10-24)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Smaller web ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 3,
+        "why": "Stack Overflow 2026: Go 16.5% (rubric 10–20% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, all respondents (n = 14,099), official data StackExchange/Survey `technology.json`: Go 16.5%; `npm run sources`"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Since 2012; the two newest minor versions are supported",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 5,
+        "why": "Compiled, 'strongly typed'",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "Go spec"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Go 1.27.3",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "php",
+    "part": "language",
+    "level": "product",
+    "name": "PHP",
+    "summary": "The classic web server language.",
+    "status": "active",
+    "licence": {
+      "spdx": "BSD-3-Clause",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "lang-repos",
+          "quality": "P",
+          "note": "LICENSE in php/php-src (master); older releases: PHP License 3.01"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Easy to start; many quirks",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Made for the web",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 2,
+        "why": "Rubric band 25–50× C → 2 (measured on PHP 7; PHP 8 added a JIT)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "energy-langs",
+            "quality": "P",
+            "note": "normalised time vs C: PHP 27.64 (Pereira et al. 2021, arXiv 2410.05460 Table I, read 2026-10-24)"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Packagist has 475,503 packages (P)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-repos",
+            "quality": "P",
+            "note": "packagist.org/statistics.json, 2026-10-24"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 3,
+        "why": "Stack Overflow 2026: PHP 17.7% (rubric 10–20% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, all respondents (n = 14,099), official data StackExchange/Survey `technology.json`: PHP 17.7%; `npm run sources`"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Since 1995; each version 2 years active + 2 years security",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "Type declarations are checked when the code runs (TypeError), not before (rubric → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "P",
+            "note": "PHP manual, type declarations"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "PHP 8.5.12",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": "PHP 8.5 active to 2027-12-31",
+        "checked": "2026-10-24",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "until": "2027-12-31"
+      }
+    ]
   }
 ]
