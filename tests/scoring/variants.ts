@@ -31,6 +31,25 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
       };
     },
   },
+  session4: {
+    description:
+      "current, minus the five backend scores sourced in Part 3 (Gin and ASP.NET Core performance; Gin, Spring Boot and ASP.NET Core type-safety held at 3): the KB of session 4",
+    apply: (kb) => ({
+      ...kb,
+      options: kb.options.map((o) => {
+        const reset = {
+          gin: ["performance", "type-safety"],
+          "spring-boot": ["type-safety"],
+          "aspnet-core": ["performance", "type-safety"],
+        }[o.id];
+        if (!reset) return o;
+        return {
+          ...o,
+          scores: { ...o.scores, ...Object.fromEntries(reset.map((c) => [c, { ...o.scores[c]!, value: 3 }])) },
+        };
+      }),
+    }),
+  },
   "session2-no-d0": {
     description: "session2 without rule D0: the run that motivated D0 (session 2, finding 3)",
     apply: (kb) => {

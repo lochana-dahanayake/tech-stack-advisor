@@ -6,6 +6,7 @@ Product decisions belong to the owner. Claude: add new questions here instead of
 
 | # | Question | Recommendation and reason |
 |---|---|---|
+| Q29 | **G8 (Go "some", performance Critical) picks C# + ASP.NET Core, not Go.** Language part: Go 94.1, C# 88.6. Stack: ASP.NET Core + C# beats Gin + Go (backend + language 171.9 vs 167.4) because Gin scores low as a framework: `scalability` unsourced, `community` placeholder, little built in. Numbers: KB draft §13. Options: **(a)** keep G8 as is and wait for sources for Gin (TechEmpower, a survey share), then re-run; **(b)** accept "C# + ASP.NET Core" for G8 (the expectation already allows ASP.NET Core as the backend, and lists C# in the top 3 languages) and change the language expectation to "Go or C#"; **(c)** extend T6 to "some" (owner said no, so not done). | **(a)**, because the gap is mostly missing evidence for Gin, the same "paperwork, not merit" pattern as Python. The branch stays unmerged until you decide. |
 | Q28 | **SQLite is public domain, which isn't an OSI-approved licence.** Should the "open-source licences only" constraint (K6) allow it? | **Allow it**: public domain has no restrictions at all, which is what the constraint is for. The KB stores it as `osi: false, publicDomain: true`, so the badge can say "public domain" instead of a wrong "OSI: yes". K6 isn't in the JSON yet (hosting rules come with Part 5). |
 
 ## Open: delegated to Claude (no answer needed unless you disagree)

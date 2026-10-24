@@ -112,3 +112,86 @@ describe("score", () => {
     expect(r.parts.database!.closeCall).toBeUndefined();
   });
 });
+
+describe("language part, team skills and stack assembly", () => {
+  it("scores languages as one-level products and adds T1/T2 language points", () => {
+    const r = score({ skills: { go: "strong", php: "some" } }, kb);
+    const lang = r.parts.language!;
+    expect(lang.chosenType).toBeUndefined();
+    expect(lang.products.find((p) => p.id === "go")!.skill).toBe(20);
+    expect(lang.products.find((p) => p.id === "php")!.skill).toBe(10);
+  });
+
+  it("T4: a tight deadline costs languages nobody knows, if the team knows another", () => {
+    const r = score({ answers: { deadline: "tight" }, skills: { python: "some" } }, kb);
+    expect(r.parts.language!.products.find((p) => p.id === "go")!.skill).toBe(-10);
+    expect(
+      score({ answers: { deadline: "tight" } }, kb).parts.language!.products.find((p) => p.id === "go")!.skill,
+    ).toBe(0);
+  });
+
+  it("T5: goal 'learn' halves skill effects and raises learning-curve to at least medium", () => {
+    const r = score({ skills: { java: "strong" }, goal: "learn" }, kb);
+    expect(r.parts.language!.products.find((p) => p.id === "java")!.skill).toBe(10);
+    expect(r.effectiveWeights["learning-curve"]).toBe("medium");
+    expect(r.parts.backend!.products.find((p) => p.id === "spring-boot")!.skill).toBe(5);
+  });
+
+  it("T6: a strongly known language never loses to one nobody knows, in the list and the stack", () => {
+    const r = score({ skills: { php: "strong", python: "some" }, weights: { performance: "critical" } }, kb);
+    const ids = r.parts.language!.products.map((p) => p.id);
+    for (const unknown of ["typescript-node", "java", "csharp", "go"])
+      expect(ids.indexOf("php")).toBeLessThan(ids.indexOf(unknown));
+    expect(["php", "python"]).toContain(r.stack.picks.language);
+    // With goal "learn" the hard rule is off.
+    const learn = score({ skills: { php: "strong" }, weights: { performance: "critical" }, goal: "learn" }, kb);
+    expect(learn.parts.language!.products[0]!.id).not.toBe("php");
+  });
+
+  it("T6 doesn't apply when a rule excludes the strong language", () => {
+    const k = withRules([
+      rule({ id: "K91", when: { eq: ["style", "x"] }, effects: [{ type: "exclude", target: "php" }] }),
+    ]);
+    const r = score({ skills: { php: "strong" }, style: "x" }, k);
+    expect(r.parts.language!.products.map((p) => p.id)).not.toContain("php");
+    expect(r.stack.picks.language).toBeDefined();
+  });
+
+  it("S9: no backend, no server language", () => {
+    const r = score({ answers: { "app-kind": "portfolio", "data-shape": "none" } }, kb);
+    expect(r.parts.language!.needed).toBe(false);
+    expect(r.parts.language!.notNeededBy).toBe("S9");
+    expect(r.stack.picks).toEqual({});
+  });
+
+  it("assembles a stack that satisfies every requires relation and says which picks moved", () => {
+    const r = score({ skills: { "typescript-node": "strong" } }, kb);
+    const backend = r.stack.picks.backend!;
+    const runsOn = kb.compatibility.find((c) => c.option === backend)!.anyOf;
+    expect(runsOn).toContain(r.stack.picks.language);
+    for (const a of r.stack.adjusted) expect(r.parts[a.partId]!.products[0]!.id).toBe(a.best);
+  });
+
+  it("reports a conflict instead of failing when no combination fits", () => {
+    const k: KnowledgeBase = {
+      ...kb,
+      compatibility: kb.compatibility.map((c) => ({ ...c, anyOf: ["php"] })),
+      rules: [
+        ...kb.rules,
+        rule({ id: "K92", when: { eq: ["style", "x"] }, effects: [{ type: "exclude", target: "php" }] }),
+      ],
+    };
+    const r = score({ style: "x" }, k);
+    expect(r.stack.conflict).toMatch(/No combination/);
+    expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "language"]);
+  });
+
+  it("evaluates part paths only after pass 1", () => {
+    expect(() => evaluateCondition({ eq: ["part.backend", "needed"] }, { answers: {}, skills: {} })).toThrow(
+      /before parts/,
+    );
+    expect(evaluateCondition({ eq: ["part.backend", "needed"] }, { answers: {}, skills: {}, partState: {} })).toBe(
+      true,
+    );
+  });
+});

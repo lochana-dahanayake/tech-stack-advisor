@@ -1,6 +1,6 @@
 # Scoring Engine
 
-Status: **draft (2026-10-23)**, Phase 0. **Steps 1–5 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (database, backend); stack assembly (step 6) comes with the language part. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
+Status: **draft (2026-10-23)**, Phase 0. **Steps 1–6 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (database, backend, language). Step 6 has no locks or pair bonuses yet (they come with frontend and hosting). Hard rule T6 filters the language candidates. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
 
 `score(input, kb) → StackResult` is a pure TypeScript function: no network, no clock, no randomness, no global state, no React/Next imports. Same input, same output. It runs in the browser (instant result) and on the server (trusted copy for the AI prompt), as in sibling ADR-004.
 

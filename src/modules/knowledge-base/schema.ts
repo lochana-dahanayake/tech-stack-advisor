@@ -131,10 +131,27 @@ export const questionSchema = z.object({
 export const skillRuleSchema = z.object({
   id: z.string().regex(/^T\d+$/),
   name: z.string(),
-  // Points for options that require a language at this skill level, or for a framework the team knows.
-  when: z.union([z.object({ skill: skillLevelSchema }), z.object({ knownFramework: z.literal(true) })]),
+  // T1/T2: a language at this skill level (the language +languagePoints, products requiring it +productPoints).
+  // T3: a framework the team knows. T4: tight deadline, a language nobody knows while the team knows another.
+  // T5: goal "learn" multiplies every skill effect by `factor` and adds a floor.
+  when: z.union([
+    z.object({ skill: skillLevelSchema }).strict(),
+    z.object({ knownFramework: z.literal(true) }).strict(),
+    z
+      .object({
+        deadline: z.array(z.string()).min(1),
+        languageSkill: z.literal("none"),
+        teamKnowsALanguage: z.literal(true),
+      })
+      .strict(),
+    z.object({ goal: z.literal("learn") }).strict(),
+    // T6 (hard rule): with goal "ship", a language the team knows at "strong" never loses to one nobody knows.
+    z.object({ protectStrong: z.literal(true) }).strict(),
+  ]),
   productPoints: z.number().int(),
   languagePoints: z.number().int(),
+  factor: z.number().positive().optional(),
+  floor: z.object({ criterion: id, level: levelSchema }).optional(),
   sources: z.array(sourceSchema).min(1),
 });
 
@@ -161,8 +178,6 @@ export const metaSchema = z.object({
   }),
   closeCallPoints: z.number(),
   staleAfterDays: z.record(z.string(), z.number().int().positive()),
-  // Language ids used by skills and `requires` relations until the language part is in the KB (Part 3).
-  languageIds: z.array(id).min(1),
 });
 
 export const knowledgeBaseSchema = z.object({

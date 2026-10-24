@@ -28,13 +28,5 @@
     "ownership": 365,
     "usage": 365,
     "score": 365
-  },
-  "languageIds": [
-    "typescript-node",
-    "python",
-    "java",
-    "csharp",
-    "go",
-    "php"
-  ]
+  }
 }

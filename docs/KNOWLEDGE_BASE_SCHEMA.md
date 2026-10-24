@@ -157,7 +157,7 @@ Language requirements are written once on each backend/frontend product as `requ
 Fairness note: `worksBestWith` bonuses are small on purpose. A vendor's own product working best on its own platform is a fact, but it must not decide the stack.
 
 ## 7. Rules (`rules.json`)
-Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `has` (a multi-select answer contains a value), `all`, `any`, `not`, `gte` (weight levels are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
+Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `has` (a multi-select answer contains a value), `all`, `any`, `not`, `gte` (weight levels are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `part.<partId>` (`needed` / `not-needed`, after pass 1; used by S9), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
 
 Effect types:
 | Effect | Meaning |
@@ -248,6 +248,7 @@ Input (decided Q11): `skills: { [languageId]: "none" | "some" | "strong" }`, `kn
 | T3 | framework known | that product +10 |
 | T4 | deadline tight or very tight, and the team knows ≥ 1 language at some/strong | languages with skill `none` −10 |
 | T5 | goal = learn something new | T1–T4 effects halved; `learning-curve` floor medium |
+| T6 | goal = "Use what we know" and a language at skill **strong** | hard rule: a strongly known language never ranks below, and the stack never picks, a language nobody knows, unless a rule excludes it (owner 2026-10-24; `book:fosa ch.19`) |
 
 Skill effects go into their own bucket, capped to **−10…+25** per option, separate from the ±30 rules bucket, so "the team knows Java" can count a lot without being cancelled out by unrelated rules. Source: `book:fosa ch.19` (team and organisational factors) + DESIGN.
 
@@ -311,6 +312,5 @@ Windows live in `meta.json` (`staleAfterDays`) so they're data. How they're enfo
   "caps": { "rules": 30, "skillsMin": -10, "skillsMax": 25, "stackPairBonus": 6, "ai": 5 },
   "closeCallPoints": 5,
   "staleAfterDays": { "pricing": 90, "release-status": 90, "version": 180, "support": 180, "licence": 365, "ownership": 365, "score": 365 },
-  "languageIds": ["typescript-node", "python", "java", "csharp", "go", "php"]   // until the language part is in the KB
 }
 ```

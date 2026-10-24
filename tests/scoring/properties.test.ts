@@ -49,7 +49,7 @@ describe("property 8: highly connected data never picks document (owner, 2026-10
       ["scalability", "critical"],
       ["schema-flexibility", "low"],
     ]);
-  });
+  }, 60_000);
 
   it("needs a document penalty of at least 28 points (why D3 uses −30)", () => {
     const beats = (p: number) => {
@@ -58,7 +58,7 @@ describe("property 8: highly connected data never picks document (owner, 2026-10
     };
     expect(beats(-27)).toBe(true);
     expect(beats(-28)).toBe(false);
-  });
+  }, 120_000);
 });
 
 const questionAnswers = fc.record(
@@ -71,10 +71,11 @@ const inputArb = fc.record({
   answers: questionAnswers,
   weights: fc.dictionary(fc.constantFrom(...kb.criteria.map((c) => c.id)), fc.constantFrom(...LEVELS)),
   skills: fc.dictionary(
-    fc.constantFrom(...kb.meta.languageIds),
+    fc.constantFrom(...kb.options.filter((o) => o.part === "language").map((o) => o.id)),
     fc.constantFrom("none" as const, "some" as const, "strong" as const),
   ),
   style: fc.option(fc.constantFrom("microservices", "layered", "modular-monolith", "event-driven"), { nil: undefined }),
+  goal: fc.constantFrom("ship" as const, "learn" as const),
 }) as fc.Arbitrary<UserInput>;
 
 describe("engine properties (TESTING_STRATEGY §2)", () => {

@@ -29,5 +29,12 @@
       "data-integrity",
       "schema-flexibility"
     ]
+  },
+  {
+    "id": "language",
+    "name": "Programming language",
+    "levels": [
+      "product"
+    ]
   }
 ]
