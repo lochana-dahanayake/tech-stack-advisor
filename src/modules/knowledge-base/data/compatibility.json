@@ -1,0 +1,172 @@
+[
+  {
+    "id": "C-frontend-server-language",
+    "kind": "requires",
+    "option": "frontend-server",
+    "part": "language",
+    "anyOf": [
+      "typescript-node"
+    ],
+    "explanation": "Frontend framework server runs on TypeScript/JavaScript on Node.js.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-express-language",
+    "kind": "requires",
+    "option": "express",
+    "part": "language",
+    "anyOf": [
+      "typescript-node"
+    ],
+    "explanation": "Express runs on TypeScript/JavaScript on Node.js.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-fastify-language",
+    "kind": "requires",
+    "option": "fastify",
+    "part": "language",
+    "anyOf": [
+      "typescript-node"
+    ],
+    "explanation": "Fastify runs on TypeScript/JavaScript on Node.js.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-fastapi-language",
+    "kind": "requires",
+    "option": "fastapi",
+    "part": "language",
+    "anyOf": [
+      "python"
+    ],
+    "explanation": "FastAPI runs on Python.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-gin-language",
+    "kind": "requires",
+    "option": "gin",
+    "part": "language",
+    "anyOf": [
+      "go"
+    ],
+    "explanation": "Gin runs on Go.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-nestjs-language",
+    "kind": "requires",
+    "option": "nestjs",
+    "part": "language",
+    "anyOf": [
+      "typescript-node"
+    ],
+    "explanation": "NestJS runs on TypeScript/JavaScript on Node.js.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-django-language",
+    "kind": "requires",
+    "option": "django",
+    "part": "language",
+    "anyOf": [
+      "python"
+    ],
+    "explanation": "Django runs on Python.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-spring-boot-language",
+    "kind": "requires",
+    "option": "spring-boot",
+    "part": "language",
+    "anyOf": [
+      "java"
+    ],
+    "explanation": "Spring Boot runs on Java/Kotlin.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-laravel-language",
+    "kind": "requires",
+    "option": "laravel",
+    "part": "language",
+    "anyOf": [
+      "php"
+    ],
+    "explanation": "Laravel runs on PHP.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-aspnet-core-language",
+    "kind": "requires",
+    "option": "aspnet-core",
+    "part": "language",
+    "anyOf": [
+      "csharp"
+    ],
+    "explanation": "ASP.NET Core runs on C#.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
+  }
+]

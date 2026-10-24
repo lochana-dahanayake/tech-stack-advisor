@@ -1,6 +1,6 @@
 # Knowledge Base Schema
 
-Status: **draft (2026-10-23)**, Phase 0. Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
+Status: **draft (2026-10-23)**, Phase 0; implemented for the database and backend parts in `src/modules/knowledge-base/` (2026-10-24). Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
 
 The KB is a set of JSON files in the repo, validated with **Zod** (a TypeScript library that checks data against a schema) at build time and in tests. It has a semantic `kbVersion`; every result records the version it was computed with (same as sibling ADR-003).
 
@@ -23,7 +23,7 @@ src/modules/knowledge-base/data/
 ```ts
 type Source =
   | { kind: "book"; ref: string; locator?: string }          // ref = id from references/INDEX.md, e.g. "ddia", locator "ch.2"
-  | { kind: "ref"; ref: string; url?: string }               // published article, docs page, survey, registry
+  | { kind: "ref"; ref: string; quality: "P" | "S"; note?: string }  // published article, docs page, survey, registry; P/S as in RESEARCH.md
   | { kind: "general"; note?: string; reviewed: boolean }    // GK; reviewed=false blocks release
   | { kind: "design"; note: string; reviewed: boolean };     // DESIGN: a product decision, not a fact
 
@@ -36,6 +36,8 @@ interface ScoreEntry {
   why: string;              // one line, own words, shown in the comparison table tooltip
   sources: Source[];        // ≥ 1; comparative scores need ≥ 2 independent sources or a rubric metric (§8)
   checked: Date;            // when the evidence was last looked at
+  unsourced?: true;         // GK-only extreme held at the neutral 3 until sourced (owner rule 2026-10-24, §8 rule 7)
+  proposed?: Score;         // the draft value waiting for a source; only with unsourced
 }
 ```
 
@@ -108,7 +110,7 @@ Shape of an entry (as in the sibling, plus `appliesTo`):
   "name": "PostgreSQL",
   "summary": "Open-source relational database with strong SQL, transactions and JSON support.",
   "status": "active",                     // active | maintenance | deprecated (deprecated → never ranked)
-  "licence": { "spdx": "PostgreSQL", "osi": true },
+  "licence": { "spdx": "PostgreSQL", "osi": true, "sources": [ ... ] },   // + "publicDomain": true for SQLite (not an OSI licence; Q28)
   "scores": {
     "learning-curve": { "value": 3, "why": "...", "sources": [ ... ], "checked": "2026-10-23" },
     "data-integrity": { "value": 5, "why": "...", "sources": [ { "kind": "book", "ref": "mpg17", "locator": "ch.2" }, { "kind": "book", "ref": "ddia", "locator": "ch.7" } ], "checked": "2026-10-23" }
@@ -155,7 +157,7 @@ Language requirements are written once on each backend/frontend product as `requ
 Fairness note: `worksBestWith` bonuses are small on purpose. A vendor's own product working best on its own platform is a fact, but it must not decide the stack.
 
 ## 7. Rules (`rules.json`)
-Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `all`, `any`, `not`, `gte` (levels and team sizes are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
+Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `has` (a multi-select answer contains a value), `all`, `any`, `not`, `gte` (weight levels are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
 
 Effect types:
 | Effect | Meaning |
@@ -275,6 +277,7 @@ Small nudges only (±5 to ±10), because the style describes structure, not tool
    | `productivity` (backend) | Built-in or first-party building blocks out of 8 (KB draft §6) |
    | `real-time` (backend) | First-party WebSockets with group broadcasting → 5 … third-party only → 2 (KB draft §6) |
    | `community` (backend) | Own bands: ≥ 15% → 5 … < 2% → 1 (usage shares are lower than for databases; KB draft §6) |
+7. **A score of 5 or 1 needs a `book:` or `ref:` source** (owner, 2026-10-24). Until then it is stored as 3 with `unsourced: true` and its `proposed` value; the release gate fails while any remain. Enforced by `tests/kb`.
 
 ## 9. Stale facts
 Tech facts age fast. Every `ScoreEntry` and every `facts[]` item has `checked`.
@@ -308,6 +311,6 @@ Windows live in `meta.json` (`staleAfterDays`) so they're data. How they're enfo
   "caps": { "rules": 30, "skillsMin": -10, "skillsMax": 25, "stackPairBonus": 6, "ai": 5 },
   "closeCallPoints": 5,
   "staleAfterDays": { "pricing": 90, "release-status": 90, "version": 180, "support": 180, "licence": 365, "ownership": 365, "score": 365 },
-  "references": []
+  "languageIds": ["typescript-node", "python", "java", "csharp", "go", "php"]   // until the language part is in the KB
 }
 ```
