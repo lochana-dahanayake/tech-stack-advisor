@@ -3,9 +3,9 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-- **Owner:** answer Q26 (how to treat beta features such as Vercel's container runtime). Not blocking: the draft uses "allowed, −5, note".
-- **Claude, next session:** draft the **backend** part in `KNOWLEDGE_BASE_DRAFT.md` (types and products, scores with sources, rules), then run the same scratch calibration for the backend parts of the golden scenarios and log it in §5. Use the database part as the template: types scored on fit criteria only, product-only criteria for popularity/cost/lock-in.
-- Keep retrying the still-unverified facts in Q21 at the start of each session (vendor sites may become reachable).
+- **Owner:** get the SQLite "Appropriate uses" page checked (rule D9 stays unverified until then).
+- **Claude, next session:** draft the **language** part in `KNOWLEDGE_BASE_DRAFT.md` (Part 3: the six languages, scores with sources, team-skill rules T1–T5 checked against the golden scenarios), then re-run the backend calibration *with* the language part instead of the "team's strongest language" stand-in. Watch backend finding 1 (ASP.NET Core and Spring Boot top unfiltered lists; G12 neutral) and G5's small margin (frontend-server vs NestJS).
+- Keep retrying the still-unverified facts in Q21 at the start of each session (vendor sites may become reachable), especially TechEmpower and the Stack Overflow 2026 framework numbers.
 
 ## Phase 0: Plan (status: done 2026-10-23)
 - [x] Repo, doc skeleton, references folder; owner added 4 books + 8 links, all indexed
@@ -18,7 +18,8 @@ Keep this current. At the end of every session, update **Next up** so the next (
 
 ## Phase 1: Knowledge base (status: started 2026-10-23)
 - [x] `KNOWLEDGE_BASE_DRAFT.md` part 1: **database** (types, 7 products, rules D0–D9, first calibration: all database expectations hold)
-- [ ] Part 2: backend
+- [x] Part 2: **backend** (types, 10 products, rules B0–B3, first calibration: all backend expectations hold within the team's language) (2026-10-24)
+- [x] Owner review of part 1 (2026-10-24): D3 document −30 (G10), D9 SQLite rule (unverified), Q26 and Q27 decided
 - [ ] Part 3: language (incl. team-skill rules T1–T5)
 - [ ] Part 4: frontend
 - [ ] Part 5: hosting (needs the Q21 free-tier facts verified)

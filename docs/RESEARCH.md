@@ -100,7 +100,7 @@ Owner asked (Q24) to re-check WebSocket support. Vendor sites are still blocked,
 | Vercel runtimes | `vercel/vercel` repo has runtime packages for Node.js, Python, Go, Ruby, Rust, plus presets for Express, Fastify, NestJS, Hono, Koa and others | P (repo, commit 2026-09-08) |
 | Vercel containers | `packages/container` builds a `Dockerfile.vercel` / `Containerfile.vercel` into an image and runs it as a function. Reported as **beta on all plans**, Hobby functions up to 300 s | P (code) + S (status, plans, limits) |
 
-Consequences for the KB: rule K7 (real-time penalty) applies to Netlify only; Vercel gets a broadcast note; the Vercel–Java/C#/PHP conflict becomes "allowed via container runtime (beta)", Q26.
+Consequences for the KB: rule K7 (real-time penalty) applies to Netlify only; Vercel gets a broadcast note; the Vercel–Java/C#/PHP conflict becomes "allowed via container runtime (beta)", rule K9 (Q26, decided 2026-10-24).
 
 ## 5. Reference books: what they give the KB
 Summaries in our own words; cite by chapter, never quote at length.
@@ -112,3 +112,25 @@ Summaries in our own words; cite by chapter, never quote at length.
 | `fosa` ch.4–6, 18, 19 | Ch.4–6: definitions for criteria (performance, scalability, elasticity) and "least worst trade-off" thinking. Ch.18 (microservices): a database per service, heavy reliance on automation and containers; background for the Architecture Advisor style link. Ch.19: team and organisational factors count when choosing. The repo copy is the **German translation** of the 2nd ed.; chapter numbers match the English edition. |
 | `mpg17` | PostgreSQL features that reduce the need for a second database: JSON/JSONB, rich index types, extensions, logical replication. Book is about one product: use for facts about PostgreSQL only, not for comparative scores (§8 fairness rule). |
 | `sixstep` | When relational modelling fits: data that can be described as entities with attributes and relationships (the book's step-by-step E-R → relational process). Supports the "linked records" data-shape rule. |
+
+## 6. Backend frameworks (session 3, checked 2026-10-24)
+Used by the backend part of the KB draft (§6–10). Read from the frameworks' own repos and registries (P) unless marked. Own-facts only: none of these sources is used to compare one framework with another.
+
+| Item | Licence | First stable / 1.0 | Support policy | WebSockets | Built-in or first-party pieces |
+|---|---|---|---|---|---|
+| Express 5.3.0 | MIT (npm) | 1.0.0 2010-12-29 (npm) | v4 and v5 both under security support (`ref:eol` data repo) | none built in (GK) | routing, middleware, views |
+| Fastify 5.12.7 | MIT (npm) | 1.0.0 2018-03-06 (npm) | `docs/Reference/LTS.md`: each major ≥ 6 months, + 6 months security after the next major | official plugin `@fastify/websocket` (fastify org) | JSON-schema validation, logging; official `@fastify/view`, `@fastify/jwt` |
+| NestJS 12.2.0 | MIT (npm) | `@nestjs/core` first published 2017-05 | none found | `packages/websockets`, `platform-socket.io`, `platform-ws` in `nestjs/nest`; gateways docs | first-party `@nestjs/typeorm`, `/passport`, `/schedule`, `/bullmq`, CLI |
+| FastAPI 0.162.0 | MIT (`LICENSE`) | still 0.x; 0.1.0 2018-12-08 (PyPI) | none | built in (`docs/en/docs/advanced/websockets.md`) | validation, OpenAPI, DI, security helpers, background tasks |
+| Django 6.1.2 | BSD-3 | 1.0 2008 (GK; endoflife data starts at 1.3, 2011-03) | LTS releases (`ref:eol`) | Channels: separate project in the `django` GitHub org | `contrib/admin`, `auth`, `sessions`; ORM, migrations, forms, templates, `django/tasks` |
+| Spring Boot 4.1.2 | Apache-2.0 (`LICENSE.txt`) | 1.0.0.RELEASE 2014-04-01 (Maven Central) | OSS support per minor (`ref:eol`) | `spring-boot-starter-websocket` | starters `data-jpa`, `flyway`, `security`, `validation`, `thymeleaf`, `actuator` |
+| Laravel 13.38 | MIT (`LICENSE.md`, 12.x and 13.x) | 1.0 2011 (GK) | 13: security to 2028-03-17 (`ref:eol`) | `Illuminate/Broadcasting` + first-party server `laravel/reverb` | `Illuminate/` Auth, Database, Validation, Queue, View, Console |
+| ASP.NET Core (.NET 10) | MIT (`LICENSE.txt`) | 1.0 2016-06-27 (`ref:eol`, .NET) | .NET 10 LTS to 2028-11-14 | `src/SignalR` in `dotnet/aspnetcore` | `src/` Identity, Mvc, Razor, Validation, OpenApi; EF Core (first-party, separate repo) |
+| Gin 1.12.0 (2026-02-28) | MIT (`LICENSE`) | first v1 tags 2016 (v1.1.4 2016-12-04, Go proxy) | none | none built in (GK: `gorilla/websocket`) | binding/validation, HTML templates |
+| Next.js 16.4.3 / Nuxt 4.6.2 / SvelteKit 3.1.0 | MIT (npm) | 1.0: 2016-10 / 2018-01 / 2022-12 (npm) | Next.js and Nuxt in `ref:eol` | Next.js docs (route handlers) and SvelteKit docs: no WebSocket server; Nuxt's engine Nitro: `features.websocket` (`nitrojs/nitro` docs) | route handlers / server routes |
+
+**Usage, Stack Overflow 2025 web frameworks (S, secondary write-ups; the 2026 framework numbers weren't found):** Next.js 20.8%, Express 19.9%, ASP.NET Core 19.7%, FastAPI 14.8%, Spring Boot 14.7%, Flask 14.4%, Django 12.6%, Laravel 8.9%. Sources disagree by a few points (e.g. Node.js 48.7% vs 49.1%). Fastify, NestJS, Gin: not found.
+
+**Performance:** TechEmpower (site and status page) blocked from cloud sessions; no numbers used.
+
+**Still blocked (retried 2026-10-24):** sqlite.org, survey.stackoverflow.co, techempower.com, vercel.com.
