@@ -14,11 +14,23 @@ export interface PartExpectation {
   productIn?: string[]; // allowed pick: the stack's pick for the part (database: also #1 in the chosen type)
   productNotSecond?: string;
 }
+/** A close call in the assembled stack (step 6.7): the part's own #1 loses the stack by < 5 points; both are shown. */
+export interface StackCloseCallExpectation {
+  partId: string;
+  pick: string; // the stack's pick for the part
+  best: string; // the part's #1, kept in the alternative stack
+  alternative: Record<string, string>; // picks the alternative stack must contain
+}
 export interface Scenario {
   id: string;
   title: string;
   input: UserInput;
-  expect: { database?: PartExpectation; backend?: PartExpectation; language?: PartExpectation & { inTop3?: string[] } };
+  expect: {
+    database?: PartExpectation;
+    backend?: PartExpectation;
+    language?: PartExpectation & { inTop3?: string[] };
+    stackCloseCall?: StackCloseCallExpectation;
+  };
 }
 
 export const golden: Scenario[] = [
@@ -174,10 +186,18 @@ export const golden: Scenario[] = [
       weights: { performance: "critical" },
       skills: { go: "some" },
     },
+    // Q29 (owner, 2026-10-24): with primary numbers C# + ASP.NET Core still beats Go + Gin by less than 5 points,
+    // so G8 expects a close call that shows both stacks (calibration log §13, session 7). T6 stays "strong" only.
     expect: {
-      language: { productIn: ["go"], inTop3: ["java", "csharp"] },
+      language: { productIn: ["go", "csharp"], inTop3: ["java", "csharp"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeNot: ["fullstack"], productIn: ["gin", "aspnet-core"] },
+      stackCloseCall: {
+        partId: "language",
+        pick: "csharp",
+        best: "go",
+        alternative: { language: "go", backend: "gin" },
+      },
     },
   },
   {

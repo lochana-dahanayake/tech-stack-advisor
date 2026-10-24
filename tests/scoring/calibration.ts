@@ -54,8 +54,8 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   out.push(
     "",
     "## stack",
-    "| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |",
-    "|---|---|---|---|---|",
+    "| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |",
+    "|---|---|---|---|---|---|",
   );
   for (const s of [...golden, ...probes]) {
     const st = score(s.input, k).stack;
@@ -63,8 +63,15 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
     const adj = st.adjusted.map((a) => `${a.partId}: ${a.best} → ${a.pick} (${a.relation})`).join("; ") || "—";
     const ties =
       st.ties.map((t) => `${t.partId}: ${t.options.join(" = ")} → ${t.pick} (${t.reason})`).join("; ") || "—";
+    const close =
+      st.closeCalls
+        .map(
+          (c) =>
+            `${c.picks.backend ?? "—"} · ${c.picks.database ?? "—"} · ${c.picks.language ?? "—"} ${f(c.score)} (−${f(c.gap)})`,
+        )
+        .join("; ") || "—";
     out.push(
-      `| ${s.id} ${s.title} | ${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} |`,
+      `| ${s.id} ${s.title} | ${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} | ${close} |`,
     );
   }
   out.push("");

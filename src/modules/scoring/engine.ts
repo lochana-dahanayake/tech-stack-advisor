@@ -313,6 +313,7 @@ export function assemble(
       score,
       adjusted: [],
       ties: [],
+      closeCalls: [],
       conflict: "No combination of the top candidates fits together; showing each part's #1.",
     };
   }
@@ -343,5 +344,14 @@ export function assemble(
       );
       return { partId: id, best: top, pick: result.picks[id]!, relation: relation?.id ?? "stack score" };
     });
-  return { picks: result.picks, score: result.score, adjusted, ties };
+  // Step 6.7: a pick that beat the part's own #1 by less than the close-call threshold shows both stacks.
+  const closeCalls = adjusted.flatMap((a) => {
+    const alt = bestWith.get(`${a.partId}:${a.best}`);
+    if (!alt) return [];
+    const gap = result.score - alt.score;
+    return gap < kb.meta.closeCallPoints
+      ? [{ partId: a.partId, best: a.best, picks: alt.picks, score: alt.score, gap }]
+      : [];
+  });
+  return { picks: result.picks, score: result.score, adjusted, ties, closeCalls };
 }

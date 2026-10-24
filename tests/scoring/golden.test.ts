@@ -37,6 +37,14 @@ describe("golden scenarios (database, backend and language parts, assembled stac
         const e = s.expect[part];
         if (e) check(part, r.parts[part]!, e, s);
       }
+      const cc = s.expect.stackCloseCall;
+      if (cc) {
+        expect(r.parts[cc.partId]!.products[0]!.id).toBe(cc.best);
+        expect(r.stack.picks[cc.partId]).toBe(cc.pick);
+        const shown = r.stack.closeCalls.find((c) => c.partId === cc.partId);
+        expect(shown?.best).toBe(cc.best);
+        expect(shown?.picks).toMatchObject(cc.alternative);
+      }
       // Every scenario returns a result for every part and a stack with no conflict (G12: no crash, no empty result).
       for (const part of kb.parts) expect(r.parts[part.id]).toBeDefined();
       expect(r.stack.conflict).toBeUndefined();

@@ -199,6 +199,29 @@ describe("language part, team skills and stack assembly", () => {
     expect(r.stack.picks.language).toBe(["java", "csharp"].sort((a, b) => order.indexOf(a) - order.indexOf(b))[0]);
   });
 
+  it("shows the best stack with a part's own #1 as a close call when the pick beats it by less than 5 points", () => {
+    // G8 input: Go is the language #1, but ASP.NET Core + C# wins the stack (calibration log §13, session 7).
+    const input = {
+      answers: { "app-kind": "api-only", "data-shape": "linked", traffic: "large", "team-size": "6-15" },
+      weights: { performance: "critical" },
+      skills: { go: "some" },
+    } as const;
+    const r = score(input, kb);
+    const moved = r.stack.adjusted.find((a) => a.partId === "language")!;
+    const close = r.stack.closeCalls.find((c) => c.partId === "language")!;
+    expect(close.best).toBe(moved.best);
+    expect(close.picks.language).toBe(moved.best);
+    expect(close.gap).toBeCloseTo(r.stack.score - close.score, 9);
+    expect(close.gap).toBeGreaterThan(0);
+    expect(close.gap).toBeLessThan(kb.meta.closeCallPoints);
+    const runsOn = kb.compatibility.find((c) => c.option === close.picks.backend)!.anyOf;
+    expect(runsOn).toContain(close.picks.language);
+
+    // Same input with the threshold at 1 point: no close call, the pick alone.
+    const strict = score(input, { ...kb, meta: { ...kb.meta, closeCallPoints: 1 } });
+    expect(strict.stack.closeCalls).toEqual([]);
+  });
+
   it("reports a conflict instead of failing when no combination fits", () => {
     const k: KnowledgeBase = {
       ...kb,

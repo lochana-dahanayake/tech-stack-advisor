@@ -1,6 +1,6 @@
 # Scoring Engine
 
-Status: **draft (2026-10-23)**, Phase 0. **Steps 1–6 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (database, backend, language). Step 6 has no locks or pair bonuses yet (they come with frontend and hosting). Hard rule T6 filters the language candidates. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
+Status: **draft (2026-10-23)**, Phase 0. **Steps 1–6 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (database, backend, language). Step 6 has no locks or pair bonuses yet (they come with frontend and hosting). Hard rule T6 filters the language candidates; step 6.6 (ties) and 6.7 (stack close calls) are implemented. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
 
 `score(input, kb) → StackResult` is a pure TypeScript function: no network, no clock, no randomness, no global state, no React/Next imports. Same input, same output. It runs in the browser (instant result) and on the server (trusted copy for the AI prompt), as in sibling ADR-004.
 
@@ -90,6 +90,7 @@ The `language` part has one level: its options are scored as products directly.
    - **KB order**: everything equal; the earlier option in the KB wins.
 
    A settled tie is never reported as an "adjusted" pick (that label is for a pick moved by a `requires` relation or by a lower-ranked option winning on stack score). The UI says "Java and C# score the same; C# is picked because it pairs with the stronger backend".
+7. **Close calls in the stack** (owner, Q29, 2026-10-24, G8). When a part's pick isn't its own #1 (an "adjusted" pick), the engine also finds the best valid stack that keeps that #1. If the chosen stack beats it by less than `closeCallPoints` (5, Q23), the result lists it in `closeCalls[]` (part, the #1 it keeps, its picks, its score, the gap), and the UI shows both stacks side by side: "C# + ASP.NET Core scores 81.4; Go + Gin, which uses the language you know, scores 77.1. Both are good choices." At 5 points or more only the chosen stack is shown. A close call never changes the pick.
 
 Every option in each part's list is then labelled against the chosen stack: **in the stack**, **fits** (would also be compatible), or **needs: X** (e.g. "Django — needs: Python").
 
