@@ -1,0 +1,33 @@
+[
+  {
+    "id": "backend",
+    "name": "Backend",
+    "levels": [
+      "type",
+      "product"
+    ],
+    "typeCriteria": [
+      "learning-curve",
+      "productivity",
+      "performance",
+      "scalability",
+      "real-time"
+    ]
+  },
+  {
+    "id": "database",
+    "name": "Database",
+    "levels": [
+      "type",
+      "product"
+    ],
+    "typeCriteria": [
+      "learning-curve",
+      "performance",
+      "scalability",
+      "real-time",
+      "data-integrity",
+      "schema-flexibility"
+    ]
+  }
+]

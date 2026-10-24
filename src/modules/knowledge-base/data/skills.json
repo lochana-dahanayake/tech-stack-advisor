@@ -1,0 +1,65 @@
+[
+  {
+    "id": "T1",
+    "name": "Strong language skill",
+    "when": {
+      "skill": "strong"
+    },
+    "productPoints": 10,
+    "languagePoints": 20,
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.19"
+      },
+      {
+        "kind": "design",
+        "note": "starting value, tuned in calibration",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "T2",
+    "name": "Some language skill",
+    "when": {
+      "skill": "some"
+    },
+    "productPoints": 5,
+    "languagePoints": 10,
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.19"
+      },
+      {
+        "kind": "design",
+        "note": "starting value, tuned in calibration",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "T3",
+    "name": "Framework known",
+    "when": {
+      "knownFramework": true
+    },
+    "productPoints": 10,
+    "languagePoints": 0,
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.19"
+      },
+      {
+        "kind": "design",
+        "note": "starting value",
+        "reviewed": false
+      }
+    ]
+  }
+]

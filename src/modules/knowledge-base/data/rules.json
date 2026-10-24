@@ -1,0 +1,606 @@
+[
+  {
+    "id": "S5",
+    "name": "Live updates needed",
+    "when": {
+      "eq": [
+        "q.real-time",
+        "yes"
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "real-time",
+        "level": "high"
+      }
+    ],
+    "explanation": "You need live updates, so real-time support counts at least High.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.4"
+      }
+    ]
+  },
+  {
+    "id": "S6",
+    "name": "Very tight deadline",
+    "when": {
+      "eq": [
+        "q.deadline",
+        "very-tight"
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "productivity",
+        "level": "high"
+      }
+    ],
+    "explanation": "With a very tight deadline, how fast you can build counts at least High.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "deadline raises productivity",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S7",
+    "name": "Spiky or large traffic",
+    "when": {
+      "in": [
+        "q.traffic",
+        [
+          "large",
+          "spiky"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "scalability",
+        "level": "high"
+      }
+    ],
+    "explanation": "Large or spiky traffic makes scalability count at least High.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.4"
+      }
+    ]
+  },
+  {
+    "id": "S8",
+    "name": "Long lifespan",
+    "when": {
+      "eq": [
+        "q.lifespan",
+        "5-plus-years"
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "maturity",
+        "level": "high"
+      }
+    ],
+    "explanation": "A project that lives 5+ years needs mature tools with long support.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "lifespan raises maturity",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "D0",
+    "name": "Data shape not sure",
+    "when": {
+      "eq": [
+        "q.data-shape",
+        "not-sure"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "relational",
+        "points": 10
+      }
+    ],
+    "explanation": "Data tends to become more connected as an app gains features, and relational databases handle that best. If your items really are self-contained, pick 'documents'.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.2"
+      }
+    ]
+  },
+  {
+    "id": "D1",
+    "name": "Linked records",
+    "when": {
+      "eq": [
+        "q.data-shape",
+        "linked"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "relational",
+        "points": 15
+      },
+      {
+        "type": "modify",
+        "target": "document",
+        "points": -10
+      }
+    ],
+    "explanation": "Linked records (many-to-one, many-to-many) fit relational databases and their joins.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.2"
+      },
+      {
+        "kind": "book",
+        "ref": "sixstep",
+        "locator": "ch.1"
+      }
+    ]
+  },
+  {
+    "id": "D2",
+    "name": "Self-contained documents",
+    "when": {
+      "eq": [
+        "q.data-shape",
+        "documents"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "document",
+        "points": 15
+      },
+      {
+        "type": "note",
+        "text": "PostgreSQL's JSONB can store documents too."
+      }
+    ],
+    "explanation": "Documents read and written as a whole fit the document model.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.2"
+      },
+      {
+        "kind": "book",
+        "ref": "mpg17"
+      }
+    ]
+  },
+  {
+    "id": "D3",
+    "name": "Highly connected data",
+    "when": {
+      "eq": [
+        "q.data-shape",
+        "connected"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "graph",
+        "points": 20
+      },
+      {
+        "type": "modify",
+        "target": "document",
+        "points": -30
+      }
+    ],
+    "explanation": "Highly connected data (friends of friends, recommendations) is most natural in a graph. Document databases handle many-to-many relationships poorly: joins move into your code. The −30 was sized so the document type can never be #1 on this input (owner, 2026-10-24); a hard rule may replace it.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.2"
+      },
+      {
+        "kind": "design",
+        "note": "penalty size picked to pass G10",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "D4",
+    "name": "Fields vary a lot",
+    "when": {
+      "has": [
+        "q.data-flags",
+        "fields-vary"
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "schema-flexibility",
+        "level": "high"
+      }
+    ],
+    "explanation": "Items with different fields benefit from schema-on-read.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.2"
+      }
+    ]
+  },
+  {
+    "id": "D5",
+    "name": "Money or strict consistency",
+    "when": {
+      "has": [
+        "q.data-flags",
+        "money"
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "data-integrity",
+        "level": "critical"
+      },
+      {
+        "type": "modify",
+        "target": "document",
+        "points": -5
+      }
+    ],
+    "explanation": "Money and strict consistency need multi-record transactions and constraints.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.7"
+      }
+    ]
+  },
+  {
+    "id": "D6",
+    "name": "Single user, offline or small",
+    "when": {
+      "has": [
+        "q.data-flags",
+        "single-user"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "sqlite",
+        "points": 15
+      }
+    ],
+    "explanation": "A single-user or offline app can keep its data in one SQLite file. Remember backups.",
+    "sources": [
+      {
+        "kind": "general",
+        "reviewed": false,
+        "note": "verify with sqlite.org 'Appropriate uses' (Q21)"
+      }
+    ]
+  },
+  {
+    "id": "D7",
+    "name": "Only simple lookups",
+    "when": {
+      "eq": [
+        "q.data-shape",
+        "lookups"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "key-value",
+        "points": 15
+      }
+    ],
+    "explanation": "Simple lookups by key fit a key-value store.",
+    "otherwise": [
+      {
+        "type": "modify",
+        "target": "key-value",
+        "points": -20
+      }
+    ],
+    "otherwiseExplanation": "Key-value stores like Redis are usually added next to a main database (for caching or sessions), not used as the only one.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "ddia",
+        "locator": "ch.3"
+      }
+    ]
+  },
+  {
+    "id": "D8",
+    "name": "No stored data",
+    "when": {
+      "eq": [
+        "q.data-shape",
+        "none"
+      ]
+    },
+    "effects": [
+      {
+        "type": "not-needed",
+        "part": "database"
+      }
+    ],
+    "explanation": "Nothing is stored, so no database is needed.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "no stored data",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "D9",
+    "name": "Commercial multi-user app",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.commercial",
+            "yes"
+          ]
+        },
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "e-commerce",
+              "web-app",
+              "mobile-backend",
+              "api-only"
+            ]
+          ]
+        },
+        {
+          "not": {
+            "has": [
+              "q.data-flags",
+              "single-user"
+            ]
+          }
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "sqlite",
+        "points": -15
+      }
+    ],
+    "explanation": "SQLite lets one writer change the database at a time and runs inside one server, so it's a poor fit for a shop or app where many users save data at once.",
+    "sources": [
+      {
+        "kind": "general",
+        "reviewed": false,
+        "note": "unverified: check against sqlite.org 'Appropriate uses' (owner, 2026-10-24)"
+      }
+    ]
+  },
+  {
+    "id": "B0",
+    "name": "Static content site",
+    "when": {
+      "all": [
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "content-site",
+              "portfolio"
+            ]
+          ]
+        },
+        {
+          "eq": [
+            "q.data-shape",
+            "none"
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "not-needed",
+        "part": "backend"
+      }
+    ],
+    "explanation": "Pages can be built ahead of time; nothing has to run on a server.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "no server work for static content",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "B1",
+    "name": "API only or mobile backend",
+    "when": {
+      "in": [
+        "q.app-kind",
+        [
+          "api-only",
+          "mobile-backend"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "fullstack"
+      }
+    ],
+    "explanation": "There's no web frontend whose server could host the API.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "no frontend framework to host the API",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "B2",
+    "name": "Very tight deadline, small JS/TS team",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.deadline",
+            "very-tight"
+          ]
+        },
+        {
+          "in": [
+            "q.team-size",
+            [
+              "solo",
+              "2-5"
+            ]
+          ]
+        },
+        {
+          "in": [
+            "skill.typescript-node",
+            [
+              "some",
+              "strong"
+            ]
+          ]
+        },
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "web-app",
+              "e-commerce",
+              "internal-tool"
+            ]
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "fullstack",
+        "points": 20
+      },
+      {
+        "type": "modify",
+        "target": "minimal",
+        "points": -15
+      },
+      {
+        "type": "modify",
+        "target": "batteries",
+        "points": -15
+      }
+    ],
+    "explanation": "One project and one deploy: the frontend framework's server handles forms and API routes, so there's no second app to set up and keep in sync.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "one project instead of two (owner kept it 2026-10-24: DESIGN, weight not to be raised)",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "A1",
+    "name": "Microservices-style architecture",
+    "when": {
+      "in": [
+        "style",
+        [
+          "microservices",
+          "service-based",
+          "cell-based"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "frontend-server",
+        "points": -10
+      }
+    ],
+    "explanation": "Separate services usually get their own backend; the frontend framework's server is a poor fit. One database per service is common.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.18"
+      }
+    ]
+  },
+  {
+    "id": "A3",
+    "name": "Layered or modular monolith",
+    "when": {
+      "in": [
+        "style",
+        [
+          "layered",
+          "modular-monolith"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "batteries",
+        "points": 5
+      }
+    ],
+    "explanation": "A structured framework helps keep layers or modules apart.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.10"
+      }
+    ]
+  }
+]

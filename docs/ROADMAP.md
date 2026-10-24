@@ -3,9 +3,15 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-- **Owner:** get the SQLite "Appropriate uses" page checked (rule D9 stays unverified until then).
-- **Claude, next session:** draft the **language** part in `KNOWLEDGE_BASE_DRAFT.md` (Part 3: the six languages, scores with sources, team-skill rules T1–T5 checked against the golden scenarios), then re-run the backend calibration *with* the language part instead of the "team's strongest language" stand-in. Watch backend finding 1 (ASP.NET Core and Spring Boot top unfiltered lists; G12 neutral) and G5's small margin (frontend-server vs NestJS).
-- Keep retrying the still-unverified facts in Q21 at the start of each session (vendor sites may become reachable), especially TechEmpower and the Stack Overflow 2026 framework numbers.
+Owner's order (2026-10-24):
+1. [x] Set up the project: `package.json`, TypeScript strict, Vitest, ESLint (with the sibling's purity rule), Prettier, `npm run check`. Next.js is added with the UI (Phase 3).
+2. [x] KB parts done so far (database, backend) as versioned JSON with Zod validation.
+3. [x] Scratch calibration turned into committed tests: golden scenarios, property test 8 (all 15,625 combinations), type-win coverage; `npm run calibrate` reproduces every number in the calibration log.
+4. [x] KB test: a score of 5 or 1 needs a non-GK source; unsourced extremes held at 3 and marked `unsourced`.
+5. [ ] **Part 3 (languages)**, then re-run the backend calibration with the language part instead of the stand-in. Source `type-safety` there (Gin, Spring Boot, ASP.NET Core 5s are held at 3 until then).
+- **Owner:** SQLite "Appropriate uses" check (rule D9 stays unverified); Q28 (public domain and "open source only").
+- Keep retrying Q21 facts each session, especially TechEmpower (every backend `performance` 5 is unsourced) and the Stack Overflow 2026 framework numbers.
+- Later option (owner): replace D3's −30 with a hard rule "document can't be #1 for highly connected data".
 
 ## Phase 0: Plan (status: done 2026-10-23)
 - [x] Repo, doc skeleton, references folder; owner added 4 books + 8 links, all indexed
@@ -25,7 +31,8 @@ Keep this current. At the end of every session, update **Next up** so the next (
 - [ ] Part 5: hosting (needs the Q21 free-tier facts verified)
 - [ ] Compatibility relations (`compatibility.json` draft) and bundles/glossary
 - [ ] Scoring rubrics finalised (Q20); second sources for flagged comparative scores
-- [ ] Scaffold the Next.js app (`TECH_STACK.md`), KB as versioned JSON + Zod; validation tests (schema, sources, fairness lint, stale facts, type-win coverage)
+- [x] Project set-up, KB as versioned JSON + Zod, validation tests (schema, sources, 5-or-1 evidence, stale facts, type-win coverage) for database and backend (2026-10-24); Next.js scaffold with the UI
+- [ ] Fairness lint (vendor-only comparative scores)
 
 ## Phase 2: Rule engine
 - [ ] Pure scoring: weights, two levels, rules, skills, stack assembly; test-first

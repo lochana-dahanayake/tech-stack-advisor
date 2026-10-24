@@ -11,3 +11,4 @@ Thumbs.db
 # Private material must never be committed
 lectures/
 private/
+*.tsbuildinfo

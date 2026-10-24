@@ -1,6 +1,6 @@
 # Testing Strategy
 
-Status: **draft (2026-10-23)**, Phase 0. Adapted from Architecture Advisor's `docs/TESTING_STRATEGY.md`.
+Status: **draft (2026-10-23)**, Phase 0. **In the repo since 2026-10-24:** KB tests (`tests/kb/`), engine unit and property tests, golden scenarios and the calibration snapshot (`tests/scoring/`), all run by `npm run check`. Adapted from Architecture Advisor's `docs/TESTING_STRATEGY.md`.
 
 Test pyramid: many fast unit tests on the KB and the engine, focused tests on the AI layer with mocked providers, a few end-to-end tests. No test calls a real AI provider or the network. Everything runs locally with `npm run check`; no CI server (decided Q25, same as the sibling's Q23).
 
@@ -15,6 +15,9 @@ Test pyramid: many fast unit tests on the KB and the engine, focused tests on th
 - **Stale facts:** `kb:stale` lists facts past their window (warning); the release gate fails at 2× the window or when a `support.until` date has passed (schema §9). The test gets "today" from the test runner, never from the engine.
 - **Release gate:** fails in production mode if any source has `reviewed: false`.
 - **Snapshot of the score matrix,** so any KB change is a visible diff.
+- **5 or 1 needs evidence** (owner, 2026-10-24): every score of 5 or 1 has a `book:` or `ref:` source; unsourced scores are 3, GK-only, and listed in a snapshot.
+- Every `book:`/`ref:` id appears in `references/INDEX.md`.
+- Negative tests: broken copies of the KB must be caught by the integrity checks.
 
 ## 2. Engine unit tests (`tests/scoring/`)
 | Area | Examples |
@@ -74,7 +77,7 @@ G10's graph win is allowed to be a close call. Database calibration (`KNOWLEDGE_
 
 Extra rule checks that don't need their own scenario (unit tests): K1 (commercial + free only → Vercel excluded), K1b (commercial e-commerce → GitHub Pages excluded), K7 (real-time → Netlify −15, Vercel note only), K9 (beta feature → −5 + note; −10 with lifespan 5+ or maturity High; off once the fact says GA), D9 (commercial e-commerce → `sqlite` −15; G9, non-commercial, unaffected), B1 (API only → no `fullstack`), D7 ("only simple lookups" → `key-value` #1), K3 (self-host → only `vps`), K6 (open-source only → `mongodb` excluded, PostgreSQL JSONB note shown), T5 (`goal: learn` with Java strong → Java's lead shrinks).
 
-**Status:** approved by the owner 2026-10-23 (Q24) with two changes: G3/K7 re-checked (Vercel WebSockets), G13 added. Planned for Phase 2. Inputs are written in full in Phase 2 (`tests/scoring/golden.ts`, with `npm run golden:print` for the top 5 per part). A calibration log in the KB draft records every run and any change made to pass a scenario, with sources. When a KB change breaks a golden test: stop and decide whether the change or the expectation is wrong, and record why.
+**Status:** approved by the owner 2026-10-23 (Q24) with two changes: G3/K7 re-checked (Vercel WebSockets), G13 added. **Inputs are written in full** in `tests/scoring/golden.ts` (2026-10-24); the database and backend expectations run now, the others arrive with their parts. Backend product expectations use a **stand-in** until stack assembly exists: the best product in the team's strongest language (`teamLanguagePick`). `npm run calibrate` prints every part's ranking; `tests/scoring/calibration.test.ts` pins those tables, so every number in the calibration log is reproducible from a command. A calibration log in the KB draft records every run and any change made to pass a scenario, with sources. When a KB change breaks a golden test: stop and decide whether the change or the expectation is wrong, and record why.
 
 ## 4. AI layer tests (`tests/ai/`, mocked providers)
 As in the sibling: schema (delta 0, 6, −7, 2.5; > 3 adjustments; unknown or excluded ids), JSON parsing (fences, prose, truncation), consistency (the explanation's stack must equal the stack **after** adjustments and re-assembly), clamping, sanitising, fallback chain with fake timers, prompt snapshot and token budget, cache, rate limit. New: an adjustment may target only options in the top 5 of their part; after adjustments the server re-runs stack assembly (the AI can't pick the stack directly).

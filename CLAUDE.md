@@ -36,6 +36,7 @@ This repo is built mostly in **Claude Code cloud sessions** (claude.ai/code). Re
 
 - Small, focused commits. Work on a feature branch, never push straight to `main`.
 - **Claude owns the whole PR flow:** open the PR and merge it yourself (merge commit) once checks pass and docs are updated. The owner does not review or merge PRs. (Same as Architecture Advisor, its Q27.)
-- Test first for engine logic. Run lint, typecheck and tests before every commit (once they exist).
+- Test first for engine logic. Run `npm run check` (lint, typecheck, format, tests with coverage) before every commit.
+- **Never merge a PR whose claims come from code that isn't in the repo** (owner, 2026-10-24). Numbers in docs (calibration tables, checks like "all 15,625 combinations") must be reproducible from a command in the repo; scratch scripts are for exploring, not evidence.
 - Plain language in user-facing text; define jargon briefly the first time.
 - Cloud sessions are short-lived: **push before you stop**, and leave a note in `docs/ROADMAP.md` ("Next up") so the next session can continue.

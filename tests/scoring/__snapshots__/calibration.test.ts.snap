@@ -1,0 +1,181 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`calibration tables > variant current 1`] = `
+"Variant: current: The KB as committed. KB 0.1.0.
+
+## database
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (D8) | — |
+| G2 E-commerce store, small team that knows Java | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, mysql 72.2, sqlite 61.4 |
+| G3 Real-time chat app | relational 69.4; document 65.6; graph 40.6; key-value 39.4 (close call: document) | postgresql 71.4, sqlite 69.6, mysql 60.7 |
+| G4 Data dashboard for a Python team | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
+| G5 Startup MVP that must ship in 4 weeks | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, mysql 66.7, sqlite 57.9 |
+| G6 Internal business app at a .NET company | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 78.6, sqlite 76.8, mysql 71.4 |
+| G7 Content site for an agency client, PHP team | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
+| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 57.1; graph 43.8 | postgresql 72.2, sqlite 70.8, mysql 66.7 |
+| G9 Beginner's hobby app (habit tracker) | relational 74.4; document 61.9; key-value 45.6; graph 40.6 | sqlite 84.6, postgresql 71.4, mysql 64.3 |
+| G10 Social app with friends-of-friends suggestions | graph 65.8; relational 62.5; key-value 42.5; document 40.8 (close call: relational) | neo4j 43.8 |
+| G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
+| G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
+| G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
+| P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
+| P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
+
+## backend
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (B0) | — |
+| G2 E-commerce store, small team that knows Java | batteries 70.8; minimal 54.2; fullstack 50.0 | spring-boot 82.9, aspnet-core 79.2, django 72.9; team language: spring-boot 82.9 |
+| G3 Real-time chat app | batteries 67.9; minimal 57.1; fullstack 42.9 | nestjs 82.7, aspnet-core 77.3, spring-boot 72.7; team language: nestjs 82.7 |
+| G4 Data dashboard for a Python team | batteries 65.0; minimal 60.0; fullstack 50.0 | django 73.9, aspnet-core 72.2, fastapi 71.7; team language: django 73.9 |
+| G5 Startup MVP that must ship in 4 weeks | fullstack 70.0; batteries 60.0; minimal 35.0 | aspnet-core 67.3, frontend-server 66.4, nestjs 63.2; team language: frontend-server 66.4 |
+| G6 Internal business app at a .NET company | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 87.3, spring-boot 72.7, django 70.5; team language: aspnet-core 87.3 |
+| G7 Content site for an agency client, PHP team | batteries 65.0; minimal 60.0; fullstack 50.0 | laravel 73.9, aspnet-core 72.2, nestjs 66.7; team language: laravel 73.9 |
+| G8 High-throughput REST API | minimal 68.2; batteries 61.4 | fastify 70.0, fastapi 63.3, aspnet-core 63.3; team language: gin 53.3 |
+| G9 Beginner's hobby app (habit tracker) | minimal 64.3; fullstack 57.1; batteries 53.6 | fastapi 73.2, fastify 68.2, aspnet-core 68.2; team language: fastapi 73.2 |
+| G10 Social app with friends-of-friends suggestions | batteries 65.0; minimal 60.0; fullstack 50.0 | nestjs 76.7, aspnet-core 72.2, fastify 71.7; team language: nestjs 76.7 |
+| G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 73.6, nestjs 68.2, aspnet-core 68.2; team language: spring-boot 73.6 |
+| G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 77.3, spring-boot 72.7, django 70.5; team language: aspnet-core 77.3 |
+| G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | nestjs 76.7, aspnet-core 72.2, fastify 71.7; team language: nestjs 76.7 |
+| P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, fastify 74.6, aspnet-core 68.2; team language: nestjs 78.2 |
+| P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | nestjs 76.7, aspnet-core 72.2, fastify 71.7; team language: nestjs 76.7 |
+| P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | fastify 68.2, aspnet-core 68.2, spring-boot 64.6; team language: fastify 68.2 |
+"
+`;
+
+exports[`calibration tables > variant draft 1`] = `
+"Variant: draft: Unsourced scores at their proposed (draft) values: the KB as drafted in PR #5 (session 3). KB 0.1.0.
+
+## database
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (D8) | — |
+| G2 E-commerce store, small team that knows Java | relational 92.5; graph 57.5; document 47.5; key-value 32.5 | postgresql 86.1, mysql 75.0, sqlite 61.4 |
+| G3 Real-time chat app | relational 69.4; document 65.6; key-value 58.1; graph 40.6 (close call: document) | postgresql 75.0, mysql 64.3, sqlite 62.5 |
+| G4 Data dashboard for a Python team | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G5 Startup MVP that must ship in 4 weeks | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, mysql 70.8, sqlite 57.9 |
+| G6 Internal business app at a .NET company | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 82.1, sqlite 76.8, mysql 75.0 |
+| G7 Content site for an agency client, PHP team | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 61.3; graph 43.8 | postgresql 75.0, mysql 69.4, sqlite 65.3 |
+| G9 Beginner's hobby app (habit tracker) | relational 74.4; document 61.9; key-value 51.9; graph 40.6 | sqlite 91.8, postgresql 75.0, mysql 67.9 |
+| G10 Social app with friends-of-friends suggestions | graph 65.8; relational 62.5; key-value 50.8; document 40.8 (close call: relational) | neo4j 43.8 |
+| G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 51.9; graph 40.6 (close call: relational) | mongodb 73.2 |
+| G12 Neutral input | relational 72.5; document 70.8; key-value 50.8; graph 45.8 (close call: document) | postgresql 82.1, sqlite 76.8, mysql 75.0 |
+| G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 45.6 | mongodb 73.2 |
+| P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 51.9; document 41.9 (close call: relational) | neo4j 41.1 |
+| P2 G13 without 'fields vary' | document 85.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 68.8 |
+| P3 Cache-only service (only simple lookups) | key-value 93.1; document 71.9; relational 65.6; graph 46.9 | redis 71.4, valkey 64.3 |
+
+## backend
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (B0) | — |
+| G2 E-commerce store, small team that knows Java | batteries 70.8; minimal 54.2; fullstack 50.0 | aspnet-core 95.8, spring-boot 95.4, django 77.1; team language: spring-boot 95.4 |
+| G3 Real-time chat app | batteries 67.9; minimal 57.1; fullstack 42.9 | aspnet-core 95.5, spring-boot 86.4, nestjs 82.7; team language: nestjs 82.7 |
+| G4 Data dashboard for a Python team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, django 79.4; team language: django 79.4 |
+| G5 Startup MVP that must ship in 4 weeks | fullstack 70.0; batteries 60.0; minimal 35.0 | aspnet-core 85.5, spring-boot 71.8, frontend-server 66.4; team language: frontend-server 66.4 |
+| G6 Internal business app at a .NET company | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 100.0, spring-boot 86.4, django 75.0; team language: aspnet-core 100.0 |
+| G7 Content site for an agency client, PHP team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, laravel 79.4; team language: laravel 79.4 |
+| G8 High-throughput REST API | minimal 68.2; batteries 61.4 | aspnet-core 96.7, gin 81.7, spring-boot 76.5; team language: gin 81.7 |
+| G9 Beginner's hobby app (habit tracker) | minimal 64.3; fullstack 57.1; batteries 53.6 | aspnet-core 86.4, express 75.0, fastapi 73.2; team language: fastapi 73.2 |
+| G10 Social app with friends-of-friends suggestions | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 96.4, aspnet-core 95.5, gin 69.6; team language: spring-boot 96.4 |
+| G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 86.4, django 75.0; team language: aspnet-core 95.5 |
+| G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | aspnet-core 95.5, spring-boot 86.4, nestjs 78.2; team language: nestjs 78.2 |
+| P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 95.5, spring-boot 78.2, gin 68.2; team language: aspnet-core 95.5 |
+"
+`;
+
+exports[`calibration tables > variant session2 1`] = `
+"Variant: session2: draft, plus D3 document −10 (not −30) and no D9: the database KB of session 2 (2026-10-23). KB 0.1.0.
+
+## database
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (D8) | — |
+| G2 E-commerce store, small team that knows Java | relational 92.5; graph 57.5; document 47.5; key-value 32.5 | postgresql 86.1, sqlite 76.4, mysql 75.0 |
+| G3 Real-time chat app | relational 69.4; document 65.6; key-value 58.1; graph 40.6 (close call: document) | postgresql 75.0, mysql 64.3, sqlite 62.5 |
+| G4 Data dashboard for a Python team | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G5 Startup MVP that must ship in 4 weeks | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G6 Internal business app at a .NET company | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 82.1, sqlite 76.8, mysql 75.0 |
+| G7 Content site for an agency client, PHP team | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 61.3; graph 43.8 | postgresql 75.0, mysql 69.4, sqlite 65.3 |
+| G9 Beginner's hobby app (habit tracker) | relational 74.4; document 61.9; key-value 51.9; graph 40.6 | sqlite 91.8, postgresql 75.0, mysql 67.9 |
+| G10 Social app with friends-of-friends suggestions | graph 65.8; relational 62.5; document 60.8; key-value 50.8 (close call: relational) | neo4j 43.8 |
+| G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 51.9; graph 40.6 (close call: relational) | mongodb 73.2 |
+| G12 Neutral input | relational 72.5; document 70.8; key-value 50.8; graph 45.8 (close call: document) | postgresql 82.1, sqlite 76.8, mysql 75.0 |
+| G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 45.6 | mongodb 73.2 |
+| P1 G10 + scalability High | document 61.9; graph 60.6; relational 59.4; key-value 51.9 (close call: graph) | mongodb 73.2 |
+| P2 G13 without 'fields vary' | document 85.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 68.8 |
+| P3 Cache-only service (only simple lookups) | key-value 93.1; document 71.9; relational 65.6; graph 46.9 | redis 71.4, valkey 64.3 |
+
+## backend
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (B0) | — |
+| G2 E-commerce store, small team that knows Java | batteries 70.8; minimal 54.2; fullstack 50.0 | aspnet-core 95.8, spring-boot 95.4, django 77.1; team language: spring-boot 95.4 |
+| G3 Real-time chat app | batteries 67.9; minimal 57.1; fullstack 42.9 | aspnet-core 95.5, spring-boot 86.4, nestjs 82.7; team language: nestjs 82.7 |
+| G4 Data dashboard for a Python team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, django 79.4; team language: django 79.4 |
+| G5 Startup MVP that must ship in 4 weeks | fullstack 70.0; batteries 60.0; minimal 35.0 | aspnet-core 85.5, spring-boot 71.8, frontend-server 66.4; team language: frontend-server 66.4 |
+| G6 Internal business app at a .NET company | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 100.0, spring-boot 86.4, django 75.0; team language: aspnet-core 100.0 |
+| G7 Content site for an agency client, PHP team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, laravel 79.4; team language: laravel 79.4 |
+| G8 High-throughput REST API | minimal 68.2; batteries 61.4 | aspnet-core 96.7, gin 81.7, spring-boot 76.5; team language: gin 81.7 |
+| G9 Beginner's hobby app (habit tracker) | minimal 64.3; fullstack 57.1; batteries 53.6 | aspnet-core 86.4, express 75.0, fastapi 73.2; team language: fastapi 73.2 |
+| G10 Social app with friends-of-friends suggestions | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 96.4, aspnet-core 95.5, gin 69.6; team language: spring-boot 96.4 |
+| G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 86.4, django 75.0; team language: aspnet-core 95.5 |
+| G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | aspnet-core 95.5, spring-boot 86.4, nestjs 78.2; team language: nestjs 78.2 |
+| P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 95.5, spring-boot 78.2, gin 68.2; team language: aspnet-core 95.5 |
+"
+`;
+
+exports[`calibration tables > variant session2-no-d0 1`] = `
+"Variant: session2-no-d0: session2 without rule D0: the run that motivated D0 (session 2, finding 3). KB 0.1.0.
+
+## database
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (D8) | — |
+| G2 E-commerce store, small team that knows Java | relational 92.5; graph 57.5; document 47.5; key-value 32.5 | postgresql 86.1, sqlite 76.4, mysql 75.0 |
+| G3 Real-time chat app | document 65.6; relational 59.4; key-value 58.1; graph 40.6 | mongodb 69.6 |
+| G4 Data dashboard for a Python team | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G5 Startup MVP that must ship in 4 weeks | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G6 Internal business app at a .NET company | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 82.1, sqlite 76.8, mysql 75.0 |
+| G7 Content site for an agency client, PHP team | relational 77.5; document 60.8; key-value 50.8; graph 45.8 | postgresql 79.2, sqlite 72.9, mysql 70.8 |
+| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 61.3; graph 43.8 | postgresql 75.0, mysql 69.4, sqlite 65.3 |
+| G9 Beginner's hobby app (habit tracker) | relational 74.4; document 61.9; key-value 51.9; graph 40.6 | sqlite 91.8, postgresql 75.0, mysql 67.9 |
+| G10 Social app with friends-of-friends suggestions | graph 65.8; relational 62.5; document 60.8; key-value 50.8 (close call: relational) | neo4j 43.8 |
+| G11 Microservices from Architecture Advisor | document 71.9; relational 59.4; key-value 51.9; graph 40.6 | mongodb 73.2 |
+| G12 Neutral input | document 70.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 69.6 |
+| G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 45.6 | mongodb 73.2 |
+| P1 G10 + scalability High | document 61.9; graph 60.6; relational 59.4; key-value 51.9 (close call: graph) | mongodb 73.2 |
+| P2 G13 without 'fields vary' | document 85.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 68.8 |
+| P3 Cache-only service (only simple lookups) | key-value 93.1; document 71.9; relational 65.6; graph 46.9 | redis 71.4, valkey 64.3 |
+
+## backend
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (B0) | — |
+| G2 E-commerce store, small team that knows Java | batteries 70.8; minimal 54.2; fullstack 50.0 | aspnet-core 95.8, spring-boot 95.4, django 77.1; team language: spring-boot 95.4 |
+| G3 Real-time chat app | batteries 67.9; minimal 57.1; fullstack 42.9 | aspnet-core 95.5, spring-boot 86.4, nestjs 82.7; team language: nestjs 82.7 |
+| G4 Data dashboard for a Python team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, django 79.4; team language: django 79.4 |
+| G5 Startup MVP that must ship in 4 weeks | fullstack 70.0; batteries 60.0; minimal 35.0 | aspnet-core 85.5, spring-boot 71.8, frontend-server 66.4; team language: frontend-server 66.4 |
+| G6 Internal business app at a .NET company | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 100.0, spring-boot 86.4, django 75.0; team language: aspnet-core 100.0 |
+| G7 Content site for an agency client, PHP team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, laravel 79.4; team language: laravel 79.4 |
+| G8 High-throughput REST API | minimal 68.2; batteries 61.4 | aspnet-core 96.7, gin 81.7, spring-boot 76.5; team language: gin 81.7 |
+| G9 Beginner's hobby app (habit tracker) | minimal 64.3; fullstack 57.1; batteries 53.6 | aspnet-core 86.4, express 75.0, fastapi 73.2; team language: fastapi 73.2 |
+| G10 Social app with friends-of-friends suggestions | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 96.4, aspnet-core 95.5, gin 69.6; team language: spring-boot 96.4 |
+| G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 86.4, django 75.0; team language: aspnet-core 95.5 |
+| G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | aspnet-core 95.5, spring-boot 86.4, nestjs 78.2; team language: nestjs 78.2 |
+| P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 95.5, spring-boot 78.2, gin 68.2; team language: aspnet-core 95.5 |
+"
+`;

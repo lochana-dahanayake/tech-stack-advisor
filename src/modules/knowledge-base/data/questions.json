@@ -1,0 +1,163 @@
+[
+  {
+    "id": "app-kind",
+    "text": "What are you building?",
+    "kind": "single",
+    "options": [
+      "content-site",
+      "portfolio",
+      "web-app",
+      "api-only",
+      "e-commerce",
+      "internal-tool",
+      "mobile-backend",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "traffic",
+    "text": "Expected users and growth",
+    "kind": "single",
+    "options": [
+      "tiny",
+      "small",
+      "growing",
+      "large",
+      "spiky",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "data-shape",
+    "text": "What does your data look like?",
+    "kind": "single",
+    "options": [
+      "linked",
+      "documents",
+      "connected",
+      "lookups",
+      "none",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "data-flags",
+    "text": "Extra data facts",
+    "kind": "multi",
+    "options": [
+      "fields-vary",
+      "money",
+      "single-user"
+    ]
+  },
+  {
+    "id": "real-time",
+    "text": "Live updates needed?",
+    "kind": "single",
+    "options": [
+      "yes",
+      "no",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "seo",
+    "text": "Must pages be found by search engines?",
+    "kind": "single",
+    "options": [
+      "yes",
+      "no",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "team-size",
+    "text": "Team size",
+    "kind": "single",
+    "options": [
+      "solo",
+      "2-5",
+      "6-15",
+      "16-plus",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "experience",
+    "text": "Team experience",
+    "kind": "single",
+    "options": [
+      "beginner",
+      "some",
+      "experienced",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "budget",
+    "text": "Monthly budget for running it",
+    "kind": "single",
+    "options": [
+      "free-only",
+      "small-paid",
+      "moderate",
+      "comfortable",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "deadline",
+    "text": "Deadline",
+    "kind": "single",
+    "options": [
+      "very-tight",
+      "tight",
+      "relaxed",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "lifespan",
+    "text": "How long will it live?",
+    "kind": "single",
+    "options": [
+      "prototype",
+      "1-3-years",
+      "5-plus-years",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "commercial",
+    "text": "Is this a commercial project?",
+    "kind": "single",
+    "options": [
+      "yes",
+      "no",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "hosting-rule",
+    "text": "Hosting constraint",
+    "kind": "single",
+    "options": [
+      "none",
+      "self-host",
+      "aws",
+      "azure",
+      "gcp",
+      "not-sure"
+    ]
+  },
+  {
+    "id": "open-source-only",
+    "text": "Only OSI open-source licences?",
+    "kind": "single",
+    "options": [
+      "yes",
+      "no",
+      "not-sure"
+    ]
+  }
+]

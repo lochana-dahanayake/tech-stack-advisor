@@ -1,6 +1,6 @@
 # Scoring Engine
 
-Status: **draft (2026-10-23)**, Phase 0. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
+Status: **draft (2026-10-23)**, Phase 0. **Steps 1–5 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (database, backend); stack assembly (step 6) comes with the language part. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
 
 `score(input, kb) → StackResult` is a pure TypeScript function: no network, no clock, no randomness, no global state, no React/Next imports. Same input, same output. It runs in the browser (instant result) and on the server (trusted copy for the AI prompt), as in sibling ADR-004.
 
@@ -32,7 +32,7 @@ interface UserInput {
   notes: string;                                   // ≤ 1,000 chars; AI only, never read by the engine
 }
 ```
-Validation: unknown ids rejected; at least one criterion at High or Critical **or** an app kind other than "Not sure" (otherwise there's nothing to rank on); more than 3 Critical → warning; a locked option that a rule would exclude → kept, with a warning ("You chose Vercel; for a commercial project it needs the paid plan").
+Rules run in two passes: first every rule whose condition doesn't read `weight.*` (these set the floors), then the rules that read effective weights (they can't set floors). Validation: unknown ids rejected; at least one criterion at High or Critical **or** an app kind other than "Not sure" (otherwise there's nothing to rank on); more than 3 Critical → warning; a locked option that a rule would exclude → kept, with a warning ("You chose Vercel; for a commercial project it needs the paid plan").
 
 ## Step 2: Effective weights
 Exactly as the sibling: `none 0, low 1, medium 2, high 3, critical 5`.
@@ -53,7 +53,7 @@ final[t] = clamp(base[t] + clamp(Σ rule points[t], −30, +30), 0, 100)
 ```
 If every applicable weight is 0 (all set to "none"), `base` is 50 for every option, so only rules decide. Excluded types are removed. The **chosen type** is the highest `final[t]` (tie-break: `base` → KB order). If a locked product exists, its type is chosen.
 
-**Close call:** if the runner-up type is within `closeCallPoints` (5) of the winner, the result says "either works" and shows both groups of products. The chosen type is still the higher one.
+**Close call:** if the runner-up type is less than `closeCallPoints` (5) behind the winner, the result says "either works" and shows both groups of products. The chosen type is still the higher one.
 
 Why types first: the sibling's v1.1 lesson (its Q30). A weighted average over many criteria favours whichever option is decent at everything. Deciding the category from the situation first (data shape, app kind, constraints) keeps a strong product of the *wrong* type from winning.
 

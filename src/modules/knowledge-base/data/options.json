@@ -1,0 +1,3252 @@
+[
+  {
+    "id": "database-none",
+    "part": "database",
+    "level": "type",
+    "name": "No database",
+    "summary": "Nothing is stored, so no database is needed.",
+    "status": "active",
+    "none": true,
+    "scores": {},
+    "facts": []
+  },
+  {
+    "id": "relational",
+    "part": "database",
+    "level": "type",
+    "name": "Relational (SQL)",
+    "summary": "Tables with relationships, queried with SQL.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "SQL and schema design take some learning",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Fast for typical lookups and joins with indexes",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Usually scales up one machine first; scaling out needs extra work",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Some products can push changes (e.g. PostgreSQL LISTEN/NOTIFY)",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "mpg17"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 5,
+        "why": "Multi-record transactions and constraints are central to the model",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.7"
+          },
+          {
+            "kind": "book",
+            "ref": "sixstep",
+            "locator": "ch.1"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 3,
+        "why": "Schema-on-write, but JSON columns allow varying fields",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          },
+          {
+            "kind": "book",
+            "ref": "mpg17"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "document",
+    "part": "database",
+    "level": "type",
+    "name": "Document",
+    "summary": "Self-contained documents (JSON-like) loaded as a whole.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Documents look like the objects in your code",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 4,
+        "why": "A whole document is read in one go (locality)",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Built-in sharding is common in this category",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.6"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Depends on the product",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 3,
+        "why": "One document is updated atomically; no foreign keys in the model",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          },
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.7"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 5,
+        "why": "Schema-on-read: items can have different fields",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "key-value",
+    "part": "database",
+    "level": "type",
+    "name": "Key-value",
+    "summary": "Values looked up by a key, often kept in memory.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Few concepts: get and set by key",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 5,
+        "why": "In-memory stores answer lookups very fast",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Keys spread easily across machines",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Many key-value stores have publish/subscribe (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "pub/sub as a category feature"
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "data-integrity": {
+        "value": 2,
+        "why": "In-memory stores with asynchronous disk writes can lose recent writes on a crash",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 3,
+        "why": "Values are opaque; structure is up to the app",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [],
+    "coverageExempt": {
+      "reason": "Mainly a secondary store: no v1 app kind is one where a neutral senior developer keeps all the app's data in a key-value store (recent writes can be lost on a crash, no queries beyond the key). Its honest uses (cache, sessions, rate limits, queues, pub/sub) sit next to a main database. Rule D7 still lets it win for 'only simple lookups'.",
+      "sources": [
+        {
+          "kind": "book",
+          "ref": "ddia",
+          "locator": "ch.3"
+        },
+        {
+          "kind": "design",
+          "note": "owner decision Q27, 2026-10-24",
+          "reviewed": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "graph",
+    "part": "database",
+    "level": "type",
+    "name": "Graph",
+    "summary": "Nodes and relationships, for highly connected data.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Needs a new query language such as Cypher",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Fast at following relationships, average otherwise",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 2,
+        "why": "Hard to split a connected graph across machines",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 2,
+        "why": "Rarely a built-in strength",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 4,
+        "why": "Graph products usually offer transactions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 4,
+        "why": "Easy to add new kinds of nodes and relationships",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "postgresql",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "relational"
+    ],
+    "name": "PostgreSQL",
+    "summary": "Open-source relational database with strong SQL, transactions and JSON support.",
+    "status": "active",
+    "licence": {
+      "spdx": "PostgreSQL",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "COPYRIGHT in postgres/postgres"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Standard SQL; many features to learn over time",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Fast for typical web workloads with indexes",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Replication built in; scaling writes out needs extensions or sharding tools",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "mpg17"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "LISTEN/NOTIFY and logical replication can push changes",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "mpg17"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 5,
+        "why": "Full transactions and constraints; detects lost updates at repeatable read",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "mpg17"
+          },
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.7"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 4,
+        "why": "JSONB stores and indexes documents",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "mpg17"
+          },
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Drivers and ORMs for every major language; many managed hosts (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 5,
+        "why": "Stack Overflow 2026: 57.9% usage (rubric: ≥ 40% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Decades in production; 18 supported to 2030-11",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 5,
+        "why": "PostgreSQL licence: free to use",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "A server to run, back up and upgrade",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "portability": {
+        "value": 5,
+        "why": "OSI licence, standard SQL",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Current major: 18 (18.6)",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": "PostgreSQL 18 supported until 2030-11",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "until": "2030-11-14"
+      },
+      {
+        "id": "usage",
+        "kind": "usage",
+        "text": "Stack Overflow 2026: 57.9% usage, most admired (62.3%)",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mysql",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "relational"
+    ],
+    "name": "MySQL",
+    "summary": "Widely used open-source relational database.",
+    "status": "active",
+    "licence": {
+      "spdx": "GPL-2.0-only",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "LICENSE in mysql/mysql-server (Community, 26.10.0)"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Standard SQL",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Fast for typical web workloads",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Replication built in",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 2,
+        "why": "Change capture needs binlog tools",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 4,
+        "why": "Transactions with InnoDB; repeatable read doesn't detect lost updates",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.7"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 3,
+        "why": "JSON column type",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Drivers, ORMs and hosts everywhere (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 4,
+        "why": "Stack Overflow 2026: 35.1% usage (rubric: 20–40% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Decades in production; 9.7 is an LTS release",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Community edition under GPLv2: free to use",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "A server to run, back up and upgrade",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "portability": {
+        "value": 5,
+        "why": "OSI licence, standard SQL",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "9.7 LTS; newest tag 26.10.0 (year.month numbering)",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          },
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sqlite",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "relational"
+    ],
+    "name": "SQLite",
+    "summary": "A database in one file, built into your app as a library.",
+    "status": "active",
+    "licence": {
+      "spdx": "blessing",
+      "osi": false,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "LICENSE.md in sqlite/sqlite: public domain"
+        }
+      ],
+      "publicDomain": true
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "No server to set up: the database is one file (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "verify with sqlite.org"
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "performance": {
+        "value": 4,
+        "why": "Fast for reads on one machine",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "One writer at a time on one machine (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "verify with sqlite.org 'Appropriate uses' (Q21)"
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 1
+      },
+      "real-time": {
+        "value": 3,
+        "why": "No built-in way to push changes to listeners (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "verify with sqlite.org"
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 1
+      },
+      "data-integrity": {
+        "value": 4,
+        "why": "Transactions; one writer at a time",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 3,
+        "why": "JSON functions available",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Bindings for every language",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "community": {
+        "value": 5,
+        "why": "Stack Overflow 2026: 42.1% usage (rubric: ≥ 40% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Decades in production",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Public domain: free to use",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "Nothing to run; back up by copying a file (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "verify with sqlite.org"
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "portability": {
+        "value": 5,
+        "why": "Public domain; one portable file",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "3.54.1",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mongodb",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "document"
+    ],
+    "name": "MongoDB",
+    "summary": "The most used document database.",
+    "status": "active",
+    "licence": {
+      "spdx": "SSPL-1.0",
+      "osi": false,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "LICENSE-Community.txt in mongodb/mongo"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Documents look like app objects",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Fast whole-document reads",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 5,
+        "why": "Built-in sharding",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.6"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Change streams push changes",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "verify in mdb-docs"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 4,
+        "why": "Multi-document transactions since 4.0 (replica sets) / 4.2 (sharded)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "mdb-docs",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 5,
+        "why": "Schema-on-read",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Drivers for all major languages; Mongoose for Node",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "community": {
+        "value": 3,
+        "why": "Stack Overflow 2026: 19.0% usage (rubric: 10–20% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "In production since 2009",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Free Community edition; SSPL limits offering it as a service",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "A server or cluster to run",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "portability": {
+        "value": 2,
+        "why": "SSPL is not OSI open source; own query language",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "9.0.4 (2026-09-30)",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "redis",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "key-value"
+    ],
+    "name": "Redis",
+    "summary": "In-memory key-value store with data structures.",
+    "status": "active",
+    "licence": {
+      "spdx": "LicenseRef-RSALv2 OR SSPL-1.0 OR AGPL-3.0-only",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "LICENSE.txt in redis/redis: choice of RSALv2, SSPLv1 or AGPLv3"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Simple commands",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 5,
+        "why": "In-memory: very fast lookups",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Cluster mode spreads keys",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Pub/sub built in (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "data-integrity": {
+        "value": 2,
+        "why": "Asynchronous disk writes can lose recent writes",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 3,
+        "why": "Values hold data structures, not documents",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Clients for every language",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "community": {
+        "value": 4,
+        "why": "Stack Overflow 2026: 28.3% usage (rubric: 20–40% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Long production record",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Free; memory is the main cost",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "A server to run",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "portability": {
+        "value": 3,
+        "why": "Redis 8: RSALv2, SSPLv1 or AGPLv3 (AGPL is OSI)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "8.10",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "valkey",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "key-value"
+    ],
+    "name": "Valkey",
+    "summary": "Linux Foundation fork of Redis 7.2, BSD licence.",
+    "status": "active",
+    "licence": {
+      "spdx": "BSD-3-Clause",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "COPYING in valkey-io/valkey"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Same commands as Redis",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 5,
+        "why": "In-memory: very fast lookups",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Cluster mode",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Pub/sub built in (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "data-integrity": {
+        "value": 2,
+        "why": "Asynchronous disk writes can lose recent writes",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 3,
+        "why": "Values hold data structures",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Works with Redis clients",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "community": {
+        "value": 3,
+        "why": "Not listed in the survey results found so far (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "placeholder until a survey lists it"
+          }
+        ],
+        "checked": "2026-10-23",
+        "unsourced": true,
+        "proposed": 1
+      },
+      "maturity": {
+        "value": 3,
+        "why": "Fork since 2024",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Free; memory is the main cost",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "A server to run",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "portability": {
+        "value": 4,
+        "why": "BSD-3 licence",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "9.1.2; 9.1 supported to 2031-05",
+        "checked": "2026-10-23",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "neo4j",
+    "part": "database",
+    "level": "product",
+    "types": [
+      "graph"
+    ],
+    "name": "Neo4j",
+    "summary": "The best-known graph database, queried with Cypher.",
+    "status": "active",
+    "licence": {
+      "spdx": "GPL-3.0-only",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "db-repos",
+          "quality": "P",
+          "note": "LICENSE.txt in neo4j/neo4j (Community)"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Cypher is a new query language",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Fast traversals",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "scalability": {
+        "value": 2,
+        "why": "Scaling out a graph is hard",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "real-time": {
+        "value": 2,
+        "why": "No built-in change push in Community",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "data-integrity": {
+        "value": 4,
+        "why": "ACID transactions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "schema-flexibility": {
+        "value": 4,
+        "why": "Flexible to evolve",
+        "sources": [
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Drivers for major languages",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "community": {
+        "value": 1,
+        "why": "Stack Overflow 2026: 2.8% usage (rubric: < 4% → 1)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "S",
+            "note": "2026 survey, databases question; numbers from search snippets"
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "In production since 2010",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Community edition free",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "A server to run",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-23"
+      },
+      "portability": {
+        "value": 2,
+        "why": "GPLv3 Community; Cypher less standard than SQL",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-23"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "backend-none",
+    "part": "backend",
+    "level": "type",
+    "name": "No backend",
+    "summary": "Pages can be built ahead of time; nothing has to run on a server.",
+    "status": "active",
+    "none": true,
+    "scores": {},
+    "facts": []
+  },
+  {
+    "id": "fullstack",
+    "part": "backend",
+    "level": "type",
+    "name": "The frontend framework's server",
+    "summary": "API routes and server code inside Next.js, Nuxt, SvelteKit or Astro.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Nothing new to learn if you know the frontend framework",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 3,
+        "why": "Few building blocks built in, but one project and no API contract to keep in sync",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "one-codebase credit",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Rendering and API share one process",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Deployed and scaled together with the frontend",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 2,
+        "why": "Next.js and SvelteKit document no WebSocket server; Nuxt's Nitro has one",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "minimal",
+    "part": "backend",
+    "level": "type",
+    "name": "Minimal API framework",
+    "summary": "Small frameworks: routing and middleware; you add the rest.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Few concepts",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 2,
+        "why": "1–3 building blocks built in (rubric)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Little work per request",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "TechEmpower blocked"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Stateless servers scale out",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Mixed: FastAPI built in, Fastify plugin, Express and Gin third-party",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "batteries",
+    "part": "backend",
+    "level": "type",
+    "name": "Batteries-included framework",
+    "summary": "ORM, auth, validation, structure and more built in.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "More to learn up front: dependency injection, conventions, an ORM",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 5,
+        "why": "5–8 building blocks built in or first-party (rubric)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "More work per request than minimal frameworks",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Stateless servers scale out",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "First-party WebSockets in most products",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "frontend-server",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "fullstack"
+    ],
+    "name": "Frontend framework server",
+    "summary": "Next.js route handlers, Nuxt/Nitro server routes, SvelteKit endpoints, Astro endpoints.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "npm metadata (Next.js, Nuxt, SvelteKit)"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Same project and language as the frontend",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 3,
+        "why": "Few built-in blocks; one codebase (DESIGN credit)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "one-codebase credit",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Node.js runtime",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Scaled with the frontend",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 2,
+        "why": "No WebSocket server in Next.js or SvelteKit; Nitro (Nuxt) has one",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "npm ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 5,
+        "why": "Next.js: 20.8% usage in 2025 (backend rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Next.js 1.0 2016; server APIs newer (2023)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript-first frameworks",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "express",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "minimal"
+    ],
+    "name": "Express",
+    "summary": "The classic minimal Node.js web framework.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "npm"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Tiny API: routes and middleware (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "productivity": {
+        "value": 2,
+        "why": "Built in: routing, middleware, views (rubric: 1 → 2)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Node.js; not the fastest Node framework",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Stateless; scale out",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 2,
+        "why": "No WebSockets built in; use ws or Socket.IO",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "The largest set of Node.js middleware (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 5,
+        "why": "19.9% usage in 2025 (rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "1.0 in 2010; v4 and v5 under security support",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "Written for JavaScript; types via @types",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "fastify",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "minimal"
+    ],
+    "name": "Fastify",
+    "summary": "Fast, schema-based Node.js web framework.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "npm"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Small API plus plugins",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 2,
+        "why": "Validation, logging; official view and JWT plugins (rubric: ~2.5 → 2)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Designed for low overhead",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Stateless; scale out",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Official @fastify/websocket plugin",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Official plugin ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 3,
+        "why": "Not found in the 2025 survey numbers (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "placeholder"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 2
+      },
+      "maturity": {
+        "value": 4,
+        "why": "1.0 in 2018; published LTS policy",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "Types ship with the framework",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "fastapi",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "minimal"
+    ],
+    "name": "FastAPI",
+    "summary": "Python API framework built on type hints.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "LICENSE in fastapi/fastapi"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Type hints drive validation and docs",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 3,
+        "why": "Validation, OpenAPI, DI, security helpers, background tasks (rubric: ~3 → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Async Python",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Async; scale out with workers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "WebSockets built in",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Python ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 4,
+        "why": "14.8% usage in 2025 (rubric: 10–15% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 3,
+        "why": "Still 0.x since 2018, but widely used",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "Type hints are central to the framework",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "gin",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "minimal"
+    ],
+    "name": "Gin",
+    "summary": "Minimal Go web framework.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "LICENSE in gin-gonic/gin"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Needs Go",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 2,
+        "why": "Binding/validation and HTML templates (rubric: 2 → 2)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Compiled Go; high throughput (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "TechEmpower blocked"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Uses all cores in one process (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "real-time": {
+        "value": 2,
+        "why": "No WebSockets built in; gorilla/websocket",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Smaller web ecosystem than Node or Python",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 3,
+        "why": "Not found in the 2025 survey numbers (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "placeholder"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 2
+      },
+      "maturity": {
+        "value": 4,
+        "why": "v1 since 2016; no published support policy",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "Go's compiler checks types (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "source with the language part (Part 3)"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "nestjs",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "batteries"
+    ],
+    "name": "NestJS",
+    "summary": "Structured Node.js framework (modules, dependency injection).",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "npm"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Decorators, modules, dependency injection",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "First-party ORM, auth, jobs, CLI generators (rubric: ~5 → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Runs on Express by default",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Stateless; scale out",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 5,
+        "why": "Gateways with socket.io and ws adapters in the core repo",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "npm ecosystem plus first-party modules",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "community": {
+        "value": 3,
+        "why": "Not found in the 2025 survey numbers (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "placeholder"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 3
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Since 2017; no published support policy",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript-first",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "django",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "batteries"
+    ],
+    "name": "Django",
+    "summary": "Python framework with admin, auth and ORM built in.",
+    "status": "active",
+    "licence": {
+      "spdx": "BSD-3-Clause",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "PyPI"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Much to learn, very good tutorial",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 5,
+        "why": "ORM, migrations, auth, forms, admin, templates, tasks, generators (rubric: 8 → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 2,
+        "why": "Synchronous Python by default",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Scale out with more processes",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Channels: a separate official project",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Large package ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 4,
+        "why": "12.6% usage in 2025 (rubric: 10–15% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "1.0 in 2008; LTS releases",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "Python type hints optional; the framework doesn't rely on them",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "spring-boot",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "batteries"
+    ],
+    "name": "Spring Boot",
+    "summary": "Java/Kotlin framework with starters for data, security and more.",
+    "status": "active",
+    "licence": {
+      "spdx": "Apache-2.0",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "LICENSE.txt in spring-projects/spring-boot"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Large framework: DI, annotations, many modules",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Starters for JPA, Flyway, security, validation, Thymeleaf (rubric: ~5.5 → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 4,
+        "why": "JVM; fast once warm",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Multi-threaded JVM uses all cores (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "real-time": {
+        "value": 5,
+        "why": "WebSocket starter with STOMP messaging",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "The Spring ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 4,
+        "why": "14.7% usage in 2025 (rubric: 10–15% → 4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "1.0 in 2014; OSS support per minor",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "Java's compiler checks types (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "source with the language part (Part 3)"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "laravel",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "batteries"
+    ],
+    "name": "Laravel",
+    "summary": "PHP framework with ORM, queues, auth and generators.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "LICENSE.md in laravel/framework"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Clear docs; many features",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 5,
+        "why": "Eloquent, migrations, auth, validation, Blade, queues, Artisan (rubric: 7 → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 2,
+        "why": "PHP per request",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Scale out with more processes",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "real-time": {
+        "value": 5,
+        "why": "Broadcasting in core plus the first-party Reverb server",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Large first-party and community ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 3,
+        "why": "8.9% usage in 2025 (rubric: 5–10% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "Since 2011; published support policy",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "PHP type declarations, checked at runtime",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "aspnet-core",
+    "part": "backend",
+    "level": "product",
+    "types": [
+      "minimal",
+      "batteries"
+    ],
+    "name": "ASP.NET Core",
+    "summary": "Microsoft's C# web framework: minimal APIs or full MVC.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fw-repos",
+          "quality": "P",
+          "note": "LICENSE.txt in dotnet/aspnetcore"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Minimal APIs are easy; full MVC has more to learn",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "productivity": {
+        "value": 5,
+        "why": "EF Core, migrations, Identity, validation, Razor, hosted services, templates (rubric: 7 → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "performance": {
+        "value": 3,
+        "why": "High throughput (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "TechEmpower blocked"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Uses all cores in one process (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "real-time": {
+        "value": 5,
+        "why": "SignalR in the framework repo",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "The .NET ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 5,
+        "why": "19.7% usage in 2025 (rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey-2025",
+            "quality": "S",
+            "note": "2025 survey, web frameworks; numbers from secondary write-ups"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "1.0 in 2016; .NET 10 LTS to 2028-11",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo"
+          }
+        ],
+        "checked": "2026-10-24"
+      },
+      "type-safety": {
+        "value": 3,
+        "why": "C#'s compiler checks types (Unsourced: held at 3 until a non-GK source is found.)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false,
+            "note": "source with the language part (Part 3)"
+          }
+        ],
+        "checked": "2026-10-24",
+        "unsourced": true,
+        "proposed": 5
+      }
+    },
+    "facts": []
+  }
+]

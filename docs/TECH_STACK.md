@@ -17,6 +17,8 @@ Decided 2026-10-23 (Q8): **the same stack as Architecture Advisor**, so its engi
 | Checks | `npm run check` locally, **no CI server** (decided Q25) | – | lint, typecheck, format, fitness, tests incl. KB and golden |
 | Hosting | **Vercel Hobby** | – | Free, preview per push. **Non-commercial only**, fine because the app stays non-commercial |
 
+**Set up so far (2026-10-24):** `package.json` with the sibling's scripts (`lint`, `typecheck`, `test`, `coverage`, `format:check`, `check`, `kb:release-gate`) plus `calibrate` (runs `scripts/calibrate.ts` with `tsx`). ESLint uses `typescript-eslint` instead of `eslint-config-next` until Next.js is added (Phase 3), and keeps the sibling's purity rule for the engine and KB modules. TypeScript 5.x, pinned like the sibling. dependency-cruiser comes with the app modules.
+
 ## Free-tier limits that matter
 Same picture as the sibling: one serverless function (`/api/explain`) taking ~1–15 s per call, far below Vercel Hobby's caps (RESEARCH §4: secondary sources, Q21). AI quota is the scarce resource, handled by caching identical requests, rate limits and the rules-only fallback (sibling `AI_INTEGRATION.md` §7–8).
 

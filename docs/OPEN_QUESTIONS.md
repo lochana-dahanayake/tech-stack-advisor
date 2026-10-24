@@ -6,7 +6,7 @@ Product decisions belong to the owner. Claude: add new questions here instead of
 
 | # | Question | Recommendation and reason |
 |---|---|---|
-| — | Nothing open right now. | — |
+| Q28 | **SQLite is public domain, which isn't an OSI-approved licence.** Should the "open-source licences only" constraint (K6) allow it? | **Allow it**: public domain has no restrictions at all, which is what the constraint is for. The KB stores it as `osi: false, publicDomain: true`, so the badge can say "public domain" instead of a wrong "OSI: yes". K6 isn't in the JSON yet (hosting rules come with Part 5). |
 
 ## Open: delegated to Claude (no answer needed unless you disagree)
 

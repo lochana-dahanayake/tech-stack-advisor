@@ -1,0 +1,40 @@
+{
+  "kbVersion": "0.1.0",
+  "scale": {
+    "min": 1,
+    "max": 5
+  },
+  "levels": {
+    "none": 0,
+    "low": 1,
+    "medium": 2,
+    "high": 3,
+    "critical": 5
+  },
+  "caps": {
+    "rules": 30,
+    "skillsMin": -10,
+    "skillsMax": 25,
+    "stackPairBonus": 6,
+    "ai": 5
+  },
+  "closeCallPoints": 5,
+  "staleAfterDays": {
+    "pricing": 90,
+    "release-status": 90,
+    "version": 180,
+    "support": 180,
+    "licence": 365,
+    "ownership": 365,
+    "usage": 365,
+    "score": 365
+  },
+  "languageIds": [
+    "typescript-node",
+    "python",
+    "java",
+    "csharp",
+    "go",
+    "php"
+  ]
+}

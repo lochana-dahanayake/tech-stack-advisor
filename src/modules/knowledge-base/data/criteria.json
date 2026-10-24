@@ -1,0 +1,135 @@
+[
+  {
+    "id": "learning-curve",
+    "name": "Easy to learn",
+    "short": "How fast a beginner gets productive",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "productivity",
+    "name": "Fast to build with",
+    "short": "Built-in features, conventions, generators",
+    "appliesTo": [
+      "backend"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "performance",
+    "name": "Performance",
+    "short": "Speed per request under normal load",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "scalability",
+    "name": "Scalability",
+    "short": "Handles much more traffic or data by adding resources",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "real-time",
+    "name": "Real-time support",
+    "short": "Live updates (chat, notifications) via WebSockets or similar",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "ecosystem",
+    "name": "Ecosystem and libraries",
+    "short": "Ready-made packages, integrations, tooling",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "community",
+    "name": "Community and hiring",
+    "short": "Size of user base, answers online, people you can hire",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "maturity",
+    "name": "Maturity and long-term support",
+    "short": "Track record, stable releases, clear support windows",
+    "appliesTo": [
+      "backend",
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "type-safety",
+    "name": "Type safety",
+    "short": "Mistakes caught before the code runs",
+    "appliesTo": [
+      "backend"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "data-integrity",
+    "name": "Data integrity",
+    "short": "Transactions, constraints, consistency (important for money)",
+    "appliesTo": [
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "schema-flexibility",
+    "name": "Flexible data structure",
+    "short": "Store items with varying fields without migrations",
+    "appliesTo": [
+      "database"
+    ],
+    "visibility": "advanced"
+  },
+  {
+    "id": "cost",
+    "name": "Low running cost",
+    "short": "Licence and hosting cost at small-to-medium scale",
+    "appliesTo": [
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "ops-effort",
+    "name": "Low operations work",
+    "short": "Little to configure, patch, back up and monitor yourself",
+    "appliesTo": [
+      "database"
+    ],
+    "visibility": "default"
+  },
+  {
+    "id": "portability",
+    "name": "Easy to move away",
+    "short": "Low vendor lock-in; standard formats and tools",
+    "appliesTo": [
+      "database"
+    ],
+    "visibility": "advanced"
+  }
+]
