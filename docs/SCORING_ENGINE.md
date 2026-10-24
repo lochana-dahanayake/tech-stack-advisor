@@ -51,7 +51,7 @@ avg[t]  = Σ_{c∈C_p} w[c]·x[t][c] / Σ_{c∈C_p} w[c]       (1–5)
 base[t] = (avg[t] − 1) / 4 × 100                          (0–100)
 final[t] = clamp(base[t] + clamp(Σ rule points[t], −30, +30), 0, 100)
 ```
-Excluded types are removed. The **chosen type** is the highest `final[t]` (tie-break: `base` → KB order). If a locked product exists, its type is chosen.
+If every applicable weight is 0 (all set to "none"), `base` is 50 for every option, so only rules decide. Excluded types are removed. The **chosen type** is the highest `final[t]` (tie-break: `base` → KB order). If a locked product exists, its type is chosen.
 
 **Close call:** if the runner-up type is within `closeCallPoints` (5) of the winner, the result says "either works" and shows both groups of products. The chosen type is still the higher one.
 
@@ -118,7 +118,7 @@ Fit labels as in the sibling: ≥ 75 strong · 60–74.9 good · 45–59.9 possi
 | Django | 64 | 0 | 0 | 64 |
 | NestJS | 61 | 0 | 0 | 61 |
 
-**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel could only run Spring Boot through its container runtime (beta, −5 from K9) and needs the paid plan for commercial use (K2 note); the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
+**Language:** Java gets +20 from T1, so it leads. **Hosting:** Vercel could only run Spring Boot through its container runtime (beta: −10 from K9, because lifespan 5+ raises maturity to High) and needs the paid plan for commercial use (K2 note); the stack picks a PaaS or cloud product. The result page shows "Spring Boot: base 62, team skill +10, final 72", so the user sees exactly how much their Java skills counted.
 
 ## Determinism and safety properties (tested)
 1. Same input ⇒ deep-equal output.

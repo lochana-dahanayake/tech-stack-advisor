@@ -1,6 +1,6 @@
 # Knowledge Base Schema
 
-Status: **draft (2026-10-23)**, Phase 0. Owner answers of 2026-10-23 applied (Q2–Q19, Q24, Q25 decided); open: Q26. Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
+Status: **draft (2026-10-23)**, Phase 0. Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
 
 The KB is a set of JSON files in the repo, validated with **Zod** (a TypeScript library that checks data against a schema) at build time and in tests. It has a semantic `kbVersion`; every result records the version it was computed with (same as sibling ADR-003).
 
@@ -48,7 +48,8 @@ A **part** is one slot in the stack. Each part has one or two levels. Level 1 op
     "help": "The main language for server-side code. Browser code is always JavaScript or TypeScript." },
   { "id": "frontend", "name": "Frontend", "levels": ["type", "product"],
     "typeLabel": "Approach", "productLabel": "Framework" },
-  { "id": "backend",  "name": "Backend",  "levels": ["type", "product"] },
+  { "id": "backend",  "name": "Backend",  "levels": ["type", "product"],
+    "typeCriteria": ["learning-curve", "productivity", "performance", "scalability", "real-time"] },
   { "id": "database", "name": "Database", "levels": ["type", "product"],
     "typeCriteria": ["learning-curve", "performance", "scalability", "real-time", "data-integrity", "schema-flexibility"] },
   { "id": "hosting",  "name": "Hosting",  "levels": ["type", "product"] }
@@ -130,7 +131,7 @@ Validation rules (integrity checks, like the sibling's):
 - `licence.osi` is set for every product; `freeTier.commercialUse` is set for every hosting product;
 - `deprecated` options are referenced by nothing except the glossary.
 
-Types are scored only on their part's **fit criteria** (`parts.json` → `typeCriteria`), never on popularity, ecosystem, cost or lock-in, which describe a product, not a category. Without this, niche but well-fitting categories (graph databases) could never win (calibration finding 1, `KNOWLEDGE_BASE_DRAFT.md` §5). Database fit criteria: `learning-curve`, `performance`, `scalability`, `real-time`, `data-integrity`, `schema-flexibility`. `none` types have no scores; they are chosen only by a `not-needed` rule. Situation rules (§7) do most of the type choice.
+Types are scored only on their part's **fit criteria** (`parts.json` → `typeCriteria`), never on popularity, ecosystem, cost or lock-in, which describe a product, not a category. Without this, niche but well-fitting categories (graph databases) could never win (calibration finding 1, `KNOWLEDGE_BASE_DRAFT.md` §5). Database fit criteria: `learning-curve`, `performance`, `scalability`, `real-time`, `data-integrity`, `schema-flexibility`. Backend fit criteria: `learning-curve`, `productivity`, `performance`, `scalability`, `real-time` (`type-safety` depends on the language, so it is product-only). `none` types have no scores; they are chosen only by a `not-needed` rule. Situation rules (§7) do most of the type choice.
 
 ## 6. Compatibility (`compatibility.json`)
 Three relation kinds between options in **different parts**. Conditions use the same tiny language as rules (§7).
@@ -154,7 +155,7 @@ Language requirements are written once on each backend/frontend product as `requ
 Fairness note: `worksBestWith` bonuses are small on purpose. A vendor's own product working best on its own platform is a fact, but it must not decide the stack.
 
 ## 7. Rules (`rules.json`)
-Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `all`, `any`, `not`. Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id).
+Same idea as the sibling: **rules are data**, interpreted by the engine. Condition operators: `eq`, `in`, `all`, `any`, `not`, `gte` (levels and team sizes are ordered). Paths: `q.<questionId>` (form answers), `skill.<languageId>`, `locked.<partId>`, `style` (Architecture Advisor style id), `weight.<criterionId>` (effective level after floors, step 2), `fact.<optionId>.<factId>.status` (a dated fact, e.g. a beta flag).
 
 Effect types:
 | Effect | Meaning |
@@ -165,7 +166,7 @@ Effect types:
 | `not-needed` | Mark a part as not needed (its `none` type wins; products not ranked) |
 | `note` | No score change; adds a message and an AI hint |
 
-Every rule has `id`, `name`, `explanation` (shown when it fires), `source`, and optionally `otherwise` + `otherwiseExplanation`. Rule ids: `S…` situation, `D…` data shape, `K…` constraint, `A…` architecture-style link, `N…` notes. Team-skill rules live in `skills.json` (§7.4).
+Every rule has `id`, `name`, `explanation` (shown when it fires), `source`, and optionally `otherwise` + `otherwiseExplanation`. Rule ids: `S…` situation, `D…` data shape, `B…` backend, `K…` constraint, `A…` architecture-style link, `N…` notes. Team-skill rules live in `skills.json` (§7.4).
 
 ### 7.0 Form questions (`questions.json`)
 Every question has "Not sure". Ids are the `q.` paths used by rules.
@@ -189,7 +190,7 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 ### 7.1 Situation rules (examples)
 | id | When | Effect | Source |
 |---|---|---|---|
-| S1 | app kind = content site or portfolio | frontend `static` +20; `seo` floor high; backend `none` +15; database `none` +15 | `ref:web-rendering` |
+| S1 | app kind = content site or portfolio | frontend `static` +20; `seo` floor high (backend and database become not needed through B0 and D8 when nothing is stored; a `none` type has no score to add points to) | `ref:web-rendering` |
 | S2 | app kind = API only | frontend `not-needed` | DESIGN |
 | S3 | app kind = interactive web app, SEO not important | frontend `spa` +10 | `ref:web-rendering` |
 | S4 | SEO important and pages change per user/request | frontend `ssr` +15, `spa` −10 | `ref:web-rendering` |
@@ -205,12 +206,13 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | D0 | data shape "Not sure" | `relational` +10, with the reason shown (`ddia` ch.2: data tends to become more interconnected as features are added) |
 | D1 | linked records (many-to-one, many-to-many) | database `relational` +15, `document` −10 (`ddia` ch.2: joins; `sixstep` ch.1: entity–relationship data) |
 | D2 | self-contained documents loaded as a whole | `document` +15; note: "PostgreSQL's JSONB also stores documents" (`ddia` ch.2 convergence; `mpg17`) |
-| D3 | highly connected (friends of friends, recommendations) | `graph` +20, `document` −10 (`ddia` ch.2: graph models most natural) |
+| D3 | highly connected (friends of friends, recommendations) | `graph` +20, `document` −30 (`ddia` ch.2: the document model handles many-to-many relationships poorly; graph models most natural). −30 is the smallest round value that keeps document from ever being #1 on this input, under any weights (owner 2026-10-24; KB draft §5 session 3) |
 | D4 | fields vary a lot between items / change often | `schema-flexibility` floor high (`ddia` ch.2 schema-on-read) |
 | D5 | money or strict consistency | `data-integrity` floor critical; `document` −5 |
 | D6 | single user / offline / embedded / very small | `sqlite` +15; note on backups (GK, verify with sqlite.org "appropriate uses") |
 | D7 | only simple lookups / cache / sessions | `key-value` +15 · **otherwise** `key-value` −20 ("most apps use a key-value store *next to* a main database") |
 | D8 | no stored data | database `not-needed` |
+| D9 | commercial **and** multi-user app kind (e-commerce, web app, mobile backend, API) **and** not single user | `sqlite` −15 (one writer at a time, one server). Source GK, **unverified** until the SQLite docs are checked (owner 2026-10-24) |
 
 ### 7.3 Constraint rules
 | id | When | Effect | Source |
@@ -224,7 +226,15 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | K6 | open-source licences only | exclude products with `licence.osi = false` (e.g. `mongodb` SSPL); note: Redis 8 can be used under AGPLv3, Valkey is BSD | RESEARCH §2 (P) |
 | K7 | real-time = yes | `netlify` −15 (Netlify Functions don't hold WebSocket connections). `vercel`: **no penalty**, note: "WebSockets work on Vercel Functions, but each connection stays on one instance; to send a message to everyone you need a pub/sub service such as Redis/Valkey" | RESEARCH §4b (P + S, 2026-10-23; owner Q24) |
 | K8 | backend is a separate server framework (Spring Boot, ASP.NET Core, Laravel, Django, ...) | `static-hosting` excluded | GK |
-| K9 | the stack only works on a hosting product through a **beta** feature (e.g. Java/C#/PHP on Vercel via its container runtime) | that hosting product −5; note "uses a beta feature" | DESIGN (Q26, draft) + RESEARCH §4b |
+| K9 | the stack only works on a hosting product through a feature whose `release-status` fact says **beta** (e.g. Java/C#/PHP on Vercel via its container runtime) | that hosting product −5, or **−10 when `weight.maturity` ≥ high** (set by the user, or by S8 when lifespan is 5+ years); note "uses a beta feature (status checked on <date>)". The rule reads the fact, so marking the feature GA switches it off, and the 90-day stale window forces a re-check | DESIGN (owner Q26, 2026-10-24) + RESEARCH §4b |
+
+### 7.3b Backend rules (KB draft §9)
+| id | When | Effect | Source |
+|---|---|---|---|
+| B0 | app kind ∈ {content site, portfolio} and no stored data | backend `not-needed` | DESIGN |
+| B1 | app kind ∈ {API only, mobile backend} | exclude backend type `fullstack` | DESIGN |
+| B2 | deadline very tight, team ≤ 5, TS/JS skill some/strong, app kind ∈ {web app, e-commerce, internal tool} | `fullstack` +20; `minimal`, `batteries` −15 | DESIGN |
+| B3 | real-time and `frontend-server` in the stack | note on WebSocket support per frontend framework | `ref:fw-repos` |
 
 ### 7.4 Team-skill rules (`skills.json`)
 Input (decided Q11): `skills: { [languageId]: "none" | "some" | "strong" }`, `knownFrameworks: optionId[]` and `goal: "ship" | "learn"`. Starting values (DESIGN, tune in calibration):
@@ -262,6 +272,9 @@ Small nudges only (±5 to ±10), because the style describes structure, not tool
    | `type-safety` | Static types enforced by the compiler → 5; optional static types widely used (TypeScript, Python type hints) → 3–4; none → 1–2 |
    | `performance` | TechEmpower bands (rough signal only, never alone) + a second source |
    | `cost` (hosting) | Free tier fit for a small app and price of the first paid step |
+   | `productivity` (backend) | Built-in or first-party building blocks out of 8 (KB draft §6) |
+   | `real-time` (backend) | First-party WebSockets with group broadcasting → 5 … third-party only → 2 (KB draft §6) |
+   | `community` (backend) | Own bands: ≥ 15% → 5 … < 2% → 1 (usage shares are lower than for databases; KB draft §6) |
 
 ## 9. Stale facts
 Tech facts age fast. Every `ScoreEntry` and every `facts[]` item has `checked`.
@@ -269,6 +282,7 @@ Tech facts age fast. Every `ScoreEntry` and every `facts[]` item has `checked`.
 | Fact kind | Stale after | Examples |
 |---|---|---|
 | `pricing` (free tiers, limits) | 90 days | Vercel Hobby caps, Render sleep time |
+| `release-status` (beta / GA of a feature) | 90 days | Vercel container runtime: beta (owner Q26: a beta penalty must not outlive the beta) |
 | `version` | 180 days | "Current major: Spring Boot 4.1" |
 | `support` | 180 days, or immediately when `until` has passed | EOL dates from endoflife.date |
 | `licence`, `ownership` | 365 days | MongoDB SSPL, Astro team acquired by Cloudflare |
@@ -293,7 +307,7 @@ Windows live in `meta.json` (`staleAfterDays`) so they're data. How they're enfo
   "levels": { "none": 0, "low": 1, "medium": 2, "high": 3, "critical": 5 },
   "caps": { "rules": 30, "skillsMin": -10, "skillsMax": 25, "stackPairBonus": 6, "ai": 5 },
   "closeCallPoints": 5,
-  "staleAfterDays": { "pricing": 90, "version": 180, "support": 180, "licence": 365, "ownership": 365, "score": 365 },
+  "staleAfterDays": { "pricing": 90, "release-status": 90, "version": 180, "support": 180, "licence": 365, "ownership": 365, "score": 365 },
   "references": []
 }
 ```
