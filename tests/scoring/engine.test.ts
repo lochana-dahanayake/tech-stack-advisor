@@ -172,6 +172,33 @@ describe("language part, team skills and stack assembly", () => {
     for (const a of r.stack.adjusted) expect(r.parts[a.partId]!.products[0]!.id).toBe(a.best);
   });
 
+  it("settles a tie at the top of a part by the stack rule and reports it as a tie, not an adjusted pick", () => {
+    // Neutral input: Java and C# have the same language score (calibration log §13).
+    const r = score({ weights: { maturity: "high" } }, kb);
+    const [first, second] = r.parts.language!.products;
+    expect(first!.final).toBe(second!.final);
+    const tie = r.stack.ties.find((t) => t.partId === "language")!;
+    expect(tie.options).toEqual(expect.arrayContaining([first!.id, second!.id]));
+    expect(tie.options).toContain(r.stack.picks.language);
+    expect(tie.reason).toBe("stack score");
+    expect(r.stack.adjusted.map((a) => a.partId)).not.toContain("language");
+  });
+
+  it("falls back to KB order when tied options also tie on the stack score", () => {
+    const k: KnowledgeBase = {
+      ...kb,
+      options: kb.options.map((o) =>
+        o.part === "language" ? { ...o, scores: { ...kb.options.find((x) => x.id === "go")!.scores } } : o,
+      ),
+      compatibility: kb.compatibility.map((c) => (c.part === "language" ? { ...c, anyOf: ["java", "csharp"] } : c)),
+    };
+    const r = score({ weights: { maturity: "high" } }, k);
+    const tie = r.stack.ties.find((t) => t.partId === "language")!;
+    expect(tie.reason).toBe("KB order");
+    const order = k.options.map((o) => o.id);
+    expect(r.stack.picks.language).toBe(["java", "csharp"].sort((a, b) => order.indexOf(a) - order.indexOf(b))[0]);
+  });
+
   it("reports a conflict instead of failing when no combination fits", () => {
     const k: KnowledgeBase = {
       ...kb,

@@ -82,8 +82,14 @@ The `language` part has one level: its options are scored as products directly.
    stack = mean over needed parts of cand[pick] + min(Σ worksBestWith points, 6)
    ```
    All parts weigh the same in v1 (DESIGN; revisit in calibration).
-4. **Pick** the highest stack score. Tie-break: higher sum of `final` → fewer languages across the stack → option ids in KB order. Deterministic.
+4. **Pick** the highest stack score. Tie-break: higher sum of `final` → fewer languages across the stack (moot in v1: one language part) → option ids in KB order, part by part. Deterministic.
 5. **No valid combination** (e.g. locks that conflict): return the best per-part picks, flag the conflicting pair, and explain it. Never fail silently.
+6. **Ties inside a part** (owner, 2026-10-24, G12). Options with the same `cand` and `final` as a part's #1 are **tied**: the part's list shows them in KB order only so the output is stable, and none of them counts as "the #1". The stack settles the tie with the rules of item 4, in that order, and the result says which one decided it (`ties[]`: part, tied options, pick, reason):
+   - **stack score**: the pick fits the rest of the stack better (in G12, Java and C# tie at 86.1 and C# is picked because ASP.NET Core outscores Spring Boot in the backend part). This is deliberate: a language is only useful with a framework, so the better pair wins.
+   - **sum of final**: equal stack scores, higher sum of `final`.
+   - **KB order**: everything equal; the earlier option in the KB wins.
+
+   A settled tie is never reported as an "adjusted" pick (that label is for a pick moved by a `requires` relation or by a lower-ranked option winning on stack score). The UI says "Java and C# score the same; C# is picked because it pairs with the stronger backend".
 
 Every option in each part's list is then labelled against the chosen stack: **in the stack**, **fits** (would also be compatible), or **needs: X** (e.g. "Django — needs: Python").
 

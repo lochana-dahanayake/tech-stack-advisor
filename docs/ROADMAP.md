@@ -3,15 +3,16 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-**Waiting on the owner: Q29 (G8).** Then merge Part 3 and continue with Part 4 (frontend).
+**Q29 (G8) is answered (option a) but blocked on network access.** Session 6 couldn't reach TechEmpower, Stack Overflow, sqlite.org or arXiv: the owner's switch to full network access hadn't reached the session. **Next session, first:** run `curl -sS "$HTTPS_PROXY/__agentproxy/status"` and `curl -sI https://www.techempower.com/benchmarks/`. If open: replace the S numbers (TechEmpower for backend `performance`/Gin `scalability`, SO 2025/2026 framework and language shares, Pereira et al. table, registry counts), re-run `npm run calibrate`, then apply the owner's rule (C# ahead of Go in G8 by < 5 → G8 expects a Go/C# close call, log why; never extend T6 to "some"), read SQLite's "Appropriate Uses" page and confirm or narrow D9. Then merge Part 3 (it includes session 6's work on `claude/modest-albattani-6g6mux`) and continue with Part 4 (frontend).
 
 Owner's order (2026-10-24):
 1. [x] Set up the project: `package.json`, TypeScript strict, Vitest, ESLint (with the sibling's purity rule), Prettier, `npm run check`. Next.js is added with the UI (Phase 3).
 2. [x] KB parts done so far (database, backend) as versioned JSON with Zod validation.
 3. [x] Scratch calibration turned into committed tests: golden scenarios, property test 8 (all 15,625 combinations), type-win coverage; `npm run calibrate` reproduces every number in the calibration log.
 4. [x] KB test: a score of 5 or 1 needs a non-GK source; unsourced extremes held at 3 and marked `unsourced`.
-5. [~] **Part 3 (languages)** drafted with stack assembly and hard rule T6, on branch `claude/dreamy-gates-5709yn`, **not merged**: G8 fails, waits on the owner (Q29). Everything else passes (`npm test`: 62 of 63).
-- **Owner:** SQLite "Appropriate uses" check (rule D9 stays unverified); Q28 (public domain and "open source only").
+5. [~] **Part 3 (languages)** drafted with stack assembly and hard rule T6; session 6 added the tie rule (step 6.6, G12) and Q28 on branch `claude/modest-albattani-6g6mux`, **not merged**: G8 fails on purpose until Q29 is finished. Everything else passes.
+- [x] Q28 decided and coded (public domain allowed under "open source only", badge "public domain"). [x] G12 tie rule documented and tested.
+- **Claude:** SQLite "Appropriate Uses" check once the network is open (rule D9 stays unverified).
 - Keep retrying Q21 facts each session, especially TechEmpower (every backend `performance` 5 is unsourced) and the Stack Overflow 2026 framework numbers.
 - Later option (owner): replace D3's −30 with a hard rule "document can't be #1 for highly connected data".
 

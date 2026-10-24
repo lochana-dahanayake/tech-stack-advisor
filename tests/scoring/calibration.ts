@@ -54,15 +54,17 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   out.push(
     "",
     "## stack",
-    "| Scenario | Stack (backend · database · language) | Score | Adjusted |",
-    "|---|---|---|---|",
+    "| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |",
+    "|---|---|---|---|---|",
   );
   for (const s of [...golden, ...probes]) {
     const st = score(s.input, k).stack;
     const pick = (id: string) => st.picks[id] ?? "—";
     const adj = st.adjusted.map((a) => `${a.partId}: ${a.best} → ${a.pick} (${a.relation})`).join("; ") || "—";
+    const ties =
+      st.ties.map((t) => `${t.partId}: ${t.options.join(" = ")} → ${t.pick} (${t.reason})`).join("; ") || "—";
     out.push(
-      `| ${s.id} ${s.title} | ${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} |`,
+      `| ${s.id} ${s.title} | ${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} |`,
     );
   }
   out.push("");

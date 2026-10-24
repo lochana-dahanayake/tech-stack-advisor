@@ -51,11 +51,20 @@ export interface PartResult {
   excluded: string[];
 }
 
+/** Step 6.6: options level at the top of a part, and which rule settled the pick among them. */
+export interface StackTie {
+  partId: string;
+  options: string[]; // tied with the part's #1 (same cand and final), in KB order
+  pick: string;
+  reason: "stack score" | "sum of final" | "KB order";
+}
+
 export interface StackResult {
   picks: Record<string, string>; // needed part → option
   score: number; // mean candidate score of the picks
   /** Parts whose pick isn't their own #1, and why (a `requires` relation). */
   adjusted: { partId: string; best: string; pick: string; relation: string }[];
+  ties: StackTie[];
   conflict?: string; // no combination satisfies every relation: per-part #1s are returned
 }
 

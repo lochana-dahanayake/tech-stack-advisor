@@ -7,6 +7,7 @@ import type {
   ProductResult,
   ScoreResult,
   StackResult,
+  StackTie,
   TypeResult,
   UserInput,
 } from "./types";
@@ -247,10 +248,12 @@ function skillPoints(o: Option, input: UserInput, kb: KnowledgeBase): number {
 }
 
 const CANDIDATES = 5;
+const EPS = 1e-9;
 
 /**
  * Step 6: the best combination of the top candidates per needed part that satisfies every `requires` relation.
  * Score = mean candidate score; tie-break: higher sum of final → option ids in KB order. Pair bonuses come later.
+ * Tie rule (step 6.6): options level at the top of a part are a tie, not an order; the stack settles it and says how.
  */
 export function assemble(
   parts: Record<string, PartResult>,
@@ -272,18 +275,31 @@ export function assemble(
       if (!Object.values(picks).includes(c.option) || !(c.part in picks)) return true;
       return c.anyOf.includes(picks[c.part]!);
     });
-  let best: { picks: Record<string, string>; score: number; sumFinal: number; key: number[] } | undefined;
+  type Found = { picks: Record<string, string>; score: number; sumFinal: number; key: number[] };
+  // a beats b: higher stack score → higher sum of final → option ids earlier in KB order, part by part.
+  const beats = (a: Found, b: Found) => {
+    if (Math.abs(a.score - b.score) > EPS) return a.score > b.score;
+    if (Math.abs(a.sumFinal - b.sumFinal) > EPS) return a.sumFinal > b.sumFinal;
+    const i = a.key.findIndex((x, j) => x !== b.key[j]);
+    return i >= 0 && a.key[i]! < b.key[i]!;
+  };
+  let best: Found | undefined;
+  const bestWith = new Map<string, Found>(); // "part:option" → best valid stack containing that option
   const walk = (i: number, picks: Record<string, string>, cand: number, fin: number) => {
     if (i === needed.length) {
       if (!ok(picks)) return;
-      const score = needed.length ? cand / needed.length : 0;
-      const key = needed.map((id) => order.indexOf(picks[id]!));
-      const better =
-        !best ||
-        score > best.score + 1e-9 ||
-        (Math.abs(score - best.score) <= 1e-9 &&
-          (fin > best.sumFinal + 1e-9 || (Math.abs(fin - best.sumFinal) <= 1e-9 && key.join() < best.key.join())));
-      if (better) best = { picks: { ...picks }, score, sumFinal: fin, key };
+      const found: Found = {
+        picks: { ...picks },
+        score: needed.length ? cand / needed.length : 0,
+        sumFinal: fin,
+        key: needed.map((id) => order.indexOf(picks[id]!)),
+      };
+      if (!best || beats(found, best)) best = found;
+      for (const id of needed) {
+        const k = `${id}:${picks[id]}`;
+        const prev = bestWith.get(k);
+        if (!prev || beats(found, prev)) bestWith.set(k, found);
+      }
       return;
     }
     for (const p of lists[i]!) walk(i + 1, { ...picks, [needed[i]!]: p.id }, cand + p.cand, fin + p.final);
@@ -296,12 +312,30 @@ export function assemble(
       picks,
       score,
       adjusted: [],
+      ties: [],
       conflict: "No combination of the top candidates fits together; showing each part's #1.",
     };
   }
   const result = best;
+  // Step 6.6: options with the same cand and final as a part's #1 are tied with it.
+  const tiedTop = (id: string) => {
+    const [top, ...rest] = parts[id]!.products;
+    return [top!, ...rest.filter((p) => Math.abs(p.cand - top!.cand) <= EPS && Math.abs(p.final - top!.final) <= EPS)];
+  };
+  const ties = needed.flatMap((id) => {
+    const tied = tiedTop(id);
+    const pick = result.picks[id]!;
+    if (tied.length < 2 || !tied.some((p) => p.id === pick)) return [];
+    const others = tied.flatMap((p) => (p.id === pick ? [] : (bestWith.get(`${id}:${p.id}`) ?? [])));
+    const reason: StackTie["reason"] = others.every((o) => result.score > o.score + EPS)
+      ? "stack score"
+      : others.every((o) => Math.abs(result.score - o.score) > EPS || result.sumFinal > o.sumFinal + EPS)
+        ? "sum of final"
+        : "KB order";
+    return [{ partId: id, options: tied.map((p) => p.id), pick, reason }];
+  });
   const adjusted = needed
-    .filter((id) => parts[id]!.products[0]!.id !== result.picks[id])
+    .filter((id) => !tiedTop(id).some((p) => p.id === result.picks[id]))
     .map((id) => {
       const top = parts[id]!.products[0]!.id;
       const relation = kb.compatibility.find(
@@ -309,5 +343,5 @@ export function assemble(
       );
       return { partId: id, best: top, pick: result.picks[id]!, relation: relation?.id ?? "stack score" };
     });
-  return { picks: result.picks, score: result.score, adjusted };
+  return { picks: result.picks, score: result.score, adjusted, ties };
 }

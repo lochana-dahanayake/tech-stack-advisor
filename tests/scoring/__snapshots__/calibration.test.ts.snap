@@ -64,24 +64,24 @@ exports[`calibration tables > variant current 1`] = `
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
 
 ## stack
-| Scenario | Stack (backend · database · language) | Score | Adjusted |
-|---|---|---|---|
-| G1 Student portfolio site | — · — · — | 0.0 | — |
-| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 90.1 | backend: aspnet-core → spring-boot (C-aspnet-core-language) |
-| G3 Real-time chat app | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G4 Data dashboard for a Python team | django · postgresql · python | 78.9 | backend: aspnet-core → django (C-aspnet-core-language) |
-| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 76.4 | backend: aspnet-core → frontend-server (C-aspnet-core-language) |
-| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 91.6 | — |
-| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 77.7 | backend: aspnet-core → laravel (C-aspnet-core-language) |
-| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 81.4 | language: go → csharp (stack score) |
-| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 80.9 | backend: aspnet-core → fastapi (C-aspnet-core-language) |
-| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 82.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.8 | — |
-| G12 Neutral input | aspnet-core · postgresql · csharp | 83.7 | language: java → csharp (stack score) |
-| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — |
-| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | language: java → csharp (stack score) |
+| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |
+|---|---|---|---|---|
+| G1 Student portfolio site | — · — · — | 0.0 | — | — |
+| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 90.1 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — |
+| G3 Real-time chat app | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G4 Data dashboard for a Python team | django · postgresql · python | 78.9 | backend: aspnet-core → django (C-aspnet-core-language) | — |
+| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 76.4 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — |
+| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 91.6 | — | — |
+| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 77.7 | backend: aspnet-core → laravel (C-aspnet-core-language) | — |
+| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 81.4 | language: go → csharp (stack score) | — |
+| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 80.9 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — |
+| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 82.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.8 | — | — |
+| G12 Neutral input | aspnet-core · postgresql · csharp | 83.7 | — | language: java = csharp → csharp (stack score) |
+| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — |
+| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) |
 "
 `;
 
@@ -149,24 +149,24 @@ exports[`calibration tables > variant draft 1`] = `
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 58.3, php 55.6 |
 
 ## stack
-| Scenario | Stack (backend · database · language) | Score | Adjusted |
-|---|---|---|---|
-| G1 Student portfolio site | — · — · — | 0.0 | — |
-| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 93.8 | backend: aspnet-core → spring-boot (C-aspnet-core-language) |
-| G3 Real-time chat app | nestjs · postgresql · typescript-node | 85.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G4 Data dashboard for a Python team | django · postgresql · python | 84.5 | backend: aspnet-core → django (C-aspnet-core-language) |
-| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 79.6 | backend: aspnet-core → frontend-server (C-aspnet-core-language) |
-| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 94.0 | — |
-| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 81.0 | backend: aspnet-core → laravel (C-aspnet-core-language) |
-| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 86.8 | language: go → csharp (stack score) |
-| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 85.2 | backend: aspnet-core → fastapi (C-aspnet-core-language) |
-| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — |
-| G12 Neutral input | aspnet-core · postgresql · csharp | 87.9 | language: typescript-node → csharp (stack score) |
-| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P1 G10 + scalability High | nestjs · postgresql · typescript-node | 84.0 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | language: java → csharp (stack score) |
+| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |
+|---|---|---|---|---|
+| G1 Student portfolio site | — · — · — | 0.0 | — | — |
+| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 93.8 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — |
+| G3 Real-time chat app | nestjs · postgresql · typescript-node | 85.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G4 Data dashboard for a Python team | django · postgresql · python | 84.5 | backend: aspnet-core → django (C-aspnet-core-language) | — |
+| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 79.6 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — |
+| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 94.0 | — | — |
+| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 81.0 | backend: aspnet-core → laravel (C-aspnet-core-language) | — |
+| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 86.8 | language: go → csharp (stack score) | — |
+| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 85.2 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — |
+| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — | — |
+| G12 Neutral input | aspnet-core · postgresql · csharp | 87.9 | language: typescript-node → csharp (stack score) | — |
+| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P1 G10 + scalability High | nestjs · postgresql · typescript-node | 84.0 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | — | language: java = csharp → csharp (stack score) |
 "
 `;
 
@@ -234,24 +234,24 @@ exports[`calibration tables > variant session2 1`] = `
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 58.3, php 55.6 |
 
 ## stack
-| Scenario | Stack (backend · database · language) | Score | Adjusted |
-|---|---|---|---|
-| G1 Student portfolio site | — · — · — | 0.0 | — |
-| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 93.8 | backend: aspnet-core → spring-boot (C-aspnet-core-language) |
-| G3 Real-time chat app | nestjs · postgresql · typescript-node | 85.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G4 Data dashboard for a Python team | django · postgresql · python | 84.5 | backend: aspnet-core → django (C-aspnet-core-language) |
-| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 79.6 | backend: aspnet-core → frontend-server (C-aspnet-core-language) |
-| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 94.0 | — |
-| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 81.0 | backend: aspnet-core → laravel (C-aspnet-core-language) |
-| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 86.8 | language: go → csharp (stack score) |
-| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 85.2 | backend: aspnet-core → fastapi (C-aspnet-core-language) |
-| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — |
-| G12 Neutral input | aspnet-core · postgresql · csharp | 87.9 | language: typescript-node → csharp (stack score) |
-| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P1 G10 + scalability High | nestjs · mongodb · typescript-node | 83.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | language: java → csharp (stack score) |
+| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |
+|---|---|---|---|---|
+| G1 Student portfolio site | — · — · — | 0.0 | — | — |
+| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 93.8 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — |
+| G3 Real-time chat app | nestjs · postgresql · typescript-node | 85.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G4 Data dashboard for a Python team | django · postgresql · python | 84.5 | backend: aspnet-core → django (C-aspnet-core-language) | — |
+| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 79.6 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — |
+| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 94.0 | — | — |
+| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 81.0 | backend: aspnet-core → laravel (C-aspnet-core-language) | — |
+| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 86.8 | language: go → csharp (stack score) | — |
+| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 85.2 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — |
+| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — | — |
+| G12 Neutral input | aspnet-core · postgresql · csharp | 87.9 | language: typescript-node → csharp (stack score) | — |
+| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P1 G10 + scalability High | nestjs · mongodb · typescript-node | 83.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | — | language: java = csharp → csharp (stack score) |
 "
 `;
 
@@ -319,24 +319,24 @@ exports[`calibration tables > variant session2-no-d0 1`] = `
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 58.3, php 55.6 |
 
 ## stack
-| Scenario | Stack (backend · database · language) | Score | Adjusted |
-|---|---|---|---|
-| G1 Student portfolio site | — · — · — | 0.0 | — |
-| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 93.8 | backend: aspnet-core → spring-boot (C-aspnet-core-language) |
-| G3 Real-time chat app | nestjs · mongodb · typescript-node | 84.1 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G4 Data dashboard for a Python team | django · postgresql · python | 84.5 | backend: aspnet-core → django (C-aspnet-core-language) |
-| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 79.6 | backend: aspnet-core → frontend-server (C-aspnet-core-language) |
-| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 94.0 | — |
-| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 81.0 | backend: aspnet-core → laravel (C-aspnet-core-language) |
-| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 86.8 | language: go → csharp (stack score) |
-| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 85.2 | backend: aspnet-core → fastapi (C-aspnet-core-language) |
-| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — |
-| G12 Neutral input | aspnet-core · postgresql · csharp | 85.1 | language: typescript-node → csharp (stack score) |
-| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P1 G10 + scalability High | nestjs · mongodb · typescript-node | 83.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) |
-| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | language: java → csharp (stack score) |
+| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |
+|---|---|---|---|---|
+| G1 Student portfolio site | — · — · — | 0.0 | — | — |
+| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 93.8 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — |
+| G3 Real-time chat app | nestjs · mongodb · typescript-node | 84.1 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G4 Data dashboard for a Python team | django · postgresql · python | 84.5 | backend: aspnet-core → django (C-aspnet-core-language) | — |
+| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 79.6 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — |
+| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 94.0 | — | — |
+| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 81.0 | backend: aspnet-core → laravel (C-aspnet-core-language) | — |
+| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 86.8 | language: go → csharp (stack score) | — |
+| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 85.2 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — |
+| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 84.2 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — | — |
+| G12 Neutral input | aspnet-core · postgresql · csharp | 85.1 | language: typescript-node → csharp (stack score) | — |
+| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P1 G10 + scalability High | nestjs · mongodb · typescript-node | 83.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — |
+| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | — | language: java = csharp → csharp (stack score) |
 "
 `;
 
@@ -404,23 +404,23 @@ exports[`calibration tables > variant session4 1`] = `
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
 
 ## stack
-| Scenario | Stack (backend · database · language) | Score | Adjusted |
-|---|---|---|---|
-| G1 Student portfolio site | — · — · — | 0.0 | — |
-| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 88.8 | — |
-| G3 Real-time chat app | nestjs · postgresql · typescript-node | 84.2 | — |
-| G4 Data dashboard for a Python team | django · postgresql · python | 78.9 | — |
-| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 76.4 | backend: aspnet-core → frontend-server (C-aspnet-core-language) |
-| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 88.6 | — |
-| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 77.7 | — |
-| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 74.7 | backend: fastify → aspnet-core (C-fastify-language); language: go → csharp (stack score) |
-| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 80.9 | — |
-| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 82.3 | — |
-| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 82.3 | — |
-| G12 Neutral input | aspnet-core · postgresql · csharp | 80.7 | language: java → csharp (stack score) |
-| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | — |
-| P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — |
-| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | — |
-| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 74.1 | backend: fastify → aspnet-core (C-fastify-language); language: java → csharp (stack score) |
+| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) |
+|---|---|---|---|---|
+| G1 Student portfolio site | — · — · — | 0.0 | — | — |
+| G2 E-commerce store, small team that knows Java | spring-boot · postgresql · java | 88.8 | — | — |
+| G3 Real-time chat app | nestjs · postgresql · typescript-node | 84.2 | — | — |
+| G4 Data dashboard for a Python team | django · postgresql · python | 78.9 | — | — |
+| G5 Startup MVP that must ship in 4 weeks | frontend-server · postgresql · typescript-node | 76.4 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — |
+| G6 Internal business app at a .NET company | aspnet-core · postgresql · csharp | 88.6 | — | — |
+| G7 Content site for an agency client, PHP team | laravel · postgresql · php | 77.7 | — | — |
+| G8 High-throughput REST API | aspnet-core · postgresql · csharp | 74.7 | backend: fastify → aspnet-core (C-fastify-language); language: go → csharp (stack score) | — |
+| G9 Beginner's hobby app (habit tracker) | fastapi · sqlite · python | 80.9 | — | — |
+| G10 Social app with friends-of-friends suggestions | nestjs · postgresql · typescript-node | 82.3 | — | — |
+| G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 82.3 | — | — |
+| G12 Neutral input | aspnet-core · postgresql · csharp | 80.7 | — | language: java = csharp → csharp (stack score) |
+| G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | — | — |
+| P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — |
+| P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | — | — |
+| P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 74.1 | — | backend: fastify = aspnet-core → aspnet-core (stack score); language: java = csharp → csharp (stack score) |
 "
 `;
