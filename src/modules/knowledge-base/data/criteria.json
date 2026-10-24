@@ -5,7 +5,8 @@
     "short": "How fast a beginner gets productive",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "language"
     ],
     "visibility": "default"
   },
@@ -14,7 +15,8 @@
     "name": "Fast to build with",
     "short": "Built-in features, conventions, generators",
     "appliesTo": [
-      "backend"
+      "backend",
+      "language"
     ],
     "visibility": "default"
   },
@@ -24,7 +26,8 @@
     "short": "Speed per request under normal load",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "language"
     ],
     "visibility": "default"
   },
@@ -54,7 +57,8 @@
     "short": "Ready-made packages, integrations, tooling",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "language"
     ],
     "visibility": "default"
   },
@@ -64,7 +68,8 @@
     "short": "Size of user base, answers online, people you can hire",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "language"
     ],
     "visibility": "default"
   },
@@ -74,7 +79,8 @@
     "short": "Track record, stable releases, clear support windows",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "language"
     ],
     "visibility": "default"
   },
@@ -83,7 +89,8 @@
     "name": "Type safety",
     "short": "Mistakes caught before the code runs",
     "appliesTo": [
-      "backend"
+      "backend",
+      "language"
     ],
     "visibility": "default"
   },

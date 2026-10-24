@@ -602,5 +602,29 @@
         "locator": "ch.10"
       }
     ]
+  },
+  {
+    "id": "S9",
+    "name": "No backend, no server language",
+    "when": {
+      "eq": [
+        "part.backend",
+        "not-needed"
+      ]
+    },
+    "effects": [
+      {
+        "type": "not-needed",
+        "part": "language"
+      }
+    ],
+    "explanation": "The frontend uses HTML, CSS and JavaScript; no server language is needed.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "no backend means no server language",
+        "reviewed": false
+      }
+    ]
   }
 ]

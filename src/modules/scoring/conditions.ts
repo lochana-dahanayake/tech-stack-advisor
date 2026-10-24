@@ -7,6 +7,7 @@ export interface ConditionContext {
   skills: Partial<Record<string, string>>;
   style?: string;
   weights?: Record<string, Level>; // only after floors are applied (rule pass 2)
+  partState?: Record<string, "needed" | "not-needed">; // only after pass 1
 }
 
 function lookup(path: string, ctx: ConditionContext): string | string[] | undefined {
@@ -16,6 +17,10 @@ function lookup(path: string, ctx: ConditionContext): string | string[] | undefi
   if (scope === "weight") {
     if (!ctx.weights) throw new Error(`weight path ${path} used before weights are known`);
     return ctx.weights[key];
+  }
+  if (scope === "part") {
+    if (!ctx.partState) throw new Error(`part path ${path} used before parts are known`);
+    return ctx.partState[key] ?? "needed";
   }
   return ctx.style;
 }
@@ -40,14 +45,17 @@ export function evaluateCondition(c: Condition, ctx: ConditionContext): boolean 
   return !evaluateCondition(c.not, ctx);
 }
 
-export function usesWeights(c: Condition): boolean {
-  if ("gte" in c) return c.gte[0].startsWith("weight.");
-  if ("eq" in c) return c.eq[0].startsWith("weight.");
-  if ("in" in c) return c.in[0].startsWith("weight.");
+const derived = (path: string) => path.startsWith("weight.") || path.startsWith("part.");
+
+/** True when a condition reads something only known after pass 1: effective weights or which parts are needed. */
+export function usesDerived(c: Condition): boolean {
+  if ("gte" in c) return derived(c.gte[0]);
+  if ("eq" in c) return derived(c.eq[0]);
+  if ("in" in c) return derived(c.in[0]);
   if ("has" in c) return false;
-  if ("all" in c) return c.all.some(usesWeights);
-  if ("any" in c) return c.any.some(usesWeights);
-  return usesWeights(c.not);
+  if ("all" in c) return c.all.some(usesDerived);
+  if ("any" in c) return c.any.some(usesDerived);
+  return usesDerived(c.not);
 }
 
 export const maxLevel = (a: Level, b: Level): Level => (LEVEL_ORDER.indexOf(a) >= LEVEL_ORDER.indexOf(b) ? a : b);

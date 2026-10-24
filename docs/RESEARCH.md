@@ -134,3 +134,14 @@ Used by the backend part of the KB draft (§6–10). Read from the frameworks' o
 **Performance:** TechEmpower (site and status page) blocked from cloud sessions; no numbers used.
 
 **Still blocked (retried 2026-10-24):** sqlite.org, survey.stackoverflow.co, techempower.com, vercel.com.
+
+## 7. Languages (session 3, checked 2026-10-24)
+| Item | Finding | Mark |
+|---|---|---|
+| Type systems | Go spec: "strongly typed and garbage-collected". C# docs: "a strongly typed language … the compiler enforces type safety". PEP 484: annotations, "no type checking happens at runtime". PHP manual: declarations checked at run time (TypeError). TypeScript handbook: a static type checker. Kotlin FAQ: "statically typed". Java Language Specification: blocked (docs.oracle.com) | P (GitHub sources of each doc) |
+| Licences | Node.js MIT; CPython PSF-2.0; OpenJDK GPL-2.0 + Classpath exception; .NET runtime MIT; Go BSD-3; `php-src` master BSD-3 (older releases: PHP License 3.01) | P (LICENSE files) |
+| Registries | PyPI 921,802 projects (simple index); Packagist 475,503 packages (`statistics.json`). npm, Maven Central, NuGet search: not reachable | P |
+| Speed (Pereira et al. 2021, normalised time vs C) | Java 1.89, Go 2.83, C# 3.14, JavaScript 6.52, TypeScript 46.20 (outlier), PHP 27.64, Python 71.90. CPU-bound Benchmarks Game programs, 2017 versions | S (arXiv 2410.05460 Table I via search; paper sites blocked) |
+| Stack Overflow 2026, languages (of 14,099 answering) | JavaScript 62.0%, Python 58.0%, TypeScript 43.8%, Java 27.6%, C# 27.1%, PHP 17.7%, Go 16.5%, Kotlin 10.8% | S (official technology page via search; site blocked) |
+| Learners and teaching | SO 2025 results blog: Python #1 among people learning to code. Guo 2014 (CACM blog): Python the most common intro language at top US departments. Siegfried et al. 2021: CS1 mostly Java, Python, C++, C. UK 2016: Java most common | S (all via search summaries; sites blocked) |
+| JetBrains 2025 | Primary language: Python 35%, Java 33%, JavaScript 26%, TypeScript 22% (InfoWorld summary). Not used for scores yet | S |

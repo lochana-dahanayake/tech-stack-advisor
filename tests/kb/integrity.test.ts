@@ -137,3 +137,31 @@ describe("integrity checks catch broken data", () => {
     ).toMatch(/unknown part nope/);
   });
 });
+
+describe("integrity: parts, languages and skills", () => {
+  it("flags part paths in floor rules, bad part states, typed language products and bad skill data", () => {
+    expect(problems(addRule({ id: "N80", when: { eq: ["part.nope", "needed"] } }))).toMatch(/unknown part nope/);
+    expect(problems(addRule({ id: "N81", when: { eq: ["part.backend", "maybe"] } }))).toMatch(/needed or not-needed/);
+    expect(
+      problems(
+        addRule({
+          id: "N82",
+          when: { eq: ["part.backend", "needed"] },
+          effects: [{ type: "floor", criterion: "cost", level: "high" }],
+        }),
+      ),
+    ).toMatch(/can't depend on other parts/);
+    expect(problems(withOption({ ...opt("go"), types: ["minimal"] }))).toMatch(/language has no type level/);
+    const t4 = kb.skills.find((s) => s.id === "T4")!;
+    const t5 = kb.skills.find((s) => s.id === "T5")!;
+    expect(
+      problems({
+        ...kb,
+        skills: [...kb.skills, { ...t4, id: "T90", when: { ...t4.when, deadline: ["someday"] } as typeof t4.when }],
+      }),
+    ).toMatch(/deadline has no option someday/);
+    expect(
+      problems({ ...kb, skills: [...kb.skills, { ...t5, id: "T91", floor: { criterion: "nope", level: "high" } }] }),
+    ).toMatch(/unknown criterion nope/);
+  });
+});

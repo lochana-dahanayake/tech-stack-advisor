@@ -1,6 +1,6 @@
 # Knowledge Base Draft
 
-Status: **draft, parts 1–2 of 5: database (2026-10-23, revised 2026-10-24) and backend (2026-10-24)**. Real KB content in reviewable form. **Since 2026-10-24 the database and backend parts are also JSON** (`src/modules/knowledge-base/data/`, validated by Zod and `npm test`); where this draft and the JSON differ, the JSON holds unsourced extremes at 3 (§3b) and this draft shows the proposed values. Other parts follow in this order: language → frontend → hosting (`ROADMAP.md`). Shape and rules of the game: `KNOWLEDGE_BASE_SCHEMA.md`.
+Status: **draft, parts 1–3 of 5: database (2026-10-23, revised 2026-10-24), backend and language (2026-10-24)**. Part 3 is on a **draft branch, not merged**: golden G8 fails and waits on the owner (§13, `OPEN_QUESTIONS.md` Q29). Real KB content in reviewable form. **Since 2026-10-24 the database and backend parts are also JSON** (`src/modules/knowledge-base/data/`, validated by Zod and `npm test`); where this draft and the JSON differ, the JSON holds unsourced extremes at 3 (§3b) and this draft shows the proposed values. Other parts follow in this order: language → frontend → hosting (`ROADMAP.md`). Shape and rules of the game: `KNOWLEDGE_BASE_SCHEMA.md`.
 
 ## Source tags
 `book:<id> <locator>` (ids from `references/INDEX.md`), `ref:<id>` (published source), `GK` (general knowledge: must be reviewed and, where it's comparative, backed by a second source before release), `DESIGN` (a product decision). **(P)** / **(S)** = primary / secondary evidence (`RESEARCH.md`). Every score below was checked **2026-10-23** unless noted.
@@ -135,7 +135,7 @@ First run with a scratch script; the tables are now reproduced by `npm run calib
 All database expectations still hold, and G10 no longer depends on scalability staying at its default. Open: D9's source; Neo4j's weak product score (unchanged).
 
 ### Session 4 (2026-10-24): committed engine, unsourced extremes held at 3
-`npm run calibrate` (variant `current`). Two changes (owner): (1) the engine, KB JSON and scenarios are now code in the repo, and (2) **a score of 5 or 1 needs a book or ref source**; GK-only 5s and 1s are held at the neutral 3 and marked `unsourced` (list in §3b), enforced by `tests/kb`.
+`npm run calibrate -- --variant session4`. Two changes (owner): (1) the engine, KB JSON and scenarios are now code in the repo, and (2) **a score of 5 or 1 needs a book or ref source**; GK-only 5s and 1s are held at the neutral 3 and marked `unsourced` (list in §3b), enforced by `tests/kb`.
 
 Database effects: key-value's `real-time` 5 (type, Redis, Valkey) is unsourced, so key-value drops 4–19 points (most in G3, where real-time is High); SQLite's `learning-curve`, `scalability`, `real-time` and `ops-effort` extremes are unsourced, so it moves towards the middle (G9 still sqlite 84.6 #1; G2 sqlite 61.4 #3). **All database golden expectations hold** (`npm test`). New finding, already in `draft` (it comes from writing G11's input in full, with traffic large → S7): **G11 picks document over relational** (71.9 vs 69.4, close call) because G11 doesn't say what its data looks like (D0 +10 relational) while scalability is High. G11 has no database expectation; not tuned. Whether a microservices answer should ask for data shape is a Phase 3 form question.
 
@@ -201,7 +201,7 @@ Order: learn · prod · perf · scal · real-time · ecosystem · community · m
 
 Language skill effects (T1–T5) are added at product level through each product's language (`requires` relation). `frontend-server` requires a frontend framework with a server (Next.js, Nuxt, SvelteKit, Astro).
 
-Unsourced extremes held at 3 (§3b rule): Express `learning-curve`, `ecosystem`; Gin `performance`, `scalability`, `type-safety`; Django, Laravel `ecosystem`; Spring Boot `scalability`, `ecosystem`, `type-safety`; ASP.NET Core `performance`, `scalability`, `ecosystem`, `type-safety`; placeholders Fastify, Gin, NestJS `community`. The table above shows proposed values.
+Unsourced extremes held at 3 (§3b rule): Express `learning-curve`, `ecosystem`; Gin `scalability`; Django, Laravel `ecosystem`; Spring Boot `scalability`, `ecosystem`; ASP.NET Core `scalability`, `ecosystem`; (since Part 3, `type-safety` of Gin, Spring Boot and ASP.NET Core is sourced through the language docs, and `performance` of Gin and ASP.NET Core through their runtime's benchmark, §11); placeholders Fastify, Gin, NestJS `community`. The table above shows proposed values.
 
 Score reasons that need a second source before release (`flagged`):
 - **Every `performance` score** (no source yet: TechEmpower is blocked; bands by runtime, GK). Every `scalability` score above/below the type value (GK: Go, Java and C# use all cores in one process; Python and PHP usually scale by running more processes).
@@ -246,7 +246,7 @@ First run with a scratch script; the table is now reproduced by `npm run calibra
 **All backend expectations in `TESTING_STRATEGY.md` §3 hold** once the team's language is applied (the stand-in is `teamLanguagePick` in `tests/scoring/golden.ts`). Type-win coverage: `none` G1, `fullstack` G5, `minimal` G8, G9, `batteries` G2, G3, G4, G6, G7, G11 (checked by `tests/scoring/golden.test.ts`). Open: finding 1; G5's margin between `frontend-server` and NestJS is small (3.2 points), re-check after the language part.
 
 ### Session 4 (2026-10-24): unsourced extremes held at 3
-`npm run calibrate` (variant `current`). The owner read finding 1 (ASP.NET Core and Spring Boot on top of everything) as the same warning sign as Architecture Advisor's microservices bias, and asked to fix it **through sourcing, not tuning**: GK-only 5s go to 3.
+`npm run calibrate -- --variant session4`. The owner read finding 1 (ASP.NET Core and Spring Boot on top of everything) as the same warning sign as Architecture Advisor's microservices bias, and asked to fix it **through sourcing, not tuning**: GK-only 5s go to 3.
 
 Unsourced backend extremes (now 3): Express `learning-curve`, `ecosystem`; Gin `performance`, `scalability`, `type-safety`; Django, Laravel `ecosystem`; Spring Boot `scalability`, `ecosystem`, `type-safety`; ASP.NET Core `performance`, `scalability`, `ecosystem`, `type-safety`. Survey placeholders (Fastify, Gin, NestJS `community`) are also held at 3.
 
@@ -264,3 +264,50 @@ Unsourced backend extremes (now 3): Express `learning-curve`, `ecosystem`; Gin `
 | G12 neutral | aspnet-core 77.3, spring-boot 72.7, django 70.5 | (no skills) aspnet-core |
 
 **What's left:** ASP.NET Core leads unfiltered lists only in G5 (by 0.9 over frontend-server) and G12 (by 4.6 over Spring Boot), instead of 83–96 everywhere. Its remaining 5s are sourced: `productivity` and `real-time` by the rubrics (own repo), `maturity` by the support policy, `community` by the 2025 survey (19.7%, **S**). So the remaining lead is evidence-based but rests partly on a secondary survey number. **Gin** lost its speed lead (`performance` and `scalability` unsourced: TechEmpower is blocked), so in G8 it's last among minimal frameworks; the team-language stand-in still picks it because it's the only Go option. Expectations still hold; G8 needs the language part and a performance source before it means much. Next: Part 3 (languages) sources `type-safety` and replaces the stand-in.
+
+# Part 3: Language
+Drafted 2026-10-24. One level (no types): the six languages of Q5/Q22 are scored directly. Facts: `RESEARCH.md` §7.
+
+## 11. Language criteria and scores
+Seven criteria apply: `learning-curve`, `productivity`, `performance`, `ecosystem`, `community`, `maturity`, `type-safety`. Rubrics (DESIGN, Q20):
+- `performance`: normalised run time vs C in Pereira et al. 2021 (`ref:energy-langs`, CPU-bound benchmarks measured on 2017 versions; **S**: paper sites blocked, numbers from arXiv 2410.05460 Table I): < 4× → 5 · 4–10× → 4 · 10–25× → 3 · 25–50× → 2 · > 50× → 1.
+- `learning-curve`: the language learners use most (`so-survey`) **and** the most common introductory teaching language (`guo-2014`, `siegfried-2021`) → 5; a top introductory teaching language → 4; otherwise GK 2–4. Proxy for "easy to learn", chosen by the owner's source list (survey, teaching sources); all sources **S**.
+- `community`: the database bands (≥ 40% → 5 …) with Stack Overflow 2026 language shares (**S**).
+- `type-safety`: schema §8 rubric, from each language's own spec or docs (`ref:lang-docs`, P).
+- `maturity`: schema §8 rubric, support windows from `ref:eol` (P).
+
+Order: learn · prod · perf · ecosystem · community · maturity · type-safety.
+
+| Language | Scores | Key evidence |
+|---|---|---|
+| **TypeScript / JavaScript on Node.js** | 4 · 4 · 4 · 5u · 5 · 5 · 4 | JS 6.52× C (the paper's TS figure, 46×, is an outlier of its benchmark code; TS compiles to JS). SO 2026 JS 62.0%, TS 43.8%. TS handbook: a static type checker, types optional. Node 26 to 2029-04. MIT |
+| **Python** | **5** · 4 · **1** · 5u · 5 · 5 · 3 | Learners' #1 (SO 2025 blog) and the most common intro language at top US universities (Guo 2014). 71.90× C (CPU-bound; web apps mostly wait on the database). SO 2026 58.0%. PEP 484: no type checking at runtime. PSF-2.0 |
+| **Java / Kotlin** | 4 · 3 · 5 · 4 · 4 · 5 · 5 | A top CS1 language (UK 2016, US 2021). 1.89× C. SO 2026 Java 27.6%, Kotlin 10.8%. Kotlin FAQ: statically typed (Java's own spec is blocked: GK). Java 25 LTS to 2030-09. GPL-2.0 + Classpath exception |
+| **C# (.NET)** | 3 · 4 · 5 · 4 · 4 · 5 · 5 | 3.14× C. SO 2026 27.1%. C# docs: "strongly typed … the compiler enforces type safety". .NET 10 LTS to 2028-11. MIT |
+| **Go** | 4 · 3 · 5 · 3 · 3 · 5 · 5 | 2.83× C. SO 2026 16.5%. Go spec: "strongly typed", compiled. BSD-3 |
+| **PHP** | 4 · 4 · 2 · 4 · 3 · 5 · 3 | 27.64× C (measured on PHP 7; PHP 8 added a JIT). SO 2026 17.7%. Packagist 475,503 packages. Manual: type declarations are checked at run time (TypeError). BSD-3 on `php-src` master |
+
+`5u` = unsourced, held at 3 (§3b rule): **Python and TypeScript/Node `ecosystem`**. PyPI's size (921,802 projects, P) is known, but npm, Maven Central and NuGet counts can't be read from cloud sessions, so no fair registry-size comparison exists yet.
+
+## 12. Language rules
+| id | When | Effect | Source |
+|---|---|---|---|
+| S9 | the backend part is not needed | language `not-needed` ("The frontend uses HTML, CSS and JavaScript; no server language is needed") | DESIGN (rule reads `part.backend`, pass 2) |
+| T1 / T2 | skill strong / some | language +20 / +10; products running on it +10 / +5 | `book:fosa ch.19` + DESIGN (starting values, **not tuned**: owner 2026-10-24) |
+| T3 | framework known | that product +10 | same |
+| T4 | deadline tight or very tight, the team knows a language at some/strong | languages nobody knows −10 | same |
+| T5 | goal = learn | every skill effect × 0.5; `learning-curve` floor medium | DESIGN (Q11) |
+| **T6** | goal = "Use what we know" (default) and the team knows a language at **strong** | **hard rule:** that language never ranks below, and the stack never picks, a language nobody on the team knows, unless a rule excludes the strong language. "Some" stays a points bonus | `book:fosa ch.19` (team factors) + DESIGN (owner 2026-10-24) |
+
+Stack assembly (`SCORING_ENGINE.md` step 6) is implemented: the best combination of each needed part's top 5 that satisfies every `requires` relation (backend product → language), score = mean candidate score. It replaces the "team language" stand-in of sessions 3–4.
+
+## 13. Calibration log (language and stack)
+### Session 5 (2026-10-24): language part, backend re-run with assembly
+`npm run calibrate` (variant `current`; the `## language` and `## stack` tables). Golden expectations: `npm test`.
+
+1. **First run (before sourcing):** the stack picked **C# + ASP.NET Core** over the team's own language in G4 (Python strong), G7 (PHP strong), G8 (Go some) and G9 (Python some). Owner's diagnosis: uneven sourcing. C#'s 5s were sourced, while Python's unsourced 5s had just been reset to 3, so they lost on paperwork, not merit. **Owner: don't tune T1/T2; source first.**
+2. **Sourcing (owner step 1):** Python `learning-curve` 5 (learner and teaching sources, rubric §11), Java `learning-curve` 4 (same rubric, applied evenly), 2026 survey shares for every language. Gin and ASP.NET Core `performance` 5 through their runtime's benchmark, applied to both. Python and TypeScript `ecosystem` stay unsourced (no comparable registry counts). PHP and Go languages had no reset 5s. **Result:** the language part now ranks the team's language #1 in every golden scenario, and G9 (Python some) passes. But the stack still picked C# + ASP.NET Core in G4, G7 and G8, because ASP.NET Core's backend base (83.3 in G4) is far above Django's, Laravel's and Gin's.
+3. **Hard rule T6 (owner step 3)** for "strong" only. **G4 and G7 now pass** (Django + Python, Laravel + PHP).
+4. **G8 still fails (owner step 4): draft branch, not merged.** Numbers (`npm run calibrate`, G8 rows): language Go 94.1 (base 84.1 + T2 10), Java 88.6, C# 88.6. Backend: ASP.NET Core 83.3 (base, no skill), Gin 73.3 (base 68.3 + T2 5), Fastify 70.0. Stack: ASP.NET Core + PostgreSQL + C# 81.4 vs Gin + PostgreSQL + Go, about 79.9 (sums 171.9 vs 167.4 for backend + language). Why Gin is low: `scalability` is still unsourced (3, proposed 5); `community` is a placeholder (3); `productivity` 2 and `real-time` 2 by the rubrics (little built in, WebSockets via a third-party library); `ecosystem` 3 (GK). G8's expectation is "lang `go` #1 (Java or C# in top 3); BE `gin` or `aspnet-core`". ASP.NET Core is allowed as the backend, but with C#, not Go, so the language expectation fails. **Decision for the owner: Q29.**
+
+Other results: G2 Spring Boot + Java, G3 NestJS + TS, G5 frontend-server + TS, G6 ASP.NET Core + C#, G9 FastAPI + SQLite + Python, G11 Spring Boot + Java (database: MongoDB, the G11 finding of session 4), **G12 neutral: ASP.NET Core + C#** (Java and C# tie at 86.1 in the language part; ASP.NET Core's backend score breaks the tie). Earlier tables still reproduce: `--variant session4`, `draft`, `session2`.
