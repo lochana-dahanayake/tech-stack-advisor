@@ -177,7 +177,7 @@ Every question has "Not sure". Ids are the `q.` paths used by rules.
 | `app-kind` | What are you building? | content/marketing site, portfolio, interactive web app, API only, e-commerce, internal tool / dashboard, backend for a mobile app |
 | `traffic` | Expected users and growth | tiny, small and stable, growing, large, spiky |
 | `data-shape` | What does your data look like? | linked records, self-contained documents, highly connected, simple lookups, no stored data |
-| `data-flags` | Extra data facts (multi) | fields vary a lot, money / strict consistency, single user / offline |
+| `data-flags` | Extra data facts (multi) | fields vary a lot, money / strict consistency, single user / offline, many people save data at the same moment (`many-writers`: e.g. bookings, live collaboration; added 2026-10-25 for D9) |
 | `real-time` | Live updates needed? | yes / no |
 | `seo` | Must pages be found by search engines? | yes / no |
 | `team-size`, `experience` | Team | solo, 2–5, 6–15, 16+; beginner, some, experienced |
@@ -214,7 +214,7 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | D6 | single user / offline / embedded / very small | `sqlite` +15; note on backups (GK, verify with sqlite.org "appropriate uses") |
 | D7 | only simple lookups / cache / sessions | `key-value` +15 · **otherwise** `key-value` −20 ("most apps use a key-value store *next to* a main database") |
 | D8 | no stored data | database `not-needed` |
-| D9 | commercial **and** multi-user app kind (e-commerce, web app, mobile backend, API) **and** not single user | `sqlite` −15 (one writer at a time, one server). Source GK, **unverified** until the SQLite docs are checked (owner 2026-10-24) |
+| D9 | not single user **and** (traffic large or spiky **or** many people save data at the same moment) | `sqlite` −15 (one writer at a time, one server). Commercial or not. `ref:sqlite-whentouse` (owner Q30, 2026-10-25) |
 
 ### 7.3 Constraint rules
 | id | When | Effect | Source |
@@ -229,6 +229,7 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | K7 | real-time = yes | `netlify` −15 (Netlify Functions don't hold WebSocket connections). `vercel`: **no penalty**, note: "WebSockets work on Vercel Functions, but each connection stays on one instance; to send a message to everyone you need a pub/sub service such as Redis/Valkey" | RESEARCH §4b (P + S, 2026-10-23; owner Q24) |
 | K8 | backend is a separate server framework (Spring Boot, ASP.NET Core, Laravel, Django, ...) | `static-hosting` excluded | GK |
 | K9 | the stack only works on a hosting product through a feature whose `release-status` fact says **beta** (e.g. Java/C#/PHP on Vercel via its container runtime) | that hosting product −5, or **−10 when `weight.maturity` ≥ high** (set by the user, or by S8 when lifespan is 5+ years); note "uses a beta feature (status checked on <date>)". The rule reads the fact, so marking the feature GA switches it off, and the 90-day stale window forces a re-check | DESIGN (owner Q26, 2026-10-24) + RESEARCH §4b |
+| K10 (Part 5) | relation `C-sqlite-hosting`: database `sqlite` with a hosting product whose server has **no persistent local disk** (filesystem reset on restart/redeploy, or one per request) or that runs **several instances** of the app | conflict (SQLite can't keep its file or be shared); where a persistent disk exists but only on one instance, a warning note. Per product in RESEARCH §4c | `ref:host-docs` (P, 2026-10-25) + `ref:sqlite-whentouse` (owner Q30) |
 
 ### 7.3b Backend rules (KB draft §9)
 | id | When | Effect | Source |

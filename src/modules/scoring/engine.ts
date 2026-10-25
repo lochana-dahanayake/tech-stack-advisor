@@ -66,6 +66,11 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
     input.goal !== "learn" &&
     kb.skills.some((s) => "protectStrong" in s.when) &&
     Object.values(input.skills ?? {}).some((x) => x === "strong");
+  // T7: close calls keep a known language while the goal is "Use what we know" and the team knows one.
+  const knownCloseCalls =
+    input.goal !== "learn" &&
+    kb.skills.some((s) => "knownCloseCalls" in s.when) &&
+    Object.values(input.skills ?? {}).some((x) => x === "some" || x === "strong");
   const fired: FiredRule[] = [];
   const effects: { rule: Rule; effect: Effect }[] = [];
   const apply = (rules: Rule[]) => {
@@ -197,7 +202,7 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
     firedRules: fired,
     notes,
     parts,
-    stack: assemble(parts, kb, protectStrong ? skillOf : undefined),
+    stack: assemble(parts, kb, protectStrong ? skillOf : undefined, knownCloseCalls ? skillOf : undefined),
   };
 }
 
@@ -259,6 +264,7 @@ export function assemble(
   parts: Record<string, PartResult>,
   kb: KnowledgeBase,
   skillOf?: (id: string) => string, // set when T6 applies: languages nobody knows can't beat a strong one
+  closeCallSkillOf?: (id: string) => string, // set when T7 applies: close calls keep a known language
 ): StackResult {
   const needed = kb.parts
     .filter((p) => parts[p.id]?.needed && (parts[p.id]?.products.length ?? 0) > 0)
@@ -348,6 +354,7 @@ export function assemble(
   const closeCalls = adjusted.flatMap((a) => {
     const alt = bestWith.get(`${a.partId}:${a.best}`);
     if (!alt) return [];
+    if (closeCallSkillOf && alt.picks.language && closeCallSkillOf(alt.picks.language) === "none") return [];
     const gap = result.score - alt.score;
     return gap < kb.meta.closeCallPoints
       ? [{ partId: a.partId, best: a.best, picks: alt.picks, score: alt.score, gap }]

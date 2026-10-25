@@ -102,6 +102,23 @@ Owner asked (Q24) to re-check WebSocket support. Vendor sites are still blocked,
 
 Consequences for the KB: rule K7 (real-time penalty) applies to Netlify only; Vercel gets a broadcast note; the Vercel–Java/C#/PHP conflict becomes "allowed via container runtime (beta)", rule K9 (Q26, decided 2026-10-24).
 
+## 4c. Can the app keep a SQLite file? (session 8, checked 2026-10-25, P: each vendor's own docs)
+For relation `C-sqlite-hosting` (Part 5, owner Q30). SQLite needs one server with a **persistent local disk** (`ref:sqlite-whentouse`: the database is one file next to the app; one writer at a time). Own facts from each provider's docs, in our words:
+
+| Product | Local filesystem | Several instances? | For SQLite | Doc read |
+|---|---|---|---|---|
+| GitHub Pages | static files only, no server code | — | can't run (no server; K8 already excludes static hosting for a backend) | docs.github.com, "What is GitHub Pages?" |
+| Netlify | functions run in an ephemeral runtime | scales automatically with traffic | **conflict** | docs.netlify.com, Functions overview |
+| Vercel | read-only filesystem, writable `/tmp` scratch up to 500 MB | auto-scales (up to 30,000 concurrent on Hobby/Pro) | **conflict** | vercel.com/docs, Functions runtimes and limits |
+| Cloudflare Workers | memory-based; `/tmp` is per request, not persistent | yes | **conflict**. Cloudflare's own D1 is a managed database with SQLite's SQL semantics (glossary note, not our `sqlite` product) | developers.cloudflare.com, Workers `node:fs`; D1 overview |
+| Render | ephemeral by default (lost on redeploy, restart, spin-down); **Free web services can't attach a persistent disk**; paid services can | a service with a disk **can't scale to several instances**; no zero-downtime deploys | **conflict on Free**; paid + disk: allowed with a warning (one instance only) | render.com/docs, "Free instances", "Persistent disks" |
+| Railway | volumes give persistent storage | **replicas can't be used with volumes** | allowed with a volume, warning (one instance, short downtime on redeploy) | docs.railway.com, Volumes |
+| Fly.io | Machine root filesystem is ephemeral; a volume is local persistent storage, one volume per Machine | several Machines each get their own volume; no automatic replication (Fly points to LiteFS for SQLite) | allowed with one Machine + volume, warning | fly.io/docs, Volumes overview |
+| AWS / Azure / GCP | depends on the service: e.g. Lambda storage is ephemeral, Cloud Run's filesystem is in memory; a virtual machine has a disk | depends | warning note ("only on a single VM with a disk") | docs.aws.amazon.com (Lambda ephemeral storage), cloud.google.com (Cloud Run container contract) |
+| VPS | the server's own disk | one server unless you add more | fits | GK (a rented server) |
+
+Status: facts only; the hosting part (Part 5) adds the products and the relation. Re-check with the Part 5 free-tier facts (stale window 90 days).
+
 ## 5. Reference books: what they give the KB
 Summaries in our own words; cite by chapter, never quote at length.
 
