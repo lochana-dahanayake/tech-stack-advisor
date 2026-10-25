@@ -31,11 +31,33 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
       };
     },
   },
+  session7: {
+    description:
+      "current, with the session-8 changes undone (D9 back to 'commercial multi-user app'; no T7, so close calls may use a language nobody knows): the KB of session 7",
+    apply: (kb) => ({
+      ...kb,
+      skills: kb.skills.filter((s) => !("knownCloseCalls" in s.when)),
+      rules: kb.rules.map((r) =>
+        r.id === "D9"
+          ? {
+              ...r,
+              when: {
+                all: [
+                  { eq: ["q.commercial", "yes"] },
+                  { in: ["q.app-kind", ["e-commerce", "web-app", "mobile-backend", "api-only"]] },
+                  { not: { has: ["q.data-flags", "single-user"] } },
+                ],
+              },
+            }
+          : r,
+      ),
+    }),
+  },
   session6: {
     description:
-      "current, with the session-7 primary numbers undone (Gin performance 5, FastAPI performance 3 and community 4, Django performance 2, Fastify community unsourced 3): the KB of session 6",
+      "session7, with the session-7 primary numbers undone (Gin performance 5, FastAPI performance 3 and community 4, Django performance 2, Fastify community unsourced 3): the KB of session 6",
     apply: (kb) =>
-      setValues(kb, {
+      setValues(variants.session7!.apply(kb), {
         gin: { performance: { value: 5 } },
         fastapi: { performance: { value: 3 }, community: { value: 4 } },
         django: { performance: { value: 2 } },
@@ -63,10 +85,10 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
   },
   "d9-traffic": {
     description:
-      "current, with D9 narrowed as proposed in Q30 (sqlite.org whentouse): fires on busy traffic (large or spiky) for a multi-user app, whether commercial or not",
-    apply: (kb) => ({
-      ...kb,
-      rules: kb.rules.map((r) =>
+      "session7, with D9 narrowed as first proposed in Q30: fires on busy traffic (large or spiky) for a multi-user app, whether commercial or not",
+    apply: (base) => ({
+      ...variants.session7!.apply(base),
+      rules: variants.session7!.apply(base).rules.map((r) =>
         r.id === "D9"
           ? {
               ...r,
@@ -80,6 +102,18 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
             }
           : r,
       ),
+    }),
+  },
+  "lang-ecosystem-even": {
+    description:
+      "probe (session 8 audit, not a KB change): every language ecosystem score backed only by GK held at 3, as Python's and TypeScript's already are",
+    apply: (kb) => ({
+      ...kb,
+      options: kb.options.map((o) => {
+        const e = o.scores.ecosystem;
+        if (o.part !== "language" || !e || e.sources.some((x) => x.kind !== "general")) return o;
+        return { ...o, scores: { ...o.scores, ecosystem: { ...e, value: 3 } } };
+      }),
     }),
   },
   "session2-no-d0": {

@@ -147,6 +147,8 @@ export const skillRuleSchema = z.object({
     z.object({ goal: z.literal("learn") }).strict(),
     // T6 (hard rule): with goal "ship", a language the team knows at "strong" never loses to one nobody knows.
     z.object({ protectStrong: z.literal(true) }).strict(),
+    // T7: with goal "ship" and a known language, a stack close call (step 6.7) must keep a known language.
+    z.object({ knownCloseCalls: z.literal(true) }).strict(),
   ]),
   productPoints: z.number().int(),
   languagePoints: z.number().int(),

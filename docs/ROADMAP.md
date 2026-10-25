@@ -3,11 +3,13 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-**Part 4: frontend** (KB draft Part 4, same template as Parts 1–3): approaches (plain HTML, static/SSG, SPA, SSR) as types and the Q5 frameworks (plain HTML, Astro, React, Vue, Svelte, Angular, Next.js, Nuxt, SvelteKit) as products, sourced with the network now open (`npm run sources` shows how primary numbers are read: add State of JS and the SO 2026 frontend shares there). The frontend part also fills `frontend-server`'s `requires` relation. Run `npm run calibrate` and the goldens as usual.
+**Part 4: frontend** (KB draft Part 4, same template as Parts 1–3): approaches (plain HTML, static/SSG, SPA, SSR) as types and the Q5 frameworks (plain HTML, Astro, React, Vue, Svelte, Angular, Next.js, Nuxt, SvelteKit) as products, sourced with the network open (extend `npm run sources` with the SO 2026 frontend shares and State of JS). The frontend part also fills `frontend-server`'s `requires` relation. Run `npm run calibrate` and the goldens as usual.
 
-**Waiting for the owner (don't block on them):** Q30 (narrow D9 per sqlite.org; changes G2/G5/G8, so not done; `--variant d9-traffic` shows the effect) and Q31 (stack close calls for beginners, G9).
+**Waiting for the owner (don't block on it):** Q32 (language `ecosystem` held unevenly; probe `--variant lang-ecosystem-even`).
 
-Session 7 (2026-10-24) finished Part 3: primary numbers for every S number that had a primary source (TechEmpower Round 23, SO 2026 official data, arXiv table, registries), Q29 applied (G8 = stack close call, new engine step 6.7), SQLite page read. Part 3 merged to `main`.
+**Carry into Part 5 (hosting):** relation `C-sqlite-hosting` (KB schema K10; facts per provider in RESEARCH §4c, checked 2026-10-25).
+
+Session 8 (2026-10-25): Q30 (D9 follows sqlite.org, new data flag `many-writers`, G2 expects "SQLite not #1"), Q31 (T7: close calls keep a known language), hosting filesystem facts, C# sourcing audit (Q32). Session 7 merged Part 3 (PR #7).
 
 Owner's order (2026-10-24):
 1. [x] Set up the project: `package.json`, TypeScript strict, Vitest, ESLint (with the sibling's purity rule), Prettier, `npm run check`. Next.js is added with the UI (Phase 3).

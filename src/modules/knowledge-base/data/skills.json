@@ -129,5 +129,21 @@
         "reviewed": false
       }
     ]
+  },
+  {
+    "id": "T7",
+    "name": "Close calls stay with a language the team knows",
+    "when": {
+      "knownCloseCalls": true
+    },
+    "productPoints": 0,
+    "languagePoints": 0,
+    "sources": [
+      {
+        "kind": "design",
+        "note": "owner 2026-10-25 (Q31): with goal 'Use what we know' and a language the team knows (some or strong), a stack close call must keep a known language; with goal 'Learn something new' any close call is shown",
+        "reviewed": true
+      }
+    ]
   }
 ]

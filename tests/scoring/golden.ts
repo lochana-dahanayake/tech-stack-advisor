@@ -12,7 +12,7 @@ export interface PartExpectation {
   typeInTop2?: string; // must be #1 or #2
   typeNot?: string[]; // must never be #1
   productIn?: string[]; // allowed pick: the stack's pick for the part (database: also #1 in the chosen type)
-  productNotSecond?: string;
+  productNot?: string[]; // never the stack's pick nor #1 in the chosen type
 }
 /** A close call in the assembled stack (step 6.7): the part's own #1 loses the stack by < 5 points; both are shown. */
 export interface StackCloseCallExpectation {
@@ -73,7 +73,9 @@ export const golden: Scenario[] = [
         typeIn: ["relational"],
         typeNot: ["document"],
         productIn: ["postgresql", "mysql"],
-        productNotSecond: "sqlite",
+        // Q30 (owner, 2026-10-25): D9 now follows sqlite.org (busy traffic or many writers), so it no longer fires
+        // here and SQLite is #2 for a small shop. Fine as long as it isn't #1 (calibration log §5, session 8).
+        productNot: ["sqlite"],
       },
       backend: { productIn: ["spring-boot"] },
     },

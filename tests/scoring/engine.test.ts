@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { kb, type KnowledgeBase, type Rule } from "@/modules/knowledge-base";
 import { baseScore, evaluateCondition, score, validateInput } from "@/modules/scoring";
+import { golden } from "./golden";
 
 const withRules = (rules: Rule[]): KnowledgeBase => ({ ...kb, rules: [...kb.rules, ...rules] });
 const rule = (r: Partial<Rule> & Pick<Rule, "id" | "when" | "effects">): Rule => ({
@@ -220,6 +221,24 @@ describe("language part, team skills and stack assembly", () => {
     // Same input with the threshold at 1 point: no close call, the pick alone.
     const strict = score(input, { ...kb, meta: { ...kb.meta, closeCallPoints: 1 } });
     expect(strict.stack.closeCalls).toEqual([]);
+  });
+
+  it("T7: with goal 'Use what we know', a stack close call keeps a language the team knows; 'learn' shows any", () => {
+    // G9 input: Python some; the best stack with ASP.NET Core (the backend #1) needs C#, which nobody knows.
+    const input = golden.find((g) => g.id === "G9")!.input;
+    const ship = score(input, kb);
+    expect(ship.stack.adjusted.map((a) => a.partId)).toContain("backend");
+    expect(ship.stack.closeCalls).toEqual([]);
+
+    // Without T7 in the KB the unknown-language close call comes back (how older calibration tables reproduce).
+    const withoutT7 = { ...kb, skills: kb.skills.filter((s) => !("knownCloseCalls" in s.when)) };
+    expect(score(input, withoutT7).stack.closeCalls.map((c) => c.picks.language)).toContain("csharp");
+
+    // Goal "learn": T7 is off, so a close call with a language nobody knows is shown (G3, TS strong: ASP.NET Core + C#).
+    const g3 = golden.find((g) => g.id === "G3")!.input;
+    expect(score(g3, kb).stack.closeCalls).toEqual([]);
+    const learn = score({ ...g3, goal: "learn" }, kb).stack.closeCalls.map((c) => c.picks.language);
+    expect(learn).toContain("csharp");
   });
 
   it("reports a conflict instead of failing when no combination fits", () => {

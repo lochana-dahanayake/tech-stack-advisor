@@ -369,26 +369,9 @@
   },
   {
     "id": "D9",
-    "name": "Commercial multi-user app",
+    "name": "Busy site or many writers at once",
     "when": {
       "all": [
-        {
-          "eq": [
-            "q.commercial",
-            "yes"
-          ]
-        },
-        {
-          "in": [
-            "q.app-kind",
-            [
-              "e-commerce",
-              "web-app",
-              "mobile-backend",
-              "api-only"
-            ]
-          ]
-        },
         {
           "not": {
             "has": [
@@ -396,6 +379,25 @@
               "single-user"
             ]
           }
+        },
+        {
+          "any": [
+            {
+              "in": [
+                "q.traffic",
+                [
+                  "large",
+                  "spiky"
+                ]
+              ]
+            },
+            {
+              "has": [
+                "q.data-flags",
+                "many-writers"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -406,18 +408,13 @@
         "points": -15
       }
     ],
-    "explanation": "SQLite lets one writer change the database at a time and runs inside one server, so it's a poor fit for a shop or app where many users save data at once.",
+    "explanation": "SQLite lets one writer change the database at a time and runs inside one server. sqlite.org suggests a client/server database for busy sites that need several servers and for many writers at the same moment.",
     "sources": [
       {
         "kind": "ref",
         "ref": "sqlite-whentouse",
         "quality": "P",
-        "note": "reason checked 2026-10-24: one writer at a time; client/server for many concurrent writers, write-intensive or multi-server sites"
-      },
-      {
-        "kind": "general",
-        "reviewed": false,
-        "note": "trigger (commercial multi-user app) is the owner's choice, not the page's: narrower rule proposed in Q30"
+        "note": "checked 2026-10-25: client/server for write-intensive sites, sites busy enough to need several servers, and many concurrent writers; commercial use is not a criterion (owner Q30, 2026-10-25)"
       }
     ]
   },

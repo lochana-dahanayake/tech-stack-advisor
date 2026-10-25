@@ -23,9 +23,9 @@ function check(
     if (part === "database") expect(e.productIn).toContain(p.products.find((x) => x.types.includes(p.chosenType!))?.id);
   }
   for (const l of e.inTop3 ?? []) expect(p.products.slice(0, 3).map((x) => x.id)).toContain(l);
-  if (e.productNotSecond) {
-    const inType = p.products.filter((x) => x.types.includes(p.chosenType!));
-    expect(inType[1]?.id).not.toBe(e.productNotSecond);
+  for (const no of e.productNot ?? []) {
+    expect(score(s.input, kb).stack.picks[part]).not.toBe(no);
+    expect(p.products.find((x) => x.types.includes(p.chosenType!))?.id).not.toBe(no);
   }
 }
 

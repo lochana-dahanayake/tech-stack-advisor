@@ -47,7 +47,8 @@
     "options": [
       "fields-vary",
       "money",
-      "single-user"
+      "single-user",
+      "many-writers"
     ]
   },
   {
