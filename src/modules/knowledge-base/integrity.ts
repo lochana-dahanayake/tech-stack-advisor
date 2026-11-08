@@ -103,6 +103,13 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
   }
 
   const questions = new Map(kb.questions.map((q) => [q.id, q]));
+  for (const q of kb.questions) {
+    for (const o of q.options) if (!(o in q.labels)) p.push(`question ${q.id}: no label for ${o}`);
+    for (const o of Object.keys(q.labels))
+      if (!q.options.includes(o)) p.push(`question ${q.id}: label for unknown option ${o}`);
+    for (const o of Object.keys(q.hints ?? {}))
+      if (!q.options.includes(o)) p.push(`question ${q.id}: hint for unknown option ${o}`);
+  }
   const levels = ["none", "low", "medium", "high", "critical"];
   const checkEffect = (r: string, e: Effect) => {
     if ((e.type === "modify" || e.type === "exclude") && !optionIds.has(e.target))

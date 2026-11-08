@@ -9,10 +9,9 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { kb, listSources } from "@/modules/knowledge-base";
-import { fitFor, score } from "@/modules/scoring";
+import { score } from "@/modules/scoring";
 import { presets } from "@/components/form/presets";
-import { FitBadge, ScoreBar } from "@/components/result/fit";
-import { fmt, optionName, PART_ORDER, partName } from "@/components/result/format";
+import { StackCard } from "@/components/result/stack-card";
 import { Button } from "@/components/ui/button";
 
 const products = kb.options.filter((o) => o.level === "product");
@@ -50,45 +49,26 @@ const promises = ["Free, no account", "Same answers, same result", "Every fact s
 /** A real result for the "Real-time chat app" example, computed at build time by the same engine the advisor uses. */
 function ResultPreview() {
   const preset = presets[0]!;
-  const result = score(preset.input, kb);
-  const rows = PART_ORDER.flatMap((partId) => {
-    const pick = result.stack.picks[partId];
-    const product = result.parts[partId]?.products.find((p) => p.id === pick);
-    return pick && product ? [{ partId, pick, final: product.final }] : [];
-  });
   return (
     <Link
       href={`/advisor?example=${preset.id}`}
-      className="group block rounded-2xl border bg-card p-5 shadow-lg shadow-primary/5 outline-none transition-colors hover:border-primary/40 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+      className="group block rounded-2xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
     >
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-xs font-medium text-muted-foreground">
-          Example result · <span className="text-foreground">{preset.title}</span>
-        </p>
-        <p className="text-right">
-          <span className="block text-2xl leading-none font-semibold tabular-nums">{fmt(result.stack.score)}</span>
-          <span className="text-xs text-muted-foreground">stack score</span>
-        </p>
-      </div>
-      <dl className="mt-4 space-y-3">
-        {rows.map((r) => (
-          <div key={r.partId} className="space-y-1.5">
-            <div className="flex items-baseline justify-between gap-3 text-sm">
-              <dt className="w-24 shrink-0 text-muted-foreground">{partName(r.partId, true)}</dt>
-              <dd className="flex-1 font-medium">{optionName(r.pick)}</dd>
-              <span className="tabular-nums text-muted-foreground">{fmt(r.final)}</span>
-            </div>
-            <ScoreBar value={r.final} fit={fitFor(r.final)} />
-          </div>
-        ))}
-      </dl>
-      <div className="mt-4 flex items-center justify-between gap-3 border-t pt-4">
-        <FitBadge fit={fitFor(result.stack.score)} />
-        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-          See the full result
-          <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-        </span>
-      </div>
+      <StackCard
+        result={score(preset.input, kb)}
+        className="transition-colors group-hover:border-primary/40"
+        label={
+          <>
+            Example result · <span className="text-foreground">{preset.title}</span>
+          </>
+        }
+        footer={
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+            See the full result
+            <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+          </span>
+        }
+      />
     </Link>
   );
 }

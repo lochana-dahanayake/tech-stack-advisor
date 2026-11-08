@@ -175,3 +175,26 @@ describe("integrity: parts, languages and skills", () => {
     ).toMatch(/unknown criterion nope/);
   });
 });
+
+describe("integrity: question labels (Phase 3 form)", () => {
+  const withQuestion = (id: string, change: Partial<KnowledgeBase["questions"][number]>): KnowledgeBase => ({
+    ...kb,
+    questions: kb.questions.map((q) => (q.id === id ? { ...q, ...change } : q)),
+  });
+
+  it("every option of every question has a plain-language label", () => {
+    for (const q of kb.questions) expect(Object.keys(q.labels).sort(), q.id).toEqual([...q.options].sort());
+  });
+
+  it("flags a missing label, a label for no option, and a hint for no option", () => {
+    const appKind = kb.questions.find((q) => q.id === "app-kind")!;
+    const rest = Object.fromEntries(Object.entries(appKind.labels).filter(([o]) => o !== "portfolio"));
+    expect(problems(withQuestion("app-kind", { labels: rest }))).toMatch(/app-kind: no label for portfolio/);
+    expect(problems(withQuestion("app-kind", { labels: { ...appKind.labels, blog: "Blog" } }))).toMatch(
+      /app-kind: label for unknown option blog/,
+    );
+    expect(problems(withQuestion("app-kind", { hints: { blog: "A blog" } }))).toMatch(
+      /app-kind: hint for unknown option blog/,
+    );
+  });
+});

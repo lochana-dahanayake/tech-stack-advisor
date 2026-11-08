@@ -137,8 +137,12 @@ export const ruleSchema = z.object({
 export const questionSchema = z.object({
   id,
   text: z.string(),
+  // Form copy (Phase 3): an optional line under the question, a label per option and optional per-option hints.
+  help: z.string().min(1).optional(),
   kind: z.enum(["single", "multi"]),
   options: z.array(id).min(2),
+  labels: z.record(id, z.string().min(1)),
+  hints: z.record(id, z.string().min(1)).optional(),
 });
 
 export const skillRuleSchema = z.object({

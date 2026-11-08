@@ -5,7 +5,7 @@ Keep this current. At the end of every session, update **Next up** so the next (
 ## Next up
 **Phase 3: UI** (owner, 2026-11-08: make it look like a real product from day one), in four steps, one branch + PR each, reusing Architecture Advisor v1.4's design system with Tech Stack Advisor's own name and logo (Q35):
 1. [x] **Scaffold + landing** (session 11, 2026-11-09): Next.js 16.4.5 + Tailwind 4, teal design tokens, "layers" logo and favicon, sticky header and full footer, landing page with a live preview of a real `score()` result (example "Real-time chat app" = golden G3, computed at build time), six examples (each a golden scenario; `tests/ui/presets.test.ts` keeps them identical), `fitFor` (strong/good/possible/weak). `/advisor` is a placeholder page.
-2. [ ] **The form** at `/advisor`: situation questions (`questions.json`; they need plain-language labels for each answer id), team skills (none/some/strong per language, known frameworks, goal toggle), constraints, priorities (default criteria, "More priorities" for `advanced`), `?example=<preset id>` and `?new`, stored answers per tab.
+2. [x] **The form** (session 11, 2026-11-09): `/advisor` in four steps (Project, Team, Budget and rules, Priorities) with a live "Your stack so far" panel (the engine re-runs on every change), "Implied: at least High (from …)" badges read from the engine's fired floor rules, team skills, known frameworks and the goal toggle, `?new` and `?example=<id>`, answers kept per tab. Answer labels, hints and help now live in `questions.json` (KB schema §7.0). `checkInput` in the engine. Submitting shows the stack card until step 3. **Not yet:** locks (Q12; the engine has none yet).
 3. [ ] **The result page**: stack card with the stack score ring (sibling's verdict card), per-part ranked lists with "why" bars, comparison table with "checked on" dates, not-needed parts, close calls (types and stack), relation notes, ties. Likely needs the pure `recommendation/` module (ARCHITECTURE §2).
 4. [ ] **/changelog and Markdown export** (sibling's `changelog/page.tsx` and `result/markdown.ts`).
 Rules-only (no AI) is the whole app until Phase 4.
@@ -14,7 +14,7 @@ Rules-only (no AI) is the whole app until Phase 4.
 
 **Waiting for the owner (don't block on it):** Q32 (language `ecosystem`), Q33 (Next.js as the SPA pick; S15), Q34 (G8's hosting pick, a self-hosting scenario for `vps`, Railway vs Render).
 
-Session 11 (2026-11-09, local): Phase 3 step 1 (scaffold + landing). Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
+Session 11 (2026-11-09, local): Phase 3 steps 1 (scaffold + landing) and 2 (form). Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
 
 Owner's order (2026-10-24):
 1. [x] Set up the project: `package.json`, TypeScript strict, Vitest, ESLint (with the sibling's purity rule), Prettier, `npm run check`. Next.js is added with the UI (Phase 3).
@@ -56,7 +56,8 @@ Owner's order (2026-10-24):
 
 ## Phase 3: UI
 - [x] Next.js scaffold, design tokens, header/footer, landing page with a live result preview (2026-11-09)
-- [ ] Form (situation, team skills, constraints, locks, priorities), result page (stack, per-part lists, comparison table with "checked on" dates, not-needed parts)
+- [x] Form: situation, team skills, constraints, priorities (2026-11-09); locks wait for the engine
+- [ ] Result page (stack, per-part lists, comparison table with "checked on" dates, not-needed parts)
 - [ ] `?style=` hand-off; link from Architecture Advisor (Q2)
 
 ## Phase 4: AI layer
