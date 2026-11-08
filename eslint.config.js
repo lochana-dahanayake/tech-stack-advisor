@@ -1,16 +1,29 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier/flat";
 
-export default tseslint.config(
-  { ignores: ["node_modules/**", "coverage/**", "references/**", "docs/**"] },
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "coverage/**",
+    "references/**",
+    "docs/**",
+    "test-results/**",
+    // Local agent tooling (graft index, Claude Code helpers), not app code.
+    ".claude/**",
+    "graft/**",
+  ]),
   prettier,
   {
     // Fitness function (same as Architecture Advisor): the engine and the data it reads stay pure
-    // (no clock, randomness, network or runtime state).
-    files: ["src/modules/scoring/**", "src/modules/knowledge-base/**"],
+    // (no clock, randomness, network, browser state or framework code).
+    files: ["src/modules/scoring/**", "src/modules/knowledge-base/**", "src/modules/recommendation/**"],
     rules: {
       "no-restricted-globals": [
         "error",
@@ -44,4 +57,4 @@ export default tseslint.config(
       ],
     },
   },
-);
+]);

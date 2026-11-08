@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
@@ -17,19 +20,36 @@
     "kb:release-gate": "KB_RELEASE_GATE=1 vitest run tests/kb"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.70.0",
+    "next": "16.4.5",
+    "radix-ui": "^1.8.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwind-merge": "^3.7.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^10.13.0",
+    "eslint-config-next": "16.4.5",
     "eslint-config-prettier": "^10.1.8",
     "fast-check": "^4.10.2",
+    "playwright-core": "^1.65.0",
     "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.5",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.0",
     "vitest": "^5.0.5"
+  },
+  "overrides": {
+    "eslint": "$eslint"
   }
 }
