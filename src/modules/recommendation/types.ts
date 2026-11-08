@@ -1,0 +1,84 @@
+import type { Level } from "@/modules/knowledge-base";
+import type { Fit, ScoreResult, StackCloseCall, StackTie } from "@/modules/scoring";
+
+/** Where an option stands against the chosen stack (SCORING_ENGINE step 6, last paragraph). */
+export type StackLabel =
+  | { kind: "in-stack" }
+  | { kind: "fits" }
+  /** It requires another part to be one of `ids`, and the stack has something else (Django → needs Python). */
+  | { kind: "needs"; part: string; ids: string[] }
+  /** A pick in the stack rules it out: the pick requires something else here, or the two conflict. */
+  | { kind: "clashes"; with: string };
+
+/** One criterion's share of the base score: `points` add up to `base` (step 7 contributions). */
+export interface WhyRow {
+  criterion: string;
+  level: Level;
+  value: number; // the KB score, 1–5
+  points: number; // w·(value − 1)/4·100 / Σw
+}
+
+export interface Adjustment {
+  source: "rule" | "skill";
+  id?: string; // rule id
+  text: string;
+  points: number;
+}
+
+export interface FactView {
+  id: string;
+  kind: string;
+  text: string;
+  checked: string; // YYYY-MM-DD
+  /** Older than the KB's stale window for its kind on the date the caller passed in. */
+  stale: boolean;
+}
+
+export interface OptionView {
+  id: string;
+  rank: number;
+  base: number;
+  rules: number;
+  skill: number;
+  final: number;
+  cand: number;
+  fit: Fit;
+  label: StackLabel;
+  why: WhyRow[]; // sorted: biggest contribution first; criteria with weight 0 left out
+  adjustments: Adjustment[];
+  facts: FactView[];
+  /** Oldest `checked` date of the scores used for this part. */
+  scoresChecked: string;
+}
+
+export interface PartView {
+  partId: string;
+  needed: boolean;
+  notNeeded?: { ruleId: string; text: string };
+  types: { id: string; final: number; fit: Fit }[];
+  chosenType?: string;
+  /** A runner-up type within closeCallPoints of the chosen one. */
+  typeCloseCall?: string;
+  pick?: string;
+  options: OptionView[];
+  excluded: { id: string; reason: string }[];
+}
+
+export interface Recommendation {
+  kbVersion: string;
+  score: ScoreResult;
+  stackScore: number;
+  fit: Fit;
+  /** Display order: language, frontend, backend, database, hosting. */
+  parts: PartView[];
+  /** Criteria at Medium or above after floors, most important first (the comparison table's rows). */
+  topCriteria: string[];
+  /** Picks that aren't their part's #1, with the reason in words. */
+  adjusted: { partId: string; best: string; pick: string; reason: string }[];
+  closeCalls: StackCloseCall[];
+  ties: StackTie[];
+  /** "You chose Medium for Real-time; we used High because …". */
+  raised: { criterion: string; chosen: Level; used: Level; reason: string }[];
+  /** Rule notes and relation notes for the chosen stack. */
+  notes: { id?: string; text: string; points?: number }[];
+}

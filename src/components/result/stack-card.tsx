@@ -11,7 +11,8 @@ export function stackRows(result: ScoreResult) {
     if (!part) return [];
     const pick = result.stack.picks[partId];
     const product = part.products.find((p) => p.id === pick);
-    return [{ partId, needed: part.needed, pick, final: product?.final }];
+    // cand: the score the part is ranked by (SCORING_ENGINE step 5); the stack score is their mean.
+    return [{ partId, needed: part.needed, pick, final: product?.cand }];
   });
 }
 

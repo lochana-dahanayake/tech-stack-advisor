@@ -18,6 +18,8 @@ As a sanity check, here is the stack this app would recommend for itself (once t
 
 Boundaries are enforced by dependency-cruiser in `npm run check`: `scoring` and `recommendation` may not import React, Next, `platform`, `ai`, or use `Date`, `fetch`, `Math.random` (sibling ADR-004).
 
+**Status (2026-11-09):** `knowledge-base/`, `scoring/` and `recommendation/` exist; `ai/` and `platform/` come with Phase 4. Purity is enforced by the ESLint rule in `eslint.config.js` for all three (dependency-cruiser still to add).
+
 ## 3. Request flow
 1. The browser runs `score(input, kb)` and shows the full rule result at once.
 2. Unless the user opted out, it POSTs the input to `/api/explain`.
