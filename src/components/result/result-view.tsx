@@ -20,9 +20,10 @@ import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { FitBadge } from "./fit";
-import { criterionName, fmt, LEVEL_LABELS, optionName, PART_ORDER, partName } from "./format";
+import { fmt, LEVEL_LABELS, optionName, partName } from "./format";
 import { PartSection } from "./part-section";
 import { Section } from "./section";
+import { thingsToKnow } from "./things";
 
 const FIT_STROKE = {
   strong: "stroke-fit-strong",
@@ -80,7 +81,7 @@ function PickTiles({ rec }: { rec: Recommendation }) {
                   {optionName(pick.id)}
                 </a>
                 <span className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
-                  <span className="truncate">{p.chosenType ? optionName(p.chosenType) : " "}</span>
+                  <span className="truncate">{pick.type ? optionName(pick.type) : " "}</span>
                   <span className="tabular-nums">{fmt(pick.cand)}</span>
                 </span>
               </>
@@ -98,65 +99,21 @@ function PickTiles({ rec }: { rec: Recommendation }) {
 }
 
 /** Close calls, picks moved by the stack, raised priorities and notes: everything to read before deciding. */
+const THING_ICONS = {
+  "close-call": ScaleIcon,
+  adjusted: ArrowRightLeftIcon,
+  tie: ScaleIcon,
+  raised: InfoIcon,
+  note: TriangleAlertIcon,
+} as const;
+
 function ThingsToKnow({ rec }: { rec: Recommendation }) {
-  const items: { icon: typeof InfoIcon; tone: "info" | "warning"; title: string; body: React.ReactNode }[] = [];
-  for (const cc of rec.closeCalls) {
-    const alt = PART_ORDER.filter((p) => cc.picks[p] && cc.picks[p] !== rec.score.stack.picks[p]);
-    items.push({
-      icon: ScaleIcon,
-      tone: "info",
-      title: `Close call: ${alt.map((p) => optionName(cc.picks[p]!)).join(" + ")}`,
-      body: (
-        <>
-          A stack with {alt.map((p) => optionName(cc.picks[p]!)).join(" and ")} scores {fmt(cc.score)}, only{" "}
-          {fmt(cc.gap)} {Math.round(cc.gap) === 1 ? "point" : "points"} behind. {optionName(cc.best)} is the best{" "}
-          {partName(cc.partId, true).toLowerCase()} on its own, so it&apos;s worth a look.
-        </>
-      ),
-    });
-  }
-  for (const a of rec.adjusted)
-    items.push({
-      icon: ArrowRightLeftIcon,
-      tone: "info",
-      title: `${optionName(a.pick)} instead of ${optionName(a.best)} (${partName(a.partId, true).toLowerCase()})`,
-      body: (
-        <>
-          {optionName(a.best)} ranks first on its own, but the stack needs {optionName(a.pick)}: {a.reason}
-        </>
-      ),
-    });
-  for (const t of rec.ties)
-    items.push({
-      icon: ScaleIcon,
-      tone: "info",
-      title: `A tie: ${t.options.map(optionName).join(" and ")}`,
-      body: (
-        <>
-          They score the same. {optionName(t.pick)} is picked by{" "}
-          {t.reason === "stack score"
-            ? "the stack it makes"
-            : t.reason === "sum of final"
-              ? "the stack's total score"
-              : "the knowledge base's order"}
-          .
-        </>
-      ),
-    });
-  for (const r of rec.raised)
-    items.push({
-      icon: InfoIcon,
-      tone: "info",
-      title: `${criterionName(r.criterion)} counted as ${LEVEL_LABELS[r.used]}, not ${LEVEL_LABELS[r.chosen]}`,
-      body: r.reason,
-    });
-  for (const n of rec.notes)
-    items.push({
-      icon: TriangleAlertIcon,
-      tone: "warning",
-      title: n.points ? `Note (${n.points} points)` : "Note",
-      body: n.text,
-    });
+  const items = thingsToKnow(rec).map((t) => ({
+    icon: THING_ICONS[t.kind],
+    tone: t.kind === "note" ? ("warning" as const) : ("info" as const),
+    title: t.title,
+    body: t.body,
+  }));
   if (items.length === 0) return null;
   return (
     <Section id="know-heading" title="Things to know" description="Read these before you decide.">

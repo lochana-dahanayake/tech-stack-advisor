@@ -44,6 +44,8 @@ export interface OptionView {
   cand: number;
   fit: Fit;
   label: StackLabel;
+  /** The option's own best-ranked approach (a product can belong to several); undefined for one-level parts. */
+  type?: string;
   why: WhyRow[]; // sorted: biggest contribution first; criteria with weight 0 left out
   adjustments: Adjustment[];
   facts: FactView[];

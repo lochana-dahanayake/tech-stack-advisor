@@ -73,6 +73,13 @@ describe("buildRecommendation (ARCHITECTURE §2, SCORING_ENGINE step 7)", () => 
     ]);
   });
 
+  it("gives each option its own best-ranked approach (G8: Railway is a PaaS, though cloud ranks first)", () => {
+    const r = build(input("G8"));
+    expect(part(r, "hosting").chosenType).toBe("cloud");
+    expect(option(r, "hosting", "railway").type).toBe("paas");
+    expect(option(r, "language", "go").type).toBeUndefined(); // one-level part
+  });
+
   it("gives the reason an option was excluded", () => {
     const r = build(input("G8"));
     const excluded = part(r, "backend").excluded.find((e) => e.id === "frontend-server")!;

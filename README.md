@@ -4,7 +4,7 @@ A free web app (planned) that recommends **frameworks and a technical stack** fo
 
 It is the sibling of **[Architecture Advisor](https://github.com/lochana-dahanayake/architecture-advisor)** ([live](https://architecture-advisor-pink.vercel.app)), which recommends _architectural styles_. Tech Stack Advisor answers the next question: "I picked a style, now which tools should I build it with?"
 
-**Status:** Phase 3 (UI). The knowledge base covers all five parts (language, frontend, backend, database, hosting) as JSON with Zod validation, and the pure scoring engine ranks them and assembles a stack. The Next.js app has its landing page; the form and result page come next. `npm ci`, then `npm run dev` (app at http://localhost:3000), `npm run check` (lint, typecheck, format, tests) and `npm run calibrate` (prints the calibration tables). Start with `CLAUDE.md`, then `docs/`.
+**Status:** Phase 3 (UI). The knowledge base covers all five parts (language, frontend, backend, database, hosting) as JSON with Zod validation, and the pure scoring engine ranks them and assembles a stack. The Next.js app (v0.2.0) works end to end with AI off: landing page, a four-step form with a live stack preview, the full result page, `/changelog` and Markdown export. `npm ci`, then `npm run dev` (app at http://localhost:3000), `npm run check` (lint, typecheck, format, tests) and `npm run calibrate` (prints the calibration tables). Start with `CLAUDE.md`, then `docs/`.
 
 | Folder           | What's in it                                                                                                             |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |

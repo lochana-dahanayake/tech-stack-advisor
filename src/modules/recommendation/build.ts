@@ -153,6 +153,7 @@ export function buildRecommendation(
         cand: r.cand,
         fit: fitFor(r.final),
         label: label(o),
+        type: p.types.find((t) => o.types?.includes(t.id))?.id,
         why: why(o, criteria),
         adjustments: adjustments(o, r.skill),
         facts: facts(o),

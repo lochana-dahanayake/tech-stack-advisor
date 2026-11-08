@@ -29,6 +29,7 @@ const footerColumns = [
       { href: "/advisor?new", label: "Start a recommendation" },
       { href: "/#examples", label: "Examples" },
       { href: "/#how", label: "How it works" },
+      { href: "/changelog", label: "What's new" },
     ],
   },
   {
@@ -105,9 +106,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="border-t">
             <p className="mx-auto flex max-w-6xl flex-wrap justify-between gap-2 px-4 py-4 text-xs text-muted-foreground">
               <span>© 2026 Lochana Dahanayake</span>
-              <span className="tabular-nums">
+              <Link href="/changelog" className="tabular-nums transition-colors hover:text-foreground">
                 App v{APP_VERSION} · Knowledge base v{kb.meta.kbVersion}
-              </span>
+              </Link>
             </p>
           </div>
         </footer>
