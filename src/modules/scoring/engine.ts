@@ -1,3 +1,4 @@
+import { productCriteria as productCriteriaOf } from "@/modules/knowledge-base/integrity";
 import type { Effect, KnowledgeBase, Level, Option, Rule } from "@/modules/knowledge-base";
 import { evaluateCondition, maxLevel, usesDerived, type ConditionContext } from "./conditions";
 import type {
@@ -157,7 +158,7 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
     const second = rankedTypes[1];
     const typeFinal = new Map(types.map((t) => [t.id, t.final]));
 
-    const productCriteria = kb.criteria.filter((c) => c.appliesTo.includes(part.id)).map((c) => c.id);
+    const productCriteria = productCriteriaOf(kb, part.id);
     const partExcluded = all.filter((o) => excluded.has(o.id)).map((o) => o.id);
     const products: ProductResult[] = [];
     for (const o of all.filter((x) => x.level === "product")) {
@@ -278,8 +279,9 @@ export function assemble(
   const order = kb.options.map((o) => o.id);
   const ok = (picks: Record<string, string>) =>
     kb.compatibility.every((c) => {
-      if (!Object.values(picks).includes(c.option) || !(c.part in picks)) return true;
-      return c.anyOf.includes(picks[c.part]!);
+      // A requirement on a part that isn't in the stack fails: "pages from the backend" need a backend.
+      if (!Object.values(picks).includes(c.option)) return true;
+      return c.part in picks && c.anyOf.includes(picks[c.part]!);
     });
   type Found = { picks: Record<string, string>; score: number; sumFinal: number; key: number[] };
   // a beats b: higher stack score → higher sum of final → option ids earlier in KB order, part by part.

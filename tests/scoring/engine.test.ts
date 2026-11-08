@@ -162,7 +162,61 @@ describe("language part, team skills and stack assembly", () => {
     const r = score({ answers: { "app-kind": "portfolio", "data-shape": "none" } }, kb);
     expect(r.parts.language!.needed).toBe(false);
     expect(r.parts.language!.notNeededBy).toBe("S9");
-    expect(r.stack.picks).toEqual({});
+    // Only the frontend is left: static pages, no server (S12 removes the approaches that need one).
+    expect(Object.keys(r.stack.picks)).toEqual(["frontend"]);
+    expect(r.parts.frontend!.types.map((x) => x.id)).not.toContain("ssr");
+    expect(r.parts.frontend!.types.map((x) => x.id)).not.toContain("server-templates");
+  });
+
+  it("frontend: an API or a mobile backend has no web frontend (S2)", () => {
+    for (const kind of ["api-only", "mobile-backend"]) {
+      const r = score({ answers: { "app-kind": kind } }, kb);
+      expect(r.parts.frontend!.needed).toBe(false);
+      expect(r.parts.frontend!.notNeededBy).toBe("S2");
+    }
+  });
+
+  it("frontend: seo, interactivity and cost score approaches only, never products", () => {
+    const r = score({ weights: { seo: "critical", interactivity: "critical", cost: "critical" } }, kb);
+    const plain = score({}, kb);
+    for (const p of r.parts.frontend!.products)
+      expect(p.base).toBeCloseTo(plain.parts.frontend!.products.find((x) => x.id === p.id)!.base);
+    expect(r.parts.frontend!.types[0]!.base).not.toBeCloseTo(plain.parts.frontend!.types[0]!.base);
+  });
+
+  it("a requirement on a part that isn't in the stack fails (pages from the backend need a backend)", () => {
+    const k: KnowledgeBase = {
+      ...kb,
+      rules: [
+        ...kb.rules.filter((r) => r.id !== "S12"), // S12 would already remove this approach
+        rule({ id: "K93", when: { eq: ["style", "x"] }, effects: [{ type: "not-needed", part: "backend" }] }),
+        rule({
+          id: "K94",
+          when: { eq: ["style", "x"] },
+          effects: ["static", "spa", "ssr"].map((t) => ({ type: "exclude" as const, target: t })),
+        }),
+      ],
+    };
+    const r = score({ style: "x" }, k);
+    expect(r.parts.frontend!.products.map((p) => p.id)).toEqual(["backend-templates"]);
+    expect(r.stack.conflict).toMatch(/No combination/);
+  });
+
+  it("frontend-server needs a meta-framework with a server; content sites lose hydrating frameworks (S16)", () => {
+    const g5 = score(
+      {
+        answers: { "app-kind": "web-app", deadline: "very-tight", "team-size": "2-5", "data-shape": "linked" },
+        skills: { "typescript-node": "some" },
+      },
+      kb,
+    );
+    expect(g5.stack.picks.backend).toBe("frontend-server");
+    expect(["nextjs", "nuxt", "sveltekit", "astro"]).toContain(g5.stack.picks.frontend);
+    const site = score({ answers: { "app-kind": "portfolio", "data-shape": "none" } }, kb);
+    const app = score({ answers: { "app-kind": "web-app", "data-shape": "none" } }, kb);
+    const rulesOf = (r: typeof site, id: string) => r.parts.frontend!.products.find((p) => p.id === id)!.rules;
+    expect(rulesOf(site, "nextjs")).toBe(-10);
+    expect(rulesOf(app, "nextjs")).toBe(0);
   });
 
   it("assembles a stack that satisfies every requires relation and says which picks moved", () => {
@@ -252,7 +306,7 @@ describe("language part, team skills and stack assembly", () => {
     };
     const r = score({ style: "x" }, k);
     expect(r.stack.conflict).toMatch(/No combination/);
-    expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "language"]);
+    expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "frontend", "language"]);
   });
 
   it("evaluates part paths only after pass 1", () => {

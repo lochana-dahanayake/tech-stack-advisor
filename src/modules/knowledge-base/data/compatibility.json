@@ -168,5 +168,52 @@
         "quality": "P"
       }
     ]
+  },
+  {
+    "id": "C-frontend-server-frontend",
+    "kind": "requires",
+    "option": "frontend-server",
+    "part": "frontend",
+    "anyOf": [
+      "nextjs",
+      "nuxt",
+      "sveltekit",
+      "astro"
+    ],
+    "explanation": "The frontend framework's server exists only in a meta-framework with a server: Next.js, Nuxt, SvelteKit or Astro.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fe-repos",
+        "quality": "P",
+        "note": "server routes / API routes / endpoints docs"
+      }
+    ]
+  },
+  {
+    "id": "C-backend-templates-backend",
+    "kind": "requires",
+    "option": "backend-templates",
+    "part": "backend",
+    "anyOf": [
+      "express",
+      "fastify",
+      "fastapi",
+      "gin",
+      "nestjs",
+      "django",
+      "spring-boot",
+      "laravel",
+      "aspnet-core"
+    ],
+    "explanation": "Pages from the backend need a backend framework that renders templates.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P",
+        "note": "template support: Blade, Django templates, Thymeleaf, Razor, Jinja2Templates, @fastify/view, Express views, Gin HTML, NestJS MVC"
+      }
+    ]
   }
 ]

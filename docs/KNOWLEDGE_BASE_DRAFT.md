@@ -1,6 +1,6 @@
 # Knowledge Base Draft
 
-Status: **draft, parts 1–3 of 5: database (2026-10-23, revised 2026-10-24), backend and language (2026-10-24)**. Part 3 is on a **draft branch, not merged**: golden G8 fails and waits on the owner (§13, `OPEN_QUESTIONS.md` Q29). Real KB content in reviewable form. **Since 2026-10-24 the database and backend parts are also JSON** (`src/modules/knowledge-base/data/`, validated by Zod and `npm test`); where this draft and the JSON differ, the JSON holds unsourced extremes at 3 (§3b) and this draft shows the proposed values. Other parts follow in this order: language → frontend → hosting (`ROADMAP.md`). Shape and rules of the game: `KNOWLEDGE_BASE_SCHEMA.md`.
+Status: **draft, parts 1–4 of 5: database (2026-10-23, revised 2026-10-24), backend and language (2026-10-24), frontend (2026-11-08)**. Parts 1–4 are merged and stored as JSON (`src/modules/knowledge-base/data/`, validated by Zod and `npm test`); where this draft and the JSON differ, the JSON holds unsourced extremes at 3 (§3b) and this draft shows the proposed values. Part 5 (hosting) is next (`ROADMAP.md`). Shape and rules of the game: `KNOWLEDGE_BASE_SCHEMA.md`.
 
 ## Source tags
 `book:<id> <locator>` (ids from `references/INDEX.md`), `ref:<id>` (published source), `GK` (general knowledge: must be reviewed and, where it's comparative, backed by a second source before release), `DESIGN` (a product decision). **(P)** / **(S)** = primary / secondary evidence (`RESEARCH.md`). Every score below was checked **2026-10-23** unless noted.
@@ -360,3 +360,115 @@ Network open. Every source below was read directly; `npm run sources` re-reads t
    - `productivity`: GK for every language (C# 4 = Python 4 = TS 4 = PHP 4; Java 3, Go 3). Even, but unsourced.
    - **`ecosystem` is uneven:** C# 4 and Java 4 are GK, while Python and TS (proposed 5, GK) are **held at 3** by the 5-or-1 rule, and PHP 4 is the only sourced one (Packagist). So the rule that held Python's and TypeScript's 5s at 3 leaves C#'s and Java's GK 4s untouched. Probe `--variant lang-ecosystem-even` (every GK-only language `ecosystem` at 3): C# and Java lose 1.4–3.5 points (less where weights differ); where they were ahead of TypeScript they now tie with it (G2, G4, G6, G7, G11, G12) or fall behind it (G9, where C# drops to 5th), and the G8 close-call gap shrinks from 4.3 to 3.5. **No stack pick changes.** Not tuned: a decision for the owner (Q32).
    - Backend (ASP.NET Core vs Django/FastAPI/NestJS): `performance`, `community`, `maturity`, `productivity`, `real-time` are sourced for all (P); `learning-curve`, `scalability` and `ecosystem` are GK for all, with ASP.NET Core's and Django's GK 5s held at 3 alike. Even.
+
+# Part 4: Frontend
+Drafted and merged 2026-11-08 (session 9). Two levels: the **approach** (type) and the **framework** (product). Facts: `RESEARCH.md` §8, all checked **2026-11-08**, all P and reproducible with `npm run sources` unless marked GK.
+
+New source ids (rows in `references/INDEX.md`): `ref:fe-repos` (frameworks' own repos, docs and npm entries: own facts only), `ref:cwv-tech` (HTTP Archive Core Web Vitals technology report), `ref:mdn-learn` (MDN curriculum), `ref:whatwg-html` (HTML Living Standard), `ref:cloudflare-blog` (Astro ownership). `ref:web-rendering` (web.dev, "Rendering on the Web", Osmani and Miller, updated 2026-01-05) was read directly this session.
+
+## 14. Frontend criteria and rubrics
+Ten criteria apply. **Approaches** are scored on five fit criteria (`parts.json` → `typeCriteria`): `learning-curve`, `performance`, `seo`, `interactivity`, `cost`. **Frameworks** are scored on seven: `learning-curve`, `productivity`, `performance`, `ecosystem`, `community`, `maturity`, `type-safety`.
+
+`seo`, `interactivity` and `cost` are **approach-only** (`criteria.json` → `typeOnlyFor: ["frontend"]`, new in the schema). Reason (calibration finding 1, §18): they describe how pages are rendered, and a framework that offers several approaches (Next.js: server, static and single-page) would otherwise collect the best `seo` *and* the best `interactivity` at once and win every scenario. The approach decision handles them; a framework is listed under every approach it supports.
+
+Rubrics (DESIGN, Q20):
+- `community`: Stack Overflow 2026 web-framework usage with the **backend framework bands** (≥ 15% → 5, 10–15 → 4, 5–10 → 3, 2–5 → 2, < 2 → 1), since both come from the same survey question. Plain HTML uses the language question (HTML/CSS 58.2%) with the language bands.
+- `performance` (frameworks): two bands, **mean rounded down** (same method as the backend's TechEmpower rubric, §6), so a 5 needs both at 5:
+  1. **Core Web Vitals band** (`ref:cwv-tech`, 2026-09 crawl, mobile): share of real sites using the framework that pass all three Core Web Vitals: ≥ 60% → 5 · 45–60 → 4 · 35–45 → 3 · 25–35 → 2 · < 25 → 1.
+  2. **Rendering band** (`ref:web-rendering`): static pages or islands → 5 · server rendering without hydration → 4 · server rendering with hydration → 3 · client-side rendering → 2.
+
+  | Framework | CWV pass (mobile) | CWV band | Rendering | Band | Score |
+  |---|---|---|---|---|---|
+  | Astro | 71.1% | 5 | static + islands | 5 | **5** |
+  | Svelte | 53.6% | 4 | client-side | 2 | 3 |
+  | SvelteKit | 48.3% | 4 | SSR + hydration | 3 | 3 |
+  | React | 43.9% | 3 | client-side | 2 | 2 |
+  | Vue | 36.2% | 3 | client-side | 2 | 2 |
+  | Next.js | 35.7% | 3 | SSR + hydration | 3 | 3 |
+  | Nuxt | 28.8% | 2 | SSR + hydration | 3 | 2 |
+  | Angular | 16.5% | 1 | client-side | 2 | **1** |
+
+  Plain HTML 5 and the backend's templates 4 have no CWV category, so they use the rendering band alone (flagged). Caveat: CWV pass rates are a correlation over millions of real sites, not a controlled benchmark; site quality, hosting and audience devices matter too. That is why it is never used alone.
+- `maturity`: schema §8 rubric, applied as for the backend: ≥ 10 years since the first stable major **and** published support windows → 5; ≥ 10 years without published windows, or 5–10 years → 4; 2–5 years → 3. First stable majors from npm (P), windows from `ref:eol` and own docs.
+- `type-safety`: TypeScript required and templates type-checked → 5 (Angular); TypeScript first-class but optional → 4; nothing type-checked by default → 2 (plain HTML, most template languages; GK).
+- `learning-curve` (plain HTML only, `ref:mdn-learn`): HTML and CSS are the first core modules of MDN's curriculum and frameworks a later extension → 5. Framework-to-framework differences are GK.
+
+## 15. Frontend approaches (level 1)
+`frontend-none` ("No web frontend") has no scores; chosen by S2.
+
+| Approach | learn | perf | seo | interactivity | cost | Main sources |
+|---|---|---|---|---|---|---|
+| static (pre-built pages) | 4 | **5** | **5** | 2 | **5** | `ref:web-rendering` (fast TTFB/FCP, low TBT; cheap CDN serving; interactivity by adding JS); `ref:github-docs` (free static hosting) |
+| spa (single-page app) | 3 | 2 | 2 | **5** | **5** | `ref:web-rendering` (hard to keep fast on phones; SEO "can work" with extra testing; suits app-like experiences); builds to static files |
+| ssr (meta-framework) | 2 | 3 | **5** | 4 | 2 | `ref:web-rendering` (fast FCP, but hydration is "one app for the price of two"; crawlers get complete HTML; "significant compute overhead") |
+| server-templates (pages from the backend) | 4 | 4 | **5** | 2 | 4 | `ref:web-rendering` (SSR without hydration; suits content and links); cost: runs on the backend you already have (GK) |
+
+`learning-curve` of every approach and `cost` of server-templates are GK (flagged).
+
+## 16. Frontend frameworks (level 2)
+Order: learn · prod · perf · ecosystem · community · maturity · type-safety. `u` = unsourced, held at 3.
+
+| Framework | Approaches | Scores | Key facts (P, 2026-11-08) |
+|---|---|---|---|
+| **Plain HTML, CSS and JS** | static | **5** · 2 · **5** · 3 · **5** · **5** · 2 | No package (no licence of its own: allowed under "open source only", no badge). MDN teaches HTML/CSS first. HTML/CSS 58.2% (SO 2026). WHATWG living standard |
+| **Astro** | static, ssr | 4 · 4 · **5** · 3 · 3 · 3 · 4 | 7.4.7, MIT. 1.0 2022-08. Islands: zero JS by default. 6.2%. CWV 71.1%. The Astro company joined Cloudflare 2026-01-16; stays MIT (`ownership` fact) |
+| **React** | spa | 3 · 3 · 2 · 5u · **5** · 4 · 4 | 19.3.1, MIT. 15.0 2016-04 (versions before were 0.x); no end-of-life dates published. 41.5%. CWV 43.9%. React's docs point to frameworks for server rendering |
+| **Vue** | spa | 4 · 4 · 2 · 4 · **5** · 4 · 4 | 3.5.45, MIT. 1.0 2015-10; only the latest minor supported. Official router, Pinia, Vite. 17.2%. CWV 36.2% |
+| **Svelte** | spa | 4 · 4 · 3 · 3 · 3 · 4 · 4 | 5.57.3, MIT. 1.0 2016-11 (just under 10 years). 7.8%. CWV 53.6% |
+| **Angular** | spa, ssr | 2 · 4 · **1** · 4 · **5** · **5** · **5** | 22.2.5, MIT. 2.0 2016-09; each major 6 months active + 12 months LTS (22 to 2028-06). Router, forms, HTTP client, SSR, CLI first-party; TypeScript required, strict template checks. 16.0%. CWV 16.5% |
+| **Next.js** | ssr, static, spa | 3 · 4 · 3 · 4 · **5** · **5** · 4 | 16.4.5, MIT. 1.0 2016-10; LTS (15 to 2027-01). 20.6%. CWV 35.7% |
+| **Nuxt** | ssr, static | 3 · 4 · 2 · 4 · 2 · 4 · 4 | 4.6.4, MIT. 1.0 2018-01; end-of-life dates per major. 4.4%. CWV 28.8% |
+| **SvelteKit** | ssr, static, spa | 3 · 4 · 3 · 3 · 3 · 3 · 4 | 3.1.1, MIT. 1.0 2022-12. 5.6%. CWV 48.3% |
+| **The backend's templates** (bridge) | server-templates | 4 · 4 · 4 · 4 · **5** · 4 · 2 | Blade, Django templates, Thymeleaf, Razor, Jinja2. Community: the most used template-rendering backend, ASP.NET Core 19.9% (same method as `frontend-server`, which takes Next.js's share). Licence: the backend's |
+
+Unsourced extreme held at 3: React `ecosystem` (proposed 5: the largest component ecosystem; no comparable registry metric yet, the same gap as language `ecosystem`, Q32).
+
+Flagged (GK, need a second source before release): every framework `learning-curve` except plain HTML; `productivity` (no frontend rubric yet: a first-party building-block count like the backend's §6 is the obvious candidate); `ecosystem`; `type-safety` 2s; the bridge's `ecosystem`, `maturity`, `learning-curve`.
+
+**Not readable: State of JS 2025** (2025.stateofjs.com, 13,002 respondents): usage and satisfaction numbers are drawn by charts and not in the page text. Text only: front-end happiness 92% (average 3.7/5), meta-framework happiness 88%; Astro has the top meta-framework satisfaction and Next.js keeps gaining usage while losing satisfaction. Not used for scores (schema §8 rule 4: satisfaction only with another source). Q21.
+
+## 17. Frontend rules and relations
+| id | When | Effect | Source |
+|---|---|---|---|
+| S1 | app kind ∈ {content site, portfolio} | `static` +20; `seo` floor high | `ref:web-rendering` (static rendering when pages are known ahead and not personalised) |
+| S2 | app kind ∈ {API only, mobile backend} | frontend `not-needed` | DESIGN (Q19) |
+| S3 | app kind = web app **and** SEO not "yes" | `spa` +10 | `ref:web-rendering` |
+| S4 | SEO = yes **and** app kind ∈ {web app, e-commerce} | `ssr` +15, `spa` −10 | `ref:web-rendering` (SSR for dynamic pages; CSR SEO needs extra work) |
+| S10 | content site or portfolio **with** stored data | `server-templates` +10, `ssr` +10, `static` −10 | `ref:web-rendering` (every URL generated in advance vs live data) |
+| S11 | TS/JS skill none **and** another language at some/strong | `server-templates` +10 | `book:fosa ch.19` + DESIGN (one language, one project) |
+| S12 | backend not needed | exclude `server-templates`, `ssr` | DESIGN (follows B0) |
+| S13 | SEO = yes | `seo` floor high | DESIGN (the user's own answer) |
+| S14 | app kind ∈ {web app, internal tool, e-commerce} | `interactivity` floor high | `ref:web-rendering` + DESIGN |
+| S15 | same condition as B2 (very tight deadline, small TS/JS team, an app) | `ssr` +20, `spa` −10 | DESIGN, follows B2; **flagged for the owner (Q33)** |
+| S16 | app kind ∈ {content site, portfolio} | `nextjs`, `nuxt`, `sveltekit` −10 | `ref:web-rendering` ("fine to mostly ship HTML with minimal JavaScript"; full hydration "rarely the best option"; prerendering ≠ static rendering) |
+
+Relations (`compatibility.json`): `C-frontend-server-frontend` (the frontend framework's server needs Next.js, Nuxt, SvelteKit or Astro) and `C-backend-templates-backend` (pages from the backend need a backend framework that renders templates: all nine server frameworks, not `frontend-server`). **Engine change:** a `requires` relation now fails when the required part isn't in the stack (before, a missing part counted as satisfied; no earlier relation was affected: the `session8` variant reproduces the old tables exactly).
+
+## 18. Calibration log (frontend)
+### Session 9 (2026-11-08): first frontend run
+`npm run calibrate` (`## frontend` table and the frontend column of `## stack`). `--variant session8` is the KB without the frontend part and reproduces every earlier table byte for byte (checked against the old `current` snapshot).
+
+1. **First run: Next.js won every scenario and `static` won every app.** Two causes. (a) Frameworks were scored on `seo` and `interactivity` too, so Next.js (server, static and single-page) collected 5s on both; with `community` 5 and `maturity` 5 it led every list, and as a static-capable product it never paid a type gap. **Fix:** `seo`, `interactivity` (and `cost`) score approaches only (§14). (b) Nothing raised `interactivity` for an app or `seo` when the user asked for search engines, so with every weight Low the static approach (5s on performance, seo, cost) won everything. **Fix:** S14 and S13.
+2. **`performance` was GK.** Found a primary, public metric: the HTTP Archive Core Web Vitals technology report. With the rubric of §14, Astro gets 5 and Angular 1 from evidence instead of opinion.
+3. **G1 (portfolio) still picked Next.js** over Astro and plain HTML, on `community` and `maturity`. web.dev's guidance is direct: content pages should ship HTML with little JavaScript, and full hydration is rarely the best option. **S16** (−10 for the meta-frameworks that hydrate every page, on content sites only) and plain HTML's sourced `learning-curve` 5 (MDN) give plain HTML 71.4, Astro 67.9, Next.js 65.0.
+4. **G5 (MVP) chose `spa`**, although the stack's backend is the frontend framework's own server (B2). **S15** mirrors B2 on the frontend side. Flagged: the owner said not to raise B2's weight; S15 is a separate frontend rule (Q33).
+5. **The bridge "the backend's templates" lost on placeholder 3s** for `ecosystem`/`community`. `community` now follows the `frontend-server` precedent (the most used framework of its kind: ASP.NET Core 19.9%).
+
+**Result:**
+| Scenario | Approaches | Frameworks (cand) | Stack (frontend · backend · database · language) |
+|---|---|---|---|
+| G1 portfolio | **static** 100.0; spa 50.0 | plain-html 71.4, astro 67.9, nextjs 65.0 | plain-html · — · — · — |
+| G2 e-commerce, Java | **ssr** 84.4; server-templates 76.7; static 72.2 | nextjs 80.0, angular 75.0 | nextjs · spring-boot · postgresql · java |
+| G3 chat, TS | **spa** 81.4; static 64.3 | nextjs 75.0, vue 71.4, angular 67.9 | nextjs · nestjs · postgresql · typescript-node |
+| G4 dashboard, Python | **spa** 71.4; server-templates 67.1 (close call) | nextjs 75.0, vue 71.4 | nextjs · fastapi · postgresql · python |
+| G5 MVP | **ssr** 80.7; spa 71.4 | nextjs 75.0 | nextjs · frontend-server · postgresql · typescript-node |
+| G6 .NET | **spa** 71.4; server-templates 67.1 (close call) | nextjs 80.6, angular 75.0 | nextjs · aspnet-core · postgresql · csharp |
+| G7 agency, PHP | **server-templates** 98.6; static 95.7 (close call) | backend-templates 71.4, plain-html 68.6 | backend-templates · laravel · postgresql · php |
+| G8 API | not needed (S2) | — | — · aspnet-core · postgresql · csharp (close call gin · go −4.3, unchanged) |
+| G9 beginner, Python | **spa** 76.7; server-templates 71.1 | vue 72.2, nextjs 69.4 | vue · fastapi · sqlite · python |
+
+**Every frontend expectation holds** (TESTING_STRATEGY §3), and **no backend, database or language pick changed** in any golden scenario. Type-win coverage: `static` G1 (and G12), `spa` G3, G4, G6, G9–G11, G13, `ssr` G2, G5, `server-templates` G7, `none` G8.
+
+**Open findings for the owner (Q33):**
+- **Next.js is the framework pick in most app scenarios**, also where the approach is `spa` (G3, G4, G6, G10–G13), because it is listed under all three approaches and has sourced `community` 5 and `maturity` 5 (published LTS). React, the SPA most people would name, scores lower on `performance` (CWV 43.9% but client-side band 2), `productivity` (GK 3) and its unsourced `ecosystem` (held at 3). Fair by the evidence we have, but the UI would say "Single-page app: Next.js". Options: keep; list Next.js under `ssr` and `static` only (its SPA mode is a static export without server features); or source React's `ecosystem`/`productivity` first (the sourcing-first approach the owner chose for C# in session 5).
+- **S15** (above).

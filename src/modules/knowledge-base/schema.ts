@@ -54,6 +54,8 @@ export const criterionSchema = z.object({
   name: z.string(),
   short: z.string(),
   appliesTo: z.array(id).min(1),
+  // Parts where only the types are scored on this criterion (KB schema §4: `cost` for frontend approaches).
+  typeOnlyFor: z.array(id).optional(),
   visibility: z.enum(["default", "advanced"]),
 });
 
@@ -72,6 +74,8 @@ export const optionSchema = z.object({
       spdx: z.string(),
       osi: z.boolean(),
       publicDomain: z.literal(true).optional(),
+      // Not a package with a licence of its own: plain HTML, or a bridge option that uses another part's product.
+      notAPackage: z.literal(true).optional(),
       sources: z.array(sourceSchema).min(1),
     })
     .optional(),

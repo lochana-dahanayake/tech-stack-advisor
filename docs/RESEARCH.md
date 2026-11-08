@@ -172,3 +172,17 @@ Used by the backend part of the KB draft (§6–10). Read from the frameworks' o
 | Stack Overflow 2026, languages (of 14,099 answering) | JavaScript 62.0%, Python 58.0%, TypeScript 43.8%, Java 27.6%, C# 27.1%, PHP 17.7%, Go 16.5%, Kotlin 10.8% | **P since session 7** (official data `technology.json`, question "Languages"; same numbers as the S values) |
 | Learners and teaching | SO 2025 results blog: Python #1 among people learning to code. Guo 2014 (CACM blog): Python the most common intro language at top US departments. Siegfried et al. 2021: CS1 mostly Java, Python, C++, C. UK 2016: Java most common | S (all via search summaries; sites blocked) |
 | JetBrains 2025 | Primary language: Python 35%, Java 33%, JavaScript 26%, TypeScript 22% (InfoWorld summary). Not used for scores yet | S |
+
+## 8. Frontend (session 9, checked 2026-11-08)
+Network open (local session). Every number below is printed by `npm run sources` except web.dev, MDN and State of JS.
+| Item | Finding | Mark |
+|---|---|---|
+| Stack Overflow 2026, web frameworks (of 10,281) | React 41.5%, Next.js 20.6%, Vue.js 17.2%, Angular 16.0%, Svelte 7.8%, Astro 6.2%, SvelteKit 5.6%, Nuxt.js 4.4%. Languages: HTML/CSS 58.2% (of 14,099) | P (official data) |
+| HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile, origins passing all three CWV | Astro 71.1% (47,277 tested), Svelte 53.6%, SvelteKit 48.3%, React 43.9% (1,283,019), Vue.js 36.2%, Next.js 35.7%, Nuxt.js 28.8%, Angular 16.5%. API `https://cdn.httparchive.org/v1/cwv` (host from `HTTPArchive/httparchive.org` `src/js/techreport/utils/constants.js`). Correlational: real sites, not a benchmark | P |
+| npm registry | Latest: React 19.3.1, Vue 3.5.45, Svelte 5.57.3, Angular 22.2.5, Next.js 16.4.5, Nuxt 4.6.4, SvelteKit 3.1.1, Astro 7.4.7; all MIT. First stable major: React 15.0.0 2016-04-07, Vue 1.0.0 2015-10-27, Svelte 1.0.0 2016-11-29, Angular 2.0.0 2016-09-15, Next.js 1.0.0 2016-10-25, Nuxt 1.0.0 2018-01-08, SvelteKit 1.0.0 2022-12-14, Astro 1.0.0 2022-08-09 | P |
+| Support windows (endoflife.date data repo) | Angular 22 to 2028-06 (est.), 21 to 2027-06; Next.js 16 LTS, 15 to 2027-01-31; Nuxt 3 ended 2026-07-31; Vue: only the latest minor; React and Svelte: no end-of-life dates. Astro and SvelteKit: no entry | P |
+| web.dev "Rendering on the Web" (Osmani, Miller; updated 2026-01-05) | Static: fast TTFB/FCP, low TBT, cheap CDN serving, every URL built ahead. CSR: hard to keep fast on phones, SEO "can work" with extra testing, suits app-like UIs. SSR: fast FCP, can raise TTFB, "significant compute overhead". SSR + hydration: "one app for the price of two", "rarely the best option". "Fine to mostly ship HTML with minimal JavaScript" | P (read directly) |
+| MDN curriculum | Core modules start with HTML (structuring content) and CSS, then JavaScript; frameworks are an extension module | P |
+| Astro ownership | Cloudflare blog 2026-01-16: The Astro Technology Company joined Cloudflare; Astro stays MIT open source | P (vendor page, own fact) |
+| State of JS 2025 | 13,002 respondents; per-framework numbers only in charts (not readable from the page text). Text: front-end happiness 92%, meta-frameworks 88%; Astro top meta-framework satisfaction | not used (Q21) |
+

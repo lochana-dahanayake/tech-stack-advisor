@@ -9,7 +9,7 @@ import compatibility from "./data/compatibility.json";
 import type { KnowledgeBase } from "./schema";
 
 export type * from "./schema";
-export { findIntegrityProblems, listSources, isComparativeExtreme } from "./integrity";
+export { findIntegrityProblems, listSources, isComparativeExtreme, productCriteria } from "./integrity";
 export { isOpenSourceAllowed, licenceBadge } from "./licence";
 
 export const rawKnowledgeBase = { meta, parts, criteria, options, questions, rules, skills, compatibility };

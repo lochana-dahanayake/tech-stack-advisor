@@ -4,7 +4,7 @@ import { score, type PartResult } from "@/modules/scoring";
 import { golden, type PartExpectation, type Scenario } from "./golden";
 
 function check(
-  part: "database" | "backend" | "language",
+  part: "frontend" | "database" | "backend" | "language",
   p: PartResult,
   e: PartExpectation & { inTop3?: string[] },
   s: Scenario,
@@ -29,11 +29,11 @@ function check(
   }
 }
 
-describe("golden scenarios (database, backend and language parts, assembled stack)", () => {
+describe("golden scenarios (frontend, database, backend and language parts, assembled stack)", () => {
   for (const s of golden) {
     it(`${s.id} ${s.title}`, () => {
       const r = score(s.input, kb);
-      for (const part of ["database", "backend", "language"] as const) {
+      for (const part of ["frontend", "database", "backend", "language"] as const) {
         const e = s.expect[part];
         if (e) check(part, r.parts[part]!, e, s);
       }

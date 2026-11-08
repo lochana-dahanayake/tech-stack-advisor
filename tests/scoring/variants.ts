@@ -31,27 +31,34 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
       };
     },
   },
+  session8: {
+    description: "current without the frontend part (Part 4, session 9): the KB of session 8",
+    apply: (kb) => withoutFrontend(kb),
+  },
   session7: {
     description:
-      "current, with the session-8 changes undone (D9 back to 'commercial multi-user app'; no T7, so close calls may use a language nobody knows): the KB of session 7",
-    apply: (kb) => ({
-      ...kb,
-      skills: kb.skills.filter((s) => !("knownCloseCalls" in s.when)),
-      rules: kb.rules.map((r) =>
-        r.id === "D9"
-          ? {
-              ...r,
-              when: {
-                all: [
-                  { eq: ["q.commercial", "yes"] },
-                  { in: ["q.app-kind", ["e-commerce", "web-app", "mobile-backend", "api-only"]] },
-                  { not: { has: ["q.data-flags", "single-user"] } },
-                ],
-              },
-            }
-          : r,
-      ),
-    }),
+      "session8, with the session-8 changes undone (D9 back to 'commercial multi-user app'; no T7, so close calls may use a language nobody knows): the KB of session 7",
+    apply: (base) => {
+      const kb = withoutFrontend(base);
+      return {
+        ...kb,
+        skills: kb.skills.filter((s) => !("knownCloseCalls" in s.when)),
+        rules: kb.rules.map((r) =>
+          r.id === "D9"
+            ? {
+                ...r,
+                when: {
+                  all: [
+                    { eq: ["q.commercial", "yes"] },
+                    { in: ["q.app-kind", ["e-commerce", "web-app", "mobile-backend", "api-only"]] },
+                    { not: { has: ["q.data-flags", "single-user"] } },
+                  ],
+                },
+              }
+            : r,
+        ),
+      };
+    },
   },
   session6: {
     description:
@@ -106,15 +113,18 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
   },
   "lang-ecosystem-even": {
     description:
-      "probe (session 8 audit, not a KB change): every language ecosystem score backed only by GK held at 3, as Python's and TypeScript's already are",
-    apply: (kb) => ({
-      ...kb,
-      options: kb.options.map((o) => {
-        const e = o.scores.ecosystem;
-        if (o.part !== "language" || !e || e.sources.some((x) => x.kind !== "general")) return o;
-        return { ...o, scores: { ...o.scores, ecosystem: { ...e, value: 3 } } };
-      }),
-    }),
+      "probe (session 8 audit, not a KB change, on the session-8 KB): every language ecosystem score backed only by GK held at 3, as Python's and TypeScript's already are",
+    apply: (base) => {
+      const kb = withoutFrontend(base);
+      return {
+        ...kb,
+        options: kb.options.map((o) => {
+          const e = o.scores.ecosystem;
+          if (o.part !== "language" || !e || e.sources.some((x) => x.kind !== "general")) return o;
+          return { ...o, scores: { ...o.scores, ecosystem: { ...e, value: 3 } } };
+        }),
+      };
+    },
   },
   "session2-no-d0": {
     description: "session2 without rule D0: the run that motivated D0 (session 2, finding 3)",
@@ -154,5 +164,26 @@ function useProposedValues(kb: KnowledgeBase): KnowledgeBase {
         Object.entries(o.scores).map(([c, s]) => [c, s.unsourced && s.proposed ? { ...s, value: s.proposed } : s]),
       ),
     })),
+  };
+}
+
+const FRONTEND_RULES = ["S1", "S2", "S3", "S4", "S10", "S11", "S12", "S13", "S14", "S15", "S16"];
+
+/** The KB before Part 4 (session 9): no frontend part, its criteria, rules, relations or B2's ssr effect. */
+export function withoutFrontend(kb: KnowledgeBase): KnowledgeBase {
+  const frontendIds = new Set(kb.options.filter((o) => o.part === "frontend").map((o) => o.id));
+  return {
+    ...kb,
+    parts: kb.parts.filter((p) => p.id !== "frontend"),
+    criteria: kb.criteria
+      .filter((c) => !(c.appliesTo.length === 1 && c.appliesTo[0] === "frontend"))
+      .map((c) => ({ ...c, typeOnlyFor: undefined, appliesTo: c.appliesTo.filter((p) => p !== "frontend") })),
+    options: kb.options.filter((o) => o.part !== "frontend"),
+    rules: kb.rules
+      .filter((r) => !FRONTEND_RULES.includes(r.id))
+      .map((r) => ({ ...r, effects: r.effects.filter((e) => !("target" in e) || !frontendIds.has(e.target)) })),
+    compatibility: kb.compatibility.filter(
+      (c) => c.part !== "frontend" && !frontendIds.has(c.option) && !c.anyOf.some((x) => frontendIds.has(x)),
+    ),
   };
 }

@@ -33,6 +33,11 @@ function conditionPaths(c: Condition): { path: string; values: string[]; op: str
   return conditionPaths(c.not);
 }
 
+/** Criteria a part's products are scored on: those that apply to the part, minus type-only ones (KB schema §4). */
+export function productCriteria(kb: KnowledgeBase, partId: string): string[] {
+  return kb.criteria.filter((c) => c.appliesTo.includes(partId) && !c.typeOnlyFor?.includes(partId)).map((c) => c.id);
+}
+
 /** Cross-file checks the Zod schema can't express. Returns human-readable problems; empty means valid. */
 export function findIntegrityProblems(kb: KnowledgeBase): string[] {
   const p: string[] = [];
@@ -50,6 +55,9 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
 
   for (const part of kb.parts) {
     const applicable = kb.criteria.filter((c) => c.appliesTo.includes(part.id)).map((c) => c.id);
+    for (const c of kb.criteria)
+      for (const t of c.typeOnlyFor ?? [])
+        if (!c.appliesTo.includes(t)) p.push(`criterion ${c.id}: type-only part ${t} isn't in appliesTo`);
     for (const c of part.typeCriteria ?? [])
       if (!applicable.includes(c)) p.push(`part ${part.id}: type criterion ${c} doesn't apply to the part`);
     const nones = kb.options.filter((o) => o.part === part.id && o.none);
@@ -83,10 +91,7 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
         else if (type.none) p.push(`${o.id}: none types have no products`);
       }
       if (!o.licence) p.push(`${o.id}: licence missing`);
-      expectScores(
-        o,
-        kb.criteria.filter((c) => c.appliesTo.includes(o.part)).map((c) => c.id),
-      );
+      expectScores(o, productCriteria(kb, o.part));
     }
     for (const [c, s] of Object.entries(o.scores)) {
       if (!criteria.has(c)) p.push(`${o.id}: unknown criterion ${c}`);
