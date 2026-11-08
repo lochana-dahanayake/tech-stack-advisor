@@ -2,8 +2,7 @@ import type { KnowledgeBase } from "@/modules/knowledge-base";
 import type { ScoreResult, UserInput } from "@/modules/scoring";
 
 /**
- * Golden scenarios (TESTING_STRATEGY §3), written in full. Hosting expectations arrive with Part 5. Criteria not in
- * the KB yet (cost for hosting) are left out of `weights` and noted.
+ * Golden scenarios (TESTING_STRATEGY §3), written in full, for all five parts (hosting since Part 5, 2026-11-08).
  */
 export interface PartExpectation {
   notNeeded?: true;
@@ -26,6 +25,7 @@ export interface Scenario {
   input: UserInput;
   expect: {
     frontend?: PartExpectation;
+    hosting?: PartExpectation;
     database?: PartExpectation;
     backend?: PartExpectation;
     language?: PartExpectation & { inTop3?: string[] };
@@ -53,6 +53,10 @@ export const golden: Scenario[] = [
       database: { notNeeded: true },
       backend: { notNeeded: true },
       frontend: { typeIn: ["static"], typeNot: ["spa"], productIn: ["astro", "plain-html"] },
+      hosting: {
+        typeIn: ["static-hosting", "frontend-platform"],
+        productIn: ["github-pages", "netlify", "cloudflare", "vercel"],
+      },
     },
   },
   {
@@ -84,6 +88,7 @@ export const golden: Scenario[] = [
       },
       backend: { productIn: ["spring-boot"] },
       frontend: { typeIn: ["ssr", "server-templates"] },
+      hosting: { typeIn: ["paas", "cloud"], productNot: ["github-pages", "netlify"] },
     },
   },
   {
@@ -103,6 +108,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["typescript-node"] },
       backend: { productIn: ["fastify", "nestjs", "express"] },
       frontend: { typeIn: ["spa"] },
+      hosting: { typeIn: ["paas", "cloud", "frontend-platform"], productNot: ["netlify"] },
     },
   },
   {
@@ -123,6 +129,7 @@ export const golden: Scenario[] = [
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { productIn: ["fastapi", "django"] },
       frontend: { typeIn: ["spa", "server-templates"] },
+      hosting: { typeIn: ["paas"] },
     },
   },
   {
@@ -144,6 +151,7 @@ export const golden: Scenario[] = [
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeIn: ["fullstack"], productIn: ["frontend-server"] },
       frontend: { typeIn: ["ssr"], productIn: ["nextjs", "nuxt", "sveltekit"] },
+      hosting: { typeIn: ["frontend-platform"], productNot: ["vps-server"] },
     },
   },
   {
@@ -163,6 +171,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["csharp"] },
       database: { typeIn: ["relational"] },
       backend: { productIn: ["aspnet-core"] },
+      hosting: { typeIn: ["cloud"], productIn: ["azure"] },
     },
   },
   {
@@ -184,13 +193,14 @@ export const golden: Scenario[] = [
       database: { typeIn: ["relational"], productIn: ["mysql", "postgresql"] },
       backend: { productIn: ["laravel"] },
       frontend: { typeIn: ["server-templates"], typeNot: ["spa"] },
+      hosting: { typeIn: ["paas", "vps"] },
     },
   },
   {
     id: "G8",
     title: "High-throughput REST API",
     input: {
-      // "Steady heavy load" = traffic large. `cost` High is a hosting criterion, not in the KB yet.
+      // "Steady heavy load" = traffic large. `cost` High (a hosting criterion since Part 5, 2026-11-08).
       answers: {
         "app-kind": "api-only",
         "data-shape": "linked",
@@ -198,7 +208,7 @@ export const golden: Scenario[] = [
         "team-size": "6-15",
         experience: "experienced",
       },
-      weights: { performance: "critical" },
+      weights: { performance: "critical", cost: "high" },
       skills: { go: "some" },
     },
     // Q29 (owner, 2026-10-24): with primary numbers C# + ASP.NET Core still beats Go + Gin by less than 5 points,
@@ -208,6 +218,8 @@ export const golden: Scenario[] = [
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeNot: ["fullstack"], productIn: ["gin", "aspnet-core"] },
       frontend: { notNeeded: true },
+      // Approach only: the stack's pick is a PaaS by 2.5 points (owner question Q34, KB draft §23).
+      hosting: { typeIn: ["cloud", "vps"] },
       stackCloseCall: {
         partId: "language",
         pick: "csharp",
@@ -238,6 +250,11 @@ export const golden: Scenario[] = [
       database: { typeIn: ["relational"], productIn: ["sqlite", "postgresql"] },
       backend: { productIn: ["django", "fastapi"] },
       frontend: { typeIn: ["server-templates", "spa"] },
+      hosting: {
+        typeIn: ["paas"],
+        productIn: ["render", "github-pages", "netlify", "vercel", "cloudflare", "aws", "azure", "gcp"],
+        productNot: ["railway", "fly-io", "vps-server"],
+      },
     },
   },
   {
@@ -257,7 +274,11 @@ export const golden: Scenario[] = [
       skills: { java: "strong", go: "some" },
       style: "microservices",
     },
-    expect: { language: { productIn: ["java"] }, backend: { productIn: ["spring-boot"] } },
+    expect: {
+      language: { productIn: ["java"] },
+      backend: { productIn: ["spring-boot"] },
+      hosting: { typeIn: ["cloud", "paas"], typeNot: ["frontend-platform"], productNot: ["github-pages", "netlify"] },
+    },
   },
   {
     id: "G12",

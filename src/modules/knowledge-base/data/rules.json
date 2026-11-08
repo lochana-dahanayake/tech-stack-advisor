@@ -567,6 +567,16 @@
         "type": "modify",
         "target": "frontend-server",
         "points": -10
+      },
+      {
+        "type": "modify",
+        "target": "paas",
+        "points": 5
+      },
+      {
+        "type": "modify",
+        "target": "cloud",
+        "points": 5
       }
     ],
     "explanation": "Separate services usually get their own backend; the frontend framework's server is a poor fit. One database per service is common.",
@@ -1099,6 +1109,864 @@
         "ref": "web-rendering",
         "quality": "P",
         "note": "'fine to mostly ship HTML with minimal JavaScript'; full hydration is 'rarely the best option'; prerendering is not static rendering"
+      }
+    ]
+  },
+  {
+    "id": "K1",
+    "name": "Commercial project on a free budget: no Vercel Hobby",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.commercial",
+            "yes"
+          ]
+        },
+        {
+          "eq": [
+            "q.budget",
+            "free-only"
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "vercel"
+      }
+    ],
+    "explanation": "Vercel's free Hobby plan is for non-commercial, personal use only.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-pricing",
+        "quality": "P",
+        "note": "vercel.com/docs/plans/hobby (2026-09-14)"
+      }
+    ]
+  },
+  {
+    "id": "K1b",
+    "name": "Commercial app: no GitHub Pages",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.commercial",
+            "yes"
+          ]
+        },
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "e-commerce",
+              "web-app"
+            ]
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "github-pages"
+      }
+    ],
+    "explanation": "GitHub Pages may not be used as free hosting for an online business, e-commerce or commercial SaaS.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "github-docs",
+        "quality": "P",
+        "note": "github-pages-limits.md"
+      }
+    ]
+  },
+  {
+    "id": "K1c",
+    "name": "Commercial site on GitHub Pages: check the terms",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.commercial",
+            "yes"
+          ]
+        },
+        {
+          "not": {
+            "in": [
+              "q.app-kind",
+              [
+                "e-commerce",
+                "web-app"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "note",
+        "text": "GitHub Pages isn't meant for running an online business; a company or agency site is usually fine, but check GitHub's terms."
+      }
+    ],
+    "explanation": "Commercial sites that aren't a shop or a SaaS may use GitHub Pages, within its terms.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "github-docs",
+        "quality": "P",
+        "note": "github-pages-limits.md"
+      }
+    ]
+  },
+  {
+    "id": "K2",
+    "name": "Commercial project with a budget: Vercel needs Pro",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.commercial",
+            "yes"
+          ]
+        },
+        {
+          "not": {
+            "eq": [
+              "q.budget",
+              "free-only"
+            ]
+          }
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "note",
+        "text": "Vercel: commercial projects need the paid Pro plan ($20 a month per seat); Hobby is non-commercial only."
+      }
+    ],
+    "explanation": "Vercel's Hobby plan is non-commercial; a commercial project on Vercel needs Pro.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-pricing",
+        "quality": "P",
+        "note": "vercel.com/pricing; docs/plans/hobby"
+      }
+    ]
+  },
+  {
+    "id": "K3",
+    "name": "Must self-host",
+    "when": {
+      "eq": [
+        "q.hosting-rule",
+        "self-host"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "github-pages"
+      },
+      {
+        "type": "exclude",
+        "target": "netlify"
+      },
+      {
+        "type": "exclude",
+        "target": "vercel"
+      },
+      {
+        "type": "exclude",
+        "target": "cloudflare"
+      },
+      {
+        "type": "exclude",
+        "target": "render"
+      },
+      {
+        "type": "exclude",
+        "target": "railway"
+      },
+      {
+        "type": "exclude",
+        "target": "fly-io"
+      },
+      {
+        "type": "exclude",
+        "target": "aws"
+      },
+      {
+        "type": "exclude",
+        "target": "azure"
+      },
+      {
+        "type": "exclude",
+        "target": "gcp"
+      },
+      {
+        "type": "exclude",
+        "target": "static-hosting"
+      },
+      {
+        "type": "exclude",
+        "target": "frontend-platform"
+      },
+      {
+        "type": "exclude",
+        "target": "paas"
+      },
+      {
+        "type": "exclude",
+        "target": "cloud"
+      }
+    ],
+    "explanation": "You must run it on your own server, so only a server you control fits.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "K3; no v1 provider offers on-premises",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "K4",
+    "name": "Must use AWS",
+    "when": {
+      "eq": [
+        "q.hosting-rule",
+        "aws"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "github-pages"
+      },
+      {
+        "type": "exclude",
+        "target": "netlify"
+      },
+      {
+        "type": "exclude",
+        "target": "vercel"
+      },
+      {
+        "type": "exclude",
+        "target": "cloudflare"
+      },
+      {
+        "type": "exclude",
+        "target": "render"
+      },
+      {
+        "type": "exclude",
+        "target": "railway"
+      },
+      {
+        "type": "exclude",
+        "target": "fly-io"
+      },
+      {
+        "type": "exclude",
+        "target": "azure"
+      },
+      {
+        "type": "exclude",
+        "target": "gcp"
+      },
+      {
+        "type": "exclude",
+        "target": "vps-server"
+      },
+      {
+        "type": "exclude",
+        "target": "static-hosting"
+      },
+      {
+        "type": "exclude",
+        "target": "frontend-platform"
+      },
+      {
+        "type": "exclude",
+        "target": "paas"
+      },
+      {
+        "type": "exclude",
+        "target": "vps"
+      }
+    ],
+    "explanation": "You said the project must run on AWS.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "K4: a hosting constraint works like a lock",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "K4b",
+    "name": "Must use Microsoft Azure",
+    "when": {
+      "eq": [
+        "q.hosting-rule",
+        "azure"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "github-pages"
+      },
+      {
+        "type": "exclude",
+        "target": "netlify"
+      },
+      {
+        "type": "exclude",
+        "target": "vercel"
+      },
+      {
+        "type": "exclude",
+        "target": "cloudflare"
+      },
+      {
+        "type": "exclude",
+        "target": "render"
+      },
+      {
+        "type": "exclude",
+        "target": "railway"
+      },
+      {
+        "type": "exclude",
+        "target": "fly-io"
+      },
+      {
+        "type": "exclude",
+        "target": "aws"
+      },
+      {
+        "type": "exclude",
+        "target": "gcp"
+      },
+      {
+        "type": "exclude",
+        "target": "vps-server"
+      },
+      {
+        "type": "exclude",
+        "target": "static-hosting"
+      },
+      {
+        "type": "exclude",
+        "target": "frontend-platform"
+      },
+      {
+        "type": "exclude",
+        "target": "paas"
+      },
+      {
+        "type": "exclude",
+        "target": "vps"
+      }
+    ],
+    "explanation": "You said the project must run on Microsoft Azure.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "K4: a hosting constraint works like a lock",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "K4c",
+    "name": "Must use Google Cloud",
+    "when": {
+      "eq": [
+        "q.hosting-rule",
+        "gcp"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "github-pages"
+      },
+      {
+        "type": "exclude",
+        "target": "netlify"
+      },
+      {
+        "type": "exclude",
+        "target": "vercel"
+      },
+      {
+        "type": "exclude",
+        "target": "cloudflare"
+      },
+      {
+        "type": "exclude",
+        "target": "render"
+      },
+      {
+        "type": "exclude",
+        "target": "railway"
+      },
+      {
+        "type": "exclude",
+        "target": "fly-io"
+      },
+      {
+        "type": "exclude",
+        "target": "aws"
+      },
+      {
+        "type": "exclude",
+        "target": "azure"
+      },
+      {
+        "type": "exclude",
+        "target": "vps-server"
+      },
+      {
+        "type": "exclude",
+        "target": "static-hosting"
+      },
+      {
+        "type": "exclude",
+        "target": "frontend-platform"
+      },
+      {
+        "type": "exclude",
+        "target": "paas"
+      },
+      {
+        "type": "exclude",
+        "target": "vps"
+      }
+    ],
+    "explanation": "You said the project must run on Google Cloud.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "K4: a hosting constraint works like a lock",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "K5",
+    "name": "Free only: no paid-from-day-one hosting",
+    "when": {
+      "eq": [
+        "q.budget",
+        "free-only"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "railway"
+      },
+      {
+        "type": "exclude",
+        "target": "fly-io"
+      },
+      {
+        "type": "exclude",
+        "target": "vps-server"
+      }
+    ],
+    "explanation": "These have no free tier that keeps a server running: Railway's free $1 a month covers a few days of a small server, Fly.io gives new accounts a 7-day trial, a VPS is paid from the start.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-pricing",
+        "quality": "P",
+        "note": "railway.com/pricing; docs.fly.io/about/free-trial; digitalocean.com/pricing/droplets"
+      }
+    ]
+  },
+  {
+    "id": "K6",
+    "name": "Open-source licences only",
+    "when": {
+      "eq": [
+        "q.open-source-only",
+        "yes"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "mongodb"
+      },
+      {
+        "type": "note",
+        "text": "Redis 8 can be used under the AGPLv3; Valkey is BSD-licensed. PostgreSQL's JSONB stores documents too."
+      }
+    ],
+    "explanation": "You asked for open-source licences only, so products under licences that OSI doesn't approve are left out (public domain, as SQLite, is allowed).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "db-repos",
+        "quality": "P",
+        "note": "licence files"
+      },
+      {
+        "kind": "design",
+        "note": "owner Q16, Q28",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "K7",
+    "name": "Real-time: no Netlify Functions",
+    "when": {
+      "eq": [
+        "q.real-time",
+        "yes"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "netlify",
+        "points": -15
+      }
+    ],
+    "explanation": "Netlify Functions can't hold WebSocket connections, so live updates need a separate service.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "vercel-repo",
+        "quality": "P",
+        "note": "RESEARCH §4b: no WebSocket API in @netlify/functions"
+      },
+      {
+        "kind": "design",
+        "note": "owner Q24",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "K8",
+    "name": "A backend needs a server",
+    "when": {
+      "eq": [
+        "part.backend",
+        "needed"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "static-hosting"
+      }
+    ],
+    "explanation": "Your stack has backend code, and static hosting can't run it.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "github-docs",
+        "quality": "P",
+        "note": "static files only"
+      }
+    ]
+  },
+  {
+    "id": "A2",
+    "name": "Serverless style",
+    "when": {
+      "eq": [
+        "style",
+        "serverless"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "frontend-platform",
+        "points": 10
+      },
+      {
+        "type": "modify",
+        "target": "cloud",
+        "points": 10
+      }
+    ],
+    "explanation": "Serverless architectures run on functions, which frontend platforms and clouds provide.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa"
+      }
+    ]
+  },
+  {
+    "id": "S17",
+    "name": "Only files to serve",
+    "when": {
+      "eq": [
+        "part.backend",
+        "not-needed"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "static-hosting",
+        "points": 15
+      }
+    ],
+    "explanation": "Nothing runs on a server, so any static host can serve the site; free static hosting is the simplest fit.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "github-docs",
+        "quality": "P"
+      },
+      {
+        "kind": "design",
+        "note": "hosting follows the stack: no backend",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S18",
+    "name": "A separate server backend",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "part.backend",
+            "needed"
+          ]
+        },
+        {
+          "not": {
+            "all": [
+              {
+                "eq": [
+                  "q.deadline",
+                  "very-tight"
+                ]
+              },
+              {
+                "in": [
+                  "q.team-size",
+                  [
+                    "solo",
+                    "2-5"
+                  ]
+                ]
+              },
+              {
+                "in": [
+                  "skill.typescript-node",
+                  [
+                    "some",
+                    "strong"
+                  ]
+                ]
+              },
+              {
+                "in": [
+                  "q.app-kind",
+                  [
+                    "web-app",
+                    "e-commerce",
+                    "internal-tool"
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "paas",
+        "points": 10
+      }
+    ],
+    "explanation": "Your backend is a server process. A platform as a service runs it as it is; frontend platforms run it as short-lived functions (no long jobs or lasting connections, time limits per request).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-docs",
+        "quality": "P",
+        "note": "Vercel Functions: max duration 300 s on Hobby, instances come and go; Netlify Functions: ephemeral runtime"
+      },
+      {
+        "kind": "design",
+        "note": "B2 situation excepted: there the frontend framework is the server",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S19",
+    "name": "Large scale",
+    "when": {
+      "any": [
+        {
+          "in": [
+            "q.traffic",
+            [
+              "large",
+              "spiky"
+            ]
+          ]
+        },
+        {
+          "eq": [
+            "q.team-size",
+            "16-plus"
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "cloud",
+        "points": 10
+      }
+    ],
+    "explanation": "Large or spiky traffic, or a big team, is where a cloud provider's range of services and scaling pays off.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "scale and team size decide when the extra work of a cloud pays off",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S20",
+    "name": "Steady heavy load on a cost budget",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.traffic",
+            "large"
+          ]
+        },
+        {
+          "gte": [
+            "weight.cost",
+            "high"
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "paas",
+        "points": -10
+      },
+      {
+        "type": "modify",
+        "target": "frontend-platform",
+        "points": -10
+      },
+      {
+        "type": "modify",
+        "target": "vps",
+        "points": 10
+      }
+    ],
+    "explanation": "At steady heavy load, platforms that bill per use cost several times more per CPU and GB than a rented server (Railway: $20 per vCPU and $10 per GB of RAM a month; a DigitalOcean server with 1 vCPU and 1 GB: $6).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-pricing",
+        "quality": "P",
+        "note": "railway.com/pricing; digitalocean.com/pricing/droplets; Vercel and Netlify bill active CPU and GB-hours"
+      }
+    ]
+  },
+  {
+    "id": "S21",
+    "name": "One project on a frontend platform",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.deadline",
+            "very-tight"
+          ]
+        },
+        {
+          "in": [
+            "q.team-size",
+            [
+              "solo",
+              "2-5"
+            ]
+          ]
+        },
+        {
+          "in": [
+            "skill.typescript-node",
+            [
+              "some",
+              "strong"
+            ]
+          ]
+        },
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "web-app",
+              "e-commerce",
+              "internal-tool"
+            ]
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "frontend-platform",
+        "points": 10
+      }
+    ],
+    "explanation": "Same situation as B2: the frontend framework is also the server, and frontend platforms build and deploy such a project directly from Git.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "follows B2 and S15",
+        "reviewed": false
+      },
+      {
+        "kind": "ref",
+        "ref": "vercel-repo",
+        "quality": "P",
+        "note": "framework presets"
       }
     ]
   }

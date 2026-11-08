@@ -7,7 +7,8 @@
       "backend",
       "frontend",
       "database",
-      "language"
+      "language",
+      "hosting"
     ],
     "visibility": "default"
   },
@@ -30,7 +31,8 @@
       "backend",
       "frontend",
       "database",
-      "language"
+      "language",
+      "hosting"
     ],
     "visibility": "default"
   },
@@ -40,7 +42,8 @@
     "short": "Handles much more traffic or data by adding resources",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "hosting"
     ],
     "visibility": "default"
   },
@@ -50,7 +53,8 @@
     "short": "Live updates (chat, notifications) via WebSockets or similar",
     "appliesTo": [
       "backend",
-      "database"
+      "database",
+      "hosting"
     ],
     "visibility": "default"
   },
@@ -86,7 +90,8 @@
       "backend",
       "frontend",
       "database",
-      "language"
+      "language",
+      "hosting"
     ],
     "visibility": "default"
   },
@@ -125,7 +130,8 @@
     "short": "Licence and hosting cost at small-to-medium scale",
     "appliesTo": [
       "database",
-      "frontend"
+      "frontend",
+      "hosting"
     ],
     "visibility": "default",
     "typeOnlyFor": [
@@ -137,7 +143,8 @@
     "name": "Low operations work",
     "short": "Little to configure, patch, back up and monitor yourself",
     "appliesTo": [
-      "database"
+      "database",
+      "hosting"
     ],
     "visibility": "default"
   },
@@ -146,7 +153,8 @@
     "name": "Easy to move away",
     "short": "Low vendor lock-in; standard formats and tools",
     "appliesTo": [
-      "database"
+      "database",
+      "hosting"
     ],
     "visibility": "advanced"
   },

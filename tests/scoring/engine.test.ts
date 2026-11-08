@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { kb, type KnowledgeBase, type Rule } from "@/modules/knowledge-base";
+import { isOpenSourceAllowed, kb, type KnowledgeBase, type Rule } from "@/modules/knowledge-base";
 import { baseScore, evaluateCondition, score, validateInput } from "@/modules/scoring";
 import { golden } from "./golden";
 
@@ -163,9 +163,132 @@ describe("language part, team skills and stack assembly", () => {
     expect(r.parts.language!.needed).toBe(false);
     expect(r.parts.language!.notNeededBy).toBe("S9");
     // Only the frontend is left: static pages, no server (S12 removes the approaches that need one).
-    expect(Object.keys(r.stack.picks)).toEqual(["frontend"]);
+    expect(Object.keys(r.stack.picks)).toEqual(["frontend", "hosting"]);
     expect(r.parts.frontend!.types.map((x) => x.id)).not.toContain("ssr");
     expect(r.parts.frontend!.types.map((x) => x.id)).not.toContain("server-templates");
+  });
+
+  describe("hosting rules and relations (Part 5)", () => {
+    const host = (input: Parameters<typeof score>[0], k: KnowledgeBase = kb) => score(input, k);
+    const ids = (r: ReturnType<typeof score>, part = "hosting") => r.parts[part]!.products.map((p) => p.id);
+
+    it("K1: commercial + free only excludes Vercel; K1b: a commercial app excludes GitHub Pages", () => {
+      expect(ids(host({ answers: { commercial: "yes", budget: "free-only" } }))).not.toContain("vercel");
+      expect(ids(host({ answers: { commercial: "yes", "app-kind": "e-commerce" } }))).not.toContain("github-pages");
+      const site = host({ answers: { commercial: "yes", "app-kind": "content-site", "data-shape": "none" } });
+      expect(site.notes.join(" ")).toMatch(/GitHub Pages isn't meant for running an online business/);
+    });
+
+    it("K2: a commercial project with a budget gets the Vercel Pro note", () => {
+      expect(host({ answers: { commercial: "yes", budget: "small-paid" } }).notes.join(" ")).toMatch(/Pro plan/);
+    });
+
+    it("K3: must self-host leaves only the VPS", () => {
+      const r = host({ answers: { "hosting-rule": "self-host" } });
+      expect(ids(r)).toEqual(["vps-server"]);
+      expect(r.parts.hosting!.chosenType).toBe("vps");
+      expect(r.stack.picks.hosting).toBe("vps-server");
+    });
+
+    it("K4: a required cloud is the only hosting option", () => {
+      for (const cloud of ["aws", "azure", "gcp"]) {
+        const r = host({ answers: { "hosting-rule": cloud } });
+        expect(ids(r)).toEqual([cloud]);
+        expect(r.stack.picks.hosting).toBe(cloud);
+      }
+    });
+
+    it("K5: free only excludes Railway, Fly.io and the VPS", () => {
+      const left = ids(host({ answers: { budget: "free-only" } }));
+      for (const x of ["railway", "fly-io", "vps-server"]) expect(left).not.toContain(x);
+    });
+
+    it("K6: open source only excludes MongoDB (SSPL) but keeps SQLite (public domain)", () => {
+      const r = host({ answers: { "open-source-only": "yes", "data-shape": "documents" } });
+      expect(ids(r, "database")).not.toContain("mongodb");
+      expect(ids(r, "database")).toContain("sqlite");
+      expect(r.notes.join(" ")).toMatch(/JSONB/);
+      // Every product that isn't open source (and isn't public domain or a service) is in K6's list.
+      const k6 = kb.rules.find((x) => x.id === "K6")!;
+      const excluded = k6.effects.flatMap((e) => (e.type === "exclude" ? [e.target] : []));
+      const notOpen = kb.options.filter((o) => o.level === "product" && !isOpenSourceAllowed(o)).map((o) => o.id);
+      expect(excluded.sort()).toEqual(notOpen.sort());
+    });
+
+    it("K7: real-time costs Netlify 15 points; Vercel only gets the pub/sub note", () => {
+      const base = host({});
+      const live = host({ answers: { "real-time": "yes" } });
+      const rulesOf = (r: typeof base, id: string) => r.parts.hosting!.products.find((p) => p.id === id)?.rules ?? 0;
+      expect(rulesOf(live, "netlify") - rulesOf(base, "netlify")).toBe(-15);
+      expect(rulesOf(live, "vercel")).toBe(rulesOf(base, "vercel"));
+      const relations = kb.compatibility.filter((c) => c.id === "C-vercel-realtime");
+      expect(relations).toHaveLength(1);
+    });
+
+    it("K8: a stack with a backend never uses static hosting", () => {
+      const r = host({ answers: { "app-kind": "web-app" } });
+      expect(r.parts.hosting!.types.map((x) => x.id)).not.toContain("static-hosting");
+      expect(r.stack.picks.hosting).not.toBe("github-pages");
+    });
+
+    it("K9: Java on Vercel pays the beta penalty (-5, or -10 with maturity High), off once the fact says GA", () => {
+      const k: KnowledgeBase = {
+        ...kb,
+        rules: [
+          ...kb.rules,
+          rule({
+            id: "K95",
+            when: { eq: ["style", "x"] },
+            effects: [
+              "github-pages",
+              "netlify",
+              "cloudflare",
+              "render",
+              "railway",
+              "fly-io",
+              "aws",
+              "azure",
+              "gcp",
+              "vps-server",
+            ].map((t) => ({ type: "exclude" as const, target: t })),
+          }),
+        ],
+      };
+      const java = { style: "x", skills: { java: "strong" as const }, answers: { "app-kind": "api-only" as const } };
+      const r = host(java, k);
+      expect(r.stack.picks.hosting).toBe("vercel");
+      expect(r.stack.picks.language).toBe("java");
+      expect(r.stack.relationNotes).toContainEqual(expect.objectContaining({ id: "C-vercel-container", points: -5 }));
+      const mature = host({ ...java, weights: { maturity: "high" } }, k);
+      expect(mature.stack.relationNotes).toContainEqual(
+        expect.objectContaining({ id: "C-vercel-container", points: -10 }),
+      );
+      const ga: KnowledgeBase = {
+        ...k,
+        options: k.options.map((o) =>
+          o.id === "vercel"
+            ? { ...o, facts: o.facts.map((f) => (f.id === "container-runtime" ? { ...f, status: "ga" as const } : f)) }
+            : o,
+        ),
+      };
+      expect(host(java, ga).stack.relationNotes.map((n) => n.id)).not.toContain("C-vercel-container");
+      expect(host(java, ga).stack.score).toBeGreaterThan(r.stack.score);
+    });
+
+    it("K10: SQLite never shares a stack with a function platform; on a single server it gets a note", () => {
+      const r = host({ answers: { "data-flags": ["single-user"], budget: "free-only" } });
+      if (r.stack.picks.database === "sqlite")
+        expect(["netlify", "vercel", "cloudflare", "render"]).not.toContain(r.stack.picks.hosting);
+      const paid = host({ answers: { "data-flags": ["single-user"], "hosting-rule": "aws" } });
+      expect(paid.stack.picks.database).toBe("sqlite");
+      expect(paid.stack.relationNotes.map((n) => n.id)).toContain("C-sqlite-single-server");
+    });
+
+    it("a conflict that moves a pick is named as the reason", () => {
+      const r = host({ skills: { java: "strong" }, answers: { "app-kind": "api-only" } });
+      for (const a of r.stack.adjusted) expect(a.relation).not.toBe("");
+      expect(["netlify", "cloudflare"]).not.toContain(r.stack.picks.hosting);
+    });
   });
 
   it("frontend: an API or a mobile backend has no web frontend (S2)", () => {
@@ -306,7 +429,7 @@ describe("language part, team skills and stack assembly", () => {
     };
     const r = score({ style: "x" }, k);
     expect(r.stack.conflict).toMatch(/No combination/);
-    expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "frontend", "language"]);
+    expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "frontend", "hosting", "language"]);
   });
 
   it("evaluates part paths only after pass 1", () => {

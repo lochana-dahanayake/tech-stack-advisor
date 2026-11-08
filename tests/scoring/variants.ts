@@ -1,10 +1,15 @@
 import type { KnowledgeBase } from "@/modules/knowledge-base";
+import type { UserInput } from "@/modules/scoring";
+import type { Scenario } from "./golden";
 
 /**
  * KB variants that reproduce earlier calibration runs (KNOWLEDGE_BASE_DRAFT §5 and §10). Each is the current KB
  * with the documented differences undone, so every number in the calibration log comes from a command in the repo.
  */
-export const variants: Record<string, { description: string; apply: (kb: KnowledgeBase) => KnowledgeBase }> = {
+export const variants: Record<
+  string,
+  { description: string; apply: (kb: KnowledgeBase) => KnowledgeBase; inputs?: (s: Scenario) => UserInput }
+> = {
   current: { description: "The KB as committed", apply: (kb) => kb },
   draft: {
     description: "Unsourced scores at their proposed (draft) values: the KB as drafted in PR #5 (session 3)",
@@ -31,15 +36,19 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
       };
     },
   },
+  session9: {
+    description: "current without the hosting part (Part 5, session 10): the KB of session 9",
+    apply: (kb) => withoutHosting(kb),
+  },
   session8: {
-    description: "current without the frontend part (Part 4, session 9): the KB of session 8",
-    apply: (kb) => withoutFrontend(kb),
+    description: "session9 without the frontend part (Part 4, session 9): the KB of session 8",
+    apply: (kb) => withoutFrontend(withoutHosting(kb)),
   },
   session7: {
     description:
       "session8, with the session-8 changes undone (D9 back to 'commercial multi-user app'; no T7, so close calls may use a language nobody knows): the KB of session 7",
     apply: (base) => {
-      const kb = withoutFrontend(base);
+      const kb = withoutFrontend(withoutHosting(base));
       return {
         ...kb,
         skills: kb.skills.filter((s) => !("knownCloseCalls" in s.when)),
@@ -115,7 +124,7 @@ export const variants: Record<string, { description: string; apply: (kb: Knowled
     description:
       "probe (session 8 audit, not a KB change, on the session-8 KB): every language ecosystem score backed only by GK held at 3, as Python's and TypeScript's already are",
     apply: (base) => {
-      const kb = withoutFrontend(base);
+      const kb = withoutFrontend(withoutHosting(base));
       return {
         ...kb,
         options: kb.options.map((o) => {
@@ -187,3 +196,55 @@ export function withoutFrontend(kb: KnowledgeBase): KnowledgeBase {
     ),
   };
 }
+
+const HOSTING_RULES = [
+  "S17",
+  "S18",
+  "S19",
+  "S20",
+  "S21",
+  "K1",
+  "K1b",
+  "K1c",
+  "K2",
+  "K3",
+  "K4",
+  "K4b",
+  "K4c",
+  "K5",
+  "K6",
+  "K7",
+  "K8",
+  "A2",
+];
+const HOSTING_RELATIONS = ["C-frontend-server-realtime"];
+
+/** The KB before Part 5 (session 10): no hosting part, its rules (and A1's hosting effects) or relations. */
+export function withoutHosting(kb: KnowledgeBase): KnowledgeBase {
+  const hostingIds = new Set(kb.options.filter((o) => o.part === "hosting").map((o) => o.id));
+  return {
+    ...kb,
+    parts: kb.parts.filter((p) => p.id !== "hosting"),
+    criteria: kb.criteria.map((c) => ({ ...c, appliesTo: c.appliesTo.filter((p) => p !== "hosting") })),
+    options: kb.options.filter((o) => o.part !== "hosting"),
+    rules: kb.rules
+      .filter((r) => !HOSTING_RULES.includes(r.id))
+      .map((r) => ({ ...r, effects: r.effects.filter((e) => !("target" in e) || !hostingIds.has(e.target)) })),
+    compatibility: kb.compatibility.filter(
+      (c) =>
+        c.part !== "hosting" &&
+        !hostingIds.has(c.option) &&
+        !c.anyOf.some((x) => hostingIds.has(x)) &&
+        !HOSTING_RELATIONS.includes(c.id),
+    ),
+  };
+}
+
+/** Scenario inputs before session 10: G8 had no `cost` weight (cost became a hosting criterion with Part 5). */
+function beforeSession10(s: Scenario): UserInput {
+  if (s.id !== "G8") return s.input;
+  const weights = { ...s.input.weights };
+  delete weights.cost;
+  return { ...s.input, weights };
+}
+for (const [name, v] of Object.entries(variants)) if (name !== "current") v.inputs ??= beforeSession10;

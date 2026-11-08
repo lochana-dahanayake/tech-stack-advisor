@@ -81,6 +81,15 @@ export const optionSchema = z.object({
     .optional(),
   scores: z.record(id, scoreEntrySchema),
   facts: z.array(factSchema),
+  // Hosting products (KB schema §5): the free tier in one line and whether it allows commercial use; null = none.
+  freeTier: z
+    .object({
+      summary: z.string().min(1),
+      commercialUse: z.union([z.boolean(), z.literal("unknown")]),
+      checked: date,
+    })
+    .nullable()
+    .optional(),
   // Type-win coverage exemption (TESTING_STRATEGY §3): only with a written reason.
   coverageExempt: z.object({ reason: z.string().min(1), sources: z.array(sourceSchema).min(1) }).optional(),
 });
@@ -161,12 +170,22 @@ export const skillRuleSchema = z.object({
   sources: z.array(sourceSchema).min(1),
 });
 
+// Relations between an option and the pick of another part (KB schema §6). A relation applies while `when` holds.
+//  requires: hard filter; when `option` is in the stack, `part` must be in the stack with a pick in `anyOf`.
+//  conflicts: hard filter; `option` can't be used with a pick in `anyOf` for `part`.
+//  note: no effect on the pick; the explanation is shown under the stack when the pair is in it.
+//  penalty: the stack pays `points` for the pair (K9: a beta feature, read from the option's dated fact `fact`;
+//  while that fact says GA the penalty is off). `highMaturityPoints` applies instead when weight.maturity ≥ high.
 export const relationSchema = z.object({
   id: z.string(),
-  kind: z.literal("requires"),
+  kind: z.enum(["requires", "conflicts", "note", "penalty"]),
   option: id,
   part: id,
   anyOf: z.array(id).min(1),
+  when: conditionSchema.optional(),
+  points: z.number().int().max(0).optional(),
+  highMaturityPoints: z.number().int().max(0).optional(),
+  fact: id.optional(),
   explanation: z.string(),
   sources: z.array(sourceSchema).min(1),
 });

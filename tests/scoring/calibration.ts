@@ -1,6 +1,6 @@
 import type { KnowledgeBase } from "@/modules/knowledge-base";
 import { score, type PartResult } from "@/modules/scoring";
-import { golden, probes, teamLanguagePick } from "./golden";
+import { golden, probes, teamLanguagePick, type Scenario } from "./golden";
 import { variants } from "./variants";
 
 const f = (x: number) => x.toFixed(1);
@@ -15,12 +15,19 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   const variant = variants[variantName];
   if (!variant) throw new Error(`unknown variant ${variantName}; one of ${Object.keys(variants).join(", ")}`);
   const k = variant.apply(kb);
+  // Historic variants replay the scenario inputs of their time (variants.ts, inputs).
+  const inputOf = (s: Scenario) => (variant.inputs ? variant.inputs(s) : s.input);
   const out = [`Variant: ${variantName}: ${variant.description}. KB ${k.meta.kbVersion}.`, ""];
   const hasFrontend = k.parts.some((p) => p.id === "frontend");
+  const hasHosting = k.parts.some((p) => p.id === "hosting");
+  // Stack columns: the parts this KB variant has, in a fixed order (older variants print fewer).
+  const cols = ["frontend", "backend", "database", "hosting", "language"].filter(
+    (id) => (id !== "frontend" || hasFrontend) && (id !== "hosting" || hasHosting),
+  );
   for (const part of ["database", "backend"] as const) {
     out.push(`## ${part}`, "| Scenario | Types | Products |", "|---|---|---|");
     for (const s of [...golden, ...probes]) {
-      const r = score(s.input, k);
+      const r = score(inputOf(s), k);
       const p = r.parts[part]!;
       let products = "—";
       if (p.needed && part === "database") {
@@ -34,7 +41,7 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
           .slice(0, 3)
           .map((x) => `${x.id} ${f(x.cand)}`)
           .join(", ");
-        const pick = teamLanguagePick(r, s.input, k);
+        const pick = teamLanguagePick(r, inputOf(s), k);
         const row = p.products.find((x) => x.id === pick);
         products = `${top}; team language: ${pick} ${row ? f(row.cand) : ""}`;
       }
@@ -42,11 +49,11 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
     }
     out.push("");
   }
-  // Added 2026-11-08 (Part 4): the frontend part, only for KB variants that have it.
-  if (hasFrontend) {
-    out.push("## frontend", "| Scenario | Types | Products (final) |", "|---|---|---|");
+  // Added 2026-11-08: the frontend (Part 4) and hosting (Part 5) parts, only for KB variants that have them.
+  for (const extra of ["frontend", "hosting"].filter((id) => cols.includes(id))) {
+    out.push(`## ${extra}`, "| Scenario | Types | Products (final) |", "|---|---|---|");
     for (const s of [...golden, ...probes]) {
-      const p = score(s.input, k).parts.frontend!;
+      const p = score(inputOf(s), k).parts[extra]!;
       const products = p.needed
         ? p.products
             .slice(0, 4)
@@ -61,7 +68,7 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   // "team language" stand-in above instead.
   out.push("## language", "| Scenario | Languages (final) |", "|---|---|");
   for (const s of [...golden, ...probes]) {
-    const p = score(s.input, k).parts.language;
+    const p = score(inputOf(s), k).parts.language;
     if (!p) continue;
     out.push(
       `| ${s.id} ${s.title} | ${p.needed ? p.products.map((x) => `${x.id} ${f(x.final)}`).join(", ") : `not needed (${p.notNeededBy})`} |`,
@@ -70,24 +77,21 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   out.push(
     "",
     "## stack",
-    `| Scenario | Stack (${hasFrontend ? "frontend · " : ""}backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |`,
-    "|---|---|---|---|---|---|",
+    `| Scenario | Stack (${cols.join(" · ")}) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |${hasHosting ? " Notes |" : ""}`,
+    `|---|---|---|---|---|---|${hasHosting ? "---|" : ""}`,
   );
   for (const s of [...golden, ...probes]) {
-    const st = score(s.input, k).stack;
+    const st = score(inputOf(s), k).stack;
     const pick = (id: string) => st.picks[id] ?? "—";
     const adj = st.adjusted.map((a) => `${a.partId}: ${a.best} → ${a.pick} (${a.relation})`).join("; ") || "—";
     const ties =
       st.ties.map((t) => `${t.partId}: ${t.options.join(" = ")} → ${t.pick} (${t.reason})`).join("; ") || "—";
     const close =
       st.closeCalls
-        .map(
-          (c) =>
-            `${hasFrontend ? `${c.picks.frontend ?? "—"} · ` : ""}${c.picks.backend ?? "—"} · ${c.picks.database ?? "—"} · ${c.picks.language ?? "—"} ${f(c.score)} (−${f(c.gap)})`,
-        )
+        .map((c) => `${cols.map((id) => c.picks[id] ?? "—").join(" · ")} ${f(c.score)} (−${f(c.gap)})`)
         .join("; ") || "—";
     out.push(
-      `| ${s.id} ${s.title} | ${hasFrontend ? `${pick("frontend")} · ` : ""}${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} | ${close} |`,
+      `| ${s.id} ${s.title} | ${cols.map(pick).join(" · ")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} | ${close} |${hasHosting ? ` ${st.relationNotes.map((n) => n.id + (n.points ? ` ${n.points}` : "")).join(", ") || "—"} |` : ""}`,
     );
   }
   out.push("");

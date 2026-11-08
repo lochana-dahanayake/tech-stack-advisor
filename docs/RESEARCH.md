@@ -72,7 +72,26 @@ Source: endoflife.date data repo (P) unless noted; latest package versions from 
 
 Vendor-run comparisons (e.g. a database company benchmarking itself against rivals) were not used. See the fairness rules in `KNOWLEDGE_BASE_SCHEMA.md` §8.
 
-## 4. Hosting free tiers (all **S**, checked 2026-10-23; vendor pages blocked)
+## 4. Hosting free tiers
+**Re-checked 2026-11-08 (session 10) from each vendor's own pages (P); these are the KB facts now.** Pages read: vercel.com/pricing, /docs/plans/hobby (last updated 2026-09-14), /docs/functions/runtimes, /docs/functions/runtimes/container, changelog 2026-10-27; netlify.com/pricing, Netlify billing FAQ for credit-based plans (2026-10-07), functions docs; developers.cloudflare.com Workers pricing (2026-10-02), limits (2026-10-29), languages (2026-07-03), static assets billing (2026-11-03); render.com/docs/free, /native-runtimes, /websocket; railway.com/pricing, docs.railway.com pricing plans; fly.io/pricing, docs.fly.io pricing, free trial, discontinued plans; aws.amazon.com/free and /free/terms (2025-07-09); azure.microsoft.com free services and Azure account; docs.cloud.google.com free features; digitalocean.com/pricing/droplets; hetzner.com/cloud.
+
+| Provider | Free tier (P, 2026-11-08) | Commercial use on free | Paid from |
+|---|---|---|---|
+| Vercel | Hobby: 100 GB fast data transfer, 1M function invocations, 4 active CPU-hours, 1M CDN requests a month; at a limit you wait 30 days or upgrade (no overage) | **No**: "non-commercial, personal use only" | Pro $20/seat/month incl. $20 credit |
+| Netlify | 300 credits/month (compute 10 credits/GB-hour, bandwidth 20/GB, deploy 15); sites pause at the limit; no add-on credits on Free | not stated | Personal $9, Pro $20 |
+| Cloudflare Workers | 100,000 requests/day, 10 ms CPU/request, 128 MB; static assets free and unlimited; Durable Objects (SQLite backend) on Free | no restriction found | $5/month |
+| Render | Web services sleep after 15 min without traffic, 750 instance hours/month, one instance, no persistent disk; Postgres 1 GB, expires after 30 days (+14 days grace); "Do not use them for production" | not stated | not readable on the pricing page |
+| Railway | **Free plan: $1 of usage credits a month**, 1 project, 3 services, 0.5 GB RAM per service; one-time trial $5 for 30 days. RAM $10/GB-month, CPU $20/vCPU-month | not stated | Hobby $5/month incl. $5 usage |
+| Fly.io | New organisations: no free tier; $1 trial for 7 days (trial machines stop after 5 min). Legacy allowances for organisations from before 2024-10-07 | — | shared-cpu-1x 256 MB $2.19/month |
+| AWS | Free plan: $100 + up to $100 credits, closes after 6 months or when credits run out (upgrade within 90 days or the account is deleted); 30+ always-free services on both plans | no restriction (only "no sensitive data" on the free plan) | pay as you go |
+| Azure | $200 for 30 days; 12 months of free amounts of 20+ services; 65+ always free (App Service up to 10 apps, Functions 1M requests, Static Web Apps 100 GB) | yes | pay as you go |
+| Google Cloud | $300 for 90 days; Free Tier with no end date (Cloud Run 2M requests/month, one e2-micro VM in three US regions) | yes | pay as you go |
+| VPS | DigitalOcean Basic $4/month (512 MiB, 1 vCPU), $6 (1 GiB); Hetzner Cloud from €5.99 | — | — |
+| GitHub Pages | (unchanged, P since 2026-10-23) free; ≤ 1 GB; 100 GB/month soft limit | **No** for an online business, e-commerce or commercial SaaS | — |
+
+Languages on the platforms (P): Netlify Functions JavaScript/TypeScript and Go (Lambda-compatible API); Vercel native Node.js, Bun, Python, Rust, Go, Ruby, Wasm, plus the container runtime (beta on all plans; changelog 2026-10-27: "in beta, runs on Vercel Functions"); Cloudflare Workers first-class JavaScript, TypeScript, Python, Rust; Render native Node.js/Bun, Python, Ruby, Go, Rust, Elixir, Docker for PHP, .NET, JVM.
+
+### Before 2026-11-08 (all **S**, checked 2026-10-23; vendor pages were blocked)
 These matter for two rules: "free-only budget" and "commercial project". Every number here must be confirmed from the vendor's own page before it becomes a KB fact.
 
 | Provider | Free tier as reported | Notes |

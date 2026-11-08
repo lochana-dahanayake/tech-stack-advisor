@@ -3,11 +3,13 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-**Part 5: hosting** (KB draft Part 5, same template as Parts 1–4): types `static-hosting`, `frontend-platform`, `paas`, `cloud`, `vps` and the Q5 providers, with each provider's free tier and terms read from its own pages (Q21 list; facts are `pricing` with a 90-day stale window), the hosting rules K1–K10 (K10 = relation `C-sqlite-hosting`, facts in RESEARCH §4c), `freeTier.commercialUse` on every product, and `conflicts` relations (schema §6; the engine only knows `requires` so far). Extend `npm run sources` where a number can be re-read. Then the remaining Phase 1 items and Phase 3 (UI).
+**Phase 3: UI** (owner, 2026-11-08: make it look like a real product from day one). Add Next.js 16 + Tailwind (TECH_STACK.md) and reuse Architecture Advisor v1.4's design system (its `src/app/globals.css` tokens, logo pattern, sticky header and full footer, FitBadge, verdict card with score ring, landing page with a live result preview, /changelog, Markdown export) with **Tech Stack Advisor's own name and logo**. Order: (1) scaffold + design tokens + header/footer + landing with a live preview of a real `score()` result; (2) the form (situation, team skills, constraints, priorities); (3) the result page (stack card, per-part ranked lists with "why" bars, comparison table with "checked on" dates, not-needed parts, close calls, relation notes); (4) /changelog and Markdown export. Rules-only (no AI) is the whole app until Phase 4.
 
-**Waiting for the owner (don't block on it):** Q32 (language `ecosystem`), Q33 (Next.js as the SPA pick; S15).
+**Remaining Phase 1 items (not blocking the UI):** `worksBestWith` pair bonuses, bundles and glossary JSON, rubrics (Q20), fairness lint.
 
-Session 9 (2026-11-08, local): **Part 4 (frontend)** merged: approaches and frameworks with a sourced `performance` rubric (HTTP Archive Core Web Vitals + web.dev), type-only criteria, rules S10–S16, two relations; every golden passes and no backend/database/language pick changed (KB draft §14–18).
+**Waiting for the owner (don't block on it):** Q32 (language `ecosystem`), Q33 (Next.js as the SPA pick; S15), Q34 (G8's hosting pick, a self-hosting scenario for `vps`, Railway vs Render).
+
+Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
 
 Owner's order (2026-10-24):
 1. [x] Set up the project: `package.json`, TypeScript strict, Vitest, ESLint (with the sibling's purity rule), Prettier, `npm run check`. Next.js is added with the UI (Phase 3).
@@ -16,6 +18,7 @@ Owner's order (2026-10-24):
 4. [x] KB test: a score of 5 or 1 needs a non-GK source; unsourced extremes held at 3 and marked `unsourced`.
 5. [x] **Part 3 (languages)** with stack assembly, hard rule T6, the tie rule (step 6.6, G12), Q28, and (session 7) primary numbers + stack close calls (step 6.7, G8, Q29). Merged.
 6. [x] **Part 4 (frontend)** (session 9, 2026-11-08): KB draft §14–18. Merged.
+7. [x] **Part 5 (hosting)** (session 10, 2026-11-08): KB draft §19–23. Merged.
 - [x] Q28 decided and coded (public domain allowed under "open source only", badge "public domain"). [x] G12 tie rule documented and tested.
 - [x] **Claude:** SQLite "Appropriate Uses" read (session 7); D9 narrowing is Q30.
 - Q21 facts still open: hosting vendors' free tiers and terms (now reachable: do them with Part 5), State of JS 2025, Thoughtworks Radar vol. 34, a Go module count (for the `ecosystem` registry rubric), Gin `scalability`/`community` (no survey lists Gin).
@@ -36,15 +39,15 @@ Owner's order (2026-10-24):
 - [x] Owner review of part 1 (2026-10-24): D3 document −30 (G10), D9 SQLite rule (unverified), Q26 and Q27 decided
 - [x] Part 3: language (incl. team-skill rules T1–T6, stack assembly, close calls); Q29 done 2026-10-24 (session 7)
 - [x] Part 4: frontend (2026-11-08, session 9; open: Q33)
-- [ ] Part 5: hosting (needs the Q21 free-tier facts verified)
+- [x] Part 5: hosting (2026-11-08, session 10; free tiers from vendor pages; open: Q34)
 - [ ] Compatibility relations (`compatibility.json` draft) and bundles/glossary
 - [ ] Scoring rubrics finalised (Q20); second sources for flagged comparative scores
 - [x] Project set-up, KB as versioned JSON + Zod, validation tests (schema, sources, 5-or-1 evidence, stale facts, type-win coverage) for database and backend (2026-10-24); Next.js scaffold with the UI
 - [ ] Fairness lint (vendor-only comparative scores)
 
 ## Phase 2: Rule engine
-- [ ] Pure scoring: weights, two levels, rules, skills, stack assembly; test-first
-- [ ] Golden scenarios G1–G13 passing; property tests
+- [x] Pure scoring: weights, two levels, rules, skills, stack assembly; test-first (all five parts, 2026-11-08; pair bonuses and user locks still to do)
+- [x] Golden scenarios G1–G13 passing for all five parts; property tests (2026-11-08)
 
 ## Phase 3: UI
 - [ ] Form (situation, team skills, constraints, locks, priorities), result page (stack, per-part lists, comparison table with "checked on" dates, not-needed parts)

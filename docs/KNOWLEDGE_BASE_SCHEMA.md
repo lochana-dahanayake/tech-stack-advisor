@@ -1,6 +1,6 @@
 # Knowledge Base Schema
 
-Status: **draft (2026-10-23)**, Phase 0; implemented for the database, backend and language parts in `src/modules/knowledge-base/` (2026-10-24) and the frontend part (2026-11-08). Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
+Status: **draft (2026-10-23)**, Phase 0; implemented for the database, backend and language parts in `src/modules/knowledge-base/` (2026-10-24) and the frontend and hosting parts (2026-11-08). Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
 
 The KB is a set of JSON files in the repo, validated with **Zod** (a TypeScript library that checks data against a schema) at build time and in tests. It has a semantic `kbVersion`; every result records the version it was computed with (same as sibling ADR-003).
 
@@ -124,7 +124,7 @@ Shape of an entry (as in the sibling, plus `appliesTo`):
     { "kind": "support", "text": "PostgreSQL 18 supported until 2030-11", "until": "2030-11-14", "checked": "2026-10-23", "sources": [ { "kind": "ref", "ref": "eol" } ] }
   ],
   "strengths": ["..."], "weaknesses": ["..."], "goodWhen": ["..."], "avoidWhen": ["..."],
-  "freeTier": null,                       // hosting/managed products: { "summary": "...", "commercialUse": true|false|"unknown", "checked": "..." }
+  "freeTier": null,                       // hosting products (required, null = none): { "summary": "...", "commercialUse": true|false|"unknown", "checked": "..." }
   "aliases": ["postgres", "pg", "psql"],  // matched against notes (glossary-style)
   "links": { "docs": "https://www.postgresql.org/docs/" }
 }
@@ -139,7 +139,9 @@ Validation rules (integrity checks, like the sibling's):
 Types are scored only on their part's **fit criteria** (`parts.json` → `typeCriteria`), never on popularity, ecosystem, cost or lock-in, which describe a product, not a category. Without this, niche but well-fitting categories (graph databases) could never win (calibration finding 1, `KNOWLEDGE_BASE_DRAFT.md` §5). Database fit criteria: `learning-curve`, `performance`, `scalability`, `real-time`, `data-integrity`, `schema-flexibility`. Backend fit criteria: `learning-curve`, `productivity`, `performance`, `scalability`, `real-time` (`type-safety` depends on the language, so it is product-only). `none` types have no scores; they are chosen only by a `not-needed` rule. Situation rules (§7) do most of the type choice.
 
 ## 6. Compatibility (`compatibility.json`)
-Three relation kinds between options in **different parts**. Conditions use the same tiny language as rules (§7).
+Relation kinds between options in **different parts**. Conditions use the same tiny language as rules (§7).
+
+**As implemented (2026-11-08, Part 5):** every relation is `{ id, kind, option, part, anyOf, when?, explanation, sources }`, where `when` is an optional rule condition (e.g. only when the budget is free only). Kinds: `requires` and `conflicts` (hard filters during assembly), `note` (shown under the stack when the pair is in it, `stack.relationNotes`) and `penalty` (the stack pays `points`; K9 uses it, with `highMaturityPoints` and a `fact` id: the penalty applies only while that `release-status` fact says beta). `worksBestWith` is not implemented yet.
 
 | Kind | Meaning | Engine effect | Example |
 |---|---|---|---|
@@ -235,7 +237,9 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | K7 | real-time = yes | `netlify` −15 (Netlify Functions don't hold WebSocket connections). `vercel`: **no penalty**, note: "WebSockets work on Vercel Functions, but each connection stays on one instance; to send a message to everyone you need a pub/sub service such as Redis/Valkey" | RESEARCH §4b (P + S, 2026-10-23; owner Q24) |
 | K8 | backend is a separate server framework (Spring Boot, ASP.NET Core, Laravel, Django, ...) | `static-hosting` excluded | GK |
 | K9 | the stack only works on a hosting product through a feature whose `release-status` fact says **beta** (e.g. Java/C#/PHP on Vercel via its container runtime) | that hosting product −5, or **−10 when `weight.maturity` ≥ high** (set by the user, or by S8 when lifespan is 5+ years); note "uses a beta feature (status checked on <date>)". The rule reads the fact, so marking the feature GA switches it off, and the 90-day stale window forces a re-check | DESIGN (owner Q26, 2026-10-24) + RESEARCH §4b |
-| K10 (Part 5) | relation `C-sqlite-hosting`: database `sqlite` with a hosting product whose server has **no persistent local disk** (filesystem reset on restart/redeploy, or one per request) or that runs **several instances** of the app | conflict (SQLite can't keep its file or be shared); where a persistent disk exists but only on one instance, a warning note. Per product in RESEARCH §4c | `ref:host-docs` (P, 2026-10-25) + `ref:sqlite-whentouse` (owner Q30) |
+| K10 | relation `C-sqlite-hosting`: database `sqlite` with a hosting product whose server has **no persistent local disk** (filesystem reset on restart/redeploy, or one per request) or that runs **several instances** of the app | conflict (SQLite can't keep its file or be shared); where a persistent disk exists but only on one instance, a warning note. Per product in RESEARCH §4c | `ref:host-docs` (P, 2026-10-25) + `ref:sqlite-whentouse` (owner Q30) |
+
+As implemented (Part 5, 2026-11-08; KB draft §22): K1 and K1b as above plus **K1c** (other commercial sites: a note on GitHub Pages' terms); K3 also excludes the other hosting types; K4 is three rules (K4 AWS, K4b Azure, K4c Google Cloud) that exclude every other provider and type; **K5** keeps Railway out although it now has a Free plan ($1 of usage a month: a few days of a small server); K6 lists its exclusions explicitly and a unit test keeps the list equal to every product that `isOpenSourceAllowed` rejects; K8 excludes the `static-hosting` type when the backend is needed; **K9** and **K10** are relations (§6). Hosting situation rules S17–S21 are in KB draft §22.
 
 ### 7.3b Backend rules (KB draft §9)
 | id | When | Effect | Source |
@@ -264,7 +268,7 @@ Small nudges only (±5 to ±10), because the style describes structure, not tool
 | id | When | Effect | Source |
 |---|---|---|---|
 | A1 | style ∈ {microservices, service-based, cell-based} | hosting `paas`, `cloud` +5; backend `frontend-server` −10; note: "one database per service is common" | `book:fosa ch.18` |
-| A2 | style = serverless | hosting `frontend-platform`, `cloud` +10 | `book:fosa` |
+| A2 | style = serverless | hosting `frontend-platform`, `cloud` +10 | `book:fosa` (implemented 2026-11-08) |
 | A3 | style ∈ {layered, modular-monolith} | backend `batteries` +5 | `book:fosa ch.10–11` |
 | A4 | style = event-driven | note: "you will also need a message broker (not ranked in v1)" | `book:fosa ch.15` |
 

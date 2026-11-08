@@ -46,6 +46,22 @@
     ]
   },
   {
+    "id": "hosting",
+    "name": "Hosting",
+    "levels": [
+      "type",
+      "product"
+    ],
+    "typeCriteria": [
+      "learning-curve",
+      "scalability",
+      "real-time",
+      "ops-effort",
+      "cost",
+      "portability"
+    ]
+  },
+  {
     "id": "language",
     "name": "Programming language",
     "levels": [

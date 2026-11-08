@@ -86,7 +86,8 @@ describe("knowledge base", () => {
 
   it("gives every coverage exemption to a ranked type with a reason", () => {
     const exempt = kb.options.filter((o) => o.coverageExempt).map((o) => o.id);
-    expect(exempt).toEqual(["key-value"]);
+    // key-value: TESTING_STRATEGY §3. vps: interim, until the owner answers Q34 (K3 unit test covers its win).
+    expect(exempt).toEqual(["key-value", "vps"]);
   });
 
   it("release gate: no unreviewed sources, no unsourced scores, no fact more than 2x its stale window overdue", () => {
