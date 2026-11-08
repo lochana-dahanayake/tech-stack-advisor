@@ -29,6 +29,14 @@ describe("knowledge base", () => {
     expect(publicDomain).toEqual(["sqlite"]);
   });
 
+  it("bridge options and plain HTML have no licence of their own: allowed under 'open source only', no badge", () => {
+    const opt = (id: string) => kb.options.find((o) => o.id === id)!;
+    for (const id of ["plain-html", "backend-templates"]) {
+      expect(isOpenSourceAllowed(opt(id))).toBe(true);
+      expect(licenceBadge(opt(id))).toBeUndefined();
+    }
+  });
+
   it("passes the integrity checks", () => {
     expect(findIntegrityProblems(kb)).toEqual([]);
   });

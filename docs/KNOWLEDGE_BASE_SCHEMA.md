@@ -1,6 +1,6 @@
 # Knowledge Base Schema
 
-Status: **draft (2026-10-23)**, Phase 0; implemented for the database and backend parts in `src/modules/knowledge-base/` (2026-10-24). Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
+Status: **draft (2026-10-23)**, Phase 0; implemented for the database, backend and language parts in `src/modules/knowledge-base/` (2026-10-24) and the frontend part (2026-11-08). Owner answers of 2026-10-23 and 2026-10-24 applied (Q2–Q19, Q24–Q27 decided). Starts from Architecture Advisor's `docs/KNOWLEDGE_BASE_SCHEMA.md` and adds what tech-stack choices need: parts with two levels, compatibility, team skills and dated facts. Open points are marked with their question number in `OPEN_QUESTIONS.md`.
 
 The KB is a set of JSON files in the repo, validated with **Zod** (a TypeScript library that checks data against a schema) at build time and in tests. It has a semantic `kbVersion`; every result records the version it was computed with (same as sibling ADR-003).
 
@@ -49,7 +49,8 @@ A **part** is one slot in the stack. Each part has one or two levels. Level 1 op
   { "id": "language", "name": "Programming language", "levels": ["product"],
     "help": "The main language for server-side code. Browser code is always JavaScript or TypeScript." },
   { "id": "frontend", "name": "Frontend", "levels": ["type", "product"],
-    "typeLabel": "Approach", "productLabel": "Framework" },
+    "typeLabel": "Approach", "productLabel": "Framework",
+    "typeCriteria": ["learning-curve", "performance", "seo", "interactivity", "cost"] },
   { "id": "backend",  "name": "Backend",  "levels": ["type", "product"],
     "typeCriteria": ["learning-curve", "productivity", "performance", "scalability", "real-time"] },
   { "id": "database", "name": "Database", "levels": ["type", "product"],
@@ -98,6 +99,8 @@ Shape of an entry (as in the sibling, plus `appliesTo`):
 { "id": "real-time", "name": "Real-time support", "short": "...", "help": "...", "example": "A chat app that shows new messages instantly",
   "appliesTo": ["backend", "database", "hosting"], "visibility": "default", "source": { "kind": "book", "ref": "fosa", "locator": "ch.4" } }
 ```
+**Type-only criteria** (`typeOnlyFor: [partId]`, 2026-11-08): in those parts only the types are scored on the criterion, never the products. Used for the frontend: `seo`, `interactivity` and `cost` describe the rendering approach, and a framework that supports several approaches would otherwise collect the best values of all of them (KB draft §14, §18). Products score every other criterion that applies to their part.
+
 `visibility: "default"` criteria are on the form; `"advanced"` ones are hidden behind "More priorities" (advanced: `portability`, `schema-flexibility`, `interactivity`; decided Q6).
 
 ## 5. Options (`options.json`)
@@ -130,7 +133,7 @@ Validation rules (integrity checks, like the sibling's):
 - every product scores **every** criterion that applies to its part, and every type (except `none`) scores every criterion in its part's `typeCriteria`; values are integers 1–5; each score has ≥ 1 source and a `checked` date;
 - every product lists ≥ 1 type, and each type exists in the same part;
 - each part has exactly one `none` type at most, and `none` types have no products;
-- `licence.osi` is set for every product; `freeTier.commercialUse` is set for every hosting product;
+- `licence.osi` is set for every product (a product with no licence of its own, such as plain HTML or the bridge `backend-templates`, has `notAPackage: true`: allowed under "open source only", no badge); `freeTier.commercialUse` is set for every hosting product;
 - `deprecated` options are referenced by nothing except the glossary.
 
 Types are scored only on their part's **fit criteria** (`parts.json` → `typeCriteria`), never on popularity, ecosystem, cost or lock-in, which describe a product, not a category. Without this, niche but well-fitting categories (graph databases) could never win (calibration finding 1, `KNOWLEDGE_BASE_DRAFT.md` §5). Database fit criteria: `learning-curve`, `performance`, `scalability`, `real-time`, `data-integrity`, `schema-flexibility`. Backend fit criteria: `learning-curve`, `productivity`, `performance`, `scalability`, `real-time` (`type-safety` depends on the language, so it is product-only). `none` types have no scores; they are chosen only by a `not-needed` rule. Situation rules (§7) do most of the type choice.
@@ -151,6 +154,8 @@ Three relation kinds between options in **different parts**. Conditions use the 
   "explanation": "Vercel builds Next.js and supports its features first.", "source": { "kind": "ref", "ref": "vercel-docs" } }
 ```
 Source ids such as `django-docs` and `vercel-docs` are placeholders: each gets a row in `references/INDEX.md` when the KB entry is written (Phase 1).
+
+A `requires` relation **fails when the required part isn't in the stack** (2026-11-08): `backend-templates` needs a backend, so it can never be picked when the backend is not needed. Frontend relations: `frontend-server` requires frontend ∈ {`nextjs`, `nuxt`, `sveltekit`, `astro`}; `backend-templates` requires backend ∈ the nine server frameworks.
 
 Language requirements are written once on each backend/frontend product as `requires` relations; the frontend always runs JavaScript/TypeScript in the browser, so frontend products only constrain the language when they also provide the backend (`frontend-server` → `typescript-node`).
 
@@ -195,12 +200,13 @@ Team skills, known frameworks, goal, locks (Q12) and the optional style come fro
 | S1 | app kind = content site or portfolio | frontend `static` +20; `seo` floor high (backend and database become not needed through B0 and D8 when nothing is stored; a `none` type has no score to add points to) | `ref:web-rendering` |
 | S2 | app kind = API only | frontend `not-needed` | DESIGN |
 | S3 | app kind = interactive web app, SEO not important | frontend `spa` +10 | `ref:web-rendering` |
-| S4 | SEO important and pages change per user/request | frontend `ssr` +15, `spa` −10 | `ref:web-rendering` |
+| S4 | SEO = yes and app kind ∈ {web app, e-commerce} (pages change per user/request) | frontend `ssr` +15, `spa` −10 | `ref:web-rendering` |
 | S5 | real-time = yes | `real-time` floor high | `book:fosa ch.4` |
 | S6 | deadline very tight | `productivity` floor high; backend `batteries` +5 for teams that already know one (via skills) | DESIGN |
 | S7 | traffic = spiky or large | `scalability` floor high | `book:fosa ch.4` |
 | S8 | lifespan 5+ years | `maturity` floor high | DESIGN |
 | S9 | backend part is not needed (or its `none` type wins) | language `not-needed` ("the frontend uses HTML, CSS and JavaScript; no server language needed") | DESIGN |
+| S10–S16 | frontend rules added with Part 4 (2026-11-08): content site with stored data, backend team without JS/TS, no backend → no server pages, SEO floor, interactivity floor for apps, B2's frontend side, content pages without hydration | see KB draft §17 | `ref:web-rendering`, DESIGN |
 
 ### 7.2 Data-shape rules (`ddia` ch.2, `sixstep`)
 | id | When (q.data-shape / flags) | Effect |

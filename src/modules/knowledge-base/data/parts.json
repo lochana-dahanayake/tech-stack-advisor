@@ -15,6 +15,21 @@
     ]
   },
   {
+    "id": "frontend",
+    "name": "Frontend",
+    "levels": [
+      "type",
+      "product"
+    ],
+    "typeCriteria": [
+      "learning-curve",
+      "performance",
+      "seo",
+      "interactivity",
+      "cost"
+    ]
+  },
+  {
     "id": "database",
     "name": "Database",
     "levels": [

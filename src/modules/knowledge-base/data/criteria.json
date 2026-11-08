@@ -5,6 +5,7 @@
     "short": "How fast a beginner gets productive",
     "appliesTo": [
       "backend",
+      "frontend",
       "database",
       "language"
     ],
@@ -16,6 +17,7 @@
     "short": "Built-in features, conventions, generators",
     "appliesTo": [
       "backend",
+      "frontend",
       "language"
     ],
     "visibility": "default"
@@ -26,6 +28,7 @@
     "short": "Speed per request under normal load",
     "appliesTo": [
       "backend",
+      "frontend",
       "database",
       "language"
     ],
@@ -57,6 +60,7 @@
     "short": "Ready-made packages, integrations, tooling",
     "appliesTo": [
       "backend",
+      "frontend",
       "database",
       "language"
     ],
@@ -68,6 +72,7 @@
     "short": "Size of user base, answers online, people you can hire",
     "appliesTo": [
       "backend",
+      "frontend",
       "database",
       "language"
     ],
@@ -79,6 +84,7 @@
     "short": "Track record, stable releases, clear support windows",
     "appliesTo": [
       "backend",
+      "frontend",
       "database",
       "language"
     ],
@@ -90,6 +96,7 @@
     "short": "Mistakes caught before the code runs",
     "appliesTo": [
       "backend",
+      "frontend",
       "language"
     ],
     "visibility": "default"
@@ -117,9 +124,13 @@
     "name": "Low running cost",
     "short": "Licence and hosting cost at small-to-medium scale",
     "appliesTo": [
-      "database"
+      "database",
+      "frontend"
     ],
-    "visibility": "default"
+    "visibility": "default",
+    "typeOnlyFor": [
+      "frontend"
+    ]
   },
   {
     "id": "ops-effort",
@@ -138,5 +149,29 @@
       "database"
     ],
     "visibility": "advanced"
+  },
+  {
+    "id": "seo",
+    "name": "Search engines and first load",
+    "short": "Pages readable by search engines and fast to show",
+    "appliesTo": [
+      "frontend"
+    ],
+    "visibility": "default",
+    "typeOnlyFor": [
+      "frontend"
+    ]
+  },
+  {
+    "id": "interactivity",
+    "name": "Rich interactivity",
+    "short": "App-like behaviour in the browser",
+    "appliesTo": [
+      "frontend"
+    ],
+    "visibility": "advanced",
+    "typeOnlyFor": [
+      "frontend"
+    ]
   }
 ]

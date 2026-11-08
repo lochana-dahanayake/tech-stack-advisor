@@ -16,6 +16,7 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   if (!variant) throw new Error(`unknown variant ${variantName}; one of ${Object.keys(variants).join(", ")}`);
   const k = variant.apply(kb);
   const out = [`Variant: ${variantName}: ${variant.description}. KB ${k.meta.kbVersion}.`, ""];
+  const hasFrontend = k.parts.some((p) => p.id === "frontend");
   for (const part of ["database", "backend"] as const) {
     out.push(`## ${part}`, "| Scenario | Types | Products |", "|---|---|---|");
     for (const s of [...golden, ...probes]) {
@@ -41,6 +42,21 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
     }
     out.push("");
   }
+  // Added 2026-11-08 (Part 4): the frontend part, only for KB variants that have it.
+  if (hasFrontend) {
+    out.push("## frontend", "| Scenario | Types | Products (final) |", "|---|---|---|");
+    for (const s of [...golden, ...probes]) {
+      const p = score(s.input, k).parts.frontend!;
+      const products = p.needed
+        ? p.products
+            .slice(0, 4)
+            .map((x) => `${x.id} ${f(x.cand)}`)
+            .join(", ")
+        : "—";
+      out.push(`| ${s.id} ${s.title} | ${types(p)} | ${products} |`);
+    }
+    out.push("");
+  }
   // Added 2026-10-24 (Part 3): the language part and the assembled stack (step 6). Earlier log entries used the
   // "team language" stand-in above instead.
   out.push("## language", "| Scenario | Languages (final) |", "|---|---|");
@@ -54,7 +70,7 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
   out.push(
     "",
     "## stack",
-    "| Scenario | Stack (backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |",
+    `| Scenario | Stack (${hasFrontend ? "frontend · " : ""}backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |`,
     "|---|---|---|---|---|---|",
   );
   for (const s of [...golden, ...probes]) {
@@ -67,11 +83,11 @@ export function calibrationTables(variantName: string, kb: KnowledgeBase): strin
       st.closeCalls
         .map(
           (c) =>
-            `${c.picks.backend ?? "—"} · ${c.picks.database ?? "—"} · ${c.picks.language ?? "—"} ${f(c.score)} (−${f(c.gap)})`,
+            `${hasFrontend ? `${c.picks.frontend ?? "—"} · ` : ""}${c.picks.backend ?? "—"} · ${c.picks.database ?? "—"} · ${c.picks.language ?? "—"} ${f(c.score)} (−${f(c.gap)})`,
         )
         .join("; ") || "—";
     out.push(
-      `| ${s.id} ${s.title} | ${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} | ${close} |`,
+      `| ${s.id} ${s.title} | ${hasFrontend ? `${pick("frontend")} · ` : ""}${pick("backend")} · ${pick("database")} · ${pick("language")} | ${f(st.score)} | ${adj}${st.conflict ? ` CONFLICT: ${st.conflict}` : ""} | ${ties} | ${close} |`,
     );
   }
   out.push("");

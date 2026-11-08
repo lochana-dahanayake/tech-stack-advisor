@@ -2,9 +2,8 @@ import type { KnowledgeBase } from "@/modules/knowledge-base";
 import type { ScoreResult, UserInput } from "@/modules/scoring";
 
 /**
- * Golden scenarios (TESTING_STRATEGY §3), written in full. Only the database and backend parts are in the KB so far;
- * the other expectations of each scenario arrive with their parts. Criteria not in the KB yet (seo, cost for
- * hosting) are left out of `weights` and noted.
+ * Golden scenarios (TESTING_STRATEGY §3), written in full. Hosting expectations arrive with Part 5. Criteria not in
+ * the KB yet (cost for hosting) are left out of `weights` and noted.
  */
 export interface PartExpectation {
   notNeeded?: true;
@@ -26,6 +25,7 @@ export interface Scenario {
   title: string;
   input: UserInput;
   expect: {
+    frontend?: PartExpectation;
     database?: PartExpectation;
     backend?: PartExpectation;
     language?: PartExpectation & { inTop3?: string[] };
@@ -48,7 +48,12 @@ export const golden: Scenario[] = [
         experience: "beginner",
       },
     },
-    expect: { language: { notNeeded: true }, database: { notNeeded: true }, backend: { notNeeded: true } },
+    expect: {
+      language: { notNeeded: true },
+      database: { notNeeded: true },
+      backend: { notNeeded: true },
+      frontend: { typeIn: ["static"], typeNot: ["spa"], productIn: ["astro", "plain-html"] },
+    },
   },
   {
     id: "G2",
@@ -78,6 +83,7 @@ export const golden: Scenario[] = [
         productNot: ["sqlite"],
       },
       backend: { productIn: ["spring-boot"] },
+      frontend: { typeIn: ["ssr", "server-templates"] },
     },
   },
   {
@@ -93,7 +99,11 @@ export const golden: Scenario[] = [
       },
       skills: { "typescript-node": "strong" },
     },
-    expect: { language: { productIn: ["typescript-node"] }, backend: { productIn: ["fastify", "nestjs", "express"] } },
+    expect: {
+      language: { productIn: ["typescript-node"] },
+      backend: { productIn: ["fastify", "nestjs", "express"] },
+      frontend: { typeIn: ["spa"] },
+    },
   },
   {
     id: "G4",
@@ -112,6 +122,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["python"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { productIn: ["fastapi", "django"] },
+      frontend: { typeIn: ["spa", "server-templates"] },
     },
   },
   {
@@ -132,6 +143,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["typescript-node"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeIn: ["fullstack"], productIn: ["frontend-server"] },
+      frontend: { typeIn: ["ssr"], productIn: ["nextjs", "nuxt", "sveltekit"] },
     },
   },
   {
@@ -171,6 +183,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["php"] },
       database: { typeIn: ["relational"], productIn: ["mysql", "postgresql"] },
       backend: { productIn: ["laravel"] },
+      frontend: { typeIn: ["server-templates"], typeNot: ["spa"] },
     },
   },
   {
@@ -194,6 +207,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["go", "csharp"], inTop3: ["java", "csharp"] },
       database: { typeIn: ["relational"], productIn: ["postgresql"] },
       backend: { typeNot: ["fullstack"], productIn: ["gin", "aspnet-core"] },
+      frontend: { notNeeded: true },
       stackCloseCall: {
         partId: "language",
         pick: "csharp",
@@ -223,6 +237,7 @@ export const golden: Scenario[] = [
       language: { productIn: ["python"] },
       database: { typeIn: ["relational"], productIn: ["sqlite", "postgresql"] },
       backend: { productIn: ["django", "fastapi"] },
+      frontend: { typeIn: ["server-templates", "spa"] },
     },
   },
   {

@@ -1,6 +1,6 @@
 # Scoring Engine
 
-Status: **draft (2026-10-23)**, Phase 0. **Steps 1–6 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (database, backend, language). Step 6 has no locks or pair bonuses yet (they come with frontend and hosting). Hard rule T6 filters the language candidates; step 6.6 (ties) and 6.7 (stack close calls) are implemented. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
+Status: **draft (2026-10-23)**, Phase 0. **Steps 1–6 are implemented** in `src/modules/scoring/` (2026-10-24) for the parts in the KB (frontend, backend, database, language; frontend since 2026-11-08). Step 6 has no locks or pair bonuses yet (they come with hosting). A `requires` relation on a part that isn't in the stack fails (KB schema §6). Products are scored on their part's criteria minus type-only ones (KB schema §4). Hard rule T6 filters the language candidates; step 6.6 (ties) and 6.7 (stack close calls) are implemented. Adapted from Architecture Advisor's `docs/SCORING_ENGINE.md`: same weighted-average core, plus two levels per part, team skills and stack assembly.
 
 `score(input, kb) → StackResult` is a pure TypeScript function: no network, no clock, no randomness, no global state, no React/Next imports. Same input, same output. It runs in the browser (instant result) and on the server (trusted copy for the AI prompt), as in sibling ADR-004.
 

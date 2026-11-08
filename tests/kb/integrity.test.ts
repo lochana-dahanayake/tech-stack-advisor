@@ -135,6 +135,9 @@ describe("integrity checks catch broken data", () => {
     expect(
       problems({ ...kb, criteria: [...kb.criteria, { ...kb.criteria[0]!, id: "x", appliesTo: ["nope"] }] }),
     ).toMatch(/unknown part nope/);
+    expect(
+      problems({ ...kb, criteria: [...kb.criteria, { ...kb.criteria[0]!, id: "y", typeOnlyFor: ["hosting"] }] }),
+    ).toMatch(/type-only part hosting isn't in appliesTo/);
   });
 });
 

@@ -629,5 +629,477 @@
         "reviewed": false
       }
     ]
+  },
+  {
+    "id": "S1",
+    "name": "Content site or portfolio",
+    "when": {
+      "in": [
+        "q.app-kind",
+        [
+          "content-site",
+          "portfolio"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "static",
+        "points": 20
+      },
+      {
+        "type": "floor",
+        "criterion": "seo",
+        "level": "high"
+      }
+    ],
+    "explanation": "Content pages are the same for every visitor, so they can be built ahead of time; search engines must find them.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "static rendering when pages are known ahead of time and not personalised"
+      }
+    ]
+  },
+  {
+    "id": "S2",
+    "name": "No web frontend",
+    "when": {
+      "in": [
+        "q.app-kind",
+        [
+          "api-only",
+          "mobile-backend"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "not-needed",
+        "part": "frontend"
+      }
+    ],
+    "explanation": "Nothing is shown in a browser: an API, or the backend of a mobile app.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "app kinds without a web UI (Q19: mobile apps are out of scope)",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S3",
+    "name": "Interactive app, search engines not important",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.app-kind",
+            "web-app"
+          ]
+        },
+        {
+          "not": {
+            "eq": [
+              "q.seo",
+              "yes"
+            ]
+          }
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "spa",
+        "points": 10
+      }
+    ],
+    "explanation": "An app used after logging in doesn't need search engines; a single-page app suits app-like screens.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "CSR suits rich, app-like experiences"
+      }
+    ]
+  },
+  {
+    "id": "S4",
+    "name": "Search engines matter and pages change per visitor",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.seo",
+            "yes"
+          ]
+        },
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "web-app",
+              "e-commerce"
+            ]
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "ssr",
+        "points": 15
+      },
+      {
+        "type": "modify",
+        "target": "spa",
+        "points": -10
+      }
+    ],
+    "explanation": "Pages must be found by search engines but also change per visitor or request (prices, stock), so render them on the server.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "SSR for dynamic or personalised pages; CSR SEO needs extra work"
+      }
+    ]
+  },
+  {
+    "id": "S10",
+    "name": "Content site with stored data",
+    "when": {
+      "all": [
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "content-site",
+              "portfolio"
+            ]
+          ]
+        },
+        {
+          "not": {
+            "eq": [
+              "q.data-shape",
+              "none"
+            ]
+          }
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "server-templates",
+        "points": 10
+      },
+      {
+        "type": "modify",
+        "target": "ssr",
+        "points": 10
+      },
+      {
+        "type": "modify",
+        "target": "static",
+        "points": -10
+      }
+    ],
+    "explanation": "The pages show data that people edit, so they are rendered from the database when requested rather than only at build time.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "static rendering needs every URL generated in advance; SSR handles live data"
+      }
+    ]
+  },
+  {
+    "id": "S11",
+    "name": "Backend team without JavaScript/TypeScript",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "skill.typescript-node",
+            "none"
+          ]
+        },
+        {
+          "any": [
+            {
+              "in": [
+                "skill.python",
+                [
+                  "some",
+                  "strong"
+                ]
+              ]
+            },
+            {
+              "in": [
+                "skill.java",
+                [
+                  "some",
+                  "strong"
+                ]
+              ]
+            },
+            {
+              "in": [
+                "skill.csharp",
+                [
+                  "some",
+                  "strong"
+                ]
+              ]
+            },
+            {
+              "in": [
+                "skill.go",
+                [
+                  "some",
+                  "strong"
+                ]
+              ]
+            },
+            {
+              "in": [
+                "skill.php",
+                [
+                  "some",
+                  "strong"
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "server-templates",
+        "points": 10
+      }
+    ],
+    "explanation": "The team knows a server language but not JavaScript/TypeScript: the backend framework's templates avoid a second app in a second language.",
+    "sources": [
+      {
+        "kind": "book",
+        "ref": "fosa",
+        "locator": "ch.19"
+      },
+      {
+        "kind": "design",
+        "note": "one language and one project for a team without JS/TS skills",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S12",
+    "name": "No backend, so no server pages",
+    "when": {
+      "eq": [
+        "part.backend",
+        "not-needed"
+      ]
+    },
+    "effects": [
+      {
+        "type": "exclude",
+        "target": "server-templates"
+      },
+      {
+        "type": "exclude",
+        "target": "ssr"
+      }
+    ],
+    "explanation": "Nothing runs on a server, so pages can't be rendered on one.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "follows from B0",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S13",
+    "name": "Search engines must find the pages",
+    "when": {
+      "eq": [
+        "q.seo",
+        "yes"
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "seo",
+        "level": "high"
+      }
+    ],
+    "explanation": "You said pages must be found by search engines.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "the user's own answer sets the criterion",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S14",
+    "name": "Interactive app",
+    "when": {
+      "in": [
+        "q.app-kind",
+        [
+          "web-app",
+          "internal-tool",
+          "e-commerce"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "floor",
+        "criterion": "interactivity",
+        "level": "high"
+      }
+    ],
+    "explanation": "An app (screens that react to what you do: forms, filters, carts, live data) needs app-like behaviour in the browser.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "CSR and hydration suit app-like experiences; static pages need extra JavaScript for interactivity"
+      },
+      {
+        "kind": "design",
+        "note": "app kinds that are apps rather than pages",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "S15",
+    "name": "Frontend framework's server means server rendering",
+    "when": {
+      "all": [
+        {
+          "eq": [
+            "q.deadline",
+            "very-tight"
+          ]
+        },
+        {
+          "in": [
+            "q.team-size",
+            [
+              "solo",
+              "2-5"
+            ]
+          ]
+        },
+        {
+          "in": [
+            "skill.typescript-node",
+            [
+              "some",
+              "strong"
+            ]
+          ]
+        },
+        {
+          "in": [
+            "q.app-kind",
+            [
+              "web-app",
+              "e-commerce",
+              "internal-tool"
+            ]
+          ]
+        }
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "ssr",
+        "points": 20
+      },
+      {
+        "type": "modify",
+        "target": "spa",
+        "points": -10
+      }
+    ],
+    "explanation": "Same situation as B2: the backend is the frontend framework's own server, which renders pages and handles forms on the server, so the approach is server rendering.",
+    "sources": [
+      {
+        "kind": "design",
+        "note": "follows B2 (owner kept B2 as DESIGN, 2026-10-24); frontend side flagged for the owner (Q33)",
+        "reviewed": false
+      },
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "SSR with hydration"
+      }
+    ]
+  },
+  {
+    "id": "S16",
+    "name": "Content pages don't need a JavaScript app on every page",
+    "when": {
+      "in": [
+        "q.app-kind",
+        [
+          "content-site",
+          "portfolio"
+        ]
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "nextjs",
+        "points": -10
+      },
+      {
+        "type": "modify",
+        "target": "nuxt",
+        "points": -10
+      },
+      {
+        "type": "modify",
+        "target": "sveltekit",
+        "points": -10
+      }
+    ],
+    "explanation": "Next.js, Nuxt and SvelteKit hydrate a full JavaScript framework on every page, even static ones; content pages are served best as HTML with little JavaScript.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "web-rendering",
+        "quality": "P",
+        "note": "'fine to mostly ship HTML with minimal JavaScript'; full hydration is 'rarely the best option'; prerendering is not static rendering"
+      }
+    ]
   }
 ]

@@ -1,4 +1,4 @@
-// Re-reads the primary numbers behind the backend and language scores (RESEARCH §6–7) and prints them with
+// Re-reads the primary numbers behind the backend, language and frontend scores (RESEARCH §6–8) and prints them with
 // the rubric band each one gives. Needs network access (uses curl, so the session proxy applies).
 // Usage: npm run sources
 // Registry counts change daily; the survey and TechEmpower files are pinned (commit, round).
@@ -43,9 +43,15 @@ function survey() {
     ["Next.js", "ASP.NET Core", "FastAPI", "Express", "Spring Boot", "Django", "Laravel", "NestJS", "Fastify", "Gin"],
     backendCommunityBand,
   );
+  // Frontend (KB draft §14): same framework bands as the backend; plain HTML uses the language bands (HTML/CSS).
+  table(
+    "WebFramework",
+    ["React", "Next.js", "Vue.js", "Angular", "Svelte", "Astro", "SvelteKit", "Nuxt.js"],
+    backendCommunityBand,
+  );
   table(
     "Languages",
-    ["JavaScript", "TypeScript", "Python", "Java", "Kotlin", "C#", "PHP", "Go"],
+    ["JavaScript", "HTML/CSS", "TypeScript", "Python", "Java", "Kotlin", "C#", "PHP", "Go"],
     languageCommunityBand,
   );
 }
@@ -155,6 +161,56 @@ function registries() {
   console.log("| Go modules | no total count published (pkg.go.dev, index.golang.org) |");
 }
 
+// Frontend performance (KB draft §14): HTTP Archive Core Web Vitals technology report, mobile, origins passing all
+// three Core Web Vitals. The API serves the latest crawl; the scores were set from the 2026-09-01 crawl.
+const CWV_API = "https://cdn.httparchive.org/v1/cwv";
+const cwvBand = (p: number) => (p >= 0.6 ? 5 : p >= 0.45 ? 4 : p >= 0.35 ? 3 : p >= 0.25 ? 2 : 1);
+type CwvRow = {
+  date: string;
+  technology: string;
+  vitals: { name: string; mobile: { good_number: number; tested: number } }[];
+};
+
+function coreWebVitals() {
+  const names = ["Astro", "Svelte", "SvelteKit", "React", "Vue.js", "Next.js", "Nuxt.js", "Angular"];
+  const rows = getJson<CwvRow[]>(
+    `${CWV_API}?technology=${names.map(encodeURIComponent).join(",")}&geo=ALL&rank=ALL&start=2026-09-01&end=2026-09-01`,
+  );
+  console.log("\n### HTTP Archive Core Web Vitals technology report (mobile, origins with good CWV)");
+  console.log("| Technology | Month | Good | Tested | Share | Band |\n|---|---|---|---|---|---|");
+  for (const name of names) {
+    const row = rows.find((r) => r.technology === name);
+    const overall = row?.vitals.find((v) => v.name === "overall")?.mobile;
+    console.log(
+      row && overall
+        ? `| ${name} | ${row.date} | ${overall.good_number} | ${overall.tested} | ${pct(overall.good_number / overall.tested)} | ${cwvBand(overall.good_number / overall.tested)} |`
+        : `| ${name} | no data | | | | |`,
+    );
+  }
+}
+
+// Frontend versions, licences and first stable release (KB draft §14, maturity rubric). Latest versions change.
+function npmFacts() {
+  const pkgs = ["react", "vue", "svelte", "@angular/core", "next", "nuxt", "@sveltejs/kit", "astro"];
+  console.log("\n### npm registry (live)\n| Package | Latest | Licence | First stable major |\n|---|---|---|---|");
+  for (const name of pkgs) {
+    const p = getJson<{
+      "dist-tags": { latest: string };
+      time: Record<string, string>;
+      versions: Record<string, { license?: string }>;
+    }>(`https://registry.npmjs.org/${name.replace("/", "%2F")}`);
+    const latest = p["dist-tags"].latest;
+    const firstStable = Object.keys(p.time)
+      .filter((v) => /^[1-9]\d*\.0\.0$/.test(v))
+      .sort((a, b) => (p.time[a]! < p.time[b]! ? -1 : 1))[0];
+    console.log(
+      `| ${name} | ${latest} (${p.time[latest]?.slice(0, 10)}) | ${p.versions[latest]?.license ?? "?"} | ${firstStable} (${firstStable ? p.time[firstStable]?.slice(0, 10) : ""}) |`,
+    );
+  }
+}
+
 survey();
 techempower();
 registries();
+coreWebVitals();
+npmFacts();

@@ -1,5 +1,1738 @@
 [
   {
+    "id": "frontend-none",
+    "part": "frontend",
+    "level": "type",
+    "name": "No web frontend",
+    "summary": "Nothing is shown in a browser: an API, or the backend of a mobile app.",
+    "status": "active",
+    "none": true,
+    "scores": {},
+    "facts": []
+  },
+  {
+    "id": "static",
+    "part": "frontend",
+    "level": "type",
+    "name": "Static site",
+    "summary": "Pages are built ahead of time and served as files.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Mostly HTML and CSS; little to set up",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 5,
+        "why": "Consistently fast first byte and first paint; little JavaScript to run",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "static rendering: fast TTFB and FCP, low TBT/INP"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "seo": {
+        "value": 5,
+        "why": "Every page arrives as complete HTML, so search engines read it directly",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "complete HTML, as with server rendering"
+          },
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Astro and Next.js static export docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "interactivity": {
+        "value": 2,
+        "why": "Interactive parts need extra JavaScript on top of the pages",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "static rendering: progressive enhancement, limited client JS"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Files on a CDN; free static hosting exists",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "can be served from many CDNs"
+          },
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P",
+            "note": "GitHub Pages hosts static HTML, CSS and JS files for free"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "spa",
+    "part": "frontend",
+    "level": "type",
+    "name": "Single-page app (SPA)",
+    "summary": "The browser builds the pages with JavaScript.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "A component framework, state and client-side routing to learn",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 2,
+        "why": "First paint waits for JavaScript; hard to keep fast on phones as the app grows",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "client-side rendering: difficult to make and keep fast on mobile"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "seo": {
+        "value": 2,
+        "why": "Crawlers can run JavaScript but with limits; needs extra testing",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "CSR can work for SEO but needs extra testing and overhead"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "interactivity": {
+        "value": 5,
+        "why": "Built for app-like behaviour: everything happens in the browser",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "CSR suits rich, app-like experiences"
+          },
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "React, Vue, Svelte, Angular docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Builds to static files that any static host can serve",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P",
+            "note": "GitHub Pages hosts static HTML, CSS and JS files for free"
+          },
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "build output is static files"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "ssr",
+    "part": "frontend",
+    "level": "type",
+    "name": "Server-rendered (meta-framework)",
+    "summary": "A framework renders pages on the server, then makes them interactive in the browser.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Component framework plus server/client split, data loading and caching rules",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Fast first paint, but hydration ships the app twice and delays input",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "SSR: fast FCP; hydration: TBT/INP cost, 'one app for the price of two'"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "seo": {
+        "value": 5,
+        "why": "Crawlers get complete HTML",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "SSR delivers a complete-looking page crawlers can read"
+          },
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Next.js, Nuxt, SvelteKit docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "interactivity": {
+        "value": 4,
+        "why": "Fully interactive once hydrated",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "full interactivity after hydration"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 2,
+        "why": "Needs a server or functions to render pages; highest server cost of the approaches",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "SSR has significant compute overhead"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "server-templates",
+    "part": "frontend",
+    "level": "type",
+    "name": "Pages from the backend",
+    "summary": "The backend framework renders HTML templates (Blade, Django templates, Thymeleaf, Razor).",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Templates in the language the team already uses; no second app",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Server-rendered HTML without hydration; little JavaScript",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "SSR without rehydration: fast FCP, low TBT; TTFB cost"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "seo": {
+        "value": 5,
+        "why": "Crawlers get complete HTML",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "server-rendered HTML"
+          },
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Django, Laravel, Spring, ASP.NET Core template docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "interactivity": {
+        "value": 2,
+        "why": "Each action usually loads a new page; rich widgets need extra JavaScript",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "plain SSR suits content and links"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Rendered by the backend you already run; no extra server",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "plain-html",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "static"
+    ],
+    "name": "Plain HTML, CSS and JavaScript",
+    "summary": "Hand-written pages with no framework or build step.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "open web standards, nothing to install",
+          "reviewed": false
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 5,
+        "why": "HTML and CSS are the first core modules of MDN's curriculum; frameworks come later, after JavaScript",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "mdn-learn",
+            "quality": "P",
+            "note": "MDN Learn web development: core modules start with structuring content (HTML) and styling (CSS); frameworks are an extension module"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 2,
+        "why": "No components or build tools; repeated markup is copied by hand",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 5,
+        "why": "Ships only the HTML, CSS and JavaScript you write (rendering band 5); no CWV category exists for 'no framework'",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "static rendering: 'fine to mostly ship HTML with minimal JavaScript'"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Any library can be added by hand, but nothing is integrated",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 5,
+        "why": "HTML/CSS: 58.2% usage in 2026 (language bands: ≥ 40% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages, HTML/CSS, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "HTML is a living standard maintained by browser makers since 2004, backwards-compatible",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "whatwg-html",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 2,
+        "why": "No type checking unless you add TypeScript or JSDoc checks yourself",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "standard",
+        "kind": "version",
+        "text": "HTML Living Standard (WHATWG); no versions",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "whatwg-html",
+            "quality": "P"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "astro",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "static",
+      "ssr"
+    ],
+    "name": "Astro",
+    "summary": "Content-focused framework: static pages by default, interactive 'islands' only where needed.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "HTML-like components; JavaScript only where you ask for it",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Content collections, routing, image handling and integrations built in",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Astro docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 5,
+        "why": "71.1% of sites using it pass Core Web Vitals on mobile (band 5); rendering model: static pages with islands (band 5); mean rounded down → 5",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 71.1% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: static pages with islands"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Integrations for React, Vue, Svelte; smaller own ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 3,
+        "why": "6.2% usage in 2026 (rubric: 5–10% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 3,
+        "why": "1.0 in 2022-08 (4 years); no published support windows",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (TypeScript built in); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "TypeScript built in"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Astro 7.4.7 (2026-11-05)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      },
+      {
+        "id": "ownership",
+        "kind": "ownership",
+        "text": "The Astro Technology Company joined Cloudflare (2026-01-16); Astro stays MIT-licensed open source",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cloudflare-blog",
+            "quality": "P"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "react",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "spa"
+    ],
+    "name": "React",
+    "summary": "Component library for user interfaces; the most used frontend library.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "JSX, hooks and state; routing and data loading come from other libraries",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 3,
+        "why": "UI only: router, forms and data fetching are separate choices",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 2,
+        "why": "43.9% of sites using it pass Core Web Vitals on mobile (band 3); rendering model: client-side rendering (band 2); mean rounded down → 2",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 43.9% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: client-side rendering"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "The largest set of component libraries and tools",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08",
+        "unsourced": true,
+        "proposed": 5
+      },
+      "community": {
+        "value": 5,
+        "why": "41.5% usage in 2026 (rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "15.0 in 2016-04 (10 years); no published support windows",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "react: no end-of-life dates"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (React docs 'Using TypeScript'; types from @types/react); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "React docs 'Using TypeScript'; types from @types/react"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "React 19.3.1 (2026-10-14)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vue",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "spa"
+    ],
+    "name": "Vue",
+    "summary": "Progressive component framework with official router and state library.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "HTML-based templates; gentle start",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Official router (Vue Router), state (Pinia) and build tool (Vite)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Vue docs: official libraries"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 2,
+        "why": "36.2% of sites using it pass Core Web Vitals on mobile (band 3); rendering model: client-side rendering (band 2); mean rounded down → 2",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 36.2% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: client-side rendering"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Large, with official libraries",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 5,
+        "why": "17.2% usage in 2026 (rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "1.0 in 2015-10 (11 years); only the latest minor is supported, no fixed windows",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "vue"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (vue-tsc); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "vue-tsc"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Vue 3.5.45 (2026-11-05)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "svelte",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "spa"
+    ],
+    "name": "Svelte",
+    "summary": "Compiler-based component framework: little runtime code in the browser.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Components look like HTML, CSS and JavaScript",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Less code per component; built-in state and transitions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 3,
+        "why": "53.6% of sites using it pass Core Web Vitals on mobile (band 4); rendering model: client-side rendering (band 2); mean rounded down → 3",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 53.6% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: client-side rendering"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "Smaller library ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 3,
+        "why": "7.8% usage in 2026 (rubric: 5–10% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "1.0 in 2016-11 (almost 10 years); no published support windows",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "svelte"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (svelte-check); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "svelte-check"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Svelte 5.57.3 (2026-10-26)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "angular",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "spa",
+      "ssr"
+    ],
+    "name": "Angular",
+    "summary": "Full framework from Google: router, forms, HTTP client and CLI built in; TypeScript only.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Large API: modules or standalone components, dependency injection, RxJS, signals",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Router, forms, HTTP client, server rendering and code generators are first-party",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "angular.dev"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 1,
+        "why": "16.5% of sites using it pass Core Web Vitals on mobile (band 1); rendering model: client-side rendering (band 2); mean rounded down → 1",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 16.5% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: client-side rendering"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Large, many first-party packages",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 5,
+        "why": "16.0% usage in 2026 (rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "2.0 in 2016-09 (10 years); published support: each major 6 months active + 12 months LTS",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "angular"
+          },
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "angular.dev/reference/releases"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 5,
+        "why": "TypeScript is required, and templates are type-checked in strict mode",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "angular.dev: TypeScript, strict template checking"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Angular 22.2.5 (2026-11-06)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": "Angular 22 supported until 2028-06 (estimated by endoflife.date)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "angular"
+          }
+        ],
+        "until": "2028-06-30"
+      }
+    ]
+  },
+  {
+    "id": "nextjs",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "ssr",
+      "static",
+      "spa"
+    ],
+    "name": "Next.js",
+    "summary": "React meta-framework: server rendering, static export and API routes.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "React plus server components, caching and the App Router",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Routing, data loading, API routes, image handling built in",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Next.js docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 3,
+        "why": "35.7% of sites using it pass Core Web Vitals on mobile (band 3); rendering model: SSR with hydration (band 3); mean rounded down → 3",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 35.7% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: SSR with hydration"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "The React ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 5,
+        "why": "20.6% usage in 2026 (rubric: ≥ 15% → 5)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 5,
+        "why": "1.0 in 2016-10 (10 years); published LTS support (15 to 2027-01)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "nextjs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (TypeScript built in); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "TypeScript built in"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Next.js 16.4.5 (2026-11-03)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      },
+      {
+        "id": "support",
+        "kind": "support",
+        "text": "Next.js 16 is the active LTS; 15 supported until 2027-01-31",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "nextjs"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nuxt",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "ssr",
+      "static"
+    ],
+    "name": "Nuxt",
+    "summary": "Vue meta-framework: server rendering, static generation and server routes (Nitro).",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Vue plus server rendering and Nuxt conventions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "File routing, auto-imports, data fetching, server routes built in",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "Nuxt docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 2,
+        "why": "28.8% of sites using it pass Core Web Vitals on mobile (band 2); rendering model: SSR with hydration (band 3); mean rounded down → 2",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 28.8% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: SSR with hydration"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Nuxt modules plus the Vue ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 2,
+        "why": "4.4% usage in 2026 (rubric: 2–5% → 2)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "1.0 in 2018-01 (8 years); end-of-life dates announced per major",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          },
+          {
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "nuxt"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (TypeScript built in); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "TypeScript built in"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "Nuxt 4.6.4 (2026-11-02)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sveltekit",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "ssr",
+      "static",
+      "spa"
+    ],
+    "name": "SvelteKit",
+    "summary": "Svelte meta-framework: server rendering, static pages and server endpoints.",
+    "status": "active",
+    "licence": {
+      "spdx": "MIT",
+      "osi": true,
+      "sources": [
+        {
+          "kind": "ref",
+          "ref": "fe-repos",
+          "quality": "P",
+          "note": "npm registry"
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Svelte plus routing, load functions and server/client split",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Routing, data loading, form actions and endpoints built in",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "SvelteKit docs"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 3,
+        "why": "48.3% of sites using it pass Core Web Vitals on mobile (band 4); rendering model: SSR with hydration (band 3); mean rounded down → 3",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cwv-tech",
+            "quality": "P",
+            "note": "HTTP Archive Core Web Vitals technology report, 2026-09 crawl, mobile: 48.3% of origins with good CWV; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "rendering band: SSR with hydration"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 3,
+        "why": "The smaller Svelte ecosystem",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 3,
+        "why": "5.6% usage in 2026 (rubric: 5–10% → 3)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents, official data StackExchange/Survey technology.json; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 3,
+        "why": "1.0 in 2022-12 (4 years); no published support windows",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 4,
+        "why": "TypeScript supported first-class (TypeScript built in); types are optional",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "TypeScript built in"
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "version",
+        "kind": "version",
+        "text": "SvelteKit 3.1.1 (2026-10-29)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "npm registry"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "backend-templates",
+    "part": "frontend",
+    "level": "product",
+    "types": [
+      "server-templates"
+    ],
+    "name": "The backend's templates",
+    "summary": "HTML templates of the backend framework: Blade (Laravel), Django templates, Thymeleaf (Spring), Razor (ASP.NET Core), Jinja (FastAPI).",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "uses the backend framework, whose licence is listed in the backend part",
+          "reviewed": false
+        }
+      ]
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "One language and one project; templates are HTML with a few tags",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "productivity": {
+        "value": 4,
+        "why": "Forms, validation messages and auth pages come with the backend framework",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Server-rendered HTML without hydration (rendering band 4); no CWV category for template engines",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "SSR without rehydration"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ecosystem": {
+        "value": 4,
+        "why": "Template engines come with the backend framework and its libraries (form helpers, auth pages)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "community": {
+        "value": 5,
+        "why": "Uses the backend framework's community: ASP.NET Core (Razor) 19.9% usage in 2026, the most used template-rendering backend (same method as frontend-server, which takes Next.js's share)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 web frameworks, all respondents; `npm run sources`"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "The template engines of mature backend frameworks",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "type-safety": {
+        "value": 2,
+        "why": "Most template languages aren't type-checked (Razor is)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
     "id": "database-none",
     "part": "database",
     "level": "type",
