@@ -18,6 +18,8 @@ import {
 } from "@/components/form/form-state";
 import { presets, type Preset } from "@/components/form/presets";
 
+const ExportActions = dynamic(() => import("@/components/result/export-actions").then((m) => m.ExportActions));
+
 // The result view is only needed after submit, so it loads in its own chunk.
 const ResultView = dynamic(() => import("@/components/result/result-view").then((m) => m.ResultView), {
   loading: () => <p role="status">Preparing your result…</p>,
@@ -92,18 +94,20 @@ export function Advisor() {
     window.scrollTo({ top: 0 });
   };
 
-  const rec = useMemo(() => {
+  const result = useMemo(() => {
     if (view !== "result") return undefined;
     const input = toUserInput(form);
-    return buildRecommendation(input, score(input, kb), kb, today());
+    const date = today();
+    return { input, date, rec: buildRecommendation(input, score(input, kb), kb, date) };
   }, [form, view]);
 
   if (!loaded) return <p role="status">Loading…</p>;
 
-  if (view === "result" && rec)
+  if (view === "result" && result)
     return (
       <ResultView
-        rec={rec}
+        rec={result.rec}
+        actions={<ExportActions rec={result.rec} input={result.input} date={result.date} />}
         example={example?.title}
         onEdit={() => {
           setExample(undefined);

@@ -10,23 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { FitBadge, ScoreBar } from "./fit";
-import { criterionName, fmt, LEVEL_LABELS, optionName, orList, partName, signed } from "./format";
+import { criterionName, fmt, LEVEL_LABELS, optionName, partName, signed } from "./format";
+import { labelText } from "./labels";
 
 const SHOWN = 5;
 const opt = (id: string) => kb.options.find((o) => o.id === id);
-
-export function labelText(label: StackLabel): string {
-  switch (label.kind) {
-    case "in-stack":
-      return "In your stack";
-    case "fits":
-      return "Also fits";
-    case "needs":
-      return `Needs ${orList(label.ids)}`;
-    case "clashes":
-      return `Doesn't fit with ${optionName(label.with)}`;
-  }
-}
 
 function LabelBadge({ label }: { label: StackLabel }) {
   const variant = label.kind === "in-stack" ? "default" : label.kind === "fits" ? "secondary" : "outline";
