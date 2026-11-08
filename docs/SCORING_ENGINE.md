@@ -97,6 +97,8 @@ The `language` part has one level: its options are scored as products directly.
 Every option in each part's list is then labelled against the chosen stack: **in the stack**, **fits** (would also be compatible), or **needs: X** (e.g. "Django — needs: Python").
 
 ## Step 7: Explanation data
+**Implemented (2026-11-09)** in the pure `recommendation/` module (ARCHITECTURE §2), not the engine: `buildRecommendation(input, result, kb, today)` derives contributions (`why`, they add up to `base`), rule and skill adjustments, stack labels (in-stack / fits / needs / clashes, from active `requires` and `conflicts` relations), exclusion and not-needed reasons and fact staleness (`today` is passed in). The engine's own result is unchanged.
+
 - `contributions[o][c] = w[c]·x[o][c] / Σw` for "why this score" bars.
 - `firedRules[]`, `skillEffects[]` (kept separate so the UI can say "+20 because your team knows Java"), `compatibility[]` (which relations shaped the stack and why a part's pick isn't its #1).
 - `conflicts[]`, `warnings[]`, `closeCalls[]`, `notNeeded[]`, `excluded[]` with reasons.

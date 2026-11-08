@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { PencilIcon, RotateCcwIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { kb } from "@/modules/knowledge-base";
-import { score } from "@/modules/scoring";
+import { buildRecommendation } from "@/modules/recommendation";
+import { checkInput, score } from "@/modules/scoring";
 import { AdvisorForm } from "@/components/form/advisor-form";
 import {
   clearSavedForm,
@@ -16,14 +17,24 @@ import {
   type StepId,
 } from "@/components/form/form-state";
 import { presets, type Preset } from "@/components/form/presets";
-import { StackCard } from "@/components/result/stack-card";
-import { Button } from "@/components/ui/button";
+
+// The result view is only needed after submit, so it loads in its own chunk.
+const ResultView = dynamic(() => import("@/components/result/result-view").then((m) => m.ResultView), {
+  loading: () => <p role="status">Preparing your result…</p>,
+});
 
 type View = "form" | "result";
 
+/** Today in the visitor's calendar, for "due for a re-check" on dated facts (the recommendation module stays pure). */
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
 /**
  * The /advisor page: a 4-step form → result. `?new` (the home page's main button) always starts fresh;
- * `?example=<id>` opens one of the examples' results. Answers are kept for this tab only (form-state.ts).
+ * `?example=<id>` opens one of the examples' results. Answers are kept for this tab only (form-state.ts); the
+ * result is recomputed from them, so a refresh shows the same result.
  */
 export function Advisor() {
   const [view, setView] = useState<View>("form");
@@ -33,8 +44,8 @@ export function Advisor() {
   const [example, setExample] = useState<Preset>();
 
   useEffect(() => {
-    if (loaded) saveForm({ form, step }, kb);
-  }, [form, step, loaded]);
+    if (loaded) saveForm({ form, step, view, example: example?.id }, kb);
+  }, [form, step, view, example, loaded]);
 
   const showResult = useCallback(() => {
     setView("result");
@@ -64,6 +75,8 @@ export function Advisor() {
       if (saved) {
         setForm(saved.form);
         setStep(saved.step);
+        setExample(presets.find((p) => p.id === saved.example));
+        if (saved.view === "result" && checkInput(toUserInput(saved.form), kb).issues.length === 0) setView("result");
       }
     }
     setLoaded(true);
@@ -79,39 +92,27 @@ export function Advisor() {
     window.scrollTo({ top: 0 });
   };
 
-  const result = useMemo(() => score(toUserInput(form), kb), [form]);
+  const rec = useMemo(() => {
+    if (view !== "result") return undefined;
+    const input = toUserInput(form);
+    return buildRecommendation(input, score(input, kb), kb, today());
+  }, [form, view]);
 
   if (!loaded) return <p role="status">Loading…</p>;
 
-  if (view === "result")
+  if (view === "result" && rec)
     return (
-      <section aria-labelledby="result-heading" className="mx-auto max-w-xl space-y-6">
-        <div className="space-y-1">
-          {example && <p className="text-sm font-medium text-primary">Example · {example.title}</p>}
-          <h1 id="result-heading" className="text-3xl font-semibold tracking-tight">
-            Your recommended stack
-          </h1>
-          <p className="text-muted-foreground">
-            The best-scoring combination for your answers. The full breakdown, with the ranked options for each part and
-            the reasons, is on its way.
-          </p>
-        </div>
-        <StackCard result={result} label="Recommended stack" />
-        <div className="flex flex-wrap gap-3">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setExample(undefined);
-              setView("form");
-            }}
-          >
-            <PencilIcon aria-hidden /> Edit answers
-          </Button>
-          <Button variant="ghost" onClick={reset}>
-            <RotateCcwIcon aria-hidden /> Start over
-          </Button>
-        </div>
-      </section>
+      <ResultView
+        rec={rec}
+        example={example?.title}
+        onEdit={() => {
+          setExample(undefined);
+          setView("form");
+          setStep(4);
+          window.scrollTo({ top: 0 });
+        }}
+        onStartOver={reset}
+      />
     );
 
   return (

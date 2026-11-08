@@ -122,20 +122,29 @@ const STORAGE_VERSION = 1;
 export interface SavedForm {
   form: FormState;
   step: StepId;
+  /** The result was on screen: a refresh shows it again (it is recomputed from the answers, never stored). */
+  view?: "form" | "result";
+  /** The example the answers came from, while they are unchanged. */
+  example?: string;
 }
 
 export function serialiseForm(saved: SavedForm, kb: KnowledgeBase): string {
   return JSON.stringify({ v: STORAGE_VERSION, kb: kb.meta.kbVersion, ...saved });
 }
 
+type SavedFormJson = { v?: number; form?: Partial<FormState>; step?: number; view?: unknown; example?: unknown };
+
 /** Reads saved answers back, cleaned with `sanitiseForm`. */
 export function restoreForm(raw: string | null, kb: KnowledgeBase): SavedForm | undefined {
   if (!raw) return undefined;
   try {
-    const data = JSON.parse(raw) as { v?: number; form?: Partial<FormState>; step?: number };
+    const data = JSON.parse(raw) as SavedFormJson;
     if (data.v !== STORAGE_VERSION || typeof data.form !== "object" || data.form === null) return undefined;
     const step = STEPS.some((s) => s.id === data.step) ? (data.step as StepId) : 1;
-    return { form: sanitiseForm(data.form, kb), step };
+    const saved: SavedForm = { form: sanitiseForm(data.form, kb), step };
+    if (data.view === "result") saved.view = "result";
+    if (typeof data.example === "string") saved.example = data.example;
+    return saved;
   } catch {
     return undefined;
   }

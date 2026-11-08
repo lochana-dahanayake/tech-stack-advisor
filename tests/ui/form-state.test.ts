@@ -62,6 +62,10 @@ describe("form state", () => {
     const form = fromInput(presets[1]!.input);
     expect(restoreForm(serialiseForm({ form, step: 3 }, kb), kb)).toEqual({ form, step: 3 });
     expect(restoreForm(serialiseForm({ form, step: 9 as 1 }, kb), kb)?.step).toBe(1);
+    const onResult = { form, step: 4 as const, view: "result" as const, example: "shop" };
+    expect(restoreForm(serialiseForm(onResult, kb), kb)).toEqual(onResult);
+    const odd = JSON.stringify({ v: 1, form, step: 2, view: "chart", example: 7 });
+    expect(restoreForm(odd, kb)).toEqual({ form, step: 2 });
     expect(restoreForm("{not json", kb)).toBeUndefined();
     expect(restoreForm(JSON.stringify({ v: 0, form }), kb)).toBeUndefined();
     expect(restoreForm(null, kb)).toBeUndefined();
