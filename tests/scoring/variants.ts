@@ -13,12 +13,12 @@ export const variants: Record<
   current: { description: "The KB as committed", apply: (kb) => kb },
   draft: {
     description: "Unsourced scores at their proposed (draft) values: the KB as drafted in PR #5 (session 3)",
-    apply: (kb) => useProposedValues(variants.session6!.apply(kb)),
+    apply: (kb) => withProposedValues(variants.session6!.apply(kb)),
   },
   session2: {
     description: "draft, plus D3 document −10 (not −30) and no D9: the database KB of session 2 (2026-10-23)",
     apply: (kb) => {
-      const k = useProposedValues(variants.session6!.apply(kb));
+      const k = withProposedValues(variants.session6!.apply(kb));
       return {
         ...k,
         rules: k.rules
@@ -164,7 +164,7 @@ function setValues(
   };
 }
 
-function useProposedValues(kb: KnowledgeBase): KnowledgeBase {
+function withProposedValues(kb: KnowledgeBase): KnowledgeBase {
   return {
     ...kb,
     options: kb.options.map((o) => ({

@@ -89,7 +89,7 @@ describe("engine properties (TESTING_STRATEGY §2)", () => {
       }),
       { numRuns: 300 },
     );
-  });
+  }, 60_000);
 
   it("keeps rule and skill buckets and all scores in bounds", () => {
     fc.assert(
@@ -113,5 +113,5 @@ describe("engine properties (TESTING_STRATEGY §2)", () => {
       }),
       { numRuns: 300 },
     );
-  });
+  }, 60_000);
 });

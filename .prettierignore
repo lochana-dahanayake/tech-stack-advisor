@@ -1,7 +1,11 @@
 node_modules
+.next
 coverage
+test-results
 package-lock.json
+next-env.d.ts
 src/modules/knowledge-base/data
 docs
 references
 .claude
+graft

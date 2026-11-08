@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design tokens reused from Architecture Advisor v1.4 (shadcn/ui "neutral" greys, status colours, four fit colours)
+ * with Tech Stack Advisor's own teal brand (primary, ring, brand-muted). Fit colours always come with a text label:
+ * colour is never the only signal.
+ */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.5 0.1 195);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.48 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.85 0 0);
+  --ring: oklch(0.56 0.1 195);
+  --info: oklch(0.5 0.14 255);
+  --info-muted: oklch(0.96 0.025 255);
+  --warning: oklch(0.5 0.12 70);
+  --warning-muted: oklch(0.97 0.05 85);
+  --success: oklch(0.5 0.13 150);
+  --brand-muted: oklch(0.965 0.025 195);
+  --fit-strong: oklch(0.58 0.14 155);
+  --fit-good: oklch(0.55 0.17 265);
+  --fit-possible: oklch(0.72 0.14 75);
+  --fit-weak: oklch(0.72 0.02 260);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.78 0.11 190);
+    --primary-foreground: oklch(0.18 0.03 195);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.72 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 12%);
+    --input: oklch(1 0 0 / 22%);
+    --ring: oklch(0.72 0.1 190);
+    --info: oklch(0.75 0.12 255);
+    --info-muted: oklch(0.25 0.04 255);
+    --warning: oklch(0.82 0.13 85);
+    --warning-muted: oklch(0.27 0.05 80);
+    --success: oklch(0.75 0.14 150);
+    --brand-muted: oklch(0.26 0.045 195);
+    --fit-strong: oklch(0.72 0.15 155);
+    --fit-good: oklch(0.7 0.14 265);
+    --fit-possible: oklch(0.8 0.13 80);
+    --fit-weak: oklch(0.5 0.02 260);
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-info: var(--info);
+  --color-info-muted: var(--info-muted);
+  --color-warning: var(--warning);
+  --color-warning-muted: var(--warning-muted);
+  --color-success: var(--success);
+  --color-brand-muted: var(--brand-muted);
+  --color-fit-strong: var(--fit-strong);
+  --color-fit-good: var(--fit-good);
+  --color-fit-possible: var(--fit-possible);
+  --color-fit-weak: var(--fit-weak);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  /* Anchor links land below the sticky header. */
+  html {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
