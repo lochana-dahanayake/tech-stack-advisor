@@ -13,7 +13,7 @@ exports[`calibration tables > variant current 1`] = `
 | G5 Startup MVP that must ship in 4 weeks | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
 | G6 Internal business app at a .NET company | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G7 Content site for an agency client, PHP team | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
-| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 57.1; graph 43.8 | postgresql 72.2, mysql 66.7, sqlite 55.8 |
+| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 57.1; graph 43.8 | postgresql 75.0, mysql 70.0, sqlite 58.8 |
 | G9 Beginner's hobby app (habit tracker) | relational 74.4; document 61.9; key-value 45.6; graph 40.6 | sqlite 84.6, postgresql 71.4, mysql 64.3 |
 | G10 Social app with friends-of-friends suggestions | graph 65.8; relational 62.5; key-value 42.5; document 40.8 (close call: relational) | neo4j 43.8 |
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
@@ -63,6 +63,26 @@ exports[`calibration tables > variant current 1`] = `
 | P2 G13 without 'fields vary' | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P3 Cache-only service (only simple lookups) | not needed (S2) | — |
 
+## hosting
+| Scenario | Types | Products (final) |
+|---|---|---|
+| G1 Student portfolio site | static-hosting 77.5; frontend-platform 66.7; paas 66.7; cloud 45.8; vps 45.8 | github-pages 65.6, cloudflare 61.0, vercel 57.9, netlify 51.7 |
+| G2 E-commerce store, small team that knows Java | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 65.0, cloudflare 62.5, vercel 60.0, render 60.0 |
+| G3 Real-time chat app | paas 78.8; frontend-platform 62.5; cloud 53.1; vps 53.1 | railway 70.0, render 65.0, fly-io 62.5, cloudflare 56.3 |
+| G4 Data dashboard for a Python team | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
+| G5 Startup MVP that must ship in 4 weeks | frontend-platform 76.7; paas 66.7; cloud 45.8; vps 45.8 | cloudflare 71.9, vercel 68.8, netlify 62.5, railway 58.8 |
+| G6 Internal business app at a .NET company | cloud 45.8 | azure 60.0 |
+| G7 Content site for an agency client, PHP team | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
+| G8 High-throughput REST API | cloud 62.5; frontend-platform 60.0; paas 60.0; vps 52.5 (close call: frontend-platform) | cloudflare 74.1, vercel 69.4, netlify 66.3, railway 66.3 |
+| G9 Beginner's hobby app (habit tracker) | paas 78.8; frontend-platform 68.8; cloud 40.6; vps 40.6 | render 65.0, vercel 60.0, cloudflare 57.5, netlify 55.0 |
+| G10 Social app with friends-of-friends suggestions | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
+| G11 Microservices from Architecture Advisor | paas 77.5; frontend-platform 68.8; cloud 68.1; vps 40.6 | railway 70.0, cloudflare 63.8, fly-io 62.5, vercel 61.3 |
+| G12 Neutral input | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 65.0, cloudflare 62.5, vercel 60.0, render 60.0 |
+| G13 Product catalogue with very different items | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
+| P1 G10 + scalability High | paas 72.5; frontend-platform 68.8; cloud 53.1; vps 40.6 (close call: frontend-platform) | railway 70.0, cloudflare 68.8, vercel 66.3, fly-io 62.5 |
+| P2 G13 without 'fields vary' | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
+| P3 Cache-only service (only simple lookups) | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 70.0, cloudflare 62.5, fly-io 62.5, vercel 60.0 |
+
 ## language
 | Scenario | Languages (final) |
 |---|---|
@@ -84,24 +104,24 @@ exports[`calibration tables > variant current 1`] = `
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
 
 ## stack
-| Scenario | Stack (frontend · backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |
-|---|---|---|---|---|---|
-| G1 Student portfolio site | plain-html · — · — · — | 71.4 | — | — | — |
-| G2 E-commerce store, small team that knows Java | nextjs · spring-boot · postgresql · java | 87.6 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — |
-| G3 Real-time chat app | nextjs · nestjs · postgresql · typescript-node | 81.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
-| G4 Data dashboard for a Python team | nextjs · fastapi · postgresql · python | 77.4 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — | — |
-| G5 Startup MVP that must ship in 4 weeks | nextjs · frontend-server · postgresql · typescript-node | 76.0 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — | — |
-| G6 Internal business app at a .NET company | nextjs · aspnet-core · postgresql · csharp | 88.9 | — | — | — |
-| G7 Content site for an agency client, PHP team | backend-templates · laravel · postgresql · php | 76.2 | backend: aspnet-core → laravel (C-aspnet-core-language) | — | — |
-| G8 High-throughput REST API | — · aspnet-core · postgresql · csharp | 81.4 | language: go → csharp (stack score) | — | — · gin · postgresql · go 77.1 (−4.3) |
-| G9 Beginner's hobby app (habit tracker) | vue · fastapi · sqlite · python | 78.8 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — | — |
-| G10 Social app with friends-of-friends suggestions | nextjs · nestjs · postgresql · typescript-node | 80.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
-| G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · java | 81.6 | — | — | — |
-| G12 Neutral input | nextjs · aspnet-core · postgresql · csharp | 82.9 | — | language: java = csharp → csharp (stack score) | — |
-| G13 Product catalogue with very different items | nextjs · nestjs · mongodb · typescript-node | 80.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
-| P1 G10 + scalability High | nextjs · nestjs · postgresql · typescript-node | 80.5 | — | — | — |
-| P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · typescript-node | 79.7 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
-| P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
+| Scenario | Stack (frontend · backend · database · hosting · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) | Notes |
+|---|---|---|---|---|---|---|
+| G1 Student portfolio site | plain-html · — · — · github-pages · — | 68.5 | — | — | — | — |
+| G2 E-commerce store, small team that knows Java | nextjs · spring-boot · postgresql · railway · java | 83.1 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — | — |
+| G3 Real-time chat app | nextjs · nestjs · postgresql · railway · typescript-node | 79.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
+| G4 Data dashboard for a Python team | nextjs · fastapi · postgresql · railway · python | 75.7 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — | — | — |
+| G5 Startup MVP that must ship in 4 weeks | nextjs · frontend-server · postgresql · cloudflare · typescript-node | 75.2 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — | — | — |
+| G6 Internal business app at a .NET company | nextjs · aspnet-core · postgresql · azure · csharp | 83.1 | — | — | — | — |
+| G7 Content site for an agency client, PHP team | backend-templates · laravel · postgresql · railway · php | 74.7 | backend: aspnet-core → laravel (C-aspnet-core-language) | — | — | — |
+| G8 High-throughput REST API | — · aspnet-core · postgresql · railway · csharp | 78.3 | hosting: cloudflare → railway (C-cloudflare-language); language: go → csharp (stack score) | — | — · gin · postgresql · vercel · go 75.9 (−2.4) | — |
+| G9 Beginner's hobby app (habit tracker) | vue · fastapi · postgresql · render · python | 73.4 | backend: aspnet-core → fastapi (C-aspnet-core-language); database: sqlite → postgresql (C-sqlite-render-free) | — | — | — |
+| G10 Social app with friends-of-friends suggestions | nextjs · nestjs · postgresql · railway · typescript-node | 78.1 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
+| G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · railway · java | 79.3 | — | — | — | — |
+| G12 Neutral input | nextjs · aspnet-core · postgresql · railway · csharp | 79.3 | — | language: java = csharp → csharp (stack score) | — | — |
+| G13 Product catalogue with very different items | nextjs · nestjs · mongodb · railway · typescript-node | 78.4 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
+| P1 G10 + scalability High | nextjs · nestjs · postgresql · railway · typescript-node | 78.4 | — | — | — | — |
+| P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · railway · typescript-node | 77.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
+| P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · railway · csharp | 77.6 | — | language: java = csharp → csharp (stack score) | — | — |
 "
 `;
 
@@ -786,7 +806,7 @@ exports[`calibration tables > variant session7 1`] = `
 `;
 
 exports[`calibration tables > variant session8 1`] = `
-"Variant: session8: current without the frontend part (Part 4, session 9): the KB of session 8. KB 0.1.0.
+"Variant: session8: session9 without the frontend part (Part 4, session 9): the KB of session 8. KB 0.1.0.
 
 ## database
 | Scenario | Types | Products |
@@ -867,5 +887,110 @@ exports[`calibration tables > variant session8 1`] = `
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
+"
+`;
+
+exports[`calibration tables > variant session9 1`] = `
+"Variant: session9: current without the hosting part (Part 5, session 10): the KB of session 9. KB 0.1.0.
+
+## database
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (D8) | — |
+| G2 E-commerce store, small team that knows Java | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
+| G3 Real-time chat app | relational 69.4; document 65.6; graph 40.6; key-value 39.4 (close call: document) | postgresql 71.4, sqlite 69.6, mysql 60.7 |
+| G4 Data dashboard for a Python team | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
+| G5 Startup MVP that must ship in 4 weeks | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
+| G6 Internal business app at a .NET company | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 78.6, sqlite 76.8, mysql 71.4 |
+| G7 Content site for an agency client, PHP team | relational 77.5; document 60.8; graph 45.8; key-value 42.5 | postgresql 75.0, sqlite 72.9, mysql 66.7 |
+| G8 High-throughput REST API | relational 79.6; document 62.9; key-value 57.1; graph 43.8 | postgresql 72.2, mysql 66.7, sqlite 55.8 |
+| G9 Beginner's hobby app (habit tracker) | relational 74.4; document 61.9; key-value 45.6; graph 40.6 | sqlite 84.6, postgresql 71.4, mysql 64.3 |
+| G10 Social app with friends-of-friends suggestions | graph 65.8; relational 62.5; key-value 42.5; document 40.8 (close call: relational) | neo4j 43.8 |
+| G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
+| G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
+| G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
+| P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
+| P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
+
+## backend
+| Scenario | Types | Products |
+|---|---|---|
+| G1 Student portfolio site | not needed (B0) | — |
+| G2 E-commerce store, small team that knows Java | batteries 70.8; minimal 54.2; fullstack 50.0 | aspnet-core 87.5, spring-boot 87.1, laravel 72.9; team language: spring-boot 87.1 |
+| G3 Real-time chat app | batteries 67.9; minimal 57.1; fullstack 42.9 | aspnet-core 86.4, nestjs 82.7, spring-boot 77.3; team language: nestjs 82.7 |
+| G4 Data dashboard for a Python team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, spring-boot 72.2, fastapi 71.7; team language: fastapi 71.7 |
+| G5 Startup MVP that must ship in 4 weeks | fullstack 70.0; batteries 60.0; minimal 35.0 | aspnet-core 76.4, frontend-server 66.4, nestjs 63.2; team language: frontend-server 66.4 |
+| G6 Internal business app at a .NET company | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 96.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 96.4 |
+| G7 Content site for an agency client, PHP team | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, laravel 73.9, spring-boot 72.2; team language: laravel 73.9 |
+| G8 High-throughput REST API | minimal 68.2; batteries 61.4 | aspnet-core 83.3, fastify 68.3, gin 65.0; team language: gin 65.0 |
+| G9 Beginner's hobby app (habit tracker) | minimal 64.3; fullstack 57.1; batteries 53.6 | aspnet-core 77.3, fastapi 73.2, fastify 65.9; team language: fastapi 73.2 |
+| G10 Social app with friends-of-friends suggestions | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
+| G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
+| G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
+| P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
+
+## frontend
+| Scenario | Types | Products (final) |
+|---|---|---|
+| G1 Student portfolio site | static 100.0; spa 50.0 | plain-html 71.4, astro 67.9, nextjs 65.0, nuxt 47.1 |
+| G2 E-commerce store, small team that knows Java | ssr 84.4; server-templates 76.7; static 72.2; spa 51.1 | nextjs 80.0, angular 75.0, astro 65.0, backend-templates 64.7 |
+| G3 Real-time chat app | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| G4 Data dashboard for a Python team | spa 71.4; server-templates 67.1; static 64.3; ssr 60.7 (close call: server-templates) | nextjs 75.0, vue 71.4, angular 67.9, backend-templates 67.1 |
+| G5 Startup MVP that must ship in 4 weeks | ssr 80.7; spa 71.4; static 64.3; server-templates 57.1 | nextjs 75.0, astro 69.4, angular 69.4, vue 62.9 |
+| G6 Internal business app at a .NET company | spa 71.4; server-templates 67.1; static 64.3; ssr 60.7 (close call: server-templates) | nextjs 80.6, angular 75.0, vue 72.2, plain-html 70.6 |
+| G7 Content site for an agency client, PHP team | server-templates 98.6; static 95.7; ssr 77.9; spa 50.0 (close call: static) | backend-templates 71.4, plain-html 68.6, astro 65.0, nextjs 62.1 |
+| G8 High-throughput REST API | not needed (S2) | — |
+| G9 Beginner's hobby app (habit tracker) | spa 76.7; server-templates 71.1; static 66.7; ssr 52.8 | vue 72.2, nextjs 69.4, plain-html 67.8, backend-templates 66.7 |
+| G10 Social app with friends-of-friends suggestions | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| G11 Microservices from Architecture Advisor | spa 81.4; server-templates 67.1; static 64.3; ssr 60.7 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| G12 Neutral input | static 80.0; server-templates 70.0; spa 60.0; ssr 55.0 | nextjs 80.6, plain-html 77.8, astro 63.9, backend-templates 62.2 |
+| G13 Product catalogue with very different items | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| P1 G10 + scalability High | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| P2 G13 without 'fields vary' | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| P3 Cache-only service (only simple lookups) | not needed (S2) | — |
+
+## language
+| Scenario | Languages (final) |
+|---|---|
+| G1 Student portfolio site | not needed (S9) |
+| G2 E-commerce store, small team that knows Java | java 100.0, csharp 85.0, typescript-node 82.5, go 77.5, python 75.0, php 72.5 |
+| G3 Real-time chat app | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G4 Data dashboard for a Python team | python 87.9, java 82.1, csharp 82.1, typescript-node 78.6, go 75.0, php 64.3 |
+| G5 Startup MVP that must ship in 4 weeks | typescript-node 87.8, csharp 70.6, java 65.0, python 59.4, go 59.4, php 56.7 |
+| G6 Internal business app at a .NET company | csharp 100.0, java 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
+| G7 Content site for an agency client, PHP team | php 84.3, java 82.1, csharp 82.1, typescript-node 78.6, go 75.0, python 67.9 |
+| G8 High-throughput REST API | go 94.1, java 88.6, csharp 88.6, typescript-node 77.3, php 50.0, python 43.2 |
+| G9 Beginner's hobby app (habit tracker) | python 85.0, java 80.6, typescript-node 77.8, csharp 75.0, go 75.0, php 66.7 |
+| G10 Social app with friends-of-friends suggestions | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
+| G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
+| G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
+
+## stack
+| Scenario | Stack (frontend · backend · database · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) |
+|---|---|---|---|---|---|
+| G1 Student portfolio site | plain-html · — · — · — | 71.4 | — | — | — |
+| G2 E-commerce store, small team that knows Java | nextjs · spring-boot · postgresql · java | 87.6 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — |
+| G3 Real-time chat app | nextjs · nestjs · postgresql · typescript-node | 81.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G4 Data dashboard for a Python team | nextjs · fastapi · postgresql · python | 77.4 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — | — |
+| G5 Startup MVP that must ship in 4 weeks | nextjs · frontend-server · postgresql · typescript-node | 76.0 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — | — |
+| G6 Internal business app at a .NET company | nextjs · aspnet-core · postgresql · csharp | 88.9 | — | — | — |
+| G7 Content site for an agency client, PHP team | backend-templates · laravel · postgresql · php | 76.2 | backend: aspnet-core → laravel (C-aspnet-core-language) | — | — |
+| G8 High-throughput REST API | — · aspnet-core · postgresql · csharp | 81.4 | language: go → csharp (stack score) | — | — · gin · postgresql · go 77.1 (−4.3) |
+| G9 Beginner's hobby app (habit tracker) | vue · fastapi · sqlite · python | 78.8 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — | — |
+| G10 Social app with friends-of-friends suggestions | nextjs · nestjs · postgresql · typescript-node | 80.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · java | 81.6 | — | — | — |
+| G12 Neutral input | nextjs · aspnet-core · postgresql · csharp | 82.9 | — | language: java = csharp → csharp (stack score) | — |
+| G13 Product catalogue with very different items | nextjs · nestjs · mongodb · typescript-node | 80.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| P1 G10 + scalability High | nextjs · nestjs · postgresql · typescript-node | 80.5 | — | — | — |
+| P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · typescript-node | 79.7 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
 "
 `;

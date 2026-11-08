@@ -136,8 +136,15 @@ describe("integrity checks catch broken data", () => {
       problems({ ...kb, criteria: [...kb.criteria, { ...kb.criteria[0]!, id: "x", appliesTo: ["nope"] }] }),
     ).toMatch(/unknown part nope/);
     expect(
-      problems({ ...kb, criteria: [...kb.criteria, { ...kb.criteria[0]!, id: "y", typeOnlyFor: ["hosting"] }] }),
-    ).toMatch(/type-only part hosting isn't in appliesTo/);
+      problems({ ...kb, criteria: [...kb.criteria, { ...kb.criteria[0]!, id: "y", typeOnlyFor: ["zzz"] }] }),
+    ).toMatch(/type-only part zzz isn't in appliesTo/);
+    const vercel = kb.options.find((o) => o.id === "vercel")!;
+    expect(problems(withOption({ ...vercel, freeTier: undefined }))).toMatch(/need freeTier/);
+    const pen = kb.compatibility.find((c) => c.kind === "penalty")!;
+    expect(problems({ ...kb, compatibility: [{ ...pen, points: undefined }] })).toMatch(/penalty needs points/);
+    expect(problems({ ...kb, compatibility: [{ ...pen, fact: "nope" }] })).toMatch(/release-status fact/);
+    const req = kb.compatibility.find((c) => c.kind === "requires")!;
+    expect(problems({ ...kb, compatibility: [{ ...req, points: -5 }] })).toMatch(/only penalties/);
   });
 });
 

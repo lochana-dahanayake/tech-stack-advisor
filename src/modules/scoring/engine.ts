@@ -196,6 +196,16 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
       excluded: partExcluded,
     };
   }
+  // Relations that hold for this input (their `when`), with K9-style penalties resolved from dated facts.
+  const relations: ActiveRelation[] = kb.compatibility
+    .filter((c) => !c.when || evaluateCondition(c.when, ctx))
+    .flatMap((c) => {
+      if (c.kind !== "penalty") return [c];
+      const fact = kb.options.find((o) => o.id === c.option)?.facts.find((f) => f.id === c.fact);
+      if (fact?.status !== "beta") return [];
+      const high = ["high", "critical"].includes(levels.maturity ?? "low");
+      return [{ ...c, points: high ? (c.highMaturityPoints ?? c.points) : c.points }];
+    });
   return {
     kbVersion: kb.meta.kbVersion,
     effectiveWeights: levels,
@@ -203,7 +213,7 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
     firedRules: fired,
     notes,
     parts,
-    stack: assemble(parts, kb, protectStrong ? skillOf : undefined, knownCloseCalls ? skillOf : undefined),
+    stack: assemble(parts, kb, protectStrong ? skillOf : undefined, knownCloseCalls ? skillOf : undefined, relations),
   };
 }
 
@@ -246,13 +256,16 @@ function skillPoints(o: Option, input: UserInput, kb: KnowledgeBase): number {
       total += t4.languagePoints;
     return total;
   }
-  const langs = kb.compatibility.filter((c) => c.option === o.id && c.part === "language").flatMap((c) => c.anyOf);
+  const langs = kb.compatibility
+    .filter((c) => c.kind === "requires" && c.option === o.id && c.part === "language")
+    .flatMap((c) => c.anyOf);
   let total = Math.max(0, ...langs.map((l) => bySkill(l)?.productPoints ?? 0));
   if (input.knownFrameworks?.includes(o.id))
     total += kb.skills.find((s) => "knownFramework" in s.when)?.productPoints ?? 0;
   return total;
 }
 
+type ActiveRelation = KnowledgeBase["compatibility"][number];
 const CANDIDATES = 5;
 const EPS = 1e-9;
 
@@ -266,6 +279,7 @@ export function assemble(
   kb: KnowledgeBase,
   skillOf?: (id: string) => string, // set when T6 applies: languages nobody knows can't beat a strong one
   closeCallSkillOf?: (id: string) => string, // set when T7 applies: close calls keep a known language
+  relations: ActiveRelation[] = kb.compatibility.filter((c) => !c.when && c.kind !== "penalty"),
 ): StackResult {
   const needed = kb.parts
     .filter((p) => parts[p.id]?.needed && (parts[p.id]?.products.length ?? 0) > 0)
@@ -277,42 +291,70 @@ export function assemble(
     return all.filter((p) => skillOf(p.id) !== "none").slice(0, CANDIDATES);
   });
   const order = kb.options.map((o) => o.id);
-  const ok = (picks: Record<string, string>) =>
-    kb.compatibility.every((c) => {
-      // A requirement on a part that isn't in the stack fails: "pages from the backend" need a backend.
-      if (!Object.values(picks).includes(c.option)) return true;
-      return c.part in picks && c.anyOf.includes(picks[c.part]!);
-    });
-  type Found = { picks: Record<string, string>; score: number; sumFinal: number; key: number[] };
+  const inStack = (picks: Record<string, string>, c: ActiveRelation) => Object.values(picks).includes(c.option);
+  const matches = (picks: Record<string, string>, c: ActiveRelation) =>
+    inStack(picks, c) && c.part in picks && c.anyOf.includes(picks[c.part]!);
+  // Penalties (K9) are paid by the stack, spread over its parts like any candidate score.
+  const penalties = relations.filter((c) => c.kind === "penalty");
+  const penalty = (picks: Record<string, string>) =>
+    penalties.reduce((s, c) => s + (matches(picks, c) ? (c.points ?? 0) : 0), 0);
+  type Found = { picks: Record<string, string>; score: number; sumFinal: number; key?: number[] };
+  const orderIndex = new Map(order.map((id, i) => [id, i]));
+  // The KB-order key is built only when a comparison gets that far (rare).
+  const keyOf = (f: Found) => (f.key ??= needed.map((id) => orderIndex.get(f.picks[id]!) ?? -1));
   // a beats b: higher stack score → higher sum of final → option ids earlier in KB order, part by part.
   const beats = (a: Found, b: Found) => {
     if (Math.abs(a.score - b.score) > EPS) return a.score > b.score;
     if (Math.abs(a.sumFinal - b.sumFinal) > EPS) return a.sumFinal > b.sumFinal;
-    const i = a.key.findIndex((x, j) => x !== b.key[j]);
-    return i >= 0 && a.key[i]! < b.key[i]!;
+    const ka = keyOf(a);
+    const kb2 = keyOf(b);
+    const i = ka.findIndex((x, j) => x !== kb2[j]);
+    return i >= 0 && ka[i]! < kb2[i]!;
   };
   let best: Found | undefined;
   const bestWith = new Map<string, Found>(); // "part:option" → best valid stack containing that option
-  const walk = (i: number, picks: Record<string, string>, cand: number, fin: number) => {
+  // Prune while walking: each hard relation is checked at the depth where both of its parts are picked (or, for a
+  // requirement on a part that isn't in the stack, as soon as the option is picked). Same result as checking `ok`
+  // on every full combination, much faster with five parts.
+  const partOf = new Map(kb.options.map((o) => [o.id, o.part]));
+  const checksAt: ActiveRelation[][] = needed.map(() => []);
+  for (const c of relations) {
+    if (c.kind !== "requires" && c.kind !== "conflicts") continue;
+    const oi = needed.indexOf(partOf.get(c.option) ?? "");
+    if (oi < 0) continue;
+    const ti = needed.indexOf(c.part);
+    if (ti < 0 && c.kind === "conflicts") continue;
+    checksAt[Math.max(oi, ti)]!.push(c);
+  }
+  const holds = (c: ActiveRelation, picks: Record<string, string>) => {
+    const has = picks[partOf.get(c.option)!] === c.option;
+    if (!has) return true;
+    const other = picks[c.part];
+    return c.kind === "requires" ? other !== undefined && c.anyOf.includes(other) : !c.anyOf.includes(other ?? "");
+  };
+  const picks: Record<string, string> = {};
+  const walk = (i: number, cand: number, fin: number) => {
     if (i === needed.length) {
-      if (!ok(picks)) return;
-      const found: Found = {
-        picks: { ...picks },
-        score: needed.length ? cand / needed.length : 0,
-        sumFinal: fin,
-        key: needed.map((id) => order.indexOf(picks[id]!)),
-      };
-      if (!best || beats(found, best)) best = found;
+      // `picks` is reused while walking: it is copied only when this combination wins somewhere.
+      const found: Found = { picks, score: needed.length ? (cand + penalty(picks)) / needed.length : 0, sumFinal: fin };
+      let saved: Found | undefined;
+      const keep = () => (saved ??= { picks: { ...picks }, score: found.score, sumFinal: fin });
+      if (!best || beats(found, best)) best = keep();
       for (const id of needed) {
         const k = `${id}:${picks[id]}`;
         const prev = bestWith.get(k);
-        if (!prev || beats(found, prev)) bestWith.set(k, found);
+        if (!prev || beats(found, prev)) bestWith.set(k, keep());
       }
       return;
     }
-    for (const p of lists[i]!) walk(i + 1, { ...picks, [needed[i]!]: p.id }, cand + p.cand, fin + p.final);
+    const part = needed[i]!;
+    for (const p of lists[i]!) {
+      picks[part] = p.id;
+      if (checksAt[i]!.every((c) => holds(c, picks))) walk(i + 1, cand + p.cand, fin + p.final);
+    }
+    delete picks[part];
   };
-  walk(0, {}, 0, 0);
+  walk(0, 0, 0);
   if (!best) {
     const picks = Object.fromEntries(needed.map((id, i) => [id, lists[i]![0]!.id]));
     const score = needed.reduce((s, id, i) => s + lists[i]![0]!.cand, 0) / needed.length;
@@ -323,6 +365,7 @@ export function assemble(
       ties: [],
       closeCalls: [],
       conflict: "No combination of the top candidates fits together; showing each part's #1.",
+      relationNotes: [],
     };
   }
   const result = best;
@@ -347,8 +390,17 @@ export function assemble(
     .filter((id) => !tiedTop(id).some((p) => p.id === result.picks[id]))
     .map((id) => {
       const top = parts[id]!.products[0]!.id;
-      const relation = kb.compatibility.find(
-        (c) => c.option === top && c.part in result.picks && !c.anyOf.includes(result.picks[c.part]!),
+      const relation = relations.find(
+        (c) =>
+          (c.kind === "requires" &&
+            c.option === top &&
+            c.part in result.picks &&
+            !c.anyOf.includes(result.picks[c.part]!)) ||
+          (c.kind === "conflicts" &&
+            c.option === top &&
+            c.part in result.picks &&
+            c.anyOf.includes(result.picks[c.part]!)) ||
+          (c.kind === "conflicts" && c.part === id && c.anyOf.includes(top) && inStack(result.picks, c)),
       );
       return { partId: id, best: top, pick: result.picks[id]!, relation: relation?.id ?? "stack score" };
     });
@@ -362,5 +414,8 @@ export function assemble(
       ? [{ partId: a.partId, best: a.best, picks: alt.picks, score: alt.score, gap }]
       : [];
   });
-  return { picks: result.picks, score: result.score, adjusted, ties, closeCalls };
+  const relationNotes = relations
+    .filter((c) => (c.kind === "note" || c.kind === "penalty") && matches(result.picks, c))
+    .map((c) => ({ id: c.id, text: c.explanation, ...(c.kind === "penalty" ? { points: c.points } : {}) }));
+  return { picks: result.picks, score: result.score, adjusted, ties, closeCalls, relationNotes };
 }

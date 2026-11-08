@@ -215,5 +215,230 @@
         "note": "template support: Blade, Django templates, Thymeleaf, Razor, Jinja2Templates, @fastify/view, Express views, Gin HTML, NestJS MVC"
       }
     ]
+  },
+  {
+    "id": "C-github-pages-backend",
+    "kind": "conflicts",
+    "option": "github-pages",
+    "part": "backend",
+    "anyOf": [
+      "frontend-server",
+      "express",
+      "fastify",
+      "fastapi",
+      "gin",
+      "nestjs",
+      "django",
+      "spring-boot",
+      "laravel",
+      "aspnet-core"
+    ],
+    "explanation": "GitHub Pages serves static files only; it can't run a backend.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "github-docs",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-netlify-language",
+    "kind": "conflicts",
+    "option": "netlify",
+    "part": "language",
+    "anyOf": [
+      "python",
+      "java",
+      "csharp",
+      "php"
+    ],
+    "explanation": "Netlify Functions run JavaScript/TypeScript and Go only.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-docs",
+        "quality": "P",
+        "note": "docs.netlify.com functions get-started"
+      }
+    ]
+  },
+  {
+    "id": "C-cloudflare-language",
+    "kind": "conflicts",
+    "option": "cloudflare",
+    "part": "language",
+    "anyOf": [
+      "java",
+      "csharp",
+      "php",
+      "go"
+    ],
+    "explanation": "Cloudflare Workers run JavaScript/TypeScript, Python and Rust (others only compiled to WebAssembly, not as a web framework).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "cloudflare-docs",
+        "quality": "P",
+        "note": "workers/languages (2026-07-03)"
+      }
+    ]
+  },
+  {
+    "id": "C-vercel-container",
+    "kind": "penalty",
+    "option": "vercel",
+    "part": "language",
+    "anyOf": [
+      "java",
+      "csharp",
+      "php"
+    ],
+    "points": -5,
+    "highMaturityPoints": -10,
+    "fact": "container-runtime",
+    "explanation": "Runs on Vercel only through its container runtime, which is in beta (status checked 2026-11-08).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-pricing",
+        "quality": "P",
+        "note": "vercel.com/docs/functions/runtimes/container"
+      },
+      {
+        "kind": "design",
+        "note": "K9, owner Q26",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "C-sqlite-hosting",
+    "kind": "conflicts",
+    "option": "sqlite",
+    "part": "hosting",
+    "anyOf": [
+      "netlify",
+      "vercel",
+      "cloudflare"
+    ],
+    "explanation": "SQLite needs a persistent disk on one server; these platforms run functions with no lasting local disk.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-docs",
+        "quality": "P",
+        "note": "RESEARCH §4c"
+      },
+      {
+        "kind": "ref",
+        "ref": "sqlite-whentouse",
+        "quality": "P"
+      }
+    ]
+  },
+  {
+    "id": "C-sqlite-render-free",
+    "kind": "conflicts",
+    "option": "sqlite",
+    "part": "hosting",
+    "anyOf": [
+      "render"
+    ],
+    "when": {
+      "eq": [
+        "q.budget",
+        "free-only"
+      ]
+    },
+    "explanation": "Render's free web services can't attach a persistent disk.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-pricing",
+        "quality": "P",
+        "note": "render.com/docs/free"
+      }
+    ]
+  },
+  {
+    "id": "C-sqlite-single-server",
+    "kind": "note",
+    "option": "sqlite",
+    "part": "hosting",
+    "anyOf": [
+      "render",
+      "railway",
+      "fly-io",
+      "aws",
+      "azure",
+      "gcp"
+    ],
+    "explanation": "SQLite keeps its data in one file on one server: use a single instance with a persistent disk (Render: paid plans only; Railway: a volume, no replicas; Fly.io: one Machine with a volume; a cloud VM with a disk).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-docs",
+        "quality": "P",
+        "note": "RESEARCH §4c"
+      }
+    ]
+  },
+  {
+    "id": "C-vercel-realtime",
+    "kind": "note",
+    "option": "vercel",
+    "part": "backend",
+    "anyOf": [
+      "frontend-server",
+      "express",
+      "fastify",
+      "fastapi",
+      "gin",
+      "nestjs",
+      "django",
+      "spring-boot",
+      "laravel",
+      "aspnet-core"
+    ],
+    "when": {
+      "eq": [
+        "q.real-time",
+        "yes"
+      ]
+    },
+    "explanation": "WebSockets work on Vercel Functions, but each connection stays on one instance; to send a message to everyone, add a pub/sub service such as Redis or Valkey.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "vercel-repo",
+        "quality": "P",
+        "note": "RESEARCH §4b"
+      }
+    ]
+  },
+  {
+    "id": "C-frontend-server-realtime",
+    "kind": "note",
+    "option": "frontend-server",
+    "part": "frontend",
+    "anyOf": [
+      "nextjs",
+      "sveltekit"
+    ],
+    "when": {
+      "eq": [
+        "q.real-time",
+        "yes"
+      ]
+    },
+    "explanation": "Next.js and SvelteKit have no built-in WebSocket server: use a hosted real-time service, Nuxt (its server, Nitro, has WebSockets) or a separate server.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P"
+      }
+    ]
   }
 ]

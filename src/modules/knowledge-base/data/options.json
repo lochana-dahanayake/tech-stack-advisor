@@ -5049,6 +5049,1989 @@
     "facts": []
   },
   {
+    "id": "static-hosting",
+    "part": "hosting",
+    "level": "type",
+    "name": "Static hosting",
+    "summary": "Serves files (HTML, CSS, JavaScript); no server code.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Push the files; nothing to configure",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "A CDN serves files well, but soft bandwidth limits apply on free hosts",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P",
+            "note": "100 GB/month soft limit"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 1,
+        "why": "No server code, so no live connections",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P",
+            "note": "static files only"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "No server to patch",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Free static hosting exists (GitHub Pages; Cloudflare static assets are free and unlimited)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P"
+          },
+          {
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "P",
+            "note": "static asset requests free and unlimited"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Plain files move anywhere",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "frontend-platform",
+    "part": "hosting",
+    "level": "type",
+    "name": "Frontend platform",
+    "summary": "Static files plus serverless functions, built from your Git repo.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Connect the repo; builds and previews are automatic",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Functions scale out automatically with traffic",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "Vercel: auto-scales up to 30,000 concurrent; Netlify: scales with traffic"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "Varies: WebSockets on Vercel (one instance per connection) and Cloudflare (Durable Objects), none on Netlify",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P"
+          },
+          {
+            "kind": "ref",
+            "ref": "vercel-repo",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "No servers to manage",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Free tiers with hard caps; paid plans from $20 a month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "Vercel Hobby, Netlify Free, Cloudflare Workers Free"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 3,
+        "why": "Function APIs and build settings differ per platform",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "paas",
+    "part": "hosting",
+    "level": "type",
+    "name": "Platform as a service",
+    "summary": "Runs your server or container for you.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Push code or a Dockerfile; the platform runs it",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Add instances on paid plans; free instances are single",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "Render Free: one instance"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Long-lived servers hold WebSocket connections",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "Render: no maximum WebSocket duration"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "No operating system to patch",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Free tiers sleep or are trial credits; small paid plans from about $5 a month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "Render, Railway, Fly.io pricing"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Containers run anywhere",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "cloud",
+    "part": "hosting",
+    "level": "type",
+    "name": "Cloud provider",
+    "summary": "AWS, Azure or Google Cloud: every building block, billed per use.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Many services, accounts, permissions and billing to understand",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Practically any scale",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Any server or managed WebSocket service",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 2,
+        "why": "You assemble and secure the pieces yourself",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Lasting free amounts for some services; trial credits expire; billing can grow without a cap",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "AWS, Azure, Google Cloud free-tier pages"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 2,
+        "why": "Managed services tie you to the provider",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": []
+  },
+  {
+    "id": "vps",
+    "part": "hosting",
+    "level": "type",
+    "name": "Virtual private server",
+    "summary": "A rented Linux server that you run yourself.",
+    "status": "active",
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Linux administration, web server, TLS, backups",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 2,
+        "why": "One machine; more needs manual work",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Your own server holds any connection",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 2,
+        "why": "You patch, secure, back up and monitor it",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 3,
+        "why": "No free tier, but a flat, small monthly price (from $4)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "DigitalOcean $4/month; Hetzner from €5.99"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Standard Linux; move by copying",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [],
+    "coverageExempt": {
+      "reason": "A VPS wins when the project must run on a server you control (K3, unit test \"K3: must self-host leaves only the VPS\"). No golden scenario asks for that; G8 allows a VPS or a cloud provider and the cloud wins. Interim exemption until the owner decides whether to add a self-hosting scenario (Q34).",
+      "sources": [
+        {
+          "kind": "design",
+          "note": "owner question Q34 (2026-11-08)",
+          "reviewed": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "github-pages",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "static-hosting"
+    ],
+    "name": "GitHub Pages",
+    "summary": "Free static hosting from a GitHub repository.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Free; site ≤ 1 GB, soft limit 100 GB bandwidth a month",
+      "commercialUse": false,
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Push to a repository branch",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Served from a CDN",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Soft limit of 100 GB bandwidth a month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Long-running GitHub service",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Free",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 1,
+        "why": "Static files only",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "Nothing to run",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Plain files",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "terms",
+        "kind": "pricing",
+        "text": "Free. Not for an online business, e-commerce or commercial SaaS; site ≤ 1 GB; 100 GB/month soft bandwidth limit",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "P",
+            "note": "github-pages-limits.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "netlify",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "frontend-platform"
+    ],
+    "name": "Netlify",
+    "summary": "Frontend platform: static sites plus JavaScript/TypeScript and Go functions.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Free: 300 credits a month; sites pause when used up",
+      "commercialUse": "unknown",
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Git-based deploys and previews",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "CDN plus functions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Functions scale with traffic",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "Netlify Functions overview"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Since 2014",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Free 300 credits/month, Pro $20/month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "netlify.com/pricing"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 1,
+        "why": "Functions can't hold WebSocket connections",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "vercel-repo",
+            "quality": "P",
+            "note": "RESEARCH §4b: no WebSocket API in @netlify/functions (P)"
+          },
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "Netlify Functions overview"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "No servers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 3,
+        "why": "Function and build settings are Netlify-specific",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "Free: 300 credits a month (compute 10 credits/GB-hour, bandwidth 20 credits/GB); sites pause at the limit, no add-on credits on Free. Pro $20/month, 3,000 credits",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "netlify.com/pricing; billing FAQ for credit-based plans (2026-10-07)"
+          }
+        ]
+      },
+      {
+        "id": "languages",
+        "kind": "release-status",
+        "text": "Functions: JavaScript/TypeScript, and Go through the Lambda-compatible API",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.netlify.com functions get-started"
+          }
+        ],
+        "status": "ga"
+      }
+    ]
+  },
+  {
+    "id": "vercel",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "frontend-platform"
+    ],
+    "name": "Vercel",
+    "summary": "Frontend platform from the makers of Next.js: static files and functions (Node.js, Python, Go, Ruby; others in containers).",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Hobby: free, non-commercial personal use only, hard caps (100 GB transfer, 1M function calls, 4 CPU-hours a month)",
+      "commercialUse": false,
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Git-based deploys and previews",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "CDN plus functions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Auto-scales up to 30,000 concurrent executions",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "Vercel Functions limits"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Since 2015 (as ZEIT)",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Hobby free with caps; Pro $20/month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "vercel.com/pricing; docs/plans/hobby (2026-09-14)"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 3,
+        "why": "WebSockets work, but each connection stays on one instance: broadcasting needs a pub/sub service",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "vercel-repo",
+            "quality": "P",
+            "note": "RESEARCH §4b"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "No servers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 3,
+        "why": "Vercel-specific features (ISR, middleware) tie you in a little",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "hobby",
+        "kind": "pricing",
+        "text": "Hobby: non-commercial personal use only; 100 GB fast data transfer, 1M function invocations, 4 active CPU-hours a month; at a limit you wait 30 days or upgrade. Pro $20/month per seat",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "vercel.com/docs/plans/hobby, last updated 2026-09-14; vercel.com/pricing"
+          }
+        ]
+      },
+      {
+        "id": "container-runtime",
+        "kind": "release-status",
+        "text": "Container runtime (any language from a Dockerfile, e.g. Java, C#, PHP): beta on all plans",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "vercel.com/docs/functions/runtimes/container; changelog 2026-10-27"
+          }
+        ],
+        "status": "beta"
+      }
+    ]
+  },
+  {
+    "id": "cloudflare",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "frontend-platform"
+    ],
+    "name": "Cloudflare Workers",
+    "summary": "Edge platform: static assets plus Workers (JavaScript/TypeScript, Python, Rust).",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Free: 100,000 requests a day, 10 ms CPU per request; static assets free and unlimited",
+      "commercialUse": true,
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "Workers runtime differs from Node.js; some packages need care",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Runs at the edge, close to users",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Scales automatically",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "P"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "Workers since 2017",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 5,
+        "why": "Free plan allows production use (no non-commercial clause on the pricing or limits pages); paid from $5/month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "P",
+            "note": "workers/platform/pricing (2026-10-02), limits (2026-10-29)"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "WebSockets through Durable Objects, also on the Free plan",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "P",
+            "note": "Durable Objects on Free: SQLite backend"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "No servers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 3,
+        "why": "Workers APIs are Cloudflare-specific",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "Workers Free: 100,000 requests/day, 10 ms CPU per request, 128 MB memory; static assets free and unlimited; Durable Objects on Free (SQLite backend). Paid from $5/month",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "P",
+            "note": "workers/platform/pricing and limits"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "render",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "paas"
+    ],
+    "name": "Render",
+    "summary": "Platform as a service: web services from code or Docker, plus managed Postgres.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Free web services sleep after 15 minutes idle (750 hours a month, one instance); free Postgres 1 GB expires after 30 days; 'not for production'",
+      "commercialUse": "unknown",
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Push code or a Dockerfile",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 3,
+        "why": "Free instances take about a minute to wake up",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "render.com/docs/free"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 3,
+        "why": "Free: one instance; paid instances scale out",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "render.com/docs/free"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 3,
+        "why": "Since 2019",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Free tier is not for production; paid instance price not readable on the pricing page",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "render.com/docs/free"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "WebSockets with no maximum duration",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "render.com/docs/websocket"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "Managed platform",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Docker images run anywhere",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "Free web services: spin down after 15 min without traffic, 750 instance hours a month per workspace, no persistent disk, one instance; free Postgres 1 GB, expires 30 days after creation (+14-day grace); 'Do not use them for production'",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "render.com/docs/free"
+          }
+        ]
+      },
+      {
+        "id": "runtimes",
+        "kind": "release-status",
+        "text": "Native: Node.js/Bun, Python, Ruby, Go, Rust, Elixir; Docker for PHP, .NET and JVM",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "render.com/docs/native-runtimes"
+          }
+        ],
+        "status": "ga"
+      }
+    ]
+  },
+  {
+    "id": "railway",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "paas"
+    ],
+    "name": "Railway",
+    "summary": "Platform as a service: deploy from code or Dockerfiles, usage-based pricing.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Free plan: $1 of usage a month (one project, 0.5 GB RAM per service); one-time trial $5 for 30 days",
+      "commercialUse": "unknown",
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 4,
+        "why": "Push code or a Dockerfile",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Always-on servers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Replicas on paid plans",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 3,
+        "why": "Since 2020",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 3,
+        "why": "Free plan $1/month of usage (RAM costs $10/GB-month, so not enough for a server all month); Hobby $5/month",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "railway.com/pricing; docs.railway.com/reference/pricing/plans"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Long-lived servers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 4,
+        "why": "Managed platform",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Docker images run anywhere",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "Free: $0 with $1 of usage credits a month, 1 project, 3 services, 0.5 GB RAM per service; trial $5 for 30 days; Hobby $5/month incl. $5 usage; RAM $10/GB-month, CPU $20/vCPU-month",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "railway.com/pricing; docs.railway.com/reference/pricing/plans"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fly-io",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "paas"
+    ],
+    "name": "Fly.io",
+    "summary": "Runs Docker images as small virtual machines in many regions.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": null,
+    "scores": {
+      "learning-curve": {
+        "value": 3,
+        "why": "CLI-driven; Machines and volumes to understand",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Runs close to users in many regions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Many Machines and regions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 3,
+        "why": "Since 2017",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 2,
+        "why": "No free tier for new organisations: a $1, 7-day trial, then from $2.19/month per small machine",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "fly.io/pricing; docs.fly.io/about/free-trial"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Long-lived servers",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 3,
+        "why": "More to configure than other PaaS",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Docker images run anywhere",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "New organisations: no free tier; $1 trial credit for 7 days (trial machines stop after 5 minutes). Legacy free allowances only for organisations from before 2024-10-07. Smallest machine $2.19/month",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "docs.fly.io/about/pricing, free-trial, discontinued-plans; fly.io/pricing"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aws",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "cloud"
+    ],
+    "name": "AWS",
+    "summary": "Amazon Web Services: the largest cloud provider.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "Up to $200 credits, free plan ends after 6 months; 30+ always-free services",
+      "commercialUse": true,
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Many services, IAM permissions and billing",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Any machine size, in many regions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Practically any scale",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "One of the three largest clouds",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Lasting free amounts of some services; credits expire",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "aws.amazon.com/free and /free/terms (2025-07-09)"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Servers or managed WebSocket services",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 2,
+        "why": "You assemble and secure the pieces",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 2,
+        "why": "Managed services tie you to the provider",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "Free plan: up to $200 credits for 6 months, then the account must upgrade; 30+ services always free within monthly limits",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "aws.amazon.com/free and /free/terms (2025-07-09)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "azure",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "cloud"
+    ],
+    "name": "Microsoft Azure",
+    "summary": "Microsoft's cloud: strong fit for .NET teams.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "$200 for 30 days, 12 months of free services, 65+ always free",
+      "commercialUse": true,
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Many services, IAM permissions and billing",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Any machine size, in many regions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Practically any scale",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "One of the three largest clouds",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Lasting free amounts of some services; credits expire",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "azure.microsoft.com/pricing/free-services and azure-account"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Servers or managed WebSocket services",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 2,
+        "why": "You assemble and secure the pieces",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 2,
+        "why": "Managed services tie you to the provider",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "$200 credit for 30 days; 12 months of free amounts of 20+ services; 65+ always-free services (e.g. App Service up to 10 apps, Functions 1M requests)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "azure.microsoft.com/pricing/free-services and azure-account"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gcp",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "cloud"
+    ],
+    "name": "Google Cloud",
+    "summary": "Google's cloud: Cloud Run, App Engine, Compute Engine.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": {
+      "summary": "$300 for 90 days; lasting Free Tier (Cloud Run 2M requests a month, an e2-micro VM)",
+      "commercialUse": true,
+      "checked": "2026-11-08"
+    },
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Many services, IAM permissions and billing",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 4,
+        "why": "Any machine size, in many regions",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "Practically any scale",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "One of the three largest clouds",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 4,
+        "why": "Lasting free amounts of some services; credits expire",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "docs.cloud.google.com/free/docs/free-cloud-features"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Servers or managed WebSocket services",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 2,
+        "why": "You assemble and secure the pieces",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 2,
+        "why": "Managed services tie you to the provider",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "free-tier",
+        "kind": "pricing",
+        "text": "$300 credit for 90 days; Free Tier with no end date (e.g. Cloud Run 2M requests/month, one e2-micro VM)",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "docs.cloud.google.com/free/docs/free-cloud-features"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vps-server",
+    "part": "hosting",
+    "level": "product",
+    "types": [
+      "vps"
+    ],
+    "name": "A VPS (e.g. Hetzner, DigitalOcean)",
+    "summary": "A rented Linux server you set up and run yourself.",
+    "status": "active",
+    "licence": {
+      "spdx": "n/a",
+      "osi": false,
+      "notAPackage": true,
+      "sources": [
+        {
+          "kind": "design",
+          "note": "a hosted service, not software you install",
+          "reviewed": false
+        }
+      ]
+    },
+    "freeTier": null,
+    "scores": {
+      "learning-curve": {
+        "value": 2,
+        "why": "Linux, a web server, TLS and backups to set up",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "performance": {
+        "value": 3,
+        "why": "One fixed machine",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "scalability": {
+        "value": 2,
+        "why": "Bigger machine or more servers by hand",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "maturity": {
+        "value": 4,
+        "why": "A long-standing model",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "cost": {
+        "value": 2,
+        "why": "No free tier; from $4/month (DigitalOcean) or €5.99 (Hetzner)",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "digitalocean.com/pricing/droplets; hetzner.com/cloud"
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "real-time": {
+        "value": 4,
+        "why": "Any connection",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "ops-effort": {
+        "value": 2,
+        "why": "You patch, secure, back up and monitor it",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      },
+      "portability": {
+        "value": 4,
+        "why": "Standard Linux",
+        "sources": [
+          {
+            "kind": "general",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-08"
+      }
+    },
+    "facts": [
+      {
+        "id": "price",
+        "kind": "pricing",
+        "text": "No free tier. DigitalOcean Basic droplet $4/month (512 MiB); Hetzner Cloud from €5.99/month",
+        "checked": "2026-11-08",
+        "sources": [
+          {
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "P",
+            "note": "digitalocean.com/pricing/droplets; hetzner.com/cloud"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "typescript-node",
     "part": "language",
     "level": "product",

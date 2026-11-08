@@ -79,6 +79,8 @@ export interface StackResult {
    */
   closeCalls: StackCloseCall[];
   conflict?: string; // no combination satisfies every relation: per-part #1s are returned
+  /** Relations of kind note or penalty that apply to the chosen stack (e.g. SQLite on one server; K9 beta). */
+  relationNotes: { id: string; text: string; points?: number }[];
 }
 
 export interface ScoreResult {

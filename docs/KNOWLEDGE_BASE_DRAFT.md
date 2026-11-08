@@ -1,6 +1,6 @@
 # Knowledge Base Draft
 
-Status: **draft, parts 1–4 of 5: database (2026-10-23, revised 2026-10-24), backend and language (2026-10-24), frontend (2026-11-08)**. Parts 1–4 are merged and stored as JSON (`src/modules/knowledge-base/data/`, validated by Zod and `npm test`); where this draft and the JSON differ, the JSON holds unsourced extremes at 3 (§3b) and this draft shows the proposed values. Part 5 (hosting) is next (`ROADMAP.md`). Shape and rules of the game: `KNOWLEDGE_BASE_SCHEMA.md`.
+Status: **draft, all 5 parts: database (2026-10-23, revised 2026-10-24), backend and language (2026-10-24), frontend and hosting (2026-11-08)**. All parts are merged and stored as JSON (`src/modules/knowledge-base/data/`, validated by Zod and `npm test`); where this draft and the JSON differ, the JSON holds unsourced extremes at 3 (§3b) and this draft shows the proposed values. Next: compatibility bonuses, bundles/glossary, rubrics (`ROADMAP.md`). Shape and rules of the game: `KNOWLEDGE_BASE_SCHEMA.md`.
 
 ## Source tags
 `book:<id> <locator>` (ids from `references/INDEX.md`), `ref:<id>` (published source), `GK` (general knowledge: must be reviewed and, where it's comparative, backed by a second source before release), `DESIGN` (a product decision). **(P)** / **(S)** = primary / secondary evidence (`RESEARCH.md`). Every score below was checked **2026-10-23** unless noted.
@@ -472,3 +472,106 @@ Relations (`compatibility.json`): `C-frontend-server-frontend` (the frontend fra
 **Open findings for the owner (Q33):**
 - **Next.js is the framework pick in most app scenarios**, also where the approach is `spa` (G3, G4, G6, G10–G13), because it is listed under all three approaches and has sourced `community` 5 and `maturity` 5 (published LTS). React, the SPA most people would name, scores lower on `performance` (CWV 43.9% but client-side band 2), `productivity` (GK 3) and its unsourced `ecosystem` (held at 3). Fair by the evidence we have, but the UI would say "Single-page app: Next.js". Options: keep; list Next.js under `ssr` and `static` only (its SPA mode is a static export without server features); or source React's `ecosystem`/`productivity` first (the sourcing-first approach the owner chose for C# in session 5).
 - **S15** (above).
+
+# Part 5: Hosting
+Drafted and merged 2026-11-08 (session 10). Two levels: the **hosting type** and the **provider**. Facts: `RESEARCH.md` §4 (re-checked 2026-11-08 from each vendor's own pages, P) and §4c. New source id: `ref:host-pricing` (vendors' own pricing, plan and terms pages: own facts only). Every free-tier fact is a `pricing` fact with a **90-day stale window**; the K9 beta status is a `release-status` fact (90 days).
+
+## 19. Hosting criteria
+Eight criteria apply: `learning-curve`, `performance`, `scalability`, `maturity`, `cost`, `real-time`, `ops-effort`, `portability`. Types are scored on six fit criteria (`parts.json` → `typeCriteria`): `learning-curve`, `scalability`, `real-time`, `ops-effort`, `cost`, `portability`.
+
+`cost` rubric (DESIGN, Q20; the schema §8 draft: "free tier fit for a small app and price of the first paid step"): a lasting free tier allowed in production with no sleep → 5 · a free tier with caps, pauses or a non-commercial clause, paid from about $20 → 4 · a free tier explicitly not for production, or a monthly credit too small to keep a server running, paid from about $5 → 3 · trial only, then paid → 2. Applied: GitHub Pages 5, Cloudflare 5, Netlify 4, Vercel 4, the three clouds 4 (lasting free amounts of some services; credits expire), Render 3, Railway 3, Fly.io 2, a VPS 2 (no free tier, from $4 a month).
+
+Every other hosting score is GK except where a vendor fact decides it (`real-time` of GitHub Pages 1, Netlify 1, Render 4; scalability of the frontend platforms). Flagged for a second source before release.
+
+## 20. Hosting types (level 1)
+| Type | learn | scal | real-time | ops | cost | portability | Main sources |
+|---|---|---|---|---|---|---|---|
+| static-hosting | 4 | 3 | **1** | 4 | **5** | 4 | `ref:github-docs` (static only, 100 GB soft limit, free); `ref:cloudflare-docs` (static assets free and unlimited) |
+| frontend-platform | 4 | 4 | 3 | 4 | 4 | 3 | `ref:host-docs` (auto-scaling functions); RESEARCH §4b (WebSockets: Vercel yes, Netlify no) |
+| paas | 4 | 3 | 4 | 4 | 3 | 4 | `ref:host-docs` (Render WebSockets, no max duration); `ref:host-pricing` (free instances single, sleep) |
+| cloud | 2 | 4 | 4 | 2 | 3 | 2 | `ref:host-pricing` (free amounts; credits expire; uncapped billing); GK |
+| vps | 2 | 2 | 4 | 2 | 3 | 4 | `ref:host-pricing` (no free tier, flat $4–€6 a month); GK |
+
+No `none` type: every stack is hosted somewhere.
+
+## 21. Hosting providers (level 2)
+Order: learn · perf · scal · maturity · cost · real-time · ops · portability. `freeTier.commercialUse`: yes / no / unknown (vendor page silent).
+
+| Provider | Type | Scores | Free tier (P, 2026-11-08) | Commercial on free |
+|---|---|---|---|---|
+| **GitHub Pages** | static-hosting | 4 · 4 · 3 · 4 · **5** · **1** · 4 · 4 | Free; ≤ 1 GB; 100 GB/month soft limit | no (not for an online business, shop or SaaS) |
+| **Netlify** | frontend-platform | 4 · 4 · 4 · 4 · 4 · **1** · 4 · 3 | 300 credits a month; sites pause at the limit; Pro $20 | unknown |
+| **Vercel** | frontend-platform | 4 · 4 · 4 · 4 · 4 · 3 · 4 · 3 | Hobby: 100 GB transfer, 1M invocations, 4 CPU-hours; wait 30 days or upgrade; Pro $20/seat | **no** (non-commercial personal use only) |
+| **Cloudflare Workers** | frontend-platform | 3 · 4 · 4 · 4 · **5** · 4 · 4 · 3 | 100,000 requests/day, 10 ms CPU each; static assets unlimited; Durable Objects (WebSockets) on Free | yes (no clause found) |
+| **Render** | paas | 4 · 3 · 3 · 3 · 3 · 4 · 4 · 4 | Sleeps after 15 min idle; 750 h/month; no disk; free Postgres 1 GB expires after 30 days; "not for production" | unknown |
+| **Railway** | paas | 4 · 4 · 4 · 3 · 3 · 4 · 4 · 4 | **New since the 2026-10-23 notes:** a Free plan with $1 of usage a month (0.5 GB RAM per service); trial $5 for 30 days; Hobby $5 | unknown |
+| **Fly.io** | paas | 3 · 4 · 4 · 3 · 2 · 4 · 3 · 4 | No free tier for new organisations: $1 trial for 7 days; from $2.19/month | — |
+| **AWS** | cloud | 2 · 4 · 4 · 4 · 4 · 4 · 2 · 2 | Free plan: up to $200 credits, ends after 6 months; 30+ always-free services | yes |
+| **Azure** | cloud | same | $200 for 30 days; 12 months of free amounts; 65+ always-free services | yes |
+| **Google Cloud** | cloud | same | $300 for 90 days; Free Tier with no end date (Cloud Run 2M requests/month, an e2-micro VM) | yes |
+| **A VPS** (`vps-server`) | vps | 2 · 3 · 2 · 4 · 2 · 4 · 2 · 4 | None; DigitalOcean $4/month, Hetzner from €5.99 | — |
+
+Runtimes (decide the relations below): Netlify Functions run JavaScript/TypeScript and Go; Vercel runs Node.js, Python, Go, Ruby and Rust natively, anything else in its **container runtime (beta on all plans, changelog 2026-10-27)**; Cloudflare Workers run JavaScript/TypeScript, Python and Rust (other languages only as WebAssembly); Render runs Node.js, Python, Ruby, Go, Rust and Elixir natively and Docker for PHP, .NET and the JVM; Railway and Fly.io build Docker images.
+
+## 22. Hosting rules and relations
+| id | When | Effect | Source |
+|---|---|---|---|
+| K1 | commercial **and** free only | exclude `vercel` | `ref:host-pricing` (Hobby non-commercial) |
+| K1b | commercial **and** app kind ∈ {e-commerce, web app} | exclude `github-pages` | `ref:github-docs` |
+| K1c | commercial, another app kind | note on GitHub Pages' terms | `ref:github-docs` |
+| K2 | commercial **and** budget not free only | note "Vercel needs Pro" | `ref:host-pricing` |
+| K3 | must self-host | exclude every type but `vps` and every provider but `vps-server` | DESIGN |
+| K4, K4b, K4c | must use AWS / Azure / Google Cloud | exclude every other provider and type (works like a lock) | DESIGN |
+| K5 | free only | exclude `railway`, `fly-io`, `vps-server`. Railway's new Free plan doesn't change this: $1 a month buys about 3 days of a 0.5 GB server (RAM alone costs $10/GB-month) | `ref:host-pricing` |
+| K6 | open source only | exclude every product whose licence isn't OSI-approved, public domain or "not a package" (today: `mongodb`); note on Redis/Valkey/JSONB. A unit test keeps the list complete | `ref:db-repos` + owner Q16, Q28 |
+| K7 | real-time | `netlify` −15 (Vercel: note only, relation `C-vercel-realtime`) | RESEARCH §4b + owner Q24 |
+| K8 | backend needed | exclude type `static-hosting` | `ref:github-docs` |
+| S17 | backend not needed | `static-hosting` +15 | `ref:github-docs` + DESIGN |
+| S18 | backend needed, **not** the B2 situation | `paas` +10 (a server process runs as it is on a PaaS; frontend platforms run short-lived functions with time limits) | `ref:host-docs` + DESIGN |
+| S19 | traffic large or spiky, or team 16+ | `cloud` +10 | DESIGN |
+| S20 | traffic large **and** `cost` weight ≥ high | `paas`, `frontend-platform` −10, `vps` +10 (per-use billing costs several times more per CPU and GB at steady load: Railway $20/vCPU + $10/GB a month vs a $6 DigitalOcean server with 1 vCPU and 1 GB) | `ref:host-pricing` |
+| S21 | the B2 situation | `frontend-platform` +10 | DESIGN (follows B2, S15) |
+| A1 | microservices family | now also `paas`, `cloud` +5 (schema §7.5) | `book:fosa ch.18` |
+| A2 | style = serverless | `frontend-platform`, `cloud` +10 | `book:fosa` |
+
+Relations (`compatibility.json`; **new kinds** `conflicts`, `note`, `penalty`, and an optional `when` condition, KB schema §6):
+| id | Kind | Pair | Why |
+|---|---|---|---|
+| `C-github-pages-backend` | conflicts | GitHub Pages + any backend | static files only |
+| `C-netlify-language` | conflicts | Netlify + Python, Java, C#, PHP | functions: JS/TS and Go |
+| `C-cloudflare-language` | conflicts | Cloudflare + Java, C#, PHP, Go | Workers: JS/TS, Python, Rust |
+| `C-vercel-container` | penalty (**K9**) | Vercel + Java, C#, PHP | container runtime in beta: −5, or −10 when `maturity` ≥ high; reads the `release-status` fact, so it switches off when the fact says GA |
+| `C-sqlite-hosting` (**K10**) | conflicts | SQLite + Netlify, Vercel, Cloudflare | no lasting local disk |
+| `C-sqlite-render-free` | conflicts, when free only | SQLite + Render | free web services can't attach a disk |
+| `C-sqlite-single-server` | note | SQLite + Render, Railway, Fly.io, a cloud | one instance with a persistent disk |
+| `C-vercel-realtime` | note, when real-time | Vercel + any backend | pub/sub needed to broadcast |
+| `C-frontend-server-realtime` (**B3**) | note, when real-time | `frontend-server` + Next.js or SvelteKit | no built-in WebSocket server |
+
+Not done (next): `worksBestWith` pair bonuses (schema §6; e.g. Next.js + Vercel), and the database-hosting notes of Q18.
+
+## 23. Calibration log (hosting)
+### Session 10 (2026-11-08): first hosting run
+`npm run calibrate` (`## hosting` table, hosting column and a Notes column in `## stack`). `--variant session9` is the KB without hosting and reproduces the previous `current` tables byte for byte; every older variant is unchanged too (they replay the old G8 input without `cost`, `variants.ts` `inputs`).
+
+1. **First run: the hosting type was a near-tie everywhere** (frontend platform and PaaS at 66.7), and Cloudflare won most stacks on its sourced `cost` 5, also where its runtimes can't run the backend (the stack moved to the next provider through `C-cloudflare-language`). As with the database and frontend parts, the situation has to choose the type. **Fix:** S17 (no backend → static hosting), S18 (a server backend → PaaS), S19 (large scale → cloud).
+2. **G5 (MVP on the frontend framework's server)**: frontend platform and PaaS tied exactly. **S21** mirrors B2 (the one-project deploy). G5 now: frontend platform 76.7, Cloudflare.
+3. **G8 (steady heavy load, cost High)**: the PaaS won. Its golden input now has `cost: high`, as the scenario always said ("cost High is a hosting criterion, not in the KB yet"). **S20** applies the sourced price gap of per-use billing at steady load. G8's **type** is now `cloud` (62.5; frontend platform and PaaS 60.0), but the **stack still picks Railway**: the type gap is only 2.5 points, and the cloud providers score low on `learning-curve`, `ops-effort` and `portability` (GK). Not tuned further: owner question **Q34**.
+4. **Performance:** five parts make stack assembly enumerate up to 5⁵ combinations. The assembler now checks each relation as soon as both of its parts are picked and copies a combination only when it wins somewhere (same results, every table unchanged). One `score()` call takes about 0.6 ms (well under the 200 ms target); the two database sweep tests now score the database part alone (its types don't depend on assembly), 150 s → 4 s.
+
+**Result:**
+| Scenario | Hosting types | Providers (cand) | Stack (frontend · backend · database · hosting · language) |
+|---|---|---|---|
+| G1 portfolio | **static-hosting** 77.5; frontend-platform 66.7 | github-pages 65.6, cloudflare 61.0 | plain-html · — · — · github-pages · — |
+| G2 e-commerce, Java | **paas** 76.7; frontend-platform 66.7 | railway 65.0 | nextjs · spring-boot · postgresql · railway · java |
+| G3 chat, TS | **paas** 78.8 | railway 70.0, render 65.0 | nextjs · nestjs · postgresql · railway · typescript-node |
+| G4 dashboard, Python | **paas** 76.7 | railway 68.8, render 62.5 | nextjs · fastapi · postgresql · railway · python |
+| G5 MVP | **frontend-platform** 76.7; paas 66.7 | cloudflare 71.9, vercel 68.8 | nextjs · frontend-server · postgresql · cloudflare · typescript-node |
+| G6 .NET, must use Azure | **cloud** (K4b) | azure 60.0 | nextjs · aspnet-core · postgresql · azure · csharp |
+| G7 agency, PHP | **paas** 76.7 | railway 68.8 | backend-templates · laravel · postgresql · railway · php |
+| G8 API, heavy load | **cloud** 62.5; frontend-platform 60.0; paas 60.0 (close call) | — | — · aspnet-core · postgresql · **railway** · csharp (close call: gin · postgresql · vercel · go, −2.4) |
+| G9 beginner, free | **paas** 78.8 | render 65.0 | vue · fastapi · **postgresql** · render · python (SQLite moved: Render Free has no disk) |
+| G11 microservices | **paas** 77.5; frontend-platform 68.8; cloud 68.1 | railway 70.0 | nextjs · spring-boot · mongodb · railway · java |
+
+**Every hosting expectation holds** (G8 at type level, Q34). Changes in other parts: **G9's database is now PostgreSQL** (allowed by G9; SQLite can't keep its file on Render Free) and G8's language close-call gap is 2.4 (was 4.3; the hosting part is now in the stack mean). Type-win coverage: `static-hosting` G1, `frontend-platform` G5, `paas` G2–G4, G7, G9–G13, `cloud` G6, G8, `vps` **exempt for now** (wins only with "must self-host", K3 unit test; Q34).
+
+**Open for the owner (Q34):** G8's stack pick (Railway with a cloud type), the `vps` coverage exemption (add a "must self-host" golden scenario?), and Railway the most common PaaS pick (it ties Render on most scores and wins on `performance`/`scalability` GK 4 vs Render's sourced free-tier 3s).

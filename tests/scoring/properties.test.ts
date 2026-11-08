@@ -6,7 +6,10 @@ import { score, type UserInput } from "@/modules/scoring";
 const LEVELS: Level[] = ["none", "low", "medium", "high", "critical"];
 
 /** Runs every weight combination of the database fit criteria (5^6 = 15,625) on "highly connected" data. */
-function connectedSweep(k: KnowledgeBase) {
+function connectedSweep(full: KnowledgeBase) {
+  // Database types are ranked before stack assembly and no rule reads another part's result for them, so the sweep
+  // scores the database part alone: same type numbers, without assembling a five-part stack 15,625 times.
+  const k = { ...full, parts: full.parts.filter((p) => p.id === "database") };
   const fit = k.parts.find((p) => p.id === "database")!.typeCriteria!;
   let combos = 0;
   let documentWins = 0;

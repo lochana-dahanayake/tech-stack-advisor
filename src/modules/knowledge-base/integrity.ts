@@ -154,8 +154,18 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
         if (!q?.options.includes(d)) p.push(`skill ${t.id}: deadline has no option ${d}`);
     }
   }
+  for (const o of kb.options)
+    if (o.part === "hosting" && o.level === "product" && o.freeTier === undefined)
+      p.push(`${o.id}: hosting products need freeTier (null when there is none)`);
   for (const c of kb.compatibility) {
     if (!optionIds.has(c.option)) p.push(`${c.id}: unknown option ${c.option}`);
+    if (c.kind === "penalty") {
+      if (c.points === undefined) p.push(`${c.id}: a penalty needs points`);
+      const fact = byId.get(c.option)?.facts.find((f) => f.id === c.fact);
+      if (!fact || fact.kind !== "release-status")
+        p.push(`${c.id}: a penalty needs a release-status fact on ${c.option}`);
+    } else if (c.points !== undefined || c.highMaturityPoints !== undefined || c.fact)
+      p.push(`${c.id}: only penalties have points or a fact`);
     if (c.part === "language") {
       for (const l of c.anyOf) if (!languageIds.includes(l)) p.push(`${c.id}: unknown language ${l}`);
     } else for (const x of c.anyOf) if (!optionIds.has(x)) p.push(`${c.id}: unknown option ${x}`);
