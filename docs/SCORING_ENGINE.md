@@ -34,6 +34,8 @@ interface UserInput {
 ```
 Rules run in two passes: first every rule whose condition doesn't read `weight.*` (these set the floors), then the rules that read effective weights (they can't set floors). Validation: unknown ids rejected; at least one criterion at High or Critical **or** an app kind other than "Not sure" (otherwise there's nothing to rank on); more than 3 Critical → warning; a locked option that a rule would exclude → kept, with a warning ("You chose Vercel; for a commercial project it needs the paid plan").
 
+**Implemented (2026-11-09):** `validateInput` throws on unknown ids; `checkInput` (`scoring/check.ts`) returns the messages for people: an issue `nothing-to-rank` (no app kind and no priority at High or Critical) that blocks the result, and a warning `too-many-critical` (more than `MAX_CRITICAL` = 3). Locks are not in the engine yet, so the form doesn't offer them (ROADMAP).
+
 ## Step 2: Effective weights
 Exactly as the sibling: `none 0, low 1, medium 2, high 3, critical 5`.
 ```

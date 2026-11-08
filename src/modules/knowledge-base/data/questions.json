@@ -2,6 +2,7 @@
   {
     "id": "app-kind",
     "text": "What are you building?",
+    "help": "Pick the closest match. Your answer decides which parts you need, for example no database for a portfolio.",
     "kind": "single",
     "options": [
       "content-site",
@@ -12,7 +13,27 @@
       "internal-tool",
       "mobile-backend",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "content-site": "Content or marketing site",
+      "portfolio": "Portfolio or personal site",
+      "web-app": "Interactive web app",
+      "api-only": "API only",
+      "e-commerce": "Online shop",
+      "internal-tool": "Internal tool or dashboard",
+      "mobile-backend": "Backend for a mobile app",
+      "not-sure": "Not sure"
+    },
+    "hints": {
+      "content-site": "Blog, docs, a company or event site",
+      "portfolio": "A few pages about you or your work",
+      "web-app": "Users sign in and do things: a planner, a forum, a chat",
+      "api-only": "No web pages; other programs call it",
+      "e-commerce": "Products, a cart and payments",
+      "internal-tool": "Used by staff: admin screens, reports, forms",
+      "mobile-backend": "The server and data behind an iOS or Android app",
+      "not-sure": "We'll rank on your priorities alone"
+    }
   },
   {
     "id": "traffic",
@@ -25,7 +46,22 @@
       "large",
       "spiky",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "tiny": "Tiny",
+      "small": "Small and stable",
+      "growing": "Growing",
+      "large": "Large, steady load",
+      "spiky": "Spiky",
+      "not-sure": "Not sure"
+    },
+    "hints": {
+      "tiny": "Just you, a class or a club",
+      "small": "Hundreds of users, little change",
+      "growing": "Should cope with steady growth",
+      "large": "Many thousands of users all the time",
+      "spiky": "Quiet, then sudden peaks (sales, launches)"
+    }
   },
   {
     "id": "data-shape",
@@ -38,38 +74,78 @@
       "lookups",
       "none",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "linked": "Linked records",
+      "documents": "Self-contained documents",
+      "connected": "Highly connected",
+      "lookups": "Simple lookups by key",
+      "none": "No stored data",
+      "not-sure": "Not sure"
+    },
+    "hints": {
+      "linked": "Users, orders, products that point at each other",
+      "documents": "Each item is read and saved as a whole, like a form or a profile",
+      "connected": "Networks: friends of friends, recommendations",
+      "lookups": "A cache or sessions: get a value by its key",
+      "none": "Nothing to save between visits"
+    }
   },
   {
     "id": "data-flags",
     "text": "Extra data facts",
+    "help": "Tick any that apply, or none.",
     "kind": "multi",
     "options": [
       "fields-vary",
       "money",
       "single-user",
       "many-writers"
-    ]
+    ],
+    "labels": {
+      "fields-vary": "Items have very different fields",
+      "money": "Money or strict consistency",
+      "single-user": "One user, works offline",
+      "many-writers": "Many people save data at the same moment"
+    },
+    "hints": {
+      "fields-vary": "A catalogue where a book and a laptop share few fields",
+      "money": "Payments, bookings, stock: nothing may be lost or counted twice",
+      "single-user": "A desktop or personal app with its own data",
+      "many-writers": "Bookings, live collaboration, ticket sales"
+    }
   },
   {
     "id": "real-time",
     "text": "Live updates needed?",
+    "help": "Live updates arrive without reloading the page: chat, notifications, live scores.",
     "kind": "single",
     "options": [
       "yes",
       "no",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "yes": "Yes",
+      "no": "No",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "seo",
     "text": "Must pages be found by search engines?",
+    "help": "Matters for public sites that people find through Google or other search engines.",
     "kind": "single",
     "options": [
       "yes",
       "no",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "yes": "Yes",
+      "no": "No",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "team-size",
@@ -81,7 +157,14 @@
       "6-15",
       "16-plus",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "solo": "Just me",
+      "2-5": "2–5",
+      "6-15": "6–15",
+      "16-plus": "16 or more",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "experience",
@@ -92,11 +175,18 @@
       "some",
       "experienced",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "beginner": "Beginners",
+      "some": "Some experience",
+      "experienced": "Experienced",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "budget",
     "text": "Monthly budget for running it",
+    "help": "For running it: hosting and database. Not salaries or licences you already pay for.",
     "kind": "single",
     "options": [
       "free-only",
@@ -104,7 +194,14 @@
       "moderate",
       "comfortable",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "free-only": "Free tiers only",
+      "small-paid": "A small paid plan",
+      "moderate": "Moderate",
+      "comfortable": "Comfortable",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "deadline",
@@ -115,7 +212,13 @@
       "tight",
       "relaxed",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "very-tight": "Under a month",
+      "tight": "Tight",
+      "relaxed": "Relaxed",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "lifespan",
@@ -126,17 +229,29 @@
       "1-3-years",
       "5-plus-years",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "prototype": "A prototype",
+      "1-3-years": "1–3 years",
+      "5-plus-years": "5 years or more",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "commercial",
     "text": "Is this a commercial project?",
+    "help": "Some free hosting plans don't allow commercial use, so this changes which free tiers we suggest.",
     "kind": "single",
     "options": [
       "yes",
       "no",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "yes": "Yes",
+      "no": "No",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "hosting-rule",
@@ -149,16 +264,30 @@
       "azure",
       "gcp",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "none": "No constraint",
+      "self-host": "Must run on our own servers",
+      "aws": "Must use AWS",
+      "azure": "Must use Azure",
+      "gcp": "Must use Google Cloud",
+      "not-sure": "Not sure"
+    }
   },
   {
     "id": "open-source-only",
     "text": "Only OSI open-source licences?",
+    "help": "Only tools with an OSI-approved open-source licence (public-domain SQLite counts too).",
     "kind": "single",
     "options": [
       "yes",
       "no",
       "not-sure"
-    ]
+    ],
+    "labels": {
+      "yes": "Yes",
+      "no": "No",
+      "not-sure": "Not sure"
+    }
   }
 ]

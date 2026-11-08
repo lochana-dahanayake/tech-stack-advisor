@@ -178,7 +178,7 @@ Effect types:
 Every rule has `id`, `name`, `explanation` (shown when it fires), `source`, and optionally `otherwise` + `otherwiseExplanation`. Rule ids: `S…` situation, `D…` data shape, `B…` backend, `K…` constraint, `A…` architecture-style link, `N…` notes. Team-skill rules live in `skills.json` (§7.4).
 
 ### 7.0 Form questions (`questions.json`)
-Every question has "Not sure". Ids are the `q.` paths used by rules.
+Every question has "Not sure". Ids are the `q.` paths used by rules. Since Phase 3 (2026-11-09) each question also carries its form copy: `labels` (one plain-language label per option, required; an integrity check fails on a missing or extra label), optional `hints` (a short example under an option, shown as a radio card) and optional `help` (one line under the question). Copy only: the engine never reads them.
 | id | Asks | Options (short) |
 |---|---|---|
 | `app-kind` | What are you building? | content/marketing site, portfolio, interactive web app, API only, e-commerce, internal tool / dashboard, backend for a mobile app |
