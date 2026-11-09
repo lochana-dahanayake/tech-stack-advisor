@@ -11,6 +11,11 @@ export const variants: Record<
   { description: string; apply: (kb: KnowledgeBase) => KnowledgeBase; inputs?: (s: Scenario) => UserInput }
 > = {
   current: { description: "The KB as committed", apply: (kb) => kb },
+  session13: {
+    description:
+      "current, with the session-14 owner decision undone (Q32: Java's and C#'s GK-only ecosystem back at 4): the KB of session 13",
+    apply: (kb) => setValues(kb, { java: { ecosystem: { value: 4 } }, csharp: { ecosystem: { value: 4 } } }),
+  },
   draft: {
     description: "Unsourced scores at their proposed (draft) values: the KB as drafted in PR #5 (session 3)",
     apply: (kb) => withProposedValues(variants.session6!.apply(kb)),
@@ -37,18 +42,18 @@ export const variants: Record<
     },
   },
   session9: {
-    description: "current without the hosting part (Part 5, session 10): the KB of session 9",
-    apply: (kb) => withoutHosting(kb),
+    description: "session13 without the hosting part (Part 5, session 10): the KB of session 9",
+    apply: (kb) => withoutHosting(variants.session13!.apply(kb)),
   },
   session8: {
     description: "session9 without the frontend part (Part 4, session 9): the KB of session 8",
-    apply: (kb) => withoutFrontend(withoutHosting(kb)),
+    apply: (kb) => withoutFrontend(withoutHosting(variants.session13!.apply(kb))),
   },
   session7: {
     description:
       "session8, with the session-8 changes undone (D9 back to 'commercial multi-user app'; no T7, so close calls may use a language nobody knows): the KB of session 7",
     apply: (base) => {
-      const kb = withoutFrontend(withoutHosting(base));
+      const kb = withoutFrontend(withoutHosting(variants.session13!.apply(base)));
       return {
         ...kb,
         skills: kb.skills.filter((s) => !("knownCloseCalls" in s.when)),
@@ -124,7 +129,7 @@ export const variants: Record<
     description:
       "probe (session 8 audit, not a KB change, on the session-8 KB): every language ecosystem score backed only by GK held at 3, as Python's and TypeScript's already are",
     apply: (base) => {
-      const kb = withoutFrontend(withoutHosting(base));
+      const kb = withoutFrontend(withoutHosting(variants.session13!.apply(base)));
       return {
         ...kb,
         options: kb.options.map((o) => {

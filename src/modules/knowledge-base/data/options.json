@@ -7376,15 +7376,17 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "Maven Central and the Spring ecosystem",
+        "value": 3,
+        "why": "Maven Central and the Spring ecosystem (Unsourced: held at 3 until a registry-size rubric covers every language, as for Python and TypeScript; owner Q32, 2026-11-09)",
         "sources": [
           {
             "kind": "general",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-10-24",
+        "proposed": 4,
+        "unsourced": true
       },
       "community": {
         "value": 4,
@@ -7519,15 +7521,17 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "NuGet and the .NET libraries",
+        "value": 3,
+        "why": "NuGet and the .NET libraries (Unsourced: held at 3 until a registry-size rubric covers every language, as for Python and TypeScript; owner Q32, 2026-11-09)",
         "sources": [
           {
             "kind": "general",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-10-24",
+        "proposed": 4,
+        "unsourced": true
       },
       "community": {
         "value": 4,

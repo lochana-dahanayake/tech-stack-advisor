@@ -89,7 +89,7 @@ The `language` part has one level: its options are scored as products directly.
 4. **Pick** the highest stack score. Tie-break: higher sum of `final` → fewer languages across the stack (moot in v1: one language part) → option ids in KB order, part by part. Deterministic.
 5. **No valid combination** (e.g. locks that conflict): return the best per-part picks, flag the conflicting pair, and explain it. Never fail silently.
 6. **Ties inside a part** (owner, 2026-10-24, G12). Options with the same `cand` and `final` as a part's #1 are **tied**: the part's list shows them in KB order only so the output is stable, and none of them counts as "the #1". The stack settles the tie with the rules of item 4, in that order, and the result says which one decided it (`ties[]`: part, tied options, pick, reason):
-   - **stack score**: the pick fits the rest of the stack better (in G12, Java and C# tie at 86.1 and C# is picked because ASP.NET Core outscores Spring Boot in the backend part). This is deliberate: a language is only useful with a framework, so the better pair wins.
+   - **stack score**: the pick fits the rest of the stack better (in G12, TypeScript, Java and C# tie at 83.3 since Q32, 2026-11-09, and C# is picked because ASP.NET Core gives the best stack; before Q32 only Java and C# tied, at 86.1). This is deliberate: a language is only useful with a framework, so the better pair wins.
    - **sum of final**: equal stack scores, higher sum of `final`.
    - **KB order**: everything equal; the earlier option in the KB wins.
 
