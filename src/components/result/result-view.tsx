@@ -7,6 +7,7 @@ import {
   CircleSlashIcon,
   CompassIcon,
   InfoIcon,
+  LockIcon,
   PencilIcon,
   RotateCcwIcon,
   ScaleIcon,
@@ -100,6 +101,9 @@ function PickTiles({ rec }: { rec: Recommendation }) {
 
 /** Close calls, picks moved by the stack, raised priorities and notes: everything to read before deciding. */
 const THING_ICONS = {
+  conflict: TriangleAlertIcon,
+  lock: LockIcon,
+  style: CompassIcon,
   "close-call": ScaleIcon,
   adjusted: ArrowRightLeftIcon,
   tie: ScaleIcon,
@@ -110,7 +114,7 @@ const THING_ICONS = {
 function ThingsToKnow({ rec }: { rec: Recommendation }) {
   const items = thingsToKnow(rec).map((t) => ({
     icon: THING_ICONS[t.kind],
-    tone: t.kind === "note" ? ("warning" as const) : ("info" as const),
+    tone: t.kind === "note" || t.kind === "conflict" ? ("warning" as const) : ("info" as const),
     title: t.title,
     body: t.body,
   }));

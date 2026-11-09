@@ -6,7 +6,7 @@ Keep this current. At the end of every session, update **Next up** so the next (
 **Phase 3's four UI steps are done (session 11, 2026-11-09, app v0.2.0).** The app works end to end with AI off: landing → form → result → Markdown. Next, in this order (one branch + PR each):
 1. [x] **End-to-end and accessibility tests** (session 12, PR #15): done, see Phase 3 step 5. Was: a Playwright suite like the sibling's (`tests/e2e`, `@playwright/test` + `@axe-core/playwright`; locally `PW_CHANNEL=msedge`): open each example, fill the form, reload on the result, download Markdown; axe on `/`, `/advisor`, the result and `/changelog`. Also dependency-cruiser for module boundaries (TECH_STACK).
 2. [x] **Share link** (session 12, PR #16): done, see Phase 3 step 6. Was: (sibling's `share-link.ts`, `#a=` hash) and a "Share & save" menu (copy link, Markdown, print).
-3. **`?style=` hand-off from Architecture Advisor** (Q2; rules A1–A2 exist) and **locks** (Q12: engine first, test-first, then a "Must use" control per part).
+3. [x] **`?style=` hand-off and locks** (session 12, PR #17): done, see Phase 3 step 7. Was: **`?style=` hand-off from Architecture Advisor** (Q2; rules A1–A2 exist) and **locks** (Q12: engine first, test-first, then a "Must use" control per part).
 4. **About / methodology page** (sources, fairness rules, refresh dates; Phase 5 needs it anyway).
 Then Phase 4 (AI layer).
 
@@ -64,10 +64,11 @@ Session 11 steps (2026-11-09):
 4. [x] **/changelog and Markdown export** (session 11, 2026-11-09): `/changelog` with v0.2 and v0.1 notes, linked from the footer and the version line; "Download Markdown" and "Print" on the result (`components/result/markdown.ts`, pure, tested; shares "Things to know" with the page via `things.ts`). App version 0.2.0. Options now carry their own best approach (`OptionView.type`), shown in the tiles and the export.
 5. [x] **E2E + accessibility tests and module boundaries** (session 12, 2026-11-09): Playwright suite in `tests/e2e/` (32 runs: 16 tests × desktop and mobile; `npm run build && PW_CHANNEL=msedge npm run test:e2e`), axe on every page incl. dark mode; dependency-cruiser (`npm run fitness`, in `npm run check`). Fixed what axe found: stack card list markup, primary button hover contrast (`--primary-hover`).
 6. [x] **Share link + "Share & save" menu** (session 12, 2026-11-09): `components/form/share-link.ts` puts the answers in `#a=<base64url JSON>` (version 1; short keys a/w/s/f/g, defaults left out, ids not positions). Decoding cleans with `sanitiseForm` and checks with the engine's `checkInput`: all valid → the result; something dropped or nothing to rank on → the form with a notice; unreadable → a blank form with "We couldn't open that link". The hash is removed once read and a pasted link is picked up on `hashchange`. The result header's "Share & save" toggle holds Copy link (with a copy-by-hand fallback), Download Markdown (now with an "Open this result" link) and Print. 11 unit tests + 2 e2e tests.
+7. [x] **`?style=` hand-off and locks** (session 12, 2026-11-09): engine first and test-first (`tests/scoring/locks.test.ts`, SCORING_ENGINE step 1 notes): `input.locked`, `result.locks`, conflict messages, lock beats T6; style ids in `meta.architectureStyles` (KB schema §7.5). UI: "Must use" select per part and an "Architecture style" select on step 3, `?style=` notice, "Things to know" items (must-use pick, overridden rule, clash, style and what it changed), "Must use (your choice)" label, share link keys `l`/`st`, Markdown lines. Golden and calibration results unchanged.
 - [x] Next.js scaffold, design tokens, header/footer, landing page with a live result preview (2026-11-09)
 - [x] Form: situation, team skills, constraints, priorities (2026-11-09); locks wait for the engine
 - [x] Result page (2026-11-09) (stack, per-part lists, comparison table with "checked on" dates, not-needed parts)
-- [ ] `?style=` hand-off; link from Architecture Advisor (Q2)
+- [x] `?style=` hand-off (2026-11-09); [ ] the link from Architecture Advisor's result page (sibling repo, Q2)
 
 ## Phase 4: AI layer
 - [ ] Bounded adjustments (±5, max 3, top 5 per part) + explanation; server re-runs assembly; fallback chain; rules-only mode

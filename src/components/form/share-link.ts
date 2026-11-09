@@ -31,7 +31,10 @@ const fromBase64Url = (code: string) =>
     Uint8Array.from(atob(code.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0)),
   );
 
-/** Short keys keep links short: a answers, w weights, s skills, f known frameworks, g goal. Defaults are left out. */
+/**
+ * Short keys keep links short: a answers, w weights, s skills, f known frameworks, g goal, l must-use locks,
+ * st architecture style. Defaults are left out.
+ */
 interface LinkJson {
   v: number;
   a?: unknown;
@@ -39,6 +42,8 @@ interface LinkJson {
   s?: unknown;
   f?: unknown;
   g?: unknown;
+  l?: unknown;
+  st?: unknown;
 }
 
 /** The hash part (with `#`) for these answers. */
@@ -48,6 +53,8 @@ export function encodeShareHash(input: UserInput): string {
   if (input.skills && Object.keys(input.skills).length > 0) data.s = input.skills;
   if (input.knownFrameworks && input.knownFrameworks.length > 0) data.f = input.knownFrameworks;
   if (input.goal === "learn") data.g = "learn";
+  if (input.locked && Object.keys(input.locked).length > 0) data.l = input.locked;
+  if (input.style) data.st = input.style;
   return `#${PARAM}${toBase64Url(JSON.stringify(data))}`;
 }
 
@@ -78,11 +85,14 @@ export function decodeShareHash(hash: string, kb: KnowledgeBase): SharedLink {
     weights: isRecord(data.w) ? data.w : {},
     skills: isRecord(data.s) ? data.s : {},
     knownFrameworks: Array.isArray(data.f) ? data.f : [],
+    locked: isRecord(data.l) ? data.l : {},
   };
-  const form = sanitiseForm({ ...raw, goal: data.g === "learn" ? "learn" : "ship" } as Partial<FormState>, kb);
+  const style = data.st;
+  const form = sanitiseForm({ ...raw, goal: data.g === "learn" ? "learn" : "ship", style } as Partial<FormState>, kb);
   const dropped =
-    size(raw.answers) + size(raw.weights) + size(raw.skills) + size(raw.knownFrameworks) !==
-    size(form.answers) + size(form.weights) + size(form.skills) + size(form.knownFrameworks);
+    size(raw.answers) + size(raw.weights) + size(raw.skills) + size(raw.knownFrameworks) + size(raw.locked) !==
+      size(form.answers) + size(form.weights) + size(form.skills) + size(form.knownFrameworks) + size(form.locked) ||
+    (style !== undefined && form.style !== style);
   const canRank = checkInput(toUserInput(form), kb).issues.length === 0;
   if (!dropped && canRank) return { status: "ok", form };
   // The only blocking issue ("nothing to rank on") is answered on step 1; otherwise let them review priorities.

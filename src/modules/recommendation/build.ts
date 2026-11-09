@@ -1,4 +1,4 @@
-import { productCriteria, type KnowledgeBase, type Level, type Option } from "@/modules/knowledge-base";
+import { conditionPaths, productCriteria, type KnowledgeBase, type Level, type Option } from "@/modules/knowledge-base";
 import { evaluateCondition, fitFor, type ScoreResult, type UserInput } from "@/modules/scoring";
 import type { Adjustment, FactView, OptionView, PartView, Recommendation, StackLabel, WhyRow } from "./types";
 
@@ -46,7 +46,8 @@ export function buildRecommendation(
   const todayN = dayNumber(today);
 
   const label = (o: Option): StackLabel => {
-    if (picks[o.part] === o.id) return { kind: "in-stack" };
+    if (picks[o.part] === o.id)
+      return input.locked?.[o.part] === o.id ? { kind: "in-stack", locked: true } : { kind: "in-stack" };
     for (const r of relations) {
       if (r.option === o.id && r.kind === "requires" && !(picks[r.part] && r.anyOf.includes(picks[r.part]!)))
         return { kind: "needs", part: r.part, ids: r.anyOf };
@@ -178,6 +179,9 @@ export function buildRecommendation(
   const adjusted = result.stack.adjusted.map((a) => ({
     ...a,
     reason:
+      (a.relation === "locked"
+        ? `You chose ${name(a.pick)} as a must-use, so the stack is built around it.`
+        : undefined) ??
       relationText(a.relation) ??
       `${name(a.pick)} makes a stronger whole stack than ${name(a.best)}, even though ${name(a.best)} scores higher on its own.`,
   }));
@@ -197,8 +201,22 @@ export function buildRecommendation(
     .filter((c) => LEVELS.indexOf(result.effectiveWeights[c] ?? "low") >= LEVELS.indexOf("medium"))
     .sort((a, b) => weightOf(b) - weightOf(a));
 
+  const styleRules = new Set(
+    kb.rules.filter((r) => conditionPaths(r.when).some((c) => c.path === "style")).map((r) => r.id),
+  );
+  const style = input.style
+    ? {
+        id: input.style,
+        name: kb.meta.architectureStyles.styles.find((s) => s.id === input.style)?.name ?? input.style,
+        rules: result.firedRules
+          .filter((f) => styleRules.has(f.id) && f.branch === "when")
+          .map((f) => ({ id: f.id, text: f.explanation })),
+      }
+    : undefined;
+
   return {
     kbVersion: result.kbVersion,
+    ...(style ? { style } : {}),
     score: result,
     stackScore: result.stack.score,
     fit: fitFor(result.stack.score),

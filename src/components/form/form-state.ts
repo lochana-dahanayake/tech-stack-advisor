@@ -11,6 +11,10 @@ export interface FormState {
   skills: Partial<Record<string, SkillLevel>>;
   knownFrameworks: string[];
   goal: "ship" | "learn";
+  /** "Must use" per part (Q12): part id → product id. */
+  locked: Partial<Record<string, string>>;
+  /** Architecture Advisor style id (Q2), from `?style=` or chosen on step 3. */
+  style?: string;
 }
 
 export const STEPS = [
@@ -43,7 +47,14 @@ export const SKILL_OPTIONS: { id: SkillLevel; label: string }[] = [
   { id: "strong", label: "Strong" },
 ];
 
-export const emptyForm = (): FormState => ({ answers: {}, weights: {}, skills: {}, knownFrameworks: [], goal: "ship" });
+export const emptyForm = (): FormState => ({
+  answers: {},
+  weights: {},
+  skills: {},
+  knownFrameworks: [],
+  goal: "ship",
+  locked: {},
+});
 
 export const fromInput = (input: UserInput): FormState => ({
   answers: { ...input.answers },
@@ -51,6 +62,8 @@ export const fromInput = (input: UserInput): FormState => ({
   skills: { ...input.skills },
   knownFrameworks: [...(input.knownFrameworks ?? [])],
   goal: input.goal ?? "ship",
+  locked: { ...input.locked },
+  ...(input.style ? { style: input.style } : {}),
 });
 
 /** The engine input. Empty multi-selects and defaults are left out, so a form and its preset compare equal. */
@@ -65,6 +78,9 @@ export function toUserInput(s: FormState): UserInput {
   if (Object.keys(s.skills).length > 0) input.skills = { ...s.skills };
   if (s.knownFrameworks.length > 0) input.knownFrameworks = [...s.knownFrameworks];
   if (s.goal === "learn") input.goal = "learn";
+  const locked = Object.fromEntries(Object.entries(s.locked).filter(([, v]) => v));
+  if (Object.keys(locked).length > 0) input.locked = locked;
+  if (s.style) input.style = s.style;
   return input;
 }
 
@@ -113,8 +129,22 @@ export function sanitiseForm(f: Partial<FormState>, kb: KnowledgeBase): FormStat
     ) as FormState["skills"],
     knownFrameworks: Array.isArray(f.knownFrameworks) ? f.knownFrameworks.filter((x) => frameworks.has(x)) : [],
     goal: f.goal === "learn" ? "learn" : "ship",
+    locked: Object.fromEntries(
+      Object.entries(f.locked ?? {}).filter(
+        ([part, id]) =>
+          typeof id === "string" && kb.options.some((o) => o.id === id && o.part === part && o.level === "product"),
+      ),
+    ),
+    ...(typeof f.style === "string" && isStyle(f.style, kb) ? { style: f.style } : {}),
   };
 }
+
+/** True for one of Architecture Advisor's style ids (the KB keeps the list, Q2). */
+export const isStyle = (id: string, kb: KnowledgeBase) => kb.meta.architectureStyles.styles.some((s) => s.id === id);
+
+/** Products a part can be locked to, in KB order. */
+export const lockOptions = (kb: KnowledgeBase, part: string) =>
+  kb.options.filter((o) => o.part === part && o.level === "product");
 
 const STORAGE_KEY = "tech-stack-advisor:form";
 const STORAGE_VERSION = 1;

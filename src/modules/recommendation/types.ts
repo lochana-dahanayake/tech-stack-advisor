@@ -3,7 +3,8 @@ import type { Fit, ScoreResult, StackCloseCall, StackTie } from "@/modules/scori
 
 /** Where an option stands against the chosen stack (SCORING_ENGINE step 6, last paragraph). */
 export type StackLabel =
-  | { kind: "in-stack" }
+  /** In the chosen stack; `locked` when the user marked it "Must use" (Q12). */
+  | { kind: "in-stack"; locked?: true }
   | { kind: "fits" }
   /** It requires another part to be one of `ids`, and the stack has something else (Django → needs Python). */
   | { kind: "needs"; part: string; ids: string[] }
@@ -68,6 +69,8 @@ export interface PartView {
 
 export interface Recommendation {
   kbVersion: string;
+  /** The Architecture Advisor style the answers came with (Q2), and the rules it fired (A-rules, KB schema §7.5). */
+  style?: { id: string; name: string; rules: { id: string; text: string }[] };
   score: ScoreResult;
   stackScore: number;
   fit: Fit;
@@ -76,7 +79,8 @@ export interface Recommendation {
   /** Criteria at Medium or above after floors, most important first (the comparison table's rows). */
   topCriteria: string[];
   /** Picks that aren't their part's #1, with the reason in words. */
-  adjusted: { partId: string; best: string; pick: string; reason: string }[];
+  /** `relation`: the relation id, "stack score", or "locked" (a must-use pick, Q12). */
+  adjusted: { partId: string; best: string; pick: string; relation: string; reason: string }[];
   closeCalls: StackCloseCall[];
   ties: StackTie[];
   /** "You chose Medium for Real-time; we used High because …". */

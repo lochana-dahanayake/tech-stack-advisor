@@ -207,6 +207,11 @@ export const metaSchema = z.object({
   }),
   closeCallPoints: z.number(),
   staleAfterDays: z.record(z.string(), z.number().int().positive()),
+  /** Architecture Advisor's style ids, for the `?style=` hand-off (Q2, KB schema §7.5). Mirrors the sibling's KB. */
+  architectureStyles: z.object({
+    source: z.string(),
+    styles: z.array(z.object({ id: z.string(), name: z.string() })).min(1),
+  }),
 });
 
 export const knowledgeBaseSchema = z.object({

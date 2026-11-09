@@ -7,6 +7,8 @@ export interface UserInput {
   knownFrameworks?: string[];
   style?: string; // Architecture Advisor style id
   goal?: "ship" | "learn"; // default "ship" (Q11)
+  /** "We must use X" (Q12): part id → product id. The product is always in the stack. */
+  locked?: Partial<Record<string, string>>;
 }
 
 export interface FiredRule {
@@ -83,6 +85,15 @@ export interface StackResult {
   relationNotes: { id: string; text: string; points?: number }[];
 }
 
+/** A rule that would have removed a locked pick (or its part): kept, with this warning instead (step 1, Q12). */
+export interface LockWarning {
+  partId: string;
+  option: string;
+  kind: "excluded" | "not-needed";
+  ruleId: string;
+  text: string; // the rule's explanation
+}
+
 export interface ScoreResult {
   kbVersion: string;
   effectiveWeights: Record<string, Level>;
@@ -91,4 +102,6 @@ export interface ScoreResult {
   notes: string[];
   parts: Record<string, PartResult>;
   stack: StackResult;
+  /** Set when the input locks a part: what the locks overrode (empty when nothing). */
+  locks?: LockWarning[];
 }

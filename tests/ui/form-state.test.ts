@@ -48,6 +48,8 @@ describe("form state", () => {
       skills: { python: "strong", cobol: "strong", go: "expert" },
       knownFrameworks: ["react", "jquery"],
       goal: "panic",
+      locked: { database: "mongodb", backend: "postgresql", hosting: 7, nope: "react" },
+      style: "big-ball-of-mud",
     } as unknown as Parameters<typeof sanitiseForm>[0];
     expect(sanitiseForm(dirty, kb)).toEqual({
       answers: { seo: "yes", "data-flags": ["money"] },
@@ -55,7 +57,15 @@ describe("form state", () => {
       skills: { python: "strong" },
       knownFrameworks: ["react"],
       goal: "ship",
+      locked: { database: "mongodb" },
     });
+  });
+
+  it("keeps must-use locks and the architecture style, and leaves out empty locks", () => {
+    const f = { ...emptyForm(), locked: { database: "mongodb", hosting: "" }, style: "serverless" };
+    expect(toUserInput(f)).toEqual({ answers: {}, locked: { database: "mongodb" }, style: "serverless" });
+    expect(fromInput(toUserInput(f))).toEqual({ ...f, locked: { database: "mongodb" } });
+    expect(sanitiseForm({ style: "serverless" }, kb).style).toBe("serverless");
   });
 
   it("restores what it saved, and ignores broken or old saves", () => {

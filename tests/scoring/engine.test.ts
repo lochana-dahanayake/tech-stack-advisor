@@ -46,6 +46,7 @@ describe("input validation", () => {
     [{ answers: { "data-flags": "money" } }, /expects multi/],
     [{ skills: { cobol: "strong" as const } }, /unknown language/],
     [{ knownFrameworks: ["relational"] }, /unknown framework/],
+    [{ style: "big-ball-of-mud" }, /unknown architecture style/],
   ])("rejects %j", (input, error) => {
     expect(() => validateInput(input, kb)).toThrow(error);
   });
@@ -151,9 +152,9 @@ describe("language part, team skills and stack assembly", () => {
 
   it("T6 doesn't apply when a rule excludes the strong language", () => {
     const k = withRules([
-      rule({ id: "K91", when: { eq: ["style", "x"] }, effects: [{ type: "exclude", target: "php" }] }),
+      rule({ id: "K91", when: { eq: ["style", "peer-to-peer"] }, effects: [{ type: "exclude", target: "php" }] }),
     ]);
-    const r = score({ skills: { php: "strong" }, style: "x" }, k);
+    const r = score({ skills: { php: "strong" }, style: "peer-to-peer" }, k);
     expect(r.parts.language!.products.map((p) => p.id)).not.toContain("php");
     expect(r.stack.picks.language).toBeDefined();
   });
@@ -238,7 +239,7 @@ describe("language part, team skills and stack assembly", () => {
           ...kb.rules,
           rule({
             id: "K95",
-            when: { eq: ["style", "x"] },
+            when: { eq: ["style", "peer-to-peer"] },
             effects: [
               "github-pages",
               "netlify",
@@ -254,7 +255,11 @@ describe("language part, team skills and stack assembly", () => {
           }),
         ],
       };
-      const java = { style: "x", skills: { java: "strong" as const }, answers: { "app-kind": "api-only" as const } };
+      const java = {
+        style: "peer-to-peer",
+        skills: { java: "strong" as const },
+        answers: { "app-kind": "api-only" as const },
+      };
       const r = host(java, k);
       expect(r.stack.picks.hosting).toBe("vercel");
       expect(r.stack.picks.language).toBe("java");
@@ -312,15 +317,19 @@ describe("language part, team skills and stack assembly", () => {
       ...kb,
       rules: [
         ...kb.rules.filter((r) => r.id !== "S12"), // S12 would already remove this approach
-        rule({ id: "K93", when: { eq: ["style", "x"] }, effects: [{ type: "not-needed", part: "backend" }] }),
+        rule({
+          id: "K93",
+          when: { eq: ["style", "peer-to-peer"] },
+          effects: [{ type: "not-needed", part: "backend" }],
+        }),
         rule({
           id: "K94",
-          when: { eq: ["style", "x"] },
+          when: { eq: ["style", "peer-to-peer"] },
           effects: ["static", "spa", "ssr"].map((t) => ({ type: "exclude" as const, target: t })),
         }),
       ],
     };
-    const r = score({ style: "x" }, k);
+    const r = score({ style: "peer-to-peer" }, k);
     expect(r.parts.frontend!.products.map((p) => p.id)).toEqual(["backend-templates"]);
     expect(r.stack.conflict).toMatch(/No combination/);
   });
@@ -424,10 +433,10 @@ describe("language part, team skills and stack assembly", () => {
       compatibility: kb.compatibility.map((c) => ({ ...c, anyOf: ["php"] })),
       rules: [
         ...kb.rules,
-        rule({ id: "K92", when: { eq: ["style", "x"] }, effects: [{ type: "exclude", target: "php" }] }),
+        rule({ id: "K92", when: { eq: ["style", "peer-to-peer"] }, effects: [{ type: "exclude", target: "php" }] }),
       ],
     };
-    const r = score({ style: "x" }, k);
+    const r = score({ style: "peer-to-peer" }, k);
     expect(r.stack.conflict).toMatch(/No combination/);
     expect(Object.keys(r.stack.picks).sort()).toEqual(["backend", "database", "frontend", "hosting", "language"]);
   });

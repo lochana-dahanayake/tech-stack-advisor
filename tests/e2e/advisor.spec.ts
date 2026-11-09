@@ -187,3 +187,44 @@ test("a link with answers the app no longer knows opens the form to check them",
   await expect(page.getByText("Your recommended stack")).toBeVisible();
   await expect(page.getByText("Some answers in that link need checking")).toHaveCount(0);
 });
+
+test("?style= from Architecture Advisor starts a form with that style, and the result says what it changed", async ({
+  page,
+}) => {
+  await page.goto("/advisor?style=microservices");
+  await expect(page.getByText("Architecture style from Architecture Advisor: Microservices")).toBeVisible();
+  await expect(page).toHaveURL(/\/advisor$/);
+  await axe(page);
+  await page.getByRole("radio", { name: "Interactive web app" }).click();
+  for (let i = 0; i < 2; i++) await page.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(page.getByLabel("Architecture style")).toHaveValue("microservices");
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await page.getByRole("button", { name: "See my stack" }).click();
+  await expect(page.getByText("Architecture style: Microservices")).toBeVisible();
+
+  await page.goto("/advisor?style=big-ball-of-mud");
+  await expect(page.getByText("We didn't recognise the architecture style in that link")).toBeVisible();
+});
+
+test("a must-use pick stays in the stack and is labelled, and clashing must-uses are explained", async ({ page }) => {
+  await page.goto("/advisor?example=shop");
+  await page.getByRole("button", { name: "Edit answers" }).click();
+  await page.getByRole("button", { name: "Back" }).click();
+  await expect(page.getByText("Step 3 of 4")).toBeVisible();
+  await page.getByLabel("Database").selectOption({ label: "MongoDB" });
+  await axe(page);
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await page.getByRole("button", { name: "See my stack" }).click();
+  await expect(stackHeading(page)).toContainText("MongoDB");
+  await expect(page.getByText("MongoDB: your must-use choice")).toBeVisible();
+  await expect(page.getByText("Must use (your choice)").first()).toBeVisible();
+  await axe(page);
+
+  await page.getByRole("button", { name: "Edit answers" }).click();
+  await page.getByRole("button", { name: "Back" }).click();
+  await page.getByLabel("Backend").selectOption({ label: "Django" });
+  await page.getByLabel("Language").selectOption({ label: "Java / Kotlin on the JVM" });
+  await page.getByRole("button", { name: "See my stack now" }).click();
+  await expect(page.getByText("These must-use choices don't fit together")).toBeVisible();
+  await expect(page.getByText(/Django runs on Python/).first()).toBeVisible();
+});

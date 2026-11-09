@@ -79,6 +79,7 @@ describe("integrity checks catch broken data", () => {
     expect(problems(addRule({ id: "N94", when: { eq: ["skill.cobol", "strong"] } }))).toMatch(/unknown language cobol/);
     expect(problems(addRule({ id: "N95", when: { eq: ["skill.go", "expert"] } }))).toMatch(/bad skill level/);
     expect(problems(addRule({ id: "N96", when: { gte: ["weight.nope", "high"] } }))).toMatch(/unknown criterion nope/);
+    expect(problems(addRule({ id: "N9S", when: { in: ["style", ["layered", "mud"]] } }))).toMatch(/unknown style mud/);
     expect(problems(addRule({ id: "N97", when: { gte: ["q.app-kind", "high"] } }))).toMatch(
       /'gte' only compares weight levels/,
     );

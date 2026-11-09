@@ -131,3 +131,22 @@ describe("dayNumber", () => {
     expect(dayNumber("2026-11-09") - dayNumber("2025-11-09")).toBe(365);
   });
 });
+
+describe("locks in the recommendation (Q12)", () => {
+  const locked = (): UserInput => ({ ...input("G2"), locked: { database: "mongodb" } });
+
+  it("labels the locked pick and says why it isn't the part's #1", () => {
+    const r = build(locked());
+    expect(option(r, "database", "mongodb").label).toEqual({ kind: "in-stack", locked: true });
+    expect(option(r, "backend", r.score.stack.picks.backend!).label).toEqual({ kind: "in-stack" });
+    const a = r.adjusted.find((x) => x.partId === "database")!;
+    expect(a).toMatchObject({ pick: "mongodb", relation: "locked" });
+    expect(a.reason).toBe("You chose MongoDB as a must-use, so the stack is built around it.");
+  });
+
+  it("shows a locked part even when a rule says it isn't needed (G1)", () => {
+    const r = build({ ...input("G1"), locked: { database: "sqlite" } });
+    expect(part(r, "database")).toMatchObject({ needed: true, pick: "sqlite" });
+    expect(part(r, "database").notNeeded).toBeUndefined();
+  });
+});

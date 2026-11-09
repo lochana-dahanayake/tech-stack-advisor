@@ -5,7 +5,7 @@ import { optionName, orList } from "./format";
 export function labelText(label: StackLabel): string {
   switch (label.kind) {
     case "in-stack":
-      return "In your stack";
+      return label.locked ? "Must use (your choice)" : "In your stack";
     case "fits":
       return "Also fits";
     case "needs":
