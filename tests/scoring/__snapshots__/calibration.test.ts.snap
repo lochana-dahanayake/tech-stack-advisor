@@ -114,7 +114,7 @@ exports[`calibration tables > variant current 1`] = `
 | G1 Student portfolio site | plain-html · — · — · cloudflare · — | 69.9 | — | — | — | — |
 | G2 E-commerce store, small team that knows Java | nextjs · spring-boot · postgresql · render · java | 83.6 | backend: aspnet-core → spring-boot (C-aspnet-core-language); hosting: cloudflare → render (C-cloudflare-language) | — | — | — |
 | G3 Real-time chat app | vue · nestjs · postgresql · render · typescript-node | 78.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
-| G4 Data dashboard for a Python team | nextjs · fastapi · postgresql · render · python | 74.9 | backend: aspnet-core → fastapi (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| G4 Data dashboard for a Python team | nextjs · django · postgresql · render · python | 75.0 | backend: aspnet-core → django (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | C-django-postgresql 1 |
 | G5 Startup MVP that must ship in 4 weeks | nextjs · frontend-server · postgresql · cloudflare · typescript-node | 76.4 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — | — | — |
 | G6 Internal business app at a .NET company | nextjs · aspnet-core · postgresql · azure · csharp | 82.7 | — | — | — | — |
 | G7 Content site for an agency client, PHP team | backend-templates · laravel · postgresql · render · php | 74.7 | backend: aspnet-core → laravel (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
@@ -1043,7 +1043,7 @@ exports[`calibration tables > variant session9 1`] = `
 `;
 
 exports[`calibration tables > variant session13 1`] = `
-"Variant: session13: current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa): the KB of session 13. KB 0.1.0.
+"Variant: session13: current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13. KB 0.1.0.
 
 ## database
 | Scenario | Types | Products |

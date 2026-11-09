@@ -6,6 +6,7 @@ import {
   ChevronRightIcon,
   CircleSlashIcon,
   CompassIcon,
+  HandshakeIcon,
   InfoIcon,
   LayersIcon,
   LockIcon,
@@ -111,6 +112,7 @@ const THING_ICONS = {
   raised: InfoIcon,
   note: TriangleAlertIcon,
   bundle: LayersIcon,
+  pairing: HandshakeIcon,
 } as const;
 
 function ThingsToKnow({ rec }: { rec: Recommendation }) {

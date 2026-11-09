@@ -13,7 +13,7 @@ export const variants: Record<
   current: { description: "The KB as committed", apply: (kb) => kb },
   session13: {
     description:
-      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa): the KB of session 13",
+      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
     apply: (kb) => {
       const k = setValues(kb, {
         java: { ecosystem: { value: 4 } },
@@ -34,6 +34,7 @@ export const variants: Record<
         ...k,
         options: k.options.map((o) => (o.id === "nextjs" ? { ...o, types: ["ssr", "static", "spa"] } : o)),
         rules: k.rules.filter((r) => r.id !== "K12"),
+        compatibility: k.compatibility.filter((c) => c.kind !== "worksBestWith"),
       };
     },
   },
