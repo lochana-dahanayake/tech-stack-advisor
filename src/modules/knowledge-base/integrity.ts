@@ -41,6 +41,19 @@ export function productCriteria(kb: KnowledgeBase, partId: string): string[] {
 /** Cross-file checks the Zod schema can't express. Returns human-readable problems; empty means valid. */
 export function findIntegrityProblems(kb: KnowledgeBase): string[] {
   const p: string[] = [];
+  // Every cited source has a reference entry (book: ones are books), and every entry is cited somewhere.
+  const refs = new Map(kb.references.map((r) => [r.id, r]));
+  if (refs.size !== kb.references.length) p.push("duplicate reference id");
+  const cited = new Set<string>();
+  for (const { where, source } of listSources(kb)) {
+    if (source.kind !== "book" && source.kind !== "ref") continue;
+    cited.add(source.ref);
+    const ref = refs.get(source.ref);
+    if (!ref) p.push(`${where}: unknown reference ${source.kind}:${source.ref}`);
+    else if ((source.kind === "book") !== (ref.kind === "book"))
+      p.push(`${where}: ${source.kind}:${source.ref} doesn't match the reference's kind ${ref.kind}`);
+  }
+  for (const r of kb.references) if (!cited.has(r.id)) p.push(`reference ${r.id} is never cited`);
   const optionIds = new Set<string>();
   for (const o of kb.options) {
     if (optionIds.has(o.id)) p.push(`duplicate option id ${o.id}`);

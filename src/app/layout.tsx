@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 const nav = [
   { href: "/advisor", label: "Advisor" },
   { href: "/#examples", label: "Examples" },
-  { href: "/#how", label: "How it works" },
+  { href: "/methodology", label: "How it works" },
 ];
 
 const footerColumns = [
@@ -28,13 +28,14 @@ const footerColumns = [
     links: [
       { href: "/advisor?new", label: "Start a recommendation" },
       { href: "/#examples", label: "Examples" },
-      { href: "/#how", label: "How it works" },
+      { href: "/methodology", label: "How it works" },
       { href: "/changelog", label: "What's new" },
     ],
   },
   {
     title: "Project",
     links: [
+      { href: "/about", label: "About" },
       { href: "https://github.com/lochana-dahanayake/tech-stack-advisor", label: "Source on GitHub" },
       { href: "https://architecture-advisor-pink.vercel.app", label: "Architecture Advisor" },
     ],

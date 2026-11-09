@@ -214,6 +214,14 @@ export const metaSchema = z.object({
   }),
 });
 
+/** A published source the KB cites as `book:<id>` or `ref:<id>` (rows of references/INDEX.md, in short form). */
+export const referenceSchema = z.object({
+  id,
+  kind: z.enum(["book", "article", "survey", "benchmark", "docs", "vendor"]),
+  citation: z.string().min(1),
+  url: z.url().optional(),
+});
+
 export const knowledgeBaseSchema = z.object({
   meta: metaSchema,
   parts: z.array(partSchema),
@@ -223,9 +231,11 @@ export const knowledgeBaseSchema = z.object({
   rules: z.array(ruleSchema),
   skills: z.array(skillRuleSchema),
   compatibility: z.array(relationSchema),
+  references: z.array(referenceSchema),
 });
 
 export type Source = z.infer<typeof sourceSchema>;
+export type Reference = z.infer<typeof referenceSchema>;
 export type ScoreEntry = z.infer<typeof scoreEntrySchema>;
 export type Fact = z.infer<typeof factSchema>;
 export type Part = z.infer<typeof partSchema>;

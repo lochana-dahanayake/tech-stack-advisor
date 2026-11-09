@@ -3,12 +3,12 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-**Phase 3's four UI steps are done (session 11, 2026-11-09, app v0.2.0).** The app works end to end with AI off: landing → form → result → Markdown. Next, in this order (one branch + PR each):
-1. [x] **End-to-end and accessibility tests** (session 12, PR #15): done, see Phase 3 step 5. Was: a Playwright suite like the sibling's (`tests/e2e`, `@playwright/test` + `@axe-core/playwright`; locally `PW_CHANNEL=msedge`): open each example, fill the form, reload on the result, download Markdown; axe on `/`, `/advisor`, the result and `/changelog`. Also dependency-cruiser for module boundaries (TECH_STACK).
-2. [x] **Share link** (session 12, PR #16): done, see Phase 3 step 6. Was: (sibling's `share-link.ts`, `#a=` hash) and a "Share & save" menu (copy link, Markdown, print).
-3. [x] **`?style=` hand-off and locks** (session 12, PR #17): done, see Phase 3 step 7. Was: **`?style=` hand-off from Architecture Advisor** (Q2; rules A1–A2 exist) and **locks** (Q12: engine first, test-first, then a "Must use" control per part).
-4. **About / methodology page** (sources, fairness rules, refresh dates; Phase 5 needs it anyway).
-Then Phase 4 (AI layer).
+**Phase 3 is done (session 12, 2026-11-09, app v0.3.0).** The app works end to end with AI off: landing → form (with must-use locks and an architecture style) → result → share link, Markdown, print; `/methodology`, `/about`, `/changelog`. E2E + axe suite in `tests/e2e` (run `npm run build && PW_CHANNEL=msedge npm run test:e2e` before merging UI changes). Next, in this order (one branch + PR each):
+1. **Phase 4: the AI layer** (ARCHITECTURE, TESTING_STRATEGY §4–5, SIBLING_PROJECT; the sibling's `docs/AI_INTEGRATION.md` and `src/modules/ai/` are the model): `src/modules/ai/` + `/api/explain` with mocked providers first (schema, clamping, fallback chain, `AI_MODE=off|mock`), bounded adjustments (±5, max 3, top 5 per part), the server re-runs stack assembly; the result's "In plain words (AI)" panel; add the `ai`/`platform` boundary rules to `.dependency-cruiser.cjs` and the sibling's `scripts/check-env-names.mjs` to `npm run fitness`. Free tiers only; keys server-only. Then a `/privacy` page (the About page promises one when AI arrives).
+2. **Architecture Advisor → `/advisor?style=<id>` link** (Q2): in the sibling repo, once this app has a public URL (Phase 5 deploy). Our side is done; style ids must stay in step with `meta.architectureStyles`.
+3. **Phase 5 launch prep:** Vercel Hobby deploy, README, Open Graph image.
+
+Done in session 12 (details under Phase 3, steps 5–8): e2e + axe tests and dependency-cruiser (PR #15), share links and "Share & save" (PR #16), locks + `?style=` (PR #17), methodology + about pages and v0.3.0 (PR #18).
 
 Done in session 11 (details below under Phase 3): 1. scaffold + landing (PR #11), 2. the form (PR #12), 3. the result page + pure `recommendation/` module (PR #13), 4. `/changelog` + Markdown export (PR #14).
 
@@ -16,7 +16,7 @@ Done in session 11 (details below under Phase 3): 1. scaffold + landing (PR #11)
 
 **Waiting for the owner (don't block on it):** Q32 (language `ecosystem`), Q33 (Next.js as the SPA pick; S15), Q34 (G8's hosting pick, a self-hosting scenario for `vps`, Railway vs Render).
 
-Session 11 (2026-11-09, local): Phase 3 steps 1–4 (scaffold + landing, form, result page, changelog + Markdown export), app v0.2.0. Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
+Session 12 (2026-11-09, local): Phase 3 steps 5–8 (e2e + axe + dependency-cruiser, share links, locks + `?style=`, methodology/about), app v0.3.0. Session 11 (2026-11-09, local): Phase 3 steps 1–4 (scaffold + landing, form, result page, changelog + Markdown export), app v0.2.0. Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
 
 Owner's order (2026-10-24):
 1. [x] Set up the project: `package.json`, TypeScript strict, Vitest, ESLint (with the sibling's purity rule), Prettier, `npm run check`. Next.js is added with the UI (Phase 3).
@@ -65,6 +65,7 @@ Session 11 steps (2026-11-09):
 5. [x] **E2E + accessibility tests and module boundaries** (session 12, 2026-11-09): Playwright suite in `tests/e2e/` (32 runs: 16 tests × desktop and mobile; `npm run build && PW_CHANNEL=msedge npm run test:e2e`), axe on every page incl. dark mode; dependency-cruiser (`npm run fitness`, in `npm run check`). Fixed what axe found: stack card list markup, primary button hover contrast (`--primary-hover`).
 6. [x] **Share link + "Share & save" menu** (session 12, 2026-11-09): `components/form/share-link.ts` puts the answers in `#a=<base64url JSON>` (version 1; short keys a/w/s/f/g, defaults left out, ids not positions). Decoding cleans with `sanitiseForm` and checks with the engine's `checkInput`: all valid → the result; something dropped or nothing to rank on → the form with a notice; unreadable → a blank form with "We couldn't open that link". The hash is removed once read and a pasted link is picked up on `hashchange`. The result header's "Share & save" toggle holds Copy link (with a copy-by-hand fallback), Download Markdown (now with an "Open this result" link) and Print. 11 unit tests + 2 e2e tests.
 7. [x] **`?style=` hand-off and locks** (session 12, 2026-11-09): engine first and test-first (`tests/scoring/locks.test.ts`, SCORING_ENGINE step 1 notes): `input.locked`, `result.locks`, conflict messages, lock beats T6; style ids in `meta.architectureStyles` (KB schema §7.5). UI: "Must use" select per part and an "Architecture style" select on step 3, `?style=` notice, "Things to know" items (must-use pick, overridden rule, clash, style and what it changed), "Must use (your choice)" label, share link keys `l`/`st`, Markdown lines. Golden and calibration results unchanged.
+8. [x] **Methodology + About pages, v0.3.0** (session 12, 2026-11-09): `/methodology` ("How it works") is generated from the KB: steps, formula and caps, fairness rules (KB schema §8 in plain words), every source grouped by kind with citation counts, refresh windows and the checked-date range, every rule grouped by part plus team skills. Citations come from the new `data/references.json` (short forms of `references/INDEX.md` rows, public URLs only); an integrity test requires every `book:`/`ref:` id to have an entry of the right kind and every entry to be cited. `/about` (what it is, your answers, limits, open source). Header/footer "How it works" now go to `/methodology`; footer adds About. Changelog v0.3.
 - [x] Next.js scaffold, design tokens, header/footer, landing page with a live result preview (2026-11-09)
 - [x] Form: situation, team skills, constraints, priorities (2026-11-09); locks wait for the engine
 - [x] Result page (2026-11-09) (stack, per-part lists, comparison table with "checked on" dates, not-needed parts)
@@ -74,7 +75,7 @@ Session 11 steps (2026-11-09):
 - [ ] Bounded adjustments (±5, max 3, top 5 per part) + explanation; server re-runs assembly; fallback chain; rules-only mode
 
 ## Phase 5: Launch
-- [ ] Deploy on Vercel Hobby, README, about/methodology pages (sources, fairness rules, refresh dates)
+- [ ] Deploy on Vercel Hobby, README; [x] about/methodology pages (sources, fairness rules, refresh dates; 2026-11-09)
 - [ ] First KB refresh session scheduled (every 3 months, Q7)
 
 ## v1.1 (decided order)

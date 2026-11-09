@@ -228,3 +228,26 @@ test("a must-use pick stays in the stack and is labelled, and clashing must-uses
   await expect(page.getByText("These must-use choices don't fit together")).toBeVisible();
   await expect(page.getByText(/Django runs on Python/).first()).toBeVisible();
 });
+
+test("the methodology and about pages render, list rules and sources, and are accessible", async ({ page }) => {
+  await page.goto("/methodology");
+  await expect(page.getByRole("heading", { level: 1, name: "How it works" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Fairness rules" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Stack Overflow Developer Survey 2026" })).toBeVisible();
+  await page
+    .getByText("Database", { exact: false })
+    .filter({ hasText: /^Database \(\d+\)$/ })
+    .click();
+  await expect(page.getByText("Nothing is stored, so no database is needed.")).toBeVisible();
+  await axe(page);
+  await page.emulateMedia({ colorScheme: "dark" });
+  await axe(page);
+  await page.emulateMedia({ colorScheme: "light" });
+
+  await page.goto("/about");
+  await expect(page.getByRole("heading", { level: 1, name: "About" })).toBeVisible();
+  await page.getByRole("link", { name: "methodology page" }).click();
+  await expect(page).toHaveURL(/\/methodology$/);
+  await page.goto("/about");
+  await axe(page);
+});

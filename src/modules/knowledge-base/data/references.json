@@ -1,0 +1,165 @@
+[
+  {
+    "id": "ddia",
+    "kind": "book",
+    "citation": "Martin Kleppmann, Designing Data-Intensive Applications, 1st ed., O'Reilly, 2017"
+  },
+  {
+    "id": "fosa",
+    "kind": "book",
+    "citation": "Mark Richards and Neal Ford, Fundamentals of Software Architecture, 2nd ed., O'Reilly, 2025"
+  },
+  {
+    "id": "mpg17",
+    "kind": "book",
+    "citation": "Hans-Jürgen Schönig, Mastering PostgreSQL 17, 6th ed., Packt, 2024"
+  },
+  {
+    "id": "sixstep",
+    "kind": "book",
+    "citation": "Fidel A. Captain, Six-Step Relational Database Design, 2nd ed., 2015"
+  },
+  {
+    "id": "so-survey",
+    "kind": "survey",
+    "citation": "Stack Overflow Developer Survey 2026",
+    "url": "https://survey.stackoverflow.co/2026"
+  },
+  {
+    "id": "so-survey-2025",
+    "kind": "survey",
+    "citation": "Stack Overflow Developer Survey 2025, web frameworks (from secondary write-ups)",
+    "url": "https://survey.stackoverflow.co/2025/technology"
+  },
+  {
+    "id": "cwv-tech",
+    "kind": "survey",
+    "citation": "HTTP Archive, Core Web Vitals Technology Report",
+    "url": "https://httparchive.org/reports/techreport/landing"
+  },
+  {
+    "id": "techempower",
+    "kind": "benchmark",
+    "citation": "TechEmpower Framework Benchmarks, Round 23 (2025)",
+    "url": "https://www.techempower.com/benchmarks/"
+  },
+  {
+    "id": "energy-langs",
+    "kind": "article",
+    "citation": "Pereira et al., “Ranking programming languages by energy efficiency”, Science of Computer Programming 205, 2021",
+    "url": "https://github.com/greensoftwarelab/Energy-Languages"
+  },
+  {
+    "id": "guo-2014",
+    "kind": "article",
+    "citation": "Philip Guo, “Python Is Now the Most Popular Introductory Teaching Language at Top U.S. Universities”, Communications of the ACM blog, 2014",
+    "url": "https://cacm.acm.org/blogcacm/python-is-now-the-most-popular-introductory-teaching-language-at-top-u-s-universities/"
+  },
+  {
+    "id": "siegfried-2021",
+    "kind": "article",
+    "citation": "Siegfried et al., “Trends of Commonly Used Programming Languages in CS1 and CS2 Learning”, IEEE, 2021",
+    "url": "https://ieeexplore.ieee.org/document/9569444/"
+  },
+  {
+    "id": "uk-cs1-2016",
+    "kind": "article",
+    "citation": "Murphy et al., “An Analysis of Introductory Programming Courses at UK Universities”, 2016",
+    "url": "https://arxiv.org/abs/1609.06622"
+  },
+  {
+    "id": "web-rendering",
+    "kind": "docs",
+    "citation": "web.dev, “Rendering on the Web”",
+    "url": "https://web.dev/articles/rendering-on-the-web"
+  },
+  {
+    "id": "mdn-learn",
+    "kind": "docs",
+    "citation": "MDN, “Learn web development” curriculum",
+    "url": "https://developer.mozilla.org/en-US/curriculum/"
+  },
+  {
+    "id": "whatwg-html",
+    "kind": "docs",
+    "citation": "WHATWG, HTML Living Standard",
+    "url": "https://html.spec.whatwg.org/"
+  },
+  {
+    "id": "sqlite-whentouse",
+    "kind": "docs",
+    "citation": "SQLite, “Appropriate Uses For SQLite”",
+    "url": "https://sqlite.org/whentouse.html"
+  },
+  {
+    "id": "eol",
+    "kind": "docs",
+    "citation": "endoflife.date (release and support dates)",
+    "url": "https://endoflife.date/"
+  },
+  {
+    "id": "lang-docs",
+    "kind": "vendor",
+    "citation": "The languages' own specifications and official docs"
+  },
+  {
+    "id": "lang-repos",
+    "kind": "vendor",
+    "citation": "The languages' own repositories and package registries"
+  },
+  {
+    "id": "fe-repos",
+    "kind": "vendor",
+    "citation": "The frontend frameworks' own repositories, docs and npm entries"
+  },
+  {
+    "id": "fw-repos",
+    "kind": "vendor",
+    "citation": "The backend frameworks' own repositories, docs and registry pages"
+  },
+  {
+    "id": "db-repos",
+    "kind": "vendor",
+    "citation": "The databases' own repositories and licence files"
+  },
+  {
+    "id": "mdb-docs",
+    "kind": "vendor",
+    "citation": "MongoDB manual",
+    "url": "https://github.com/mongodb/docs"
+  },
+  {
+    "id": "host-docs",
+    "kind": "vendor",
+    "citation": "The hosting providers' own documentation"
+  },
+  {
+    "id": "host-pricing",
+    "kind": "vendor",
+    "citation": "The hosting providers' own pricing, plan and terms pages"
+  },
+  {
+    "id": "github-docs",
+    "kind": "vendor",
+    "citation": "GitHub Docs",
+    "url": "https://github.com/github/docs"
+  },
+  {
+    "id": "cloudflare-docs",
+    "kind": "vendor",
+    "citation": "Cloudflare Docs",
+    "url": "https://github.com/cloudflare/cloudflare-docs"
+  },
+  {
+    "id": "cloudflare-blog",
+    "kind": "vendor",
+    "citation": "Cloudflare blog, “Astro is joining Cloudflare”, 2026",
+    "url": "https://blog.cloudflare.com/astro-joins-cloudflare/"
+  },
+  {
+    "id": "vercel-repo",
+    "kind": "vendor",
+    "citation": "Vercel CLI and runtimes repository",
+    "url": "https://github.com/vercel/vercel"
+  }
+]

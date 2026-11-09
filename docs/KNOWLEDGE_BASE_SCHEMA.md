@@ -7,7 +7,8 @@ The KB is a set of JSON files in the repo, validated with **Zod** (a TypeScript 
 ## 1. Files
 ```
 src/modules/knowledge-base/data/
-  meta.json            # version, scale, levels, caps, stale windows, references
+  meta.json            # version, scale, levels, caps, stale windows, architecture style ids
+  references.json      # short citation (+ public URL) for every book:/ref: id; the methodology page lists them
   parts.json           # parts of the stack and their levels
   criteria.json        # what options are scored on
   options.json         # every type and product, with scores and dated facts
