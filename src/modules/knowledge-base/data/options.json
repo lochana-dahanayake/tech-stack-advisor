@@ -2300,6 +2300,11 @@
             "kind": "ref",
             "ref": "db-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database cost rubric (schema §8): free under an OSI or public-domain licence with every feature a small app needs → 5 · a free edition with limits (licence limits on offering it as a service, paid clustering, or memory-bound storage) → 3",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-23"
@@ -2511,6 +2516,11 @@
             "kind": "ref",
             "ref": "db-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database cost rubric (schema §8): free under an OSI or public-domain licence with every feature a small app needs → 5 · a free edition with limits (licence limits on offering it as a service, paid clustering, or memory-bound storage) → 3",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-23"
@@ -2705,6 +2715,11 @@
             "kind": "ref",
             "ref": "db-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database cost rubric (schema §8): free under an OSI or public-domain licence with every feature a small app needs → 5 · a free edition with limits (licence limits on offering it as a service, paid clustering, or memory-bound storage) → 3",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-23"
@@ -2914,6 +2929,11 @@
             "kind": "ref",
             "ref": "db-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database portability rubric (schema §8): OSI licence and standard SQL → 5 · OSI licence and a protocol several products implement → 4 · a choice of licences including an OSI one → 3 · a non-OSI licence, or a query language with one main implementation → 2",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-23"
@@ -3453,6 +3473,11 @@
             "kind": "ref",
             "ref": "db-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database portability rubric (schema §8): OSI licence and standard SQL → 5 · OSI licence and a protocol several products implement → 4 · a choice of licences including an OSI one → 3 · a non-OSI licence, or a query language with one main implementation → 2",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-23"
@@ -3640,6 +3665,11 @@
             "kind": "ref",
             "ref": "fw-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "backend productivity rubric (schema §8, KB draft §6): built-in or first-party building blocks out of 8",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-24"
@@ -3762,6 +3792,11 @@
             "kind": "ref",
             "ref": "fw-repos",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "backend real-time rubric (schema §8, KB draft §6): first-party WebSockets with group broadcasting → 5 … third-party only → 2",
+            "reviewed": false
           }
         ],
         "checked": "2026-10-24"
@@ -5149,6 +5184,11 @@
             "ref": "github-docs",
             "quality": "P",
             "note": "static files only"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible (static files only, or functions without a WebSocket API) → 1",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
@@ -5178,6 +5218,11 @@
             "ref": "cloudflare-docs",
             "quality": "P",
             "note": "static asset requests free and unlimited"
+          },
+          {
+            "kind": "design",
+            "note": "hosting cost rubric (schema §8, KB draft §19): lasting free tier for production → 5 · free tier with caps, pauses or a non-commercial clause → 4 · free tier not for production or too small → 3 · trial only, then paid → 2",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
@@ -5606,6 +5651,11 @@
             "kind": "ref",
             "ref": "github-docs",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (schema §8, KB draft §24): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
@@ -5641,6 +5691,11 @@
             "kind": "ref",
             "ref": "github-docs",
             "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible (static files only, or functions without a WebSocket API) → 1",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
@@ -5792,6 +5847,11 @@
             "ref": "host-docs",
             "quality": "P",
             "note": "Netlify Functions overview"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible (static files only, or functions without a WebSocket API) → 1",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
@@ -6545,6 +6605,11 @@
             "ref": "host-pricing",
             "quality": "P",
             "note": "fly.io/pricing; docs.fly.io/about/free-trial"
+          },
+          {
+            "kind": "design",
+            "note": "hosting cost rubric (schema §8, KB draft §19): lasting free tier for production → 5 · free tier with caps, pauses or a non-commercial clause → 4 · free tier not for production or too small → 3 · trial only, then paid → 2",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
@@ -7113,6 +7178,11 @@
             "ref": "host-pricing",
             "quality": "P",
             "note": "digitalocean.com/pricing/droplets; hetzner.com/cloud"
+          },
+          {
+            "kind": "design",
+            "note": "hosting cost rubric (schema §8, KB draft §19): lasting free tier for production → 5 · free tier with caps, pauses or a non-commercial clause → 4 · free tier not for production or too small → 3 · trial only, then paid → 2",
+            "reviewed": false
           }
         ],
         "checked": "2026-11-08"
