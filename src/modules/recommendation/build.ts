@@ -28,6 +28,8 @@ export function buildRecommendation(
   result: ScoreResult,
   kb: KnowledgeBase,
   today: string,
+  /** The AI's reason per adjusted option (AiBlock.adjustments), shown next to its points. */
+  aiReasons: Record<string, string> = {},
 ): Recommendation {
   const opt = new Map(kb.options.map((o) => [o.id, o]));
   const name = (id: string) => opt.get(id)?.name ?? id;
@@ -98,13 +100,14 @@ export function buildRecommendation(
     return `Team skills: ${text}${learn}`;
   };
 
-  const adjustments = (o: Option, skill: number): Adjustment[] => {
+  const adjustments = (o: Option, skill: number, ai = 0): Adjustment[] => {
     const out: Adjustment[] = firedEffects.flatMap(({ fired, effect }) =>
       effect.type === "modify" && effect.target === o.id
         ? [{ source: "rule" as const, id: fired.id, text: fired.explanation, points: effect.points }]
         : [],
     );
     if (skill !== 0) out.push({ source: "skill", text: skillText(o), points: skill });
+    if (ai !== 0) out.push({ source: "ai", text: aiReasons[o.id] ?? "AI adjustment", points: ai });
     return out;
   };
 
@@ -150,13 +153,14 @@ export function buildRecommendation(
         base: r.base,
         rules: r.rules,
         skill: r.skill,
+        ...(r.ai !== undefined ? { ai: r.ai } : {}),
         final: r.final,
         cand: r.cand,
         fit: fitFor(r.final),
         label: label(o),
         type: p.types.find((t) => o.types?.includes(t.id))?.id,
         why: why(o, criteria),
-        adjustments: adjustments(o, r.skill),
+        adjustments: adjustments(o, r.skill, r.ai),
         facts: facts(o),
         scoresChecked: criteria.map((c) => o.scores[c]!.checked).sort()[0]!,
       };

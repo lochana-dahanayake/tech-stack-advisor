@@ -9,6 +9,8 @@ export interface UserInput {
   goal?: "ship" | "learn"; // default "ship" (Q11)
   /** "We must use X" (Q12): part id → product id. The product is always in the stack. */
   locked?: Partial<Record<string, string>>;
+  /** Free-text notes (≤ MAX_NOTES_LENGTH): read only by the AI layer, never by the engine. */
+  notes?: string;
 }
 
 export interface FiredRule {
@@ -37,6 +39,8 @@ export interface ProductResult {
   base: number;
   rules: number;
   skill: number;
+  /** AI adjustment (AI_INTEGRATION §5): present only when the AI layer adjusted this product. */
+  ai?: number;
   final: number;
   /** final minus the gap between the chosen type and the product's best type (SCORING_ENGINE step 5). */
   cand: number;
@@ -104,4 +108,6 @@ export interface ScoreResult {
   stack: StackResult;
   /** Set when the input locks a part: what the locks overrode (empty when nothing). */
   locks?: LockWarning[];
+  /** The AI adjustments this result was scored with (option id → points); absent for a rules-only result. */
+  ai?: Record<string, number>;
 }

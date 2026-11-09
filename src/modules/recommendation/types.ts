@@ -20,7 +20,7 @@ export interface WhyRow {
 }
 
 export interface Adjustment {
-  source: "rule" | "skill";
+  source: "rule" | "skill" | "ai";
   id?: string; // rule id
   text: string;
   points: number;
@@ -41,6 +41,8 @@ export interface OptionView {
   base: number;
   rules: number;
   skill: number;
+  /** AI adjustment in points, when the AI layer adjusted this option. */
+  ai?: number;
   final: number;
   cand: number;
   fit: Fit;
@@ -87,4 +89,42 @@ export interface Recommendation {
   raised: { criterion: string; chosen: Level; used: Level; reason: string }[];
   /** Rule notes and relation notes for the chosen stack. */
   notes: { id?: string; text: string; points?: number }[];
+}
+
+/** One bounded AI adjustment (AI_INTEGRATION §5): a product in the top 5 of its part, ±5 points, with a reason. */
+export interface AiAdjustment {
+  optionId: string;
+  partId: string;
+  delta: number;
+  reason: string;
+  /** "notes" when the reason comes from the user's notes, "inputs" when from the structured answers. */
+  basis: "notes" | "inputs";
+}
+
+/** The AI's plain-language explanation of the stack the server assembled (after its adjustments). */
+export interface AiExplanation {
+  summary: string;
+  /** One entry per part in the stack, in display order: why this pick suits the project. */
+  stack: { partId: string; optionId: string; why: string }[];
+  cautions: string[];
+  notesUsed: string[];
+}
+
+/**
+ * What /api/explain returns (AI_INTEGRATION §10). `skipped` is set by the browser when the user opted out (no
+ * request is made); `disabled` when the server runs with AI_MODE=off.
+ */
+export interface AiBlock {
+  status: "ok" | "cached" | "unavailable" | "rate_limited" | "disabled" | "skipped";
+  provider?: string;
+  model?: string;
+  promptVersion?: string;
+  latencyMs?: number;
+  /** Clamped and validated; empty when the AI changed nothing. */
+  adjustments: AiAdjustment[];
+  explanation?: AiExplanation;
+  /** The stack the server assembled with the adjustments (needed part → option). */
+  stack?: Record<string, string>;
+  /** Set when an identical earlier request's answer was reused (cache tier T1). */
+  reuse?: { tier: "identical" };
 }

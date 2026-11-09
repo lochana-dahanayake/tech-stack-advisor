@@ -1,0 +1,101 @@
+# AI Integration
+
+The AI layer is an **optional enhancement**. It never builds the comparison table, never picks the stack, never decides the ranking structure, and is never required for a result. Adapted from Architecture Advisor's `docs/AI_INTEGRATION.md` (sibling ADR-002, ADR-005); this file says where we differ and why.
+
+## 1. Providers and fallback chain
+```
+Gemini Flash-Lite ──fail──▶ Groq (gpt-oss-120b) ──fail──▶ rules-only
+```
+| Order | Provider / model (env, configurable) | Free limit | Timeout |
+|---|---|---|---|
+| 1 | Google Gemini `gemini-3.5-flash-lite` (`GEMINI_MODEL`) | Not published: the rate-limit page says free-tier limits "can be viewed in Google AI Studio"; RPD resets at midnight Pacific (checked 2026-11-09, RESEARCH §9) | 10 s |
+| 2 | Groq `openai/gpt-oss-120b` (`GROQ_MODEL`) | 30 RPM / 1K RPD / 8K TPM / 200K TPD on the rate-limit page (checked 2026-11-09; the models page says 250K TPM, so the page and the account's Limits page may differ) | 8 s |
+| — | Rules-only | ∞ | — |
+
+- **Same providers as the sibling** (re-checked 2026-11-09 from the vendors' pages): `gemini-3.5-flash-lite` is "Stable" (Gemini 2.5 Flash routes to it from 2026-12-01); `openai/gpt-oss-120b` is a Groq production model with no deprecation notice. Two providers give far more explanations a day than expected traffic, and the rules-only result is always there.
+- **Model IDs live in env, not code.** Providers retire models often; upgrading is a config change.
+- **Overall AI budget:** 20 s. The user already sees the rule result, so nobody waits on a blank screen.
+- **Implementation:** Vercel AI SDK (`ai`, `@ai-sdk/google`, `@ai-sdk/groq`) behind our own `LlmProvider` port (`src/modules/ai/providers/types.ts`); `generateText` + `Output.object` with our JSON schema, `maxRetries: 0`, no temperature or penalties (Gemini 3.5 Flash-Lite rejects them), Groq with `strictJsonSchema: false` and `reasoningEffort: "low"`. Same adapters as the sibling.
+
+## 2. When to try the next provider
+As the sibling: timeout, network error, 5xx, empty reply → next provider; 429 per minute → next, the provider rests 60 s (or `Retry-After`); 429 daily (`per day`, `RPD`, `TPD`, `PerDay` in the error) → next, the provider rests until its reset (Gemini midnight Pacific, Groq midnight UTC); invalid reply (not JSON, fails the schema or the checks of §6) → **one repair retry** on the same provider with the reason, then the next provider. The rest state is a tiny circuit breaker in the store (§8).
+
+## 3. What the AI receives (small prompt)
+Built by `buildPrompt` (`src/modules/ai/prompt.ts`), pure. Only:
+1. The project answers (question text + option labels), effective importance levels above Low, team skills, known frameworks, goal, must-use picks, the Architecture Advisor style.
+2. The **recommended stack** from the server-side rule result, with its stack score.
+3. Per part in the stack: the chosen approach and the next two; the **top 5 products** with final, base, rule and skill points (and the rank score when the approach gap lowers it). The top 3 and the stack's pick also get their three biggest criterion scores, every rule/skill adjustment with the rule's own words, and the KB summary line. Not-needed parts say why.
+4. Why a pick isn't its part's #1, stack close calls, raised importance levels, rule and relation notes, lock warnings.
+5. The list of **adjustable** ids and the free-text notes (≤ 1,000 characters, redacted), wrapped in delimiters and declared data.
+
+Size: about 1,300–2,100 tokens of prompt plus ~470 of JSON schema for the 13 golden scenarios (pinned by `tests/ai/prompt.test.ts`: under 2,300 and 2,800). That is more than the sibling's ~1,200 because five parts are shown, and fits Groq's 8K TPM at about 2–3 requests a minute; Gemini is first, and identical requests are cached.
+
+### System prompt (v1, `PROMPT_VERSION = "1"`)
+Starts from the sibling's v2 writing rules (short summary tied to the user's answers, no lists of definitions, jargon explained in the same sentence, no markdown). Changes for stacks: `explanation.stack` has one entry per part, in order, naming the option **in the stack after the AI's adjustments**; the AI is told it cannot pick the stack, the engine re-assembles it with its compatibility rules.
+
+## 4. Response schema (`src/modules/ai/schema.ts`)
+```ts
+{
+  adjustments: Array<{ optionId: enum(ADJUSTABLE), delta: int −5…+5, ≠ 0, reason: 10–240 chars, basis: "notes" | "inputs" }>, // max 3, unique ids
+  explanation: {
+    summary: string ≤ 700,
+    stack: Array<{ partId: enum(parts in the stack), optionId: enum(ranked products of those parts), why: string ≤ 400 }>,
+    cautions: string[] ≤ 3 (each ≤ 240),
+    notesUsed: string[] ≤ 3 (each ≤ 160),
+  }
+}
+```
+The sibling's `mentions` (glossary matches in the notes) and `reuse` (cache tier T2) are left out: we have no glossary JSON yet (Phase 1 remaining item), and T2 is not built (§7).
+
+## 5. Adjustment limits
+| Limit | Value | Where enforced |
+|---|---|---|
+| Per option | −5 … +5 points, integer, not 0 (`meta.caps.ai`) | Schema, server clamp, and the engine (`validateAiDeltas` throws) |
+| Max adjusted options | 3 | Schema and engine |
+| Which options | **Products in the top 5 of their part**, parts in the stack only, **locked parts never** (a lock is the user's choice and the part's only candidate) | Schema enum built per request; validation re-checks |
+| Types (approaches) | Not adjustable: the approach decision stays with the rules | Schema (only products are listed) |
+| Hard rules | T6 (a strong language before one nobody knows) and locks still apply after the deltas | Engine |
+
+**The server re-runs the engine with the deltas** (`score(input, kb, aiDeltas)`, SCORING_ENGINE step 5): a delta is added to the product's final (clamped 0–100) and so to its rank score; ranking, T6 and the whole stack assembly (relations, penalties, ties, close calls) run again. The AI can lift a close #2 into the stack only when the compatibility rules allow it. The engine stays pure; with no deltas the result is identical to the rules-only one (tested for every golden scenario).
+
+## 6. Validation and consistency checks (`src/modules/ai/validate.ts`, after Zod)
+1. Parse (objects, fenced JSON, JSON inside prose), schema, then strip tags and markdown links from every string (the UI renders AI text as plain text).
+2. Clamp deltas; re-check each id is adjustable.
+3. `basis: "notes"` needs notes, and any phrase quoted in the reason (8+ characters) must appear in the notes.
+4. Re-run the engine with the deltas. `explanation.stack` must list exactly the parts of the stack, in display order, each with the option the engine now picks. Otherwise the reply is invalid and the repair message names the right stack.
+
+## 7. Caching
+**Only tier T1 (identical requests)** is built: the key is a SHA-256 of the KB version, prompt version, every structured answer (keys sorted) and the normalised redacted notes. A hit is re-validated against the freshly computed rule result (§6) and returned as `cached` without an AI call, and without counting against the daily budget. `CACHE_IDENTICAL_REUSE=false` sends identical requests to the AI again. Entries keep the validated response for 30 days; no notes are stored.
+
+**Why no T2 ("similar" requests reuse a draft):** the sibling notes T2 still makes one AI request, so it saves no quota; it buys consistent wording at the cost of a similarity test, a diff list and a second schema. With five parts, "similar" is harder to define (the stack, not one ranking). Decided by Claude under the delegated AI design (OPEN_QUESTIONS); can be added later without changing the API.
+
+## 8. Abuse and quota protection
+As the sibling: per-client limit on `/api/explain` of 10 requests per 10 minutes and 30 a day (hashed IP), a global daily AI budget (`AI_DAILY_BUDGET`, default 1,300), notes ≤ 1,000 characters, a request body limit. The cache, limits, budget and breaker run on an in-memory `KvStore` per server instance (`src/modules/platform/store.ts`, Redis-shaped, so an Upstash adapter is one file later).
+
+## 9. Security and privacy
+- Keys only in server env (`GEMINI_API_KEY`, `GROQ_API_KEY`), never `NEXT_PUBLIC_`; `scripts/check-env-names.mjs` (in `npm run fitness`) fails on any secret-looking `NEXT_PUBLIC_` name. `src/modules/ai/index.ts`, the providers and `platform/` import `server-only`; dependency-cruiser forbids components and pages from importing `ai/` or `platform/`.
+- The server **recomputes** the rule result; it never trusts scores from the browser.
+- **Prompt injection:** notes are delimited and declared data; the output is schema-locked to known ids and bounded deltas, and the stack is assembled by the engine, so the worst case is an odd explanation, not a manipulated stack.
+- **Redaction** before sending (emails, phone numbers, URLs with query strings, key-like strings) — cheap and tested, not a guarantee.
+- **No logging** of notes or AI text: one JSON line per request with provider, latency, status and attempt outcomes.
+- **Privacy notice, opt-out and `/privacy` page:** come with the UI (Phase 4 step 3). Facts for the page (checked 2026-11-09): Google's Gemini API terms say content sent to **unpaid** services is used to improve Google's products and may be read by human reviewers, and ask not to send sensitive or personal information; Groq does not retain inference inputs and outputs by default, but may log them for up to 30 days to troubleshoot or investigate abuse.
+
+## 10. What the user sees (`AiBlock.status`)
+`ok` / `cached` (explanation, adjustments, provider in small print), `unavailable` (all providers failed or the budget is spent: "the ranking below is complete"), `rate_limited`, `disabled` (`AI_MODE=off`), `skipped` (the user opted out; no request). The type lives in `src/modules/recommendation/types.ts`, so the UI never imports the AI module. The block carries `stack`, the stack the server assembled with the adjustments; the browser can recompute it with the same pure engine (`score(input, kb, deltas)`).
+
+## 11. Testing hooks
+`AI_MODE=off|mock|live` (default off). With `mock`, `AI_MOCK` picks a fixture: `ok` (explains the rule stack), `reorder` (+5 for the #2 of the first part whose #2 is within 5 points of an in-stack #1, naming the stack that would follow; valid only when the engine agrees, e.g. golden G3; otherwise the chain falls back to rules-only), `invalid`, `slow`, `429`, `fail`. Tests: `tests/ai/` and `tests/scoring/ai-deltas.test.ts` (TESTING_STRATEGY §4).
+
+## 12. As built
+Phase 4 step 1 (2026-11-09): `src/modules/ai/` (`context.ts`, `prompt.ts`, `schema.ts`, `validate.ts`, `redact.ts`, `chain.ts`, `cache.ts`, `explain.ts`, `index.ts`, `providers/{types,sdk,gemini,groq,mock}.ts`) and `src/modules/platform/` (`env.ts`, `store.ts`, `rate-limit.ts`). Chain, providers, redaction and platform are the sibling's code unchanged; context, prompt, schema, validation, cache and the mock are rewritten for parts and stacks.
+
+| Setting (server-only env) | Default | Meaning |
+|---|---|---|
+| `AI_MODE` | `off` | `off` / `mock` / `live` |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | –, `gemini-3.5-flash-lite` | Provider 1; skipped when the key is empty |
+| `GROQ_API_KEY`, `GROQ_MODEL` | –, `openai/gpt-oss-120b` | Provider 2; skipped when the key is empty |
+| `CACHE_IDENTICAL_REUSE` | `true` | `false` sends identical requests to the AI again |
+| `AI_DAILY_BUDGET` | `1300` | AI requests per UTC day across all users |
+| `AI_MOCK` | `ok` | Fixture for `AI_MODE=mock` |
+
+Next: `/api/explain` (step 2), then the result page's "In plain words (AI)" panel, the notes box with its notice and opt-out, and `/privacy` (step 3). No live provider call has been made yet; do one per provider once keys are set (as the sibling did, its Q26).
