@@ -12,3 +12,7 @@ Thumbs.db
 lectures/
 private/
 *.tsbuildinfo
+
+# Playwright output
+test-results/
+playwright-report/

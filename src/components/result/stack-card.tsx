@@ -43,18 +43,18 @@ export function StackCard({
           <span className="text-xs text-muted-foreground">stack score</span>
         </p>
       </div>
-      <dl className={cn("mt-4", compact ? "space-y-2.5" : "space-y-3")}>
+      <ul aria-label="Stack picks" className={cn("mt-4", compact ? "space-y-2.5" : "space-y-3")}>
         {rows.map((r) => (
-          <div key={r.partId} className="space-y-1.5">
+          <li key={r.partId} className="space-y-1.5">
             <div className="flex items-baseline justify-between gap-3 text-sm">
-              <dt className="w-24 shrink-0 text-muted-foreground">{partName(r.partId, true)}</dt>
+              <span className="w-24 shrink-0 text-muted-foreground">{partName(r.partId, true)}</span>
               {r.needed && r.pick ? (
                 <>
-                  <dd className="flex-1 font-medium">{optionName(r.pick)}</dd>
+                  <span className="flex-1 font-medium">{optionName(r.pick)}</span>
                   <span className="text-muted-foreground tabular-nums">{fmt(r.final ?? 0)}</span>
                 </>
               ) : (
-                <dd className="flex-1 text-muted-foreground italic">Not needed</dd>
+                <span className="flex-1 text-muted-foreground italic">Not needed</span>
               )}
             </div>
             {r.needed && r.final !== undefined ? (
@@ -62,9 +62,9 @@ export function StackCard({
             ) : (
               <span className="block h-2 rounded-full border border-dashed" aria-hidden />
             )}
-          </div>
+          </li>
         ))}
-      </dl>
+      </ul>
       <div className="mt-4 flex items-center justify-between gap-3 border-t pt-4">
         <FitBadge fit={fitFor(result.stack.score)} />
         {footer}
