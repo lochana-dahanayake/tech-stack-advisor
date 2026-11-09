@@ -115,12 +115,14 @@ test("Download Markdown saves the result as a dated .md file", async ({ page }) 
   await page.goto("/advisor?example=api");
   await expect(stackHeading(page)).toHaveText(EXPECTED.api!);
   const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Share & save" }).click();
   await page.getByRole("button", { name: "Download Markdown" }).click();
   const file = await download;
   expect(file.suggestedFilename()).toMatch(/^tech-stack-\d{4}-\d{2}-\d{2}\.md$/);
   const text = await readFile(await file.path(), "utf8");
   expect(text).toContain("ASP.NET Core");
   expect(text).toContain("PostgreSQL");
+  expect(text).toMatch(/\[Open this result in Tech Stack Advisor\]\(http:\/\/localhost:\d+\/advisor#a=[\w-]+\)/);
 });
 
 test("the home page and /changelog render and are accessible", async ({ page }) => {
@@ -145,4 +147,43 @@ test("dark mode passes the same checks", async ({ page }) => {
   await expect(page.getByText("Step 4 of 4")).toBeVisible();
   await page.getByRole("button", { name: "See my stack" }).hover();
   await axe(page);
+});
+
+test("Copy link reopens the same result in a fresh browser, and a broken link says so", async ({ page, browser }) => {
+  await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/advisor?example=hobby");
+  await expect(stackHeading(page)).toHaveText(EXPECTED.hobby!);
+  await page.getByRole("button", { name: "Share & save" }).click();
+  await axe(page);
+  await page.getByRole("button", { name: "Copy link" }).click();
+  await expect(page.getByRole("button", { name: "Link copied" })).toBeVisible();
+  const link = await page.evaluate(() => navigator.clipboard.readText());
+  expect(link).toMatch(/\/advisor#a=[\w-]+$/);
+
+  const context = await browser.newContext();
+  const other = await context.newPage();
+  await other.goto(link);
+  await expect(stackHeading(other)).toHaveText(EXPECTED.hobby!);
+  await expect(other).toHaveURL(/\/advisor$/);
+  await expect(other.getByText(/^Example:/)).toHaveCount(0);
+  await other.reload();
+  await expect(stackHeading(other)).toHaveText(EXPECTED.hobby!);
+
+  // Same page, new hash: the app reacts to the hash change without a reload.
+  await other.goto(link.replace(/#.*/, "#a=broken"));
+  await expect(other.getByText("We couldn't open that link")).toBeVisible();
+  await expect(other.getByText("Step 1 of 4")).toBeVisible();
+  await axe(other);
+  await context.close();
+});
+
+test("a link with answers the app no longer knows opens the form to check them", async ({ page }) => {
+  const data = { v: 1, a: { "app-kind": "web-app", "retired-question": "x" } };
+  const hash = Buffer.from(JSON.stringify(data)).toString("base64url");
+  await page.goto(`/advisor#a=${hash}`);
+  await expect(page.getByText("Some answers in that link need checking")).toBeVisible();
+  await expect(page.getByText("Step 4 of 4")).toBeVisible();
+  await page.getByRole("button", { name: "See my stack" }).click();
+  await expect(page.getByText("Your recommended stack")).toBeVisible();
+  await expect(page.getByText("Some answers in that link need checking")).toHaveCount(0);
 });
