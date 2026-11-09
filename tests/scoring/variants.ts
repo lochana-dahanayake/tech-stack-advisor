@@ -6,6 +6,9 @@ import type { Scenario } from "./golden";
  * KB variants that reproduce earlier calibration runs (KNOWLEDGE_BASE_DRAFT §5 and §10). Each is the current KB
  * with the documented differences undone, so every number in the calibration log comes from a command in the repo.
  */
+/** A general-knowledge-only source list, for scores whose sourcing a later session added. */
+const GK = [{ kind: "general" as const, reviewed: false }];
+
 export const variants: Record<
   string,
   { description: string; apply: (kb: KnowledgeBase) => KnowledgeBase; inputs?: (s: Scenario) => UserInput }
@@ -13,11 +16,14 @@ export const variants: Record<
   current: { description: "The KB as committed", apply: (kb) => kb },
   session13: {
     description:
-      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
+      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4, and the session-15 registry rubric undone: TypeScript, Python and Go ecosystem back at 3; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
     apply: (kb) => {
       const k = setValues(kb, {
-        java: { ecosystem: { value: 4 } },
-        csharp: { ecosystem: { value: 4 } },
+        java: { ecosystem: { value: 4, sources: GK } },
+        csharp: { ecosystem: { value: 4, sources: GK } },
+        "typescript-node": { ecosystem: { value: 3, unsourced: true, proposed: 5, sources: GK } },
+        python: { ecosystem: { value: 3, unsourced: true, proposed: 5, sources: GK } },
+        go: { ecosystem: { value: 3, sources: GK } },
         render: { scalability: { value: 3 }, performance: { value: 3 } },
         react: { ecosystem: { value: 3 } },
         nextjs: { ecosystem: { value: 4 } },
@@ -173,7 +179,18 @@ export const variants: Record<
 
 function setValues(
   kb: KnowledgeBase,
-  values: Record<string, Record<string, { value: number; unsourced?: true; proposed?: number }>>,
+  values: Record<
+    string,
+    Record<
+      string,
+      {
+        value: number;
+        unsourced?: true;
+        proposed?: number;
+        sources?: KnowledgeBase["options"][number]["scores"][string]["sources"];
+      }
+    >
+  >,
 ): KnowledgeBase {
   return {
     ...kb,

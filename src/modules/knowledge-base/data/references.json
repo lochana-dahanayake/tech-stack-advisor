@@ -108,6 +108,12 @@
     "citation": "The languages' own repositories and package registries"
   },
   {
+    "id": "libraries-io",
+    "kind": "docs",
+    "citation": "Libraries.io (Tidelift): package counts per registry, one index across npm, PyPI, Go, Maven, NuGet and Packagist",
+    "url": "https://libraries.io/api/platforms"
+  },
+  {
     "id": "fe-repos",
     "kind": "vendor",
     "citation": "The frontend frameworks' own repositories, docs and npm entries"

@@ -68,10 +68,21 @@ describe("buildRecommendation (ARCHITECTURE §2, SCORING_ENGINE step 7)", () => 
     ]);
   });
 
-  it("passes the tie rule's result through (G12: TypeScript, Java and C# tie, the stack picks C#; three-way since Q32)", () => {
-    expect(build(input("G12")).ties).toEqual([
-      { partId: "language", options: ["typescript-node", "java", "csharp"], pick: "csharp", reason: "stack score" },
-    ]);
+  it("passes the tie rule's result through (performance high: Java and C# tie, the stack picks C#)", () => {
+    expect(build({ weights: { performance: "high" } }).ties).toContainEqual({
+      partId: "language",
+      options: ["java", "csharp"],
+      pick: "csharp",
+      reason: "stack score",
+    });
+  });
+
+  it("G12 since the registry rubric: TypeScript is the language #1 and the stack still picks C# (stack score)", () => {
+    const r = build(input("G12"));
+    expect(r.ties.filter((t) => t.partId === "language")).toEqual([]);
+    expect(r.adjusted).toContainEqual(
+      expect.objectContaining({ partId: "language", best: "typescript-node", pick: "csharp" }),
+    );
   });
 
   it("gives each option its own best-ranked approach (G8: Railway is a PaaS, though cloud ranks first)", () => {

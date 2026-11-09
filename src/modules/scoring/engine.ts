@@ -503,9 +503,14 @@ export function assemble(
       return { partId: id, best: top, pick: result.picks[id]!, relation: reason };
     });
   // Step 6.7: a pick that beat the part's own #1 by less than the close-call threshold shows both stacks.
+  // Keeping two parts' #1 can lead to the same stack: it is listed once, under the first part.
+  const shown = new Set<string>();
   const closeCalls = adjusted.flatMap((a) => {
     const alt = bestWith.get(`${a.partId}:${a.best}`);
     if (!alt) return [];
+    const key = JSON.stringify(alt.picks);
+    if (shown.has(key)) return [];
+    shown.add(key);
     if (closeCallSkillOf && alt.picks.language && closeCallSkillOf(alt.picks.language) === "none") return [];
     const gap = result.score - alt.score;
     return gap < kb.meta.closeCallPoints

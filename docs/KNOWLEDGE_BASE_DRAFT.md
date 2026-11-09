@@ -618,3 +618,28 @@ Result of (c): **Next.js still led every SPA list, by more** (G3 78.6 vs Vue 71.
 Two sourced pairings (KB schema §6): **Next.js + Vercel +2** (github.com/vercel/next.js: the Next.js repository is Vercel's) and **Django + PostgreSQL +1** (docs.djangoproject.com, `django.contrib.postgres`: "PostgreSQL has a number of features which are not shared by the other databases"). Points are DESIGN, kept small on purpose. Engine: added to the stack's sum and spread over its parts (like K9), capped at +6 per stack.
 **Result:** one pick moves. **G4** (Python data dashboard) now gets **Django** instead of FastAPI: the two were 0.1 apart as stacks (74.9 vs 75.0 with the +1; G4 allows either). No golden changes otherwise; Next.js + Vercel never forms in a golden stack (Cloudflare or Render win the hosting), so its +2 only matters near a tie. `--variant session13` drops the pairings, so the historic tables are unchanged.
 Candidates not added, for want of a clear first-party source: Laravel + MySQL (Laravel's installation docs, 12.x, read 2026-11-09: a new app's `.env` uses SQLite by default), ASP.NET Core + Azure, SvelteKit + Vercel.
+
+## 25. Rubrics finished in session 15 (Q20, 2026-11-09)
+### Language `ecosystem`: registry size (Q32 option b)
+Q32 held every GK-only language `ecosystem` at 3 "until a registry-size rubric covers all six languages". The missing piece was Go, which publishes no total module count. **Libraries.io** indexes all six registries (Go through proxy.golang.org) and counts them the same way (`libraries.io/api/platforms`, P, 2026-11-09), so one method covers every language. The registries' own counts are the cross-check (`npm run sources` prints both).
+
+**Rubric (DESIGN, KB schema §8):** ≥ 2M packages → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1. Each band is four times the one below, so only large differences change a score: the counts measure slightly different things (npm has many tiny packages; Maven counts group:artifact pairs).
+
+| Language | libraries.io | Registry's own count (2026-11-09) | Before | Now |
+|---|---|---|---|---|
+| TypeScript / Node.js | npm 6,222,398 | 4,585,439 | 3 (held, proposed 5) | **5** |
+| Python | PyPI 971,457 | 935,594 | 3 (held, proposed 5) | **4** |
+| Go | Go 858,082 | none published | 3 (GK) | **4** |
+| Java | Maven 821,711 | 661,801 | 3 (held, proposed 4) | **4** |
+| C# | NuGet 717,369 | 507,461 | 3 (held, proposed 4) | **4** |
+| PHP | Packagist 525,236 | 479,556 | 4 (Packagist) | 4 |
+
+PHP is the boundary case: its own count is just under 500k, libraries.io's just over. The rubric names one source for every registry, so libraries.io decides (4, as before). Python's GK proposal (5) was higher than the rubric gives; Go's GK 3 was lower.
+
+**Results** (`npm run calibrate -- --variant current`; `--variant session13` undoes this with the session-14 changes, so every older table is unchanged):
+- Every language except PHP gains 2.3–5.5 points; TypeScript gains most (ecosystem 3 → 5; capped at 100 where it already led, e.g. G3 98.6 → 100).
+- **No stack pick changes**, and every golden expectation holds. Stack scores rise by up to 1.1 (G5), not at all where PHP is the language (G7).
+- **G12** (neutral input): the three-way language tie is gone; TypeScript is the language #1 (88.9, Java and C# 86.1) and the stack still picks C# + ASP.NET Core on stack score (79.9; close call Next.js + NestJS + Cloudflare + TypeScript 76.8).
+- **G7** (PHP team): TypeScript's language score (85.7) is now above PHP's (84.3), but the rule that lists a language the team knows strongly before unknown ones (`strongBeforeUnknown`) keeps PHP first, and the stack is still Laravel + PHP.
+- **P3**: TypeScript and Go now tie at 83.3, behind the Java = C# tie.
+- **Engine fix found here:** in G12, keeping the language #1 and keeping the hosting #1 led to the same alternative stack, which was listed twice. Step 6.7 now lists an identical close-call stack once (SCORING_ENGINE step 7, `tests/scoring/engine.test.ts`). No historic table changed.

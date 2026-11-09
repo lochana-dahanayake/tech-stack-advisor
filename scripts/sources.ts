@@ -17,6 +17,7 @@ const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
 // Rubric bands (KNOWLEDGE_BASE_DRAFT §6 and §11).
 const backendCommunityBand = (p: number) => (p >= 0.15 ? 5 : p >= 0.1 ? 4 : p >= 0.05 ? 3 : p >= 0.02 ? 2 : 1);
 const languageCommunityBand = (p: number) => (p >= 0.4 ? 5 : p >= 0.2 ? 4 : p >= 0.1 ? 3 : p >= 0.04 ? 2 : 1);
+const languageEcosystemBand = (n: number) => (n >= 2e6 ? 5 : n >= 5e5 ? 4 : n >= 1e5 ? 3 : n >= 2e4 ? 2 : 1);
 const fortunesBand = (share: number) =>
   share >= 0.4 ? 5 : share >= 0.15 ? 4 : share >= 0.075 ? 3 : share >= 0.03 ? 2 : 1;
 
@@ -148,6 +149,17 @@ function registries() {
       () => getJson<{ totals: { packages: number } }>("https://packagist.org/statistics.json").totals.packages,
     ],
   ];
+  // The language ecosystem rubric (KB schema §8) uses libraries.io: one index, one counting method, all six registries
+  // (Go publishes no total module count of its own). The registries' own counts above are the cross-check.
+  let platforms: { name: string; project_count: number }[] | undefined;
+  for (const name of ["NPM", "Pypi", "Go", "Maven", "NuGet", "Packagist"])
+    counts.push([
+      `libraries.io ${name} (api/platforms project_count) → rubric band ${"{band}"}`,
+      () => {
+        platforms ??= getJson<{ name: string; project_count: number }[]>("https://libraries.io/api/platforms");
+        return platforms.find((p) => p.name === name)!.project_count;
+      },
+    ]);
   console.log("\n### Package registries (live counts)\n| Registry | Packages |\n|---|---|");
   for (const [name, count] of counts) {
     let value: string;
@@ -156,7 +168,9 @@ function registries() {
     } catch {
       value = "not reachable";
     }
-    console.log(`| ${name} | ${value} |`);
+    console.log(
+      `| ${name.replace("{band}", value === "not reachable" ? "–" : String(languageEcosystemBand(Number(value))))} | ${value} |`,
+    );
   }
   console.log("| Go modules | no total count published (pkg.go.dev, index.golang.org) |");
 }
