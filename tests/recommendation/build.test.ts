@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { kb } from "@/modules/knowledge-base";
-import { buildRecommendation, dayNumber, PART_ORDER } from "@/modules/recommendation";
+import { buildRecommendation, dayNumber, matchBundles, PART_ORDER } from "@/modules/recommendation";
+import { findIntegrityProblems } from "@/modules/knowledge-base";
 import { score, type UserInput } from "@/modules/scoring";
 import { golden } from "../scoring/golden";
 
@@ -148,5 +149,39 @@ describe("locks in the recommendation (Q12)", () => {
     const r = build({ ...input("G1"), locked: { database: "sqlite" } });
     expect(part(r, "database")).toMatchObject({ needed: true, pick: "sqlite" });
     expect(part(r, "database").notNeeded).toBeUndefined();
+  });
+});
+
+describe("well-known bundles (schema §10, information only)", () => {
+  it("names the bundle a stack matches exactly (G5 is the T3 stack)", () => {
+    expect(build(input("G5")).bundles).toEqual([expect.objectContaining({ id: "t3", name: "T3", differs: [] })]);
+  });
+
+  it("says 'close to' only for bundles of four or more parts, when exactly one part differs", () => {
+    const mernWithVue = { language: "typescript-node", frontend: "vue", backend: "express", database: "mongodb" };
+    expect(matchBundles(mernWithVue, kb)).toEqual([
+      expect.objectContaining({ id: "mern", differs: [{ partId: "frontend", bundle: "react", stack: "vue" }] }),
+      expect.objectContaining({ id: "mean", differs: [{ partId: "frontend", bundle: "angular", stack: "vue" }] }),
+    ]);
+    // Django + PostgreSQL names three parts: one difference is not "close".
+    expect(matchBundles({ language: "python", backend: "fastapi", database: "postgresql" }, kb)).toEqual([]);
+    // A part the stack doesn't need counts as a difference, with no stack pick.
+    expect(matchBundles({ language: "typescript-node", frontend: "react", backend: "express" }, kb)).toEqual([
+      expect.objectContaining({ id: "mern", differs: [{ partId: "database", bundle: "mongodb" }] }),
+      expect.objectContaining({ id: "pern", differs: [{ partId: "database", bundle: "postgresql" }] }),
+    ]);
+  });
+
+  it("never changes a score or a pick", () => {
+    const r = build(input("G5"));
+    expect(r.score).toEqual(score(input("G5"), kb));
+  });
+
+  it("the integrity check rejects a bundle naming another part's product", () => {
+    const bad = {
+      ...kb,
+      bundles: [...kb.bundles, { ...kb.bundles[0]!, id: "bad", picks: { database: "react", language: "go" } }],
+    };
+    expect(findIntegrityProblems(bad)).toContain("bundle bad: react is not a database product");
   });
 });
