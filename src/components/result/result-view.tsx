@@ -149,6 +149,40 @@ function ThingsToKnow({ rec }: { rec: Recommendation }) {
   );
 }
 
+/** What the notes mention, answered from the knowledge base (schema §10): shown with or without AI. */
+function Mentions({ rec }: { rec: Recommendation }) {
+  if (rec.mentions.length === 0) return null;
+  return (
+    <Section
+      id="mentions-heading"
+      title="You mentioned"
+      description="Short answers from our knowledge base about things in your notes."
+    >
+      <ul className="grid gap-3 md:grid-cols-2">
+        {rec.mentions.map((m) => (
+          <li key={`${m.kind}:${m.id}`} className="space-y-1 rounded-xl border bg-card p-4 text-sm">
+            <span className="block font-medium">
+              {m.kind === "option" && m.part ? (
+                <a href={`#part-${m.part}`} className="hover:underline">
+                  {m.name}
+                </a>
+              ) : (
+                m.name
+              )}
+            </span>
+            <span className="block text-muted-foreground">{m.answer}</span>
+            {m.related.length > 0 && (
+              <span className="block text-xs text-muted-foreground">
+                Related here: {m.related.map(optionName).join(", ")}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </Section>
+  );
+}
+
 function RulesApplied({ rec }: { rec: Recommendation }) {
   const fired = rec.score.firedRules;
   return (
@@ -280,6 +314,8 @@ export function ResultView({
       {ai}
 
       <ThingsToKnow rec={rec} />
+
+      <Mentions rec={rec} />
 
       <div className="space-y-12">
         {needed.map((p) => (

@@ -610,6 +610,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "astro.build"
     ]
   },
   {
@@ -762,6 +765,10 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "react.js",
+      "reactjs"
     ]
   },
   {
@@ -909,6 +916,10 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "vue.js",
+      "vuejs"
     ]
   },
   {
@@ -1540,6 +1551,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "nuxt.js"
     ]
   },
   {
@@ -2377,6 +2391,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "postgres"
     ]
   },
   {
@@ -2954,6 +2971,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "mongo"
     ]
   },
   {
@@ -4002,7 +4022,11 @@
         "checked": "2026-10-24"
       }
     },
-    "facts": []
+    "facts": [],
+    "aliases": [
+      "express.js",
+      "expressjs"
+    ]
   },
   {
     "id": "fastify",
@@ -4558,7 +4582,10 @@
         "checked": "2026-10-24"
       }
     },
-    "facts": []
+    "facts": [],
+    "aliases": [
+      "nest.js"
+    ]
   },
   {
     "id": "django",
@@ -4854,7 +4881,10 @@
         "checked": "2026-10-24"
       }
     },
-    "facts": []
+    "facts": [],
+    "aliases": [
+      "spring boot"
+    ]
   },
   {
     "id": "laravel",
@@ -5141,7 +5171,11 @@
         "checked": "2026-10-24"
       }
     },
-    "facts": []
+    "facts": [],
+    "aliases": [
+      "asp.net",
+      "asp.net core"
+    ]
   },
   {
     "id": "static-hosting",
@@ -5738,6 +5772,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "gh-pages"
     ]
   },
   {
@@ -6376,6 +6413,9 @@
         ],
         "status": "ga"
       }
+    ],
+    "aliases": [
+      "render.com"
     ]
   },
   {
@@ -6519,6 +6559,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "railway.app"
     ]
   },
   {
@@ -6663,6 +6706,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "fly.io"
     ]
   },
   {
@@ -6806,6 +6852,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "amazon web services"
     ]
   },
   {
@@ -6949,6 +6998,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "microsoft azure"
     ]
   },
   {
@@ -7092,6 +7144,10 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "google cloud",
+      "cloud run"
     ]
   },
   {
@@ -7236,6 +7292,12 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "vps",
+      "droplet",
+      "digitalocean",
+      "hetzner"
     ]
   },
   {
@@ -7377,6 +7439,13 @@
         ],
         "until": "2029-04-30"
       }
+    ],
+    "aliases": [
+      "typescript",
+      "javascript",
+      "node.js",
+      "nodejs",
+      "node"
     ]
   },
   {
@@ -7670,6 +7739,10 @@
         ],
         "until": "2030-09-30"
       }
+    ],
+    "aliases": [
+      "kotlin",
+      "jvm"
     ]
   },
   {
@@ -7810,6 +7883,11 @@
         ],
         "until": "2028-11-14"
       }
+    ],
+    "aliases": [
+      "c#",
+      ".net",
+      "dotnet"
     ]
   },
   {
@@ -7933,6 +8011,9 @@
           }
         ]
       }
+    ],
+    "aliases": [
+      "golang"
     ]
   },
   {

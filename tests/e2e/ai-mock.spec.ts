@@ -46,6 +46,23 @@ test("AI adjusts a close call: the stack is re-assembled and the change is expla
   await axe(page);
 });
 
+test("notes that mention tools get KB answers, and the AI answers them too", async ({ page }) => {
+  await openExample(page, at("ok"), "shop");
+  await page.getByRole("button", { name: "Edit answers" }).first().click();
+  await page
+    .getByLabel("Anything else we should know? (optional)")
+    .fill("Could we use Supabase? We deploy with Docker.");
+  await page.getByRole("button", { name: "See my stack", exact: true }).click();
+  const mentioned = page.getByRole("region", { name: "You mentioned" });
+  await expect(mentioned.getByText("Supabase", { exact: true })).toBeVisible();
+  await expect(mentioned.getByText(/backend-as-a-service built on PostgreSQL/)).toBeVisible();
+  await expect(mentioned.getByText("Docker", { exact: true })).toBeVisible();
+  const panel = aiPanel(page);
+  await expect(panel.getByRole("heading", { name: "About what you mentioned" })).toBeVisible();
+  await expect(panel.getByText("Mock answer about supabase.")).toBeVisible();
+  await axe(page);
+});
+
 test("Don't use AI: nothing is requested and the panel says so", async ({ page }) => {
   let requested = false;
   await page.route("**/api/explain", (route) => {

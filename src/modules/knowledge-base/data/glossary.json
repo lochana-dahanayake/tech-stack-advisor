@@ -1,0 +1,164 @@
+[
+  {
+    "id": "wordpress",
+    "name": "WordPress",
+    "kind": "cms",
+    "aliases": ["wordpress"],
+    "answer": "A content management system (CMS) written in PHP: a ready-made site with an admin area for editors, not a framework to build an app with. For a blog or marketing site it can be simpler than any stack here; we don't rank CMSs.",
+    "related": ["php", "mysql"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "wordpress.org" }]
+  },
+  {
+    "id": "firebase",
+    "name": "Firebase",
+    "kind": "baas",
+    "aliases": ["firebase", "firestore"],
+    "answer": "Google's backend-as-a-service: a hosted document database (Firestore), sign-in, file storage and functions, used straight from the app. It replaces much of a backend and database; ranking it is planned for a later version.",
+    "related": ["mongodb"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "firebase.google.com" }]
+  },
+  {
+    "id": "supabase",
+    "name": "Supabase",
+    "kind": "baas",
+    "aliases": ["supabase"],
+    "answer": "A backend-as-a-service built on PostgreSQL: a hosted database with sign-in, storage and an auto-generated API. It replaces much of a backend; ranking it is planned for a later version.",
+    "related": ["postgresql"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "supabase.com" }]
+  },
+  {
+    "id": "rails",
+    "name": "Ruby on Rails",
+    "kind": "framework",
+    "aliases": ["ruby on rails", "rails", "ruby"],
+    "answer": "A batteries-included web framework for Ruby, similar in spirit to Django and Laravel. Ruby isn't one of the languages we rank yet, so Rails doesn't appear in the result.",
+    "related": ["django", "laravel"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "rubyonrails.org" }]
+  },
+  {
+    "id": "bun",
+    "name": "Bun",
+    "kind": "runtime",
+    "aliases": ["bun"],
+    "answer": "A JavaScript runtime, an alternative to Node.js that also bundles, tests and installs packages. It runs most Node.js code, so it counts as the TypeScript / Node.js option here.",
+    "related": ["typescript-node"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "bun.sh" }]
+  },
+  {
+    "id": "deno",
+    "name": "Deno",
+    "kind": "runtime",
+    "aliases": ["deno"],
+    "answer": "A JavaScript and TypeScript runtime from the original creator of Node.js, with TypeScript and a permission system built in. It counts as the TypeScript / Node.js option here.",
+    "related": ["typescript-node"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "deno.com" }]
+  },
+  {
+    "id": "orm",
+    "name": "ORM (object-relational mapper)",
+    "kind": "concept",
+    "aliases": ["orm", "object-relational mapper", "object relational mapper"],
+    "answer": "A library that lets code read and write database rows as objects, so you write less SQL by hand. Examples: Prisma and Drizzle (TypeScript), SQLAlchemy and Django's ORM (Python), Hibernate (Java), Entity Framework (C#). Choosing an ORM is planned for a later version.",
+    "related": ["postgresql", "mysql"],
+    "sources": [{ "kind": "general", "reviewed": false }]
+  },
+  {
+    "id": "prisma",
+    "name": "Prisma",
+    "kind": "orm",
+    "aliases": ["prisma"],
+    "answer": "A TypeScript ORM that generates a typed database client from a schema file; works with PostgreSQL, MySQL, SQLite and MongoDB. It sits inside the TypeScript backend, so it doesn't change the stack.",
+    "related": ["typescript-node", "postgresql"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "prisma.io" }]
+  },
+  {
+    "id": "drizzle",
+    "name": "Drizzle ORM",
+    "kind": "orm",
+    "aliases": ["drizzle"],
+    "answer": "A lightweight TypeScript ORM whose queries look like SQL; works with PostgreSQL, MySQL and SQLite. It sits inside the TypeScript backend, so it doesn't change the stack.",
+    "related": ["typescript-node", "postgresql"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "orm.drizzle.team" }]
+  },
+  {
+    "id": "sqlalchemy",
+    "name": "SQLAlchemy",
+    "kind": "orm",
+    "aliases": ["sqlalchemy"],
+    "answer": "The most used Python database toolkit and ORM, often used with FastAPI or Flask (Django has its own ORM). It doesn't change the stack.",
+    "related": ["python", "fastapi"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "sqlalchemy.org" }]
+  },
+  {
+    "id": "ssr",
+    "name": "Server-side rendering (SSR)",
+    "kind": "concept",
+    "aliases": ["ssr", "server-side rendering", "server side rendering"],
+    "answer": "The server builds each page's HTML for every request, so pages show fast and search engines read them; the browser then makes them interactive. It's the \"Server-rendered\" frontend approach in the result.",
+    "related": ["nextjs", "nuxt", "sveltekit"],
+    "sources": [{ "kind": "ref", "ref": "web-rendering", "quality": "P" }]
+  },
+  {
+    "id": "spa",
+    "name": "Single-page app (SPA)",
+    "kind": "concept",
+    "aliases": ["spa", "single-page app", "single page app", "single-page application", "single page application"],
+    "answer": "An app that loads once and then runs in the browser, fetching data as you click, like a desktop app. It's the \"Single-page app\" frontend approach in the result; it suits logged-in apps more than pages that search engines must find.",
+    "related": ["react", "vue", "angular", "svelte"],
+    "sources": [{ "kind": "ref", "ref": "web-rendering", "quality": "P" }]
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "kind": "tool",
+    "aliases": ["docker", "container", "containers", "dockerfile"],
+    "answer": "A way to package an app with everything it needs into a container image that runs the same everywhere. Railway, Render, Fly.io and the cloud providers can all run one, so it mostly affects hosting, not the stack.",
+    "related": ["render", "railway", "fly-io"],
+    "sources": [{ "kind": "ref", "ref": "host-docs", "quality": "P", "note": "Railway, Render and Fly.io Dockerfile docs, read 2026-11-09" }]
+  },
+  {
+    "id": "kubernetes",
+    "name": "Kubernetes",
+    "kind": "tool",
+    "aliases": ["kubernetes", "k8s"],
+    "answer": "A system for running many containers across many machines, with automatic restarts and scaling. Powerful, but a lot to operate; small teams usually get the same benefits from a platform as a service.",
+    "related": ["aws", "azure", "gcp"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "kubernetes.io" }]
+  },
+  {
+    "id": "graphql",
+    "name": "GraphQL",
+    "kind": "concept",
+    "aliases": ["graphql"],
+    "answer": "A query language for APIs where the client asks for exactly the fields it needs. Every backend here can serve it with a library; it doesn't change which framework fits.",
+    "related": [],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "graphql.org" }]
+  },
+  {
+    "id": "tailwind",
+    "name": "Tailwind CSS",
+    "kind": "tool",
+    "aliases": ["tailwind", "tailwindcss", "tailwind css"],
+    "answer": "A CSS framework of small utility classes used straight in the markup. It works with every frontend here, so it doesn't change the stack.",
+    "related": [],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "tailwindcss.com" }]
+  },
+  {
+    "id": "mobile-apps",
+    "name": "Mobile app frameworks",
+    "kind": "framework",
+    "aliases": ["react native", "flutter", "expo", "ios app", "android app", "mobile app"],
+    "answer": "React Native, Expo and Flutter build the phone app itself. This tool picks what runs behind it (choose \"Backend for a mobile app\"); ranking mobile frameworks is planned for a later version.",
+    "related": [],
+    "sources": [{ "kind": "general", "reviewed": false }]
+  },
+  {
+    "id": "flask",
+    "name": "Flask",
+    "kind": "framework",
+    "aliases": ["flask"],
+    "answer": "A minimal Python web framework. We rank FastAPI as the minimal Python option and Django as the batteries-included one; Flask sits close to FastAPI.",
+    "related": ["fastapi", "django"],
+    "sources": [{ "kind": "general", "reviewed": false, "note": "flask.palletsprojects.com" }]
+  }
+]

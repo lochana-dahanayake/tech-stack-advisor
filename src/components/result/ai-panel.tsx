@@ -1,6 +1,7 @@
 "use client";
 
 import { InfoIcon, RefreshCwIcon, SparklesIcon } from "lucide-react";
+import { kb } from "@/modules/knowledge-base";
 import type { AiBlock } from "@/modules/recommendation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,12 @@ const MESSAGES: Partial<Record<AiBlock["status"], { title: string; body: string;
     title: "You've reached the AI limit for now",
     body: "Rule-based results still work. Try the AI explanation again later.",
   },
+};
+
+/** "glossary:supabase" / "option:mongodb" → the KB's name for it. */
+const mentionName = (key: string) => {
+  const [kind, id = ""] = key.split(":");
+  return kind === "glossary" ? (kb.glossary.find((g) => g.id === id)?.name ?? id) : optionName(id);
 };
 
 /** One short line for screen readers when the AI part settles. */
@@ -155,6 +162,19 @@ function AiBody({
                   <span className="font-medium">{optionName(a.optionId)}: </span>
                   {a.reason}
                 </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {e.mentions.length > 0 && (
+        <div className="space-y-1">
+          <h3 className="font-medium">About what you mentioned</h3>
+          <ul className="space-y-1">
+            {e.mentions.map((m) => (
+              <li key={m.id}>
+                <span className="font-medium">{mentionName(m.id)}: </span>
+                <span className="text-muted-foreground">{m.answer}</span>
               </li>
             ))}
           </ul>

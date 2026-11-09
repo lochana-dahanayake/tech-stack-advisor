@@ -1,4 +1,4 @@
-import type { Level } from "@/modules/knowledge-base";
+import type { Level, Mention } from "@/modules/knowledge-base";
 import type { Fit, ScoreResult, StackCloseCall, StackTie } from "@/modules/scoring";
 
 /** Where an option stands against the chosen stack (SCORING_ENGINE step 6, last paragraph). */
@@ -87,6 +87,8 @@ export interface Recommendation {
   ties: StackTie[];
   /** "You chose Medium for Real-time; we used High because …". */
   raised: { criterion: string; chosen: Level; used: Level; reason: string }[];
+  /** Things the notes mention that the KB can answer (schema §10), shown with or without AI. */
+  mentions: Mention[];
   /**
    * Well-known stacks the result matches (schema §10, never ranked): `differs` is empty for a full match, or the one
    * part that differs for a bundle of four or more parts ("close to MERN, with Vue instead of React").
@@ -118,6 +120,8 @@ export interface AiExplanation {
   stack: { partId: string; optionId: string; why: string }[];
   cautions: string[];
   notesUsed: string[];
+  /** One answer per KB item matched in the notes (`option:<id>` or `glossary:<id>`). */
+  mentions: { id: string; answer: string }[];
 }
 
 /**

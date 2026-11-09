@@ -1,4 +1,5 @@
 import type { Condition, Effect, KnowledgeBase, Option, Source } from "./schema";
+import { mentionAliases } from "./mentions";
 
 /** A score of 5 or 1 is a strong claim; it needs a book or ref source (owner rule, 2026-10-24). */
 export function isComparativeExtreme(value: number): boolean {
@@ -54,6 +55,20 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
       p.push(`${where}: ${source.kind}:${source.ref} doesn't match the reference's kind ${ref.kind}`);
   }
   for (const r of kb.references) if (!cited.has(r.id)) p.push(`reference ${r.id} is never cited`);
+  // Glossary entries (schema §10): unique ids, known related options, and no alias claimed twice across the
+  // glossary and the ranked options, so a note always maps to one thing.
+  const glossaryIds = new Set<string>();
+  for (const g of kb.glossary) {
+    if (glossaryIds.has(g.id)) p.push(`duplicate glossary id ${g.id}`);
+    glossaryIds.add(g.id);
+    for (const r of g.related) if (!kb.options.some((o) => o.id === r)) p.push(`glossary ${g.id}: unknown option ${r}`);
+  }
+  const aliasOwner = new Map<string, string>();
+  for (const { alias, key } of mentionAliases(kb)) {
+    const owner = aliasOwner.get(alias);
+    if (owner && owner !== key) p.push(`alias "${alias}" is used by ${owner} and ${key}`);
+    aliasOwner.set(alias, key);
+  }
   // Bundles name products of the part they're listed under, once each (schema §10).
   const bundleIds = new Set<string>();
   for (const b of kb.bundles) {

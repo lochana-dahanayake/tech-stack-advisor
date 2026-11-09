@@ -66,6 +66,8 @@ export const optionSchema = z.object({
   types: z.array(id).optional(),
   name: z.string(),
   summary: z.string(),
+  /** Other spellings matched in the notes (lower case), e.g. "postgres" (schema §10, glossary matching). */
+  aliases: z.array(z.string().min(2)).optional(),
   status: z.enum(["active", "maintenance", "deprecated"]),
   none: z.literal(true).optional(),
   // osi = an OSI-approved licence; publicDomain = no licence restrictions at all (SQLite), which OSI does not list.
@@ -241,6 +243,18 @@ export const bundleSchema = z.object({
   sources: z.array(sourceSchema).min(1),
 });
 
+/** Something users mention that we don't rank (schema §10): answered from the KB when it appears in the notes. */
+export const glossarySchema = z.object({
+  id,
+  name: z.string().min(1),
+  kind: z.enum(["cms", "baas", "framework", "runtime", "orm", "concept", "tool"]),
+  aliases: z.array(z.string().min(2)).min(1),
+  answer: z.string().min(1).max(400),
+  /** Ranked options it relates to (shown as "related"). */
+  related: z.array(id),
+  sources: z.array(sourceSchema).min(1),
+});
+
 export const knowledgeBaseSchema = z.object({
   meta: metaSchema,
   parts: z.array(partSchema),
@@ -252,11 +266,13 @@ export const knowledgeBaseSchema = z.object({
   compatibility: z.array(relationSchema),
   references: z.array(referenceSchema),
   bundles: z.array(bundleSchema),
+  glossary: z.array(glossarySchema),
 });
 
 export type Source = z.infer<typeof sourceSchema>;
 export type Reference = z.infer<typeof referenceSchema>;
 export type Bundle = z.infer<typeof bundleSchema>;
+export type GlossaryItem = z.infer<typeof glossarySchema>;
 export type ScoreEntry = z.infer<typeof scoreEntrySchema>;
 export type Fact = z.infer<typeof factSchema>;
 export type Part = z.infer<typeof partSchema>;
