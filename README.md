@@ -4,7 +4,7 @@ A free web app that recommends a **tech stack** for a software project: a langua
 
 It is the sibling of **[Architecture Advisor](https://github.com/lochana-dahanayake/architecture-advisor)** ([live](https://architecture-advisor-pink.vercel.app)), which recommends _architecture styles_. Tech Stack Advisor answers the next question: "I picked a style, now which tools should I build it with?" A style chosen there can be carried over with `/advisor?style=<id>`.
 
-**Live:** https://tech-stack-advisor-one.vercel.app (v0.4.0 preview, AI explanations off for now). Hosted on Vercel's free tier; every push to `main` redeploys.
+**Live:** https://tech-stack-advisor-one.vercel.app (v0.5.0 preview, AI explanations off for now). Hosted on Vercel's free tier; every push to `main` redeploys.
 
 |                                                               |                                                                        |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------- |

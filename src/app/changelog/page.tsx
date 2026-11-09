@@ -9,6 +9,20 @@ export const metadata: Metadata = {
 /** Release notes in plain words. Keep in step with docs/ROADMAP.md and the `version` in package.json. */
 const releases = [
   {
+    version: "0.5",
+    date: "2026-11-09",
+    title: "Fairer scores, live on the web",
+    tag: "Preview",
+    items: [
+      "Live at tech-stack-advisor-one.vercel.app, with the source code public on GitHub.",
+      "Hosting: how far each provider scales now comes from its own documentation, and Render is scored on its paid plans like Railway (its free plan's sleep is a separate rule). The two often tie now, and the result says so. A heavy-load API now gets a cloud provider.",
+      "Frontend: package counts from npm and the frameworks' own docs replace guesses. Next.js is no longer offered as a single-page-app framework (its single-page mode leaves out its server features), so Vue is the usual pick for an app that runs in the browser.",
+      "Languages: no language leads on a score nobody has sourced yet.",
+      "Budget answers name rough amounts ($0, up to about $25, $25–$100, more than $100 a month).",
+      "A new check makes sure no score rests on a vendor's word about itself without a written rule for turning that into a number.",
+    ],
+  },
+  {
     version: "0.4",
     date: "2026-11-09",
     title: "In plain words (AI, optional)",
