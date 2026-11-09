@@ -1,4 +1,11 @@
-import { conditionPaths, productCriteria, type KnowledgeBase, type Level, type Option } from "@/modules/knowledge-base";
+import {
+  conditionPaths,
+  matchMentions,
+  productCriteria,
+  type KnowledgeBase,
+  type Level,
+  type Option,
+} from "@/modules/knowledge-base";
 import { evaluateCondition, fitFor, type ScoreResult, type UserInput } from "@/modules/scoring";
 import type { Adjustment, FactView, OptionView, PartView, Recommendation, StackLabel, WhyRow } from "./types";
 
@@ -232,6 +239,7 @@ export function buildRecommendation(
     raised,
     notes: [...result.notes.map((text) => ({ text })), ...result.stack.relationNotes],
     bundles: matchBundles(result.stack.picks, kb),
+    mentions: matchMentions(input.notes ?? "", kb),
   };
 }
 

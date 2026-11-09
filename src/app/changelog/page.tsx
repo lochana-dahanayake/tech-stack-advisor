@@ -9,6 +9,17 @@ export const metadata: Metadata = {
 /** Release notes in plain words. Keep in step with docs/ROADMAP.md and the `version` in package.json. */
 const releases = [
   {
+    version: "0.6",
+    date: "2026-11-09",
+    title: "What you mention, and stacks you know",
+    tag: "Preview",
+    items: [
+      "Mention a tool in your notes (Supabase, WordPress, Docker, Prisma, Postgres, …) and the result answers it in a line, with or without AI.",
+      "If your stack is a well-known one (T3, MERN, LAMP, …), the result says so, for orientation only.",
+      "A few pairings that are known to work well together (Next.js on Vercel, Django with PostgreSQL) get a small bonus that can settle a near-tie, never more.",
+    ],
+  },
+  {
     version: "0.5",
     date: "2026-11-09",
     title: "Fairer scores, live on the web",

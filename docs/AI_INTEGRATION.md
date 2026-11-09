@@ -45,7 +45,7 @@ Starts from the sibling's v2 writing rules (short summary tied to the user's ans
   }
 }
 ```
-The sibling's `mentions` (glossary matches in the notes) and `reuse` (cache tier T2) are left out: we have no glossary JSON yet (Phase 1 remaining item), and T2 is not built (§7).
+`mentions` (since 2026-11-09, prompt v2): `explanation.mentions: Array<{ id: enum(matched ids), answer: string ≤ 300 }>`, ids `option:<id>` or `glossary:<id>` from `matchMentions` on the notes (KB schema §10); the prompt lists them under MENTIONED IN NOTES with the KB's answer, and validation requires each matched item answered exactly once (none when nothing matched). The result page also shows the KB's own answers ("You mentioned"), so the user gets an answer with AI off. The sibling's `reuse` (cache tier T2) is left out: T2 is not built (§7).
 
 ## 5. Adjustment limits
 | Limit | Value | Where enforced |

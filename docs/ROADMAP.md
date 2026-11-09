@@ -6,7 +6,7 @@ Keep this current. At the end of every session, update **Next up** so the next (
 **Session 14 (2026-11-09, local): owner questions settled, app v0.5.0 live** at https://tech-stack-advisor-one.vercel.app (public repo; the old history is the private `tech-stack-advisor-archive`). The owner asked to apply the recommendations to the open questions: Q32 (PR #3), Q36 (#4), Q34 (#5), Q33 (#6) decided and in the KB; fairness lint + written rubrics (#7); release 0.5 with new screenshots (#8). Details: KB draft §24, OPEN_QUESTIONS "Decided". Next, in this order (one branch + PR each):
 1. ~~Bundles~~ **done** (PR #9): `bundles.json`, "This is the well-known T3 stack" under Things to know (schema §10).
 2. ~~`worksBestWith` pair bonuses~~ **done** (PR #10): Next.js + Vercel +2, Django + PostgreSQL +1 (G4 now Django); KB draft §24.
-3. **Glossary** (`glossary.json`, schema §10) and, with it, the AI `mentions` from the sibling (AI_INTEGRATION §4).
+3. ~~Glossary~~ **done** (PR #11): `glossary.json` (18 entries), option aliases, "You mentioned" on the result, AI `mentions` (prompt v2).
 4. **Live AI** once the owner adds keys (Q39): one call per provider, then prompt tuning; set `AI_MODE=live` in Vercel.
 5. Remaining rubrics (Q20): a registry-size `ecosystem` rubric for languages (needs a Go module count; Q32 option b), hosting `ops-effort`/`portability`/`learning-curve` (still GK), language `productivity`.
 6. First KB refresh session in about 3 months (Q7).
@@ -15,7 +15,7 @@ Done in session 12 (details under Phase 3, steps 5–8): e2e + axe tests and dep
 
 Done in session 11 (details below under Phase 3): 1. scaffold + landing (PR #11), 2. the form (PR #12), 3. the result page + pure `recommendation/` module (PR #13), 4. `/changelog` + Markdown export (PR #14).
 
-**Remaining Phase 1 items (not blocking the UI):** glossary JSON, the rest of the rubrics (Q20). Bundles and pair bonuses done 2026-11-09. Fairness lint done 2026-11-09.
+**Remaining Phase 1 items (not blocking the UI):** the rest of the rubrics (Q20). Bundles, pair bonuses and the glossary done 2026-11-09. Fairness lint done 2026-11-09.
 
 **Waiting for the owner (don't block on it):** Q39 (AI keys for one live call per provider). All other owner questions are decided.
 

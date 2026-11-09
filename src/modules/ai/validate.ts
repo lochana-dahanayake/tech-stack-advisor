@@ -109,6 +109,11 @@ export function validateReply(raw: unknown, ctx: AiContext, ids: SchemaIds): Val
       `explanation.stack must be, in this order: ${expected.map((p) => `${p}=${picks[p]}`).join(", ")} (the stack the engine assembles after your adjustments)`,
     );
 
+  const answered = response.explanation.mentions.map((m) => m.id);
+  if (new Set(answered).size !== answered.length) return invalid("mentions must not repeat an id");
+  const unanswered = ids.mentions.find((id) => !answered.includes(id));
+  if (unanswered) return invalid(`mentions must answer ${unanswered}`);
+
   return {
     ok: true,
     response,
@@ -119,6 +124,7 @@ export function validateReply(raw: unknown, ctx: AiContext, ids: SchemaIds): Val
       stack: named,
       cautions: response.explanation.cautions,
       notesUsed: response.explanation.notesUsed,
+      mentions: response.explanation.mentions,
     },
   };
 }

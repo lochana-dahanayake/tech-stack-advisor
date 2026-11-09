@@ -23,6 +23,7 @@ export function mockReply(prompt: Prompt, stack = promptStack(prompt)): Record<s
       })),
       cautions: ["This is a mock reply (AI_MODE=mock); no AI service was called."],
       notesUsed: [],
+      mentions: prompt.ids.mentions.map((id) => ({ id, answer: `Mock answer about ${id.split(":")[1]}.` })),
     },
   };
 }

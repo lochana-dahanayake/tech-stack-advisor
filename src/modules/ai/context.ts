@@ -1,4 +1,4 @@
-import type { KnowledgeBase } from "@/modules/knowledge-base";
+import { matchMentions, type KnowledgeBase, type Mention } from "@/modules/knowledge-base";
 import { PART_ORDER } from "@/modules/recommendation";
 import { MAX_NOTES_LENGTH, score, type ScoreResult, type UserInput } from "@/modules/scoring";
 import { redact } from "./redact";
@@ -14,6 +14,8 @@ export interface AiContext {
   rules: ScoreResult;
   /** Notes as sent to the AI: trimmed, capped and redacted. */
   notes: string;
+  /** KB items matched in the notes (deterministic, AI_INTEGRATION §4b): the AI must answer each. */
+  mentions: Mention[];
   /** Parts in the stack, in display order. */
   parts: string[];
   /** Per part in the stack: its top TOP_N products in rule order (what the prompt lists). */
@@ -35,6 +37,7 @@ export function makeContext(input: UserInput, kb: KnowledgeBase): AiContext {
     input,
     rules,
     notes: redact((input.notes ?? "").trim().slice(0, MAX_NOTES_LENGTH)),
+    mentions: matchMentions(input.notes ?? "", kb),
     parts,
     top,
     adjustable,

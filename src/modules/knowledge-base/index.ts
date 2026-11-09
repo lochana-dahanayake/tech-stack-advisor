@@ -8,11 +8,13 @@ import skills from "./data/skills.json";
 import compatibility from "./data/compatibility.json";
 import references from "./data/references.json";
 import bundles from "./data/bundles.json";
+import glossary from "./data/glossary.json";
 import type { KnowledgeBase } from "./schema";
 
 export type * from "./schema";
 export { conditionPaths, findIntegrityProblems, listSources, isComparativeExtreme, productCriteria } from "./integrity";
 export { isOpenSourceAllowed, licenceBadge } from "./licence";
+export { matchMentions, mentionAliases, MAX_MENTIONS, type Mention } from "./mentions";
 
 export const rawKnowledgeBase = {
   meta,
@@ -25,6 +27,7 @@ export const rawKnowledgeBase = {
   compatibility,
   references,
   bundles,
+  glossary,
 };
 
 /** The knowledge base, typed. Not parsed here so Zod stays out of the browser; the KB tests parse it with `knowledgeBaseSchema`. */

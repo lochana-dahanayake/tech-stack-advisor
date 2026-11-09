@@ -8,6 +8,8 @@ export interface SchemaIds {
   parts: string[];
   /** Every product the stack explanation may name (the ranked products of those parts). */
   options: string[];
+  /** Ids of KB items matched in the notes (`option:<id>` / `glossary:<id>`); empty when nothing matched. */
+  mentions: string[];
 }
 
 const oneOf = (ids: string[]) => z.enum(ids as [string, ...string[]]);
@@ -18,7 +20,7 @@ const idFrom = (ids: string[]) => (ids.length > 0 ? oneOf(ids) : z.string());
  * The response schema for one request (AI_INTEGRATION §4). Adjustable ids are an enum of the top 5 per part, so the
  * AI can't name an excluded, unknown or lower-ranked option. Unknown keys are stripped.
  */
-export function responseSchema({ adjustable, parts, options }: SchemaIds) {
+export function responseSchema({ adjustable, parts, options, mentions }: SchemaIds) {
   return z.object({
     adjustments: z
       .array(
@@ -43,6 +45,7 @@ export function responseSchema({ adjustable, parts, options }: SchemaIds) {
         .max(parts.length),
       cautions: z.array(z.string().max(240)).max(3),
       notesUsed: z.array(z.string().max(160)).max(3),
+      mentions: z.array(z.object({ id: idFrom(mentions), answer: z.string().min(1).max(300) })).max(mentions.length),
     }),
   });
 }
