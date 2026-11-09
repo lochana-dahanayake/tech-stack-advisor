@@ -36,4 +36,4 @@ Read-only clone into `/tmp` (see `SIBLING_PROJECT.md`). Adapt, don't copy blindl
 | `src/modules/knowledge-base/{schema,integrity,check,mentions}.ts` | Pattern for Zod schemas, cross-file checks, build-time validation, alias matching |
 | `src/modules/ai/*`, `src/modules/platform/*` | Provider chain, prompt/response validation, redaction, cache, rate limit; prompt and schema change for parts and stacks |
 | `.dependency-cruiser.cjs`, `eslint.config.mjs`, `scripts/check-env-names.mjs` | Fitness functions and purity rules |
-| `src/components/form/share-link.ts` | Shareable result links (decide later whether notes are included, as in sibling Q29) |
+| `src/components/form/share-link.ts` | Shareable result links (`#a=` hash; there is no free-text notes field yet, so the sibling's Q29 doesn't arise) |

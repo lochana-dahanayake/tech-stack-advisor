@@ -18,7 +18,7 @@ export function resultToMarkdown(
   rec: Recommendation,
   input: UserInput,
   kb: KnowledgeBase,
-  meta: { date: string; appVersion: string },
+  meta: { date: string; appVersion: string; /** A share link that reopens this result. */ link?: string },
 ): string {
   const lines: string[] = [];
   const push = (...l: string[]) => lines.push(...l);
@@ -28,6 +28,7 @@ export function resultToMarkdown(
   push(`# Tech stack recommendation: ${needed.map((p) => optionName(p.pick ?? "")).join(" + ")}`, "");
   push(`_Tech Stack Advisor, ${meta.date} · app v${meta.appVersion} · knowledge base v${rec.kbVersion}_`, "");
   push(`**${FIT_LABELS[rec.fit]}, stack score ${fmt(rec.stackScore)} out of 100.**`);
+  if (meta.link) push("", `[Open this result in Tech Stack Advisor](${meta.link})`);
 
   push("", "## The stack", "", "| Part | Pick | Approach | Score |", "|---|---|---|---|");
   for (const p of needed) {

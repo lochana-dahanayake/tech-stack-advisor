@@ -26,6 +26,15 @@ describe("resultToMarkdown", () => {
     expect(text).toContain("| Backend | Spring Boot | Batteries-included framework |");
   });
 
+  it("links back to the result when a share link is given, and only then", () => {
+    const input = presets[0]!.input;
+    const rec = buildRecommendation(input, score(input, kb), kb, "2026-11-09");
+    const link = "https://example.test/advisor#a=abc";
+    const text = resultToMarkdown(rec, input, kb, { date: "2026-11-09", appVersion: "9.9.9", link });
+    expect(text).toContain(`[Open this result in Tech Stack Advisor](${link})`);
+    expect(md("chat")).not.toContain("Open this result");
+  });
+
   it("says which parts aren't needed and why (portfolio)", () => {
     const text = md("portfolio");
     expect(text).toContain("## Not needed");
