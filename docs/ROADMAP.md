@@ -3,7 +3,7 @@
 Keep this current. At the end of every session, update **Next up** so the next (cloud) session can start straight away.
 
 ## Next up
-**Session 14 (2026-11-09, local): owner questions settled, app v0.5.0 live** at https://tech-stack-advisor-one.vercel.app (public repo; the old history is the private `tech-stack-advisor-archive`). The owner asked to apply the recommendations to the open questions: Q32 (PR #3), Q36 (#4), Q34 (#5), Q33 (#6) decided and in the KB; fairness lint + written rubrics (#7); release 0.5 with new screenshots (#8). Details: KB draft §24, OPEN_QUESTIONS "Decided". Next, in this order (one branch + PR each):
+**Session 14 (2026-11-09, local): owner questions settled, Phase 1 finished, app v0.6.0 live** at https://tech-stack-advisor-one.vercel.app (public repo; the old history is the private `tech-stack-advisor-archive`). The owner asked to apply the recommendations to the open questions: Q32 (PR #3), Q36 (#4), Q34 (#5), Q33 (#6) decided and in the KB; fairness lint + written rubrics (#7); release 0.5 (#8); bundles (#9); worksBestWith pairings (#10); glossary, option aliases and AI mentions, v0.6.0 (#11). The main e2e suite passes 44/44 against the live site. Details: KB draft §24, OPEN_QUESTIONS "Decided". Next, in this order (one branch + PR each):
 1. ~~Bundles~~ **done** (PR #9): `bundles.json`, "This is the well-known T3 stack" under Things to know (schema §10).
 2. ~~`worksBestWith` pair bonuses~~ **done** (PR #10): Next.js + Vercel +2, Django + PostgreSQL +1 (G4 now Django); KB draft §24.
 3. ~~Glossary~~ **done** (PR #11): `glossary.json` (18 entries), option aliases, "You mentioned" on the result, AI `mentions` (prompt v2).
