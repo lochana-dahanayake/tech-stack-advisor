@@ -67,9 +67,9 @@ describe("buildRecommendation (ARCHITECTURE §2, SCORING_ENGINE step 7)", () => 
     ]);
   });
 
-  it("passes the tie rule's result through (G12: Java and C# tie, the stack picks C#)", () => {
+  it("passes the tie rule's result through (G12: TypeScript, Java and C# tie, the stack picks C#; three-way since Q32)", () => {
     expect(build(input("G12")).ties).toEqual([
-      { partId: "language", options: ["java", "csharp"], pick: "csharp", reason: "stack score" },
+      { partId: "language", options: ["typescript-node", "java", "csharp"], pick: "csharp", reason: "stack score" },
     ]);
   });
 

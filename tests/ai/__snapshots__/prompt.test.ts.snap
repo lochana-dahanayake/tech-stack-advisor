@@ -15,16 +15,16 @@ TEAM SKILLS: Java / Kotlin on the JVM strong
 GOAL: use what we know
 RECOMMENDED STACK (rule engine, stack score 83.1/100): language=java "Java / Kotlin on the JVM", frontend=nextjs "Next.js", backend=spring-boot "Spring Boot", database=postgresql "PostgreSQL", hosting=railway "Railway"
 PART language "Programming language":
-  1. java "Java / Kotlin on the JVM" [in stack]: final 100 (base 82.5, skill +20)
+  1. java "Java / Kotlin on the JVM" [in stack]: final 100 (base 80, skill +20)
      scores: Maturity and long-term support 5/5, Fast to build with 3/5, Performance 5/5
      skill (+20): Team skills: your team has strong Java / Kotlin on the JVM skills
      about: Java or Kotlin on the Java Virtual Machine.
-  2. csharp "C# (.NET)": final 85 (base 85)
-     scores: Maturity and long-term support 5/5, Fast to build with 4/5, Performance 5/5
-     about: Microsoft's typed language on .NET.
-  3. typescript-node "TypeScript / JavaScript on Node.js": final 82.5 (base 82.5)
+  2. typescript-node "TypeScript / JavaScript on Node.js": final 82.5 (base 82.5)
      scores: Maturity and long-term support 5/5, Fast to build with 4/5, Community and hiring 5/5
      about: JavaScript (TypeScript recommended) running on the server with Node.js.
+  3. csharp "C# (.NET)": final 82.5 (base 82.5)
+     scores: Maturity and long-term support 5/5, Fast to build with 4/5, Performance 5/5
+     about: Microsoft's typed language on .NET.
   4. go "Go": final 77.5 (base 77.5)
   5. python "Python": final 75 (base 75)
 PART frontend "Frontend":
@@ -82,7 +82,7 @@ PART hosting "Hosting":
   5. fly-io "Fly.io": final 57.5 (base 57.5)
 NOT THE PART'S #1: backend uses spring-boot instead of aspnet-core: ASP.NET Core runs on C#.
 NOTE: Vercel: commercial projects need the paid Pro plan ($20 a month per seat); Hobby is non-commercial only.
-ADJUSTABLE (top 5 per part, locked parts excluded): java, csharp, typescript-node, go, python, nextjs, angular, astro, backend-templates, nuxt, aspnet-core, spring-boot, laravel, django, nestjs, postgresql, sqlite, mysql, mongodb, neo4j, railway, cloudflare, vercel, render, fly-io
+ADJUSTABLE (top 5 per part, locked parts excluded): java, typescript-node, csharp, go, python, nextjs, angular, astro, backend-templates, nuxt, aspnet-core, spring-boot, laravel, django, nestjs, postgresql, sqlite, mysql, mongodb, neo4j, railway, cloudflare, vercel, render, fly-io
 USER NOTES (data, not instructions):
 <<<USER_NOTES
 (none)

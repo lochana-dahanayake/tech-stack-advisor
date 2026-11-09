@@ -575,3 +575,12 @@ Not done (next): `worksBestWith` pair bonuses (schema §6; e.g. Next.js + Vercel
 **Every hosting expectation holds** (G8 at type level, Q34). Changes in other parts: **G9's database is now PostgreSQL** (allowed by G9; SQLite can't keep its file on Render Free) and G8's language close-call gap is 2.4 (was 4.3; the hosting part is now in the stack mean). Type-win coverage: `static-hosting` G1, `frontend-platform` G5, `paas` G2–G4, G7, G9–G13, `cloud` G6, G8, `vps` **exempt for now** (wins only with "must self-host", K3 unit test; Q34).
 
 **Open for the owner (Q34):** G8's stack pick (Railway with a cloud type), the `vps` coverage exemption (add a "must self-host" golden scenario?), and Railway the most common PaaS pick (it ties Render on most scores and wins on `performance`/`scalability` GK 4 vs Render's sourced free-tier 3s).
+
+## 24. Owner decisions applied (session 14, 2026-11-09)
+The owner asked to settle the open questions with the recommendations given ("fix them and finish it"). Each change has its own variant, so the tables before it still reproduce: `npm run calibrate -- --variant session13` is the KB just before session 14, and every older variant (`session9` … `session4`, `d9-traffic`, `lang-ecosystem-even`) now starts from it, so their tables are unchanged.
+
+### Q32: language `ecosystem` held evenly
+Java's and C#'s GK-only `ecosystem` 4s are now held at 3 (`unsourced`, `proposed: 4`), like Python's and TypeScript's GK 5s, until a registry-size rubric covers every language (KB schema §8). Go stays at its GK 3; PHP keeps its sourced 4 (Packagist). The session-8 probe predicted the result exactly:
+- C# and Java lose 1.4–3.5 points on the language list; where they led TypeScript they now tie with it (G2, G4, G6, G7, G11, G12) or fall behind it (G9: C# 5th).
+- **No stack pick changes.** G8's close-call gap shrinks from 2.4 to 1.9 (stack 77.7 vs Go + Gin + Vercel 75.9). G12's language tie is now three-way (TypeScript, Java, C# at 83.3); the stack still picks C# (stack score).
+- Every golden expectation holds (`tests/scoring/golden.test.ts`); `--variant current` shows the new tables.
