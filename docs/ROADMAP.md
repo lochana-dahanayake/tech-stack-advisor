@@ -4,7 +4,7 @@ Keep this current. At the end of every session, update **Next up** so the next (
 
 ## Next up
 **Phase 3 is done (session 12, 2026-11-09, app v0.3.0).** The app works end to end with AI off: landing → form (with must-use locks and an architecture style) → result → share link, Markdown, print; `/methodology`, `/about`, `/changelog`. E2E + axe suite in `tests/e2e` (run `npm run build && PW_CHANNEL=msedge npm run test:e2e` before merging UI changes). Next, in this order (one branch + PR each):
-1. **Phase 4: the AI layer** (`docs/AI_INTEGRATION.md`). Step 1 done (session 13): `src/modules/ai/` + `platform/` with mocked providers, `score(input, kb, aiDeltas)` re-runs assembly, boundary rules and the env-name check. **Next:** step 2, `/api/explain` (validate the body, recompute, `AI_MODE=off` → `disabled`, rate limit, never a stack trace; route tests, TESTING_STRATEGY §5). Step 3: the notes box (with the privacy notice and a "Don't use AI" opt-out), the result's "In plain words (AI)" panel (rule score, AI delta and final shown apart; "AI changed the stack" note), e2e with `AI_MODE=mock`, and `/privacy` (facts in AI_INTEGRATION §9, RESEARCH §9). Then one live call per provider once keys are set.
+1. **Phase 4: the AI layer** (`docs/AI_INTEGRATION.md`). Steps 1–2 done (session 13, PRs #19–#20): `src/modules/ai/` + `platform/` with mocked providers, `score(input, kb, aiDeltas)` re-runs assembly, boundary rules and the env-name check; `POST /api/explain` with route tests. **Next:** step 3: the notes box (with the privacy notice and a "Don't use AI" opt-out), the result's "In plain words (AI)" panel (rule score, AI delta and final shown apart; "AI changed the stack" note), e2e with `AI_MODE=mock`, and `/privacy` (facts in AI_INTEGRATION §9, RESEARCH §9). Then one live call per provider once keys are set.
 2. **Architecture Advisor → `/advisor?style=<id>` link** (Q2): in the sibling repo, once this app has a public URL (Phase 5 deploy). Our side is done; style ids must stay in step with `meta.architectureStyles`.
 3. **Phase 5 launch prep:** Vercel Hobby deploy, README, Open Graph image.
 
@@ -73,7 +73,7 @@ Session 11 steps (2026-11-09):
 
 ## Phase 4: AI layer
 - [x] Step 1 (session 13, 2026-11-09): `src/modules/ai/` and `platform/` with mocked providers (AI_MODE=off|mock|live): prompt, schema, validation, clamping, fallback chain, T1 cache, budget, rate limit; bounded adjustments (±5, max 3, products in the top 5 of a part in the stack, never a locked part); the engine takes `aiDeltas` so the server re-runs assembly; dependency-cruiser `ai-boundary`/`platform-is-a-leaf` + `check-env-names.mjs` in `npm run fitness`. Providers re-checked (RESEARCH §9); design choices in Q38.
-- [ ] Step 2: `/api/explain` + route tests
+- [x] Step 2 (session 13): `POST /api/explain` + `parseInput` + route tests (TESTING_STRATEGY §5)
 - [ ] Step 3: notes box + notice + opt-out, "In plain words (AI)" panel, e2e with mock, `/privacy`
 - [ ] One live call per provider (needs keys)
 

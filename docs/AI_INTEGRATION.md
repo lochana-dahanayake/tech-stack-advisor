@@ -98,4 +98,6 @@ Phase 4 step 1 (2026-11-09): `src/modules/ai/` (`context.ts`, `prompt.ts`, `sche
 | `AI_DAILY_BUDGET` | `1300` | AI requests per UTC day across all users |
 | `AI_MOCK` | `ok` | Fixture for `AI_MODE=mock` |
 
-Next: `/api/explain` (step 2), then the result page's "In plain words (AI)" panel, the notes box with its notice and opt-out, and `/privacy` (step 3). No live provider call has been made yet; do one per provider once keys are set (as the sibling did, its Q26).
+Step 2 (2026-11-09): **`POST /api/explain`** (`src/app/api/explain/route.ts`): body `{ input }` → `{ ai: AiBlock }`. 413 over 16 KB; 400 for a body that isn't JSON or an input that fails `parseInput` (`src/modules/ai/input.ts`: a strict Zod shape incl. notes ≤ 1,000 characters, then `validateInput` and `checkInput`, as the form does), with readable issues and no internals; `disabled` with `AI_MODE=off` (before any rate limiting or AI call); `rate_limited` over the per-client limit; otherwise `explain()`'s block, and `unavailable` if anything in the AI step throws. Anything else in the body (scores, a stack) is ignored: the server recomputes.
+
+Next: the result page's "In plain words (AI)" panel, the notes box with its notice and opt-out, and `/privacy` (step 3). No live provider call has been made yet; do one per provider once keys are set (as the sibling did, its Q26).

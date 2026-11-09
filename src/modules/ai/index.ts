@@ -8,6 +8,7 @@ import { mockProvider } from "./providers/mock";
 import type { LlmProvider } from "./providers/types";
 
 export { explain, type ExplainDeps } from "./explain";
+export { parseInput } from "./input";
 export { PROMPT_VERSION } from "./prompt";
 
 /** Gemini → Groq, skipping a provider whose key isn't set; AI_MODE=mock uses the fixture provider. */
