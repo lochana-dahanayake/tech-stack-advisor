@@ -380,6 +380,14 @@ export function assemble(
   const penalties = relations.filter((c) => c.kind === "penalty");
   const penalty = (picks: Record<string, string>) =>
     penalties.reduce((s, c) => s + (matches(picks, c) ? (c.points ?? 0) : 0), 0);
+  // Known good pairings (worksBestWith, KB schema §6): +1 to +3 each, at most caps.stackPairBonus per stack, spread
+  // over the stack's parts like a penalty, so they can only tip near-ties.
+  const pairings = relations.filter((c) => c.kind === "worksBestWith");
+  const bonus = (picks: Record<string, string>) =>
+    Math.min(
+      kb.meta.caps.stackPairBonus,
+      pairings.reduce((s, c) => s + (matches(picks, c) ? (c.points ?? 0) : 0), 0),
+    );
   type Found = { picks: Record<string, string>; score: number; sumFinal: number; key?: number[] };
   const orderIndex = new Map(order.map((id, i) => [id, i]));
   // The KB-order key is built only when a comparison gets that far (rare).
@@ -418,7 +426,11 @@ export function assemble(
   const walk = (i: number, cand: number, fin: number) => {
     if (i === needed.length) {
       // `picks` is reused while walking: it is copied only when this combination wins somewhere.
-      const found: Found = { picks, score: needed.length ? (cand + penalty(picks)) / needed.length : 0, sumFinal: fin };
+      const found: Found = {
+        picks,
+        score: needed.length ? (cand + penalty(picks) + bonus(picks)) / needed.length : 0,
+        sumFinal: fin,
+      };
       let saved: Found | undefined;
       const keep = () => (saved ??= { picks: { ...picks }, score: found.score, sumFinal: fin });
       if (!best || beats(found, best)) best = keep();
@@ -501,8 +513,10 @@ export function assemble(
       : [];
   });
   const relationNotes = relations
-    .filter((c) => (c.kind === "note" || c.kind === "penalty") && matches(result.picks, c))
-    .map((c) => ({ id: c.id, text: c.explanation, ...(c.kind === "penalty" ? { points: c.points } : {}) }));
+    .filter(
+      (c) => (c.kind === "note" || c.kind === "penalty" || c.kind === "worksBestWith") && matches(result.picks, c),
+    )
+    .map((c) => ({ id: c.id, text: c.explanation, ...(c.kind !== "note" ? { points: c.points } : {}) }));
   return { picks: result.picks, score: result.score, adjusted, ties, closeCalls, relationNotes };
 }
 

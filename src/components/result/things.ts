@@ -2,7 +2,7 @@ import type { Recommendation } from "@/modules/recommendation";
 import { criterionName, fmt, LEVEL_LABELS, optionName, PART_ORDER, partName } from "./format";
 
 export interface Thing {
-  kind: "conflict" | "lock" | "style" | "close-call" | "adjusted" | "tie" | "raised" | "note" | "bundle";
+  kind: "conflict" | "lock" | "style" | "close-call" | "adjusted" | "tie" | "raised" | "note" | "bundle" | "pairing";
   title: string;
   body: string;
 }
@@ -72,7 +72,11 @@ export function thingsToKnow(rec: Recommendation): Thing[] {
       body: r.reason,
     });
   for (const n of rec.notes)
-    out.push({ kind: "note", title: n.points ? `Note (${n.points} points)` : "Note", body: n.text });
+    out.push(
+      (n.points ?? 0) > 0
+        ? { kind: "pairing", title: `Goes well together (+${n.points} for the stack)`, body: n.text }
+        : { kind: "note", title: n.points ? `Note (${n.points} points)` : "Note", body: n.text },
+    );
   for (const b of rec.bundles) {
     const d = b.differs[0];
     out.push({

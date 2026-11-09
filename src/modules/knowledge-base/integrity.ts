@@ -196,8 +196,10 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
       const fact = byId.get(c.option)?.facts.find((f) => f.id === c.fact);
       if (!fact || fact.kind !== "release-status")
         p.push(`${c.id}: a penalty needs a release-status fact on ${c.option}`);
+    } else if (c.kind === "worksBestWith") {
+      if (c.highMaturityPoints !== undefined || c.fact) p.push(`${c.id}: a pairing has points only`);
     } else if (c.points !== undefined || c.highMaturityPoints !== undefined || c.fact)
-      p.push(`${c.id}: only penalties have points or a fact`);
+      p.push(`${c.id}: only penalties and pairings have points; only penalties have a fact`);
     if (c.part === "language") {
       for (const l of c.anyOf) if (!languageIds.includes(l)) p.push(`${c.id}: unknown language ${l}`);
     } else for (const x of c.anyOf) if (!optionIds.has(x)) p.push(`${c.id}: unknown option ${x}`);

@@ -180,19 +180,28 @@ export const skillRuleSchema = z.object({
 //  note: no effect on the pick; the explanation is shown under the stack when the pair is in it.
 //  penalty: the stack pays `points` for the pair (K9: a beta feature, read from the option's dated fact `fact`;
 //  while that fact says GA the penalty is off). `highMaturityPoints` applies instead when weight.maturity ≥ high.
-export const relationSchema = z.object({
-  id: z.string(),
-  kind: z.enum(["requires", "conflicts", "note", "penalty"]),
-  option: id,
-  part: id,
-  anyOf: z.array(id).min(1),
-  when: conditionSchema.optional(),
-  points: z.number().int().max(0).optional(),
-  highMaturityPoints: z.number().int().max(0).optional(),
-  fact: id.optional(),
-  explanation: z.string(),
-  sources: z.array(sourceSchema).min(1),
-});
+export const relationSchema = z
+  .object({
+    id: z.string(),
+    kind: z.enum(["requires", "conflicts", "note", "penalty", "worksBestWith"]),
+    option: id,
+    part: id,
+    anyOf: z.array(id).min(1),
+    when: conditionSchema.optional(),
+    points: z.number().int().min(-30).max(3).optional(),
+    highMaturityPoints: z.number().int().max(0).optional(),
+    fact: id.optional(),
+    explanation: z.string(),
+    sources: z.array(sourceSchema).min(1),
+  })
+  // A penalty costs points; a worksBestWith pairing adds 1 to 3 (KB schema §6, small on purpose).
+  .refine((c) => c.kind !== "penalty" || (c.points ?? 0) <= 0, { message: "a penalty can't add points" })
+  .refine((c) => c.kind !== "worksBestWith" || (c.points !== undefined && c.points >= 1 && c.points <= 3), {
+    message: "a worksBestWith pairing adds 1 to 3 points",
+  })
+  .refine((c) => c.kind === "penalty" || c.kind === "worksBestWith" || c.points === undefined, {
+    message: "only penalty and worksBestWith relations carry points",
+  });
 
 export const metaSchema = z.object({
   kbVersion: z.string().regex(/^\d+\.\d+\.\d+$/),

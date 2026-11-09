@@ -440,5 +440,53 @@
         "quality": "P"
       }
     ]
+  },
+  {
+    "id": "C-nextjs-vercel",
+    "kind": "worksBestWith",
+    "option": "nextjs",
+    "part": "hosting",
+    "anyOf": [
+      "vercel"
+    ],
+    "points": 2,
+    "explanation": "Next.js and Vercel: Vercel makes Next.js and supports its features first, so they go well together.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fe-repos",
+        "quality": "P",
+        "note": "github.com/vercel/next.js (the Next.js repository is Vercel’s), checked 2026-11-09"
+      },
+      {
+        "kind": "design",
+        "note": "+2 (KB schema §6: +1 to +3, small on purpose; a vendor pairing must not decide the stack)",
+        "reviewed": false
+      }
+    ]
+  },
+  {
+    "id": "C-django-postgresql",
+    "kind": "worksBestWith",
+    "option": "django",
+    "part": "database",
+    "anyOf": [
+      "postgresql"
+    ],
+    "points": 1,
+    "explanation": "Django and PostgreSQL: Django ships extra features that only work on PostgreSQL (django.contrib.postgres: array and JSON fields, full-text search).",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "fw-repos",
+        "quality": "P",
+        "note": "docs.djangoproject.com/en/stable/ref/contrib/postgres/, checked 2026-11-09"
+      },
+      {
+        "kind": "design",
+        "note": "+1 (KB schema §6)",
+        "reviewed": false
+      }
+    ]
   }
 ]
