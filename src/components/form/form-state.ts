@@ -1,5 +1,5 @@
 import type { KnowledgeBase, Level, SkillLevel } from "@/modules/knowledge-base";
-import type { UserInput } from "@/modules/scoring";
+import { MAX_NOTES_LENGTH, type UserInput } from "@/modules/scoring";
 
 /**
  * Everything the form holds. Only what the user actually set is stored: an unanswered question counts as
@@ -15,6 +15,10 @@ export interface FormState {
   locked: Partial<Record<string, string>>;
   /** Architecture Advisor style id (Q2), from `?style=` or chosen on step 3. */
   style?: string;
+  /** Free-text notes (step 4), read only by the AI layer (AI_INTEGRATION §3). */
+  notes: string;
+  /** false: "Don't use AI for this request" (AI_INTEGRATION §9): nothing is sent to /api/explain. */
+  useAi: boolean;
 }
 
 export const STEPS = [
@@ -54,6 +58,8 @@ export const emptyForm = (): FormState => ({
   knownFrameworks: [],
   goal: "ship",
   locked: {},
+  notes: "",
+  useAi: true,
 });
 
 export const fromInput = (input: UserInput): FormState => ({
@@ -64,6 +70,8 @@ export const fromInput = (input: UserInput): FormState => ({
   goal: input.goal ?? "ship",
   locked: { ...input.locked },
   ...(input.style ? { style: input.style } : {}),
+  notes: input.notes ?? "",
+  useAi: true,
 });
 
 /** The engine input. Empty multi-selects and defaults are left out, so a form and its preset compare equal. */
@@ -81,6 +89,8 @@ export function toUserInput(s: FormState): UserInput {
   const locked = Object.fromEntries(Object.entries(s.locked).filter(([, v]) => v));
   if (Object.keys(locked).length > 0) input.locked = locked;
   if (s.style) input.style = s.style;
+  const notes = s.notes.trim();
+  if (notes) input.notes = notes.slice(0, MAX_NOTES_LENGTH);
   return input;
 }
 
@@ -136,6 +146,8 @@ export function sanitiseForm(f: Partial<FormState>, kb: KnowledgeBase): FormStat
       ),
     ),
     ...(typeof f.style === "string" && isStyle(f.style, kb) ? { style: f.style } : {}),
+    notes: typeof f.notes === "string" ? f.notes.slice(0, MAX_NOTES_LENGTH) : "",
+    useAi: f.useAi !== false,
   };
 }
 

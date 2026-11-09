@@ -5,7 +5,8 @@ import { sanitiseForm, toUserInput, type FormState, type StepId } from "./form-s
 /**
  * Shareable links (sibling FR-37): the answers travel in the URL hash as `#a=<base64url JSON>`. Browsers never
  * send the hash to the server. Ids rather than positions are encoded, so a link keeps working when the KB adds
- * questions; anything the KB no longer knows is dropped and the form opens instead of the result.
+ * questions; anything the KB no longer knows is dropped and the form opens instead of the result. The notes are
+ * left out, because links get pasted into chats (same as the sibling); so is the "Don't use AI" choice.
  */
 const PARAM = "a=";
 const LINK_VERSION = 1;

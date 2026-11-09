@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { CircleAlertIcon, CompassIcon } from "lucide-react";
 import { kb } from "@/modules/knowledge-base";
-import { buildRecommendation } from "@/modules/recommendation";
-import { checkInput, score } from "@/modules/scoring";
+import { buildRecommendation, type AiBlock } from "@/modules/recommendation";
+import { checkInput, score, type UserInput } from "@/modules/scoring";
 import { AdvisorForm } from "@/components/form/advisor-form";
 import {
   clearSavedForm,
@@ -22,6 +22,8 @@ import { presets, type Preset } from "@/components/form/presets";
 import { decodeShareHash } from "@/components/form/share-link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+const AiPanel = dynamic(() => import("@/components/result/ai-panel").then((m) => m.AiPanel));
+
 const ExportActions = dynamic(() => import("@/components/result/export-actions").then((m) => m.ExportActions));
 
 // The result view is only needed after submit, so it loads in its own chunk.
@@ -30,6 +32,24 @@ const ResultView = dynamic(() => import("@/components/result/result-view").then(
 });
 
 type View = "form" | "result";
+
+const AI_OK = new Set<AiBlock["status"]>(["ok", "cached"]);
+
+/** Asks the server for the AI block. Any network or server error reads as "unavailable": the rule result stays. */
+async function fetchAi(input: UserInput, signal: AbortSignal): Promise<AiBlock> {
+  try {
+    const res = await fetch("/api/explain", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input }),
+      signal,
+    });
+    if (!res.ok) return { status: "unavailable", adjustments: [] };
+    return ((await res.json()) as { ai: AiBlock }).ai;
+  } catch {
+    return { status: "unavailable", adjustments: [] };
+  }
+}
 
 interface Notice {
   tone: "warning" | "info";
@@ -81,6 +101,9 @@ export function Advisor() {
   const [loaded, setLoaded] = useState(false);
   const [example, setExample] = useState<Preset>();
   const [notice, setNotice] = useState<Notice>();
+  /** The AI block for one request key (input + retry count); while the key differs, the panel shows "pending". */
+  const [ai, setAi] = useState<{ key: string; block: AiBlock }>();
+  const [retries, setRetries] = useState(0);
 
   useEffect(() => {
     if (loaded) saveForm({ form, step, view, example: example?.id }, kb);
@@ -170,8 +193,54 @@ export function Advisor() {
     if (view !== "result") return undefined;
     const input = toUserInput(form);
     const date = today();
-    return { input, date, rec: buildRecommendation(input, score(input, kb), kb, date) };
+    return { input, date, rules: score(input, kb) };
   }, [form, view]);
+
+  const aiKey = result && form.useAi ? `${retries}:${JSON.stringify(result.input)}` : undefined;
+  useEffect(() => {
+    if (!aiKey || !result) return;
+    const controller = new AbortController();
+    void fetchAi(result.input, controller.signal).then((block) => {
+      if (!controller.signal.aborted) setAi({ key: aiKey, block });
+    });
+    return () => controller.abort();
+  }, [aiKey, result]);
+
+  /**
+   * The result on screen. With AI adjustments the same pure engine re-runs with them (the server did the same); if
+   * its stack differs from the one the server explained (a version skew), the AI part is dropped, never the result.
+   */
+  const shown = useMemo(() => {
+    if (!result) return undefined;
+    const rulesRec = () => buildRecommendation(result.input, result.rules, kb, result.date);
+    const block: AiBlock | undefined = !form.useAi
+      ? { status: "skipped", adjustments: [] }
+      : ai?.key === aiKey
+        ? ai?.block
+        : undefined;
+    if (!block || !AI_OK.has(block.status) || block.adjustments.length === 0)
+      return { rec: rulesRec(), ai: block, changes: [] };
+    const deltas = Object.fromEntries(block.adjustments.map((a) => [a.optionId, a.delta]));
+    let adjusted;
+    try {
+      adjusted = score(result.input, kb, deltas);
+    } catch {
+      adjusted = undefined;
+    }
+    const picks = adjusted?.stack.picks;
+    const same =
+      picks &&
+      block.stack &&
+      Object.keys(picks).length === Object.keys(block.stack).length &&
+      Object.entries(picks).every(([p, id]) => block.stack![p] === id);
+    if (!adjusted || !same)
+      return { rec: rulesRec(), ai: { status: "unavailable", adjustments: [] } as AiBlock, changes: [] };
+    const reasons = Object.fromEntries(block.adjustments.map((a) => [a.optionId, `AI: ${a.reason}`]));
+    const changes = Object.entries(adjusted.stack.picks)
+      .filter(([p, id]) => result.rules.stack.picks[p] !== id)
+      .map(([partId, after]) => ({ partId, before: result.rules.stack.picks[partId]!, after }));
+    return { rec: buildRecommendation(result.input, adjusted, kb, result.date, reasons), ai: block, changes };
+  }, [result, ai, aiKey, form.useAi]);
 
   if (!loaded) return <p role="status">Loading…</p>;
 
@@ -183,13 +252,22 @@ export function Advisor() {
     </Alert>
   );
 
-  if (view === "result" && result)
+  if (view === "result" && result && shown)
     return (
       <>
         {noticeBox}
         <ResultView
-          rec={result.rec}
-          actions={<ExportActions rec={result.rec} input={result.input} date={result.date} />}
+          rec={shown.rec}
+          actions={<ExportActions rec={shown.rec} input={result.input} date={result.date} />}
+          ai={
+            <AiPanel
+              ai={shown.ai}
+              pending={!shown.ai}
+              changes={shown.changes}
+              onRetry={() => setRetries((n) => n + 1)}
+            />
+          }
+          aiChanged={shown.changes.length > 0}
           example={example?.title}
           onEdit={() => {
             setExample(undefined);

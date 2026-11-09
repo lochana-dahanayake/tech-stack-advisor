@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { decodeShareHash, encodeShareHash } from "@/components/form/share-link";
 import {
   emptyForm,
   frameworkOptions,
@@ -11,7 +12,7 @@ import {
 } from "@/components/form/form-state";
 import { presets } from "@/components/form/presets";
 import { kb } from "@/modules/knowledge-base";
-import { validateInput } from "@/modules/scoring";
+import { MAX_NOTES_LENGTH, validateInput } from "@/modules/scoring";
 
 describe("form state", () => {
   it("asks every KB question exactly once across the steps", () => {
@@ -50,6 +51,8 @@ describe("form state", () => {
       goal: "panic",
       locked: { database: "mongodb", backend: "postgresql", hosting: 7, nope: "react" },
       style: "big-ball-of-mud",
+      notes: 42,
+      useAi: "yes",
     } as unknown as Parameters<typeof sanitiseForm>[0];
     expect(sanitiseForm(dirty, kb)).toEqual({
       answers: { seo: "yes", "data-flags": ["money"] },
@@ -58,7 +61,24 @@ describe("form state", () => {
       knownFrameworks: ["react"],
       goal: "ship",
       locked: { database: "mongodb" },
+      notes: "",
+      useAi: true,
     });
+  });
+
+  it("keeps the notes for the AI (trimmed, capped) and the AI opt-out; share links carry neither", () => {
+    const f = { ...emptyForm(), notes: "  We already run MySQL.  ", useAi: false };
+    expect(toUserInput(f)).toEqual({ answers: {}, notes: "We already run MySQL." });
+    expect(toUserInput({ ...f, notes: "   " })).toEqual({ answers: {} });
+    expect(toUserInput({ ...f, notes: "x".repeat(MAX_NOTES_LENGTH + 5) }).notes).toHaveLength(MAX_NOTES_LENGTH);
+    expect(sanitiseForm({ notes: "y".repeat(MAX_NOTES_LENGTH + 5), useAi: false }, kb)).toMatchObject({
+      notes: "y".repeat(MAX_NOTES_LENGTH),
+      useAi: false,
+    });
+    expect(restoreForm(serialiseForm({ form: f, step: 4 }, kb), kb)?.form).toEqual(f);
+    const hash = encodeShareHash(toUserInput({ ...f, answers: { "app-kind": "web-app" } }));
+    const back = decodeShareHash(hash, kb);
+    expect(back.status === "ok" && back.form).toMatchObject({ notes: "", useAi: true });
   });
 
   it("keeps must-use locks and the architecture style, and leaves out empty locks", () => {
