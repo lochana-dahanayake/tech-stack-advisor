@@ -126,8 +126,8 @@ describe("mock reorder fixture (AI_MOCK=reorder)", () => {
     expect(v.ok && v.adjusted.stack.picks).not.toEqual(c.rules.stack.picks);
   });
 
-  it("is rejected when the lift doesn't change the stack, so the chain falls back (G2)", () => {
-    const c = ctxFor(inputOf("G2"));
+  it("is rejected when the lift doesn't change the stack, so the chain falls back (G5)", () => {
+    const c = ctxFor(inputOf("G5"));
     const p = buildPrompt(c);
     expect(validateReply(mockReorderReply(p), c, p.ids).ok).toBe(false);
   });

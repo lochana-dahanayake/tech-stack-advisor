@@ -5156,17 +5156,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
+        "value": 5,
         "why": "Functions scale out automatically with traffic",
         "sources": [
           {
             "kind": "ref",
             "ref": "host-docs",
             "quality": "P",
-            "note": "Vercel: auto-scales up to 30,000 concurrent; Netlify: scales with traffic"
+            "note": "Vercel, Netlify and Cloudflare docs"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "real-time": {
         "value": 3,
@@ -5243,17 +5248,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 3,
-        "why": "Add instances on paid plans; free instances are single",
+        "value": 4,
+        "why": "Paid plans add instances (Railway replicas, Render up to 100, Fly Machines); automatic scaling varies by plan",
         "sources": [
           {
             "kind": "ref",
-            "ref": "host-pricing",
+            "ref": "host-docs",
             "quality": "P",
-            "note": "Render Free: one instance"
+            "note": "the PaaS providers' docs above"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "real-time": {
         "value": 4,
@@ -5326,15 +5336,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Practically any scale",
+        "value": 5,
+        "why": "All three clouds autoscale managed services by load (Cloud Run, App Service, ECS on Fargate)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "the three providers' docs above"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "real-time": {
         "value": 4,
@@ -5406,14 +5423,21 @@
       },
       "scalability": {
         "value": 2,
-        "why": "One machine; more needs manual work",
+        "why": "One machine; more needs manual work or a separate autoscaling setup",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.digitalocean.com (Droplets are unmanaged; autoscale pools)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "real-time": {
         "value": 4,
@@ -5462,17 +5486,7 @@
         "checked": "2026-11-08"
       }
     },
-    "facts": [],
-    "coverageExempt": {
-      "reason": "A VPS wins when the project must run on a server you control (K3, unit test \"K3: must self-host leaves only the VPS\"). No golden scenario asks for that; G8 allows a VPS or a cloud provider and the cloud wins. Interim exemption until the owner decides whether to add a self-hosting scenario (Q34).",
-      "sources": [
-        {
-          "kind": "design",
-          "note": "owner question Q34 (2026-11-08)",
-          "reviewed": false
-        }
-      ]
-    }
+    "facts": []
   },
   {
     "id": "github-pages",
@@ -5662,17 +5676,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Functions scale with traffic",
+        "value": 5,
+        "why": "Functions scale out automatically with traffic",
         "sources": [
           {
             "kind": "ref",
             "ref": "host-docs",
             "quality": "P",
-            "note": "Netlify Functions overview"
+            "note": "docs.netlify.com (functions)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,
@@ -5823,17 +5842,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Auto-scales up to 30,000 concurrent executions",
+        "value": 5,
+        "why": "Functions scale out automatically with traffic, up to 30,000 concurrent executions",
         "sources": [
           {
             "kind": "ref",
             "ref": "host-docs",
             "quality": "P",
-            "note": "Vercel Functions limits"
+            "note": "vercel.com/docs (functions limits)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,
@@ -5978,16 +6002,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Scales automatically",
+        "value": 5,
+        "why": "Workers scale automatically with requests",
         "sources": [
           {
             "kind": "ref",
-            "ref": "cloudflare-docs",
-            "quality": "P"
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "developers.cloudflare.com/workers"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,
@@ -6106,30 +6136,35 @@
         "checked": "2026-11-08"
       },
       "performance": {
-        "value": 3,
-        "why": "Free instances take about a minute to wake up",
+        "value": 4,
+        "why": "Paid instances keep running; only Free web services sleep after 15 minutes without traffic (rule K12 covers a free-only budget)",
         "sources": [
           {
             "kind": "ref",
-            "ref": "host-pricing",
+            "ref": "host-docs",
             "quality": "P",
-            "note": "render.com/docs/free"
+            "note": "render.com/docs/free: upgrading to any paid compute plan removes the Free instance limitations, incl. spin-down"
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "scalability": {
-        "value": 3,
-        "why": "Free: one instance; paid instances scale out",
+        "value": 4,
+        "why": "Paid plans run up to 100 instances; CPU/memory autoscaling needs a Pro workspace; Free runs one instance",
         "sources": [
           {
             "kind": "ref",
-            "ref": "host-pricing",
+            "ref": "host-docs",
             "quality": "P",
-            "note": "render.com/docs/free"
+            "note": "render.com/docs/scaling"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
+            "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 3,
@@ -6275,14 +6310,21 @@
       },
       "scalability": {
         "value": 4,
-        "why": "Replicas on paid plans",
+        "why": "Replicas are set by hand; vertical scaling is automatic within the plan's limits",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.railway.com/reference/scaling"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 3,
@@ -6407,14 +6449,21 @@
       },
       "scalability": {
         "value": 4,
-        "why": "Many Machines and regions",
+        "why": "More Machines by hand (or a fly-autoscaler app you run yourself); Fly Proxy starts and stops existing Machines with traffic",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.fly.io/launch/autostop-autostart, docs.fly.io/launch/autoscale-by-metric"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 3,
@@ -6542,15 +6591,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Practically any scale",
+        "value": 5,
+        "why": "ECS Service Auto Scaling adds Fargate tasks by CPU or memory (target tracking)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html; App Runner is closed to new customers"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,
@@ -6678,15 +6734,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Practically any scale",
+        "value": 5,
+        "why": "App Service autoscales on Standard and up (automatic HTTP scaling on Premium v2–v4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "learn.microsoft.com/azure/app-service/manage-automatic-scaling (updated 2026-07-22)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,
@@ -6814,15 +6877,22 @@
         "checked": "2026-11-08"
       },
       "scalability": {
-        "value": 4,
-        "why": "Practically any scale",
+        "value": 5,
+        "why": "Cloud Run adds instances by CPU and request concurrency, and scales to zero",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.cloud.google.com/run/docs/about-instance-autoscaling"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,
@@ -6947,14 +7017,21 @@
       },
       "scalability": {
         "value": 2,
-        "why": "Bigger machine or more servers by hand",
+        "why": "One server you resize yourself; a single Droplet doesn't autoscale (pools are a separate setup)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "P",
+            "note": "docs.digitalocean.com/products/droplets/concepts/autoscale-pools (verified 2026-07-13)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting scalability rubric (KB draft §24, Q34): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "maturity": {
         "value": 4,

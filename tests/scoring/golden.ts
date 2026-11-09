@@ -302,6 +302,33 @@ export const golden: Scenario[] = [
     },
     expect: { database: { typeIn: ["document"], typeNot: ["relational"], productIn: ["mongodb"] } },
   },
+  {
+    // Owner Q34 (2026-11-09): the "must self-host" scenario, so the VPS type wins an honest scenario.
+    id: "G14",
+    title: "Hospital's internal records app that must stay on its own servers",
+    input: {
+      answers: {
+        "app-kind": "internal-tool",
+        "data-shape": "linked",
+        "data-flags": ["money"],
+        traffic: "small",
+        "hosting-rule": "self-host",
+        "open-source-only": "yes",
+        budget: "moderate",
+        commercial: "no",
+        "team-size": "2-5",
+        experience: "experienced",
+        lifespan: "5-plus-years",
+      },
+      weights: { "data-integrity": "high", maturity: "high" },
+      skills: { java: "some" },
+    },
+    expect: {
+      hosting: { typeIn: ["vps"], productIn: ["vps-server"] },
+      database: { typeIn: ["relational"], productIn: ["postgresql", "mysql"] },
+      language: { productIn: ["java"] },
+    },
+  },
 ];
 
 /** Extra inputs used only in the calibration log (not golden: no expectations). */

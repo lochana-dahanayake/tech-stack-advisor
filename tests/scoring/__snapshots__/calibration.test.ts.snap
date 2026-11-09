@@ -19,6 +19,7 @@ exports[`calibration tables > variant current 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -39,6 +40,7 @@ exports[`calibration tables > variant current 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -59,6 +61,7 @@ exports[`calibration tables > variant current 1`] = `
 | G11 Microservices from Architecture Advisor | spa 81.4; server-templates 67.1; static 64.3; ssr 60.7 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | G12 Neutral input | static 80.0; server-templates 70.0; spa 60.0; ssr 55.0 | nextjs 80.6, plain-html 77.8, astro 63.9, backend-templates 62.2 |
 | G13 Product catalogue with very different items | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | spa 71.4; server-templates 67.1; static 64.3; ssr 60.7 (close call: server-templates) | nextjs 80.6, angular 75.0, vue 72.2, plain-html 70.6 |
 | P1 G10 + scalability High | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P2 G13 without 'fields vary' | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P3 Cache-only service (only simple lookups) | not needed (S2) | — |
@@ -66,22 +69,23 @@ exports[`calibration tables > variant current 1`] = `
 ## hosting
 | Scenario | Types | Products (final) |
 |---|---|---|
-| G1 Student portfolio site | static-hosting 77.5; frontend-platform 66.7; paas 66.7; cloud 45.8; vps 45.8 | github-pages 65.6, cloudflare 61.0, vercel 57.9, netlify 51.7 |
-| G2 E-commerce store, small team that knows Java | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 65.0, cloudflare 62.5, vercel 60.0, render 60.0 |
-| G3 Real-time chat app | paas 78.8; frontend-platform 62.5; cloud 53.1; vps 53.1 | railway 70.0, render 65.0, fly-io 62.5, cloudflare 56.3 |
-| G4 Data dashboard for a Python team | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
-| G5 Startup MVP that must ship in 4 weeks | frontend-platform 76.7; paas 66.7; cloud 45.8; vps 45.8 | cloudflare 71.9, vercel 68.8, netlify 62.5, railway 58.8 |
-| G6 Internal business app at a .NET company | cloud 45.8 | azure 60.0 |
-| G7 Content site for an agency client, PHP team | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
-| G8 High-throughput REST API | cloud 62.5; frontend-platform 60.0; paas 60.0; vps 52.5 (close call: frontend-platform) | cloudflare 74.1, vercel 69.4, netlify 66.3, railway 66.3 |
-| G9 Beginner's hobby app (habit tracker) | paas 78.8; frontend-platform 68.8; cloud 40.6; vps 40.6 | render 65.0, vercel 60.0, cloudflare 57.5, netlify 55.0 |
-| G10 Social app with friends-of-friends suggestions | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
-| G11 Microservices from Architecture Advisor | paas 77.5; frontend-platform 68.8; cloud 68.1; vps 40.6 | railway 70.0, cloudflare 63.8, fly-io 62.5, vercel 61.3 |
-| G12 Neutral input | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 65.0, cloudflare 62.5, vercel 60.0, render 60.0 |
-| G13 Product catalogue with very different items | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
-| P1 G10 + scalability High | paas 72.5; frontend-platform 68.8; cloud 53.1; vps 40.6 (close call: frontend-platform) | railway 70.0, cloudflare 68.8, vercel 66.3, fly-io 62.5 |
-| P2 G13 without 'fields vary' | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
-| P3 Cache-only service (only simple lookups) | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 70.0, cloudflare 62.5, fly-io 62.5, vercel 60.0 |
+| G1 Student portfolio site | static-hosting 77.5; frontend-platform 70.8; paas 70.8; cloud 50.0; vps 45.8 | cloudflare 68.3, github-pages 65.6, vercel 65.2, netlify 59.0 |
+| G2 E-commerce store, small team that knows Java | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | cloudflare 65.0, render 65.0, railway 65.0, vercel 62.5 |
+| G3 Real-time chat app | paas 81.9; frontend-platform 65.6; cloud 56.3; vps 53.1 | render 70.0, railway 70.0, fly-io 62.5, cloudflare 58.8 |
+| G4 Data dashboard for a Python team | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | render 68.8, railway 68.8, cloudflare 65.0, vercel 61.9 |
+| G5 Startup MVP that must ship in 4 weeks | frontend-platform 80.8; paas 70.8; cloud 50.0; vps 45.8 | cloudflare 75.0, vercel 71.9, netlify 65.6, render 58.8 |
+| G6 Internal business app at a .NET company | cloud 50.0 | azure 62.5 |
+| G7 Content site for an agency client, PHP team | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | render 68.8, railway 68.8, cloudflare 65.0, vercel 61.9 |
+| G8 High-throughput REST API | cloud 70.0; paas 67.5; frontend-platform 67.5; vps 52.5 (close call: paas) | cloudflare 78.7, vercel 74.1, netlify 70.9, aws 70.3 |
+| G9 Beginner's hobby app (habit tracker) | paas 81.9; frontend-platform 71.9; cloud 43.8; vps 40.6 | render 65.0, vercel 62.5, cloudflare 60.0, netlify 57.5 |
+| G10 Social app with friends-of-friends suggestions | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | render 68.8, railway 68.8, cloudflare 65.0, vercel 61.9 |
+| G11 Microservices from Architecture Advisor | paas 86.9; frontend-platform 78.1; cloud 77.5; vps 40.6 | cloudflare 71.3, render 70.0, railway 70.0, vercel 68.7 |
+| G12 Neutral input | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | cloudflare 65.0, render 65.0, railway 65.0, vercel 62.5 |
+| G13 Product catalogue with very different items | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | render 68.8, railway 68.8, cloudflare 65.0, vercel 61.9 |
+| G14 Hospital's internal records app that must stay on its own servers | vps 45.8 | vps-server 52.5 |
+| P1 G10 + scalability High | paas 81.9; frontend-platform 78.1; cloud 62.5; vps 40.6 (close call: frontend-platform) | cloudflare 76.3, vercel 73.7, render 70.0, railway 70.0 |
+| P2 G13 without 'fields vary' | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | render 68.8, railway 68.8, cloudflare 65.0, vercel 61.9 |
+| P3 Cache-only service (only simple lookups) | paas 80.8; frontend-platform 70.8; cloud 50.0; vps 45.8 | render 70.0, railway 70.0, cloudflare 65.0, vercel 62.5 |
 
 ## language
 | Scenario | Languages (final) |
@@ -99,6 +103,7 @@ exports[`calibration tables > variant current 1`] = `
 | G11 Microservices from Architecture Advisor | java 98.6, go 85.0, typescript-node 78.6, csharp 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | typescript-node 83.3, java 83.3, csharp 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 78.6, csharp 78.6, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 93.3, typescript-node 83.3, csharp 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 78.6, csharp 78.6, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 78.6, csharp 78.6, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 83.3, csharp 83.3, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -106,22 +111,23 @@ exports[`calibration tables > variant current 1`] = `
 ## stack
 | Scenario | Stack (frontend · backend · database · hosting · language) | Score | Adjusted | Ties (step 6.6) | Close call (step 6.7) | Notes |
 |---|---|---|---|---|---|---|
-| G1 Student portfolio site | plain-html · — · — · github-pages · — | 68.5 | — | — | — | — |
-| G2 E-commerce store, small team that knows Java | nextjs · spring-boot · postgresql · railway · java | 83.1 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — | — |
-| G3 Real-time chat app | nextjs · nestjs · postgresql · railway · typescript-node | 79.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
-| G4 Data dashboard for a Python team | nextjs · fastapi · postgresql · railway · python | 75.7 | backend: aspnet-core → fastapi (C-aspnet-core-language) | — | — | — |
-| G5 Startup MVP that must ship in 4 weeks | nextjs · frontend-server · postgresql · cloudflare · typescript-node | 75.2 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — | — | — |
-| G6 Internal business app at a .NET company | nextjs · aspnet-core · postgresql · azure · csharp | 83.1 | — | — | — | — |
-| G7 Content site for an agency client, PHP team | backend-templates · laravel · postgresql · railway · php | 74.7 | backend: aspnet-core → laravel (C-aspnet-core-language) | — | — | — |
-| G8 High-throughput REST API | — · aspnet-core · postgresql · railway · csharp | 77.7 | hosting: cloudflare → railway (C-cloudflare-language); language: go → csharp (stack score) | — | — · gin · postgresql · vercel · go 75.9 (−1.9) | — |
+| G1 Student portfolio site | plain-html · — · — · cloudflare · — | 69.9 | — | — | — | — |
+| G2 E-commerce store, small team that knows Java | nextjs · spring-boot · postgresql · render · java | 83.1 | backend: aspnet-core → spring-boot (C-aspnet-core-language); hosting: cloudflare → render (C-cloudflare-language) | — | — | — |
+| G3 Real-time chat app | nextjs · nestjs · postgresql · render · typescript-node | 79.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| G4 Data dashboard for a Python team | nextjs · fastapi · postgresql · render · python | 75.7 | backend: aspnet-core → fastapi (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| G5 Startup MVP that must ship in 4 weeks | nextjs · frontend-server · postgresql · cloudflare · typescript-node | 75.8 | backend: aspnet-core → frontend-server (C-aspnet-core-language) | — | — | — |
+| G6 Internal business app at a .NET company | nextjs · aspnet-core · postgresql · azure · csharp | 83.6 | — | — | — | — |
+| G7 Content site for an agency client, PHP team | backend-templates · laravel · postgresql · render · php | 74.7 | backend: aspnet-core → laravel (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| G8 High-throughput REST API | — · aspnet-core · postgresql · aws · csharp | 78.8 | hosting: cloudflare → aws (C-cloudflare-language); language: go → csharp (stack score) | — | — · gin · postgresql · vercel · go 77.0 (−1.7) | — |
 | G9 Beginner's hobby app (habit tracker) | vue · fastapi · postgresql · render · python | 73.4 | backend: aspnet-core → fastapi (C-aspnet-core-language); database: sqlite → postgresql (C-sqlite-render-free) | — | — | — |
-| G10 Social app with friends-of-friends suggestions | nextjs · nestjs · postgresql · railway · typescript-node | 78.1 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
-| G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · railway · java | 79.0 | — | — | — | — |
-| G12 Neutral input | nextjs · aspnet-core · postgresql · railway · csharp | 78.8 | — | language: typescript-node = java = csharp → csharp (stack score) | — | — |
-| G13 Product catalogue with very different items | nextjs · nestjs · mongodb · railway · typescript-node | 78.4 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
-| P1 G10 + scalability High | nextjs · nestjs · postgresql · railway · typescript-node | 78.4 | — | — | — | — |
-| P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · railway · typescript-node | 77.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
-| P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · railway · csharp | 76.9 | — | language: java = csharp → csharp (stack score) | — | — |
+| G10 Social app with friends-of-friends suggestions | nextjs · nestjs · postgresql · render · typescript-node | 78.1 | backend: aspnet-core → nestjs (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · render · java | 79.0 | hosting: cloudflare → render (C-cloudflare-language) | — | — | — |
+| G12 Neutral input | nextjs · aspnet-core · postgresql · render · csharp | 78.8 | hosting: cloudflare → render (C-cloudflare-language) | language: typescript-node = java = csharp → csharp (stack score) | nextjs · nestjs · postgresql · cloudflare · typescript-node 75.1 (−3.6) | — |
+| G13 Product catalogue with very different items | nextjs · nestjs · mongodb · render · typescript-node | 78.4 | backend: aspnet-core → nestjs (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | nextjs · spring-boot · postgresql · vps-server · java | 78.4 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — | — |
+| P1 G10 + scalability High | nextjs · nestjs · postgresql · cloudflare · typescript-node | 79.6 | — | — | — | — |
+| P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · render · typescript-node | 77.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | hosting: render = railway → render (KB order) | — | — |
+| P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · render · csharp | 76.9 | — | hosting: render = railway → render (KB order); language: java = csharp → csharp (stack score) | — | — |
 "
 `;
 
@@ -144,6 +150,7 @@ exports[`calibration tables > variant d9-traffic 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -164,6 +171,7 @@ exports[`calibration tables > variant d9-traffic 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -184,6 +192,7 @@ exports[`calibration tables > variant d9-traffic 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -204,6 +213,7 @@ exports[`calibration tables > variant d9-traffic 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.8 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 83.7 | — | language: java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 87.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | aspnet-core · postgresql · csharp 85.3 (−2.0) |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
@@ -229,6 +239,7 @@ exports[`calibration tables > variant draft 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 51.9; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; key-value 50.8; graph 45.8 (close call: document) | postgresql 82.1, sqlite 76.8, mysql 75.0 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 45.6 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 32.5 | postgresql 86.1, sqlite 76.4, mysql 75.0 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 51.9; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 93.1; document 71.9; relational 65.6; graph 46.9 | redis 71.4, valkey 64.3 |
@@ -249,6 +260,7 @@ exports[`calibration tables > variant draft 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 96.4, aspnet-core 95.5, gin 69.6; team language: spring-boot 96.4 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 86.4, django 75.0; team language: aspnet-core 95.5 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 91.4, django 75.0; team language: spring-boot 91.4 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | aspnet-core 95.5, spring-boot 86.4, nestjs 78.2; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 95.5, spring-boot 78.2, gin 68.2; team language: aspnet-core 95.5 |
@@ -269,6 +281,7 @@ exports[`calibration tables > variant draft 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, typescript-node 85.7, go 85.0, csharp 82.1, python 75.0, php 64.3 |
 | G12 Neutral input | typescript-node 88.9, java 86.1, csharp 86.1, python 80.6, go 80.6, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, typescript-node 88.9, csharp 86.1, python 80.6, go 80.6, php 72.2 |
 | P1 G10 + scalability High | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 58.3, php 55.6 |
@@ -289,6 +302,7 @@ exports[`calibration tables > variant draft 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 87.9 | language: typescript-node → csharp (stack score) | — | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 91.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | aspnet-core · postgresql · csharp 89.2 (−2.0) |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 84.0 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | — | language: java = csharp → csharp (stack score) | — |
@@ -314,6 +328,7 @@ exports[`calibration tables > variant lang-ecosystem-even 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -334,6 +349,7 @@ exports[`calibration tables > variant lang-ecosystem-even 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -354,6 +370,7 @@ exports[`calibration tables > variant lang-ecosystem-even 1`] = `
 | G11 Microservices from Architecture Advisor | java 98.6, go 85.0, typescript-node 78.6, csharp 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | typescript-node 83.3, java 83.3, csharp 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 78.6, csharp 78.6, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 93.3, typescript-node 83.3, csharp 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 78.6, csharp 78.6, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 78.6, csharp 78.6, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 83.3, csharp 83.3, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -374,6 +391,7 @@ exports[`calibration tables > variant lang-ecosystem-even 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.3 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 82.8 | — | language: typescript-node = java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 86.3 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 79.2 | — | language: java = csharp → csharp (stack score) | — |
@@ -399,6 +417,7 @@ exports[`calibration tables > variant session2 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 51.9; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; key-value 50.8; graph 45.8 (close call: document) | postgresql 82.1, sqlite 76.8, mysql 75.0 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 45.6 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 32.5 | postgresql 86.1, sqlite 76.4, mysql 75.0 |
 | P1 G10 + scalability High | document 61.9; graph 60.6; relational 59.4; key-value 51.9 (close call: graph) | mongodb 73.2 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 93.1; document 71.9; relational 65.6; graph 46.9 | redis 71.4, valkey 64.3 |
@@ -419,6 +438,7 @@ exports[`calibration tables > variant session2 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 96.4, aspnet-core 95.5, gin 69.6; team language: spring-boot 96.4 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 86.4, django 75.0; team language: aspnet-core 95.5 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 91.4, django 75.0; team language: spring-boot 91.4 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | aspnet-core 95.5, spring-boot 86.4, nestjs 78.2; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 95.5, spring-boot 78.2, gin 68.2; team language: aspnet-core 95.5 |
@@ -439,6 +459,7 @@ exports[`calibration tables > variant session2 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, typescript-node 85.7, go 85.0, csharp 82.1, python 75.0, php 64.3 |
 | G12 Neutral input | typescript-node 88.9, java 86.1, csharp 86.1, python 80.6, go 80.6, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, typescript-node 88.9, csharp 86.1, python 80.6, go 80.6, php 72.2 |
 | P1 G10 + scalability High | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 58.3, php 55.6 |
@@ -459,6 +480,7 @@ exports[`calibration tables > variant session2 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 87.9 | language: typescript-node → csharp (stack score) | — | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 91.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | aspnet-core · postgresql · csharp 89.2 (−2.0) |
 | P1 G10 + scalability High | nestjs · mongodb · typescript-node | 83.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | — | language: java = csharp → csharp (stack score) | — |
@@ -484,6 +506,7 @@ exports[`calibration tables > variant session2-no-d0 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 59.4; key-value 51.9; graph 40.6 | mongodb 73.2 |
 | G12 Neutral input | document 70.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 69.6 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 45.6 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 32.5 | postgresql 86.1, sqlite 76.4, mysql 75.0 |
 | P1 G10 + scalability High | document 61.9; graph 60.6; relational 59.4; key-value 51.9 (close call: graph) | mongodb 73.2 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; key-value 50.8; graph 45.8 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 93.1; document 71.9; relational 65.6; graph 46.9 | redis 71.4, valkey 64.3 |
@@ -504,6 +527,7 @@ exports[`calibration tables > variant session2-no-d0 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 96.4, aspnet-core 95.5, gin 69.6; team language: spring-boot 96.4 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 86.4, django 75.0; team language: aspnet-core 95.5 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 95.5, spring-boot 91.4, django 75.0; team language: spring-boot 91.4 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | aspnet-core 95.5, spring-boot 86.4, nestjs 78.2; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 94.4, spring-boot 83.3, nestjs 76.7; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 95.5, spring-boot 78.2, gin 68.2; team language: aspnet-core 95.5 |
@@ -524,6 +548,7 @@ exports[`calibration tables > variant session2-no-d0 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, typescript-node 85.7, go 85.0, csharp 82.1, python 75.0, php 64.3 |
 | G12 Neutral input | typescript-node 88.9, java 86.1, csharp 86.1, python 80.6, go 80.6, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, typescript-node 88.9, csharp 86.1, python 80.6, go 80.6, php 72.2 |
 | P1 G10 + scalability High | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 100.0, java 82.1, csharp 82.1, python 75.0, go 75.0, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 58.3, php 55.6 |
@@ -544,6 +569,7 @@ exports[`calibration tables > variant session2-no-d0 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 89.9 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 85.1 | language: typescript-node → csharp (stack score) | — | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 83.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 91.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | aspnet-core · postgresql · csharp 89.2 (−2.0) |
 | P1 G10 + scalability High | nestjs · mongodb · typescript-node | 83.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 84.3 | — | language: java = csharp → csharp (stack score) | — |
@@ -569,6 +595,7 @@ exports[`calibration tables > variant session4 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -589,6 +616,7 @@ exports[`calibration tables > variant session4 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 73.6, nestjs 68.2, aspnet-core 68.2; team language: spring-boot 73.6 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 77.3, spring-boot 72.7, django 70.5; team language: aspnet-core 77.3 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | nestjs 76.7, aspnet-core 72.2, fastify 71.7; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | spring-boot 77.7, aspnet-core 77.3, django 70.5; team language: spring-boot 77.7 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, fastify 74.6, aspnet-core 68.2; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | nestjs 76.7, aspnet-core 72.2, fastify 71.7; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | fastify 68.2, aspnet-core 68.2, spring-boot 64.6; team language: fastify 68.2 |
@@ -609,6 +637,7 @@ exports[`calibration tables > variant session4 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -629,6 +658,7 @@ exports[`calibration tables > variant session4 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 82.3 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 80.7 | — | language: java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | — | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 85.7 | — | — | — |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | — | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 74.1 | — | backend: fastify = aspnet-core → aspnet-core (stack score); language: java = csharp → csharp (stack score) | — |
@@ -654,6 +684,7 @@ exports[`calibration tables > variant session6 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -674,6 +705,7 @@ exports[`calibration tables > variant session6 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, django 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, django 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 74.6; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 68.2; team language: aspnet-core 86.4 |
@@ -694,6 +726,7 @@ exports[`calibration tables > variant session6 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -714,6 +747,7 @@ exports[`calibration tables > variant session6 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.8 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 83.7 | — | language: java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 87.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | aspnet-core · postgresql · csharp 85.3 (−2.0) |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
@@ -739,6 +773,7 @@ exports[`calibration tables > variant session7 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -759,6 +794,7 @@ exports[`calibration tables > variant session7 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -779,6 +815,7 @@ exports[`calibration tables > variant session7 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -799,6 +836,7 @@ exports[`calibration tables > variant session7 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.8 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 83.7 | — | language: java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 87.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | aspnet-core · postgresql · csharp 85.3 (−2.0) |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
@@ -824,6 +862,7 @@ exports[`calibration tables > variant session8 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -844,6 +883,7 @@ exports[`calibration tables > variant session8 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -864,6 +904,7 @@ exports[`calibration tables > variant session8 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -884,6 +925,7 @@ exports[`calibration tables > variant session8 1`] = `
 | G11 Microservices from Architecture Advisor | spring-boot · mongodb · java | 83.8 | — | — | — |
 | G12 Neutral input | aspnet-core · postgresql · csharp | 83.7 | — | language: java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nestjs · mongodb · typescript-node | 82.8 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | spring-boot · postgresql · java | 87.2 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — |
 | P1 G10 + scalability High | nestjs · postgresql · typescript-node | 82.3 | — | — | — |
 | P2 G13 without 'fields vary' | nestjs · mongodb · typescript-node | 81.3 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
@@ -909,6 +951,7 @@ exports[`calibration tables > variant session9 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -929,6 +972,7 @@ exports[`calibration tables > variant session9 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -949,6 +993,7 @@ exports[`calibration tables > variant session9 1`] = `
 | G11 Microservices from Architecture Advisor | spa 81.4; server-templates 67.1; static 64.3; ssr 60.7 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | G12 Neutral input | static 80.0; server-templates 70.0; spa 60.0; ssr 55.0 | nextjs 80.6, plain-html 77.8, astro 63.9, backend-templates 62.2 |
 | G13 Product catalogue with very different items | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | spa 71.4; server-templates 67.1; static 64.3; ssr 60.7 (close call: server-templates) | nextjs 80.6, angular 75.0, vue 72.2, plain-html 70.6 |
 | P1 G10 + scalability High | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P2 G13 without 'fields vary' | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P3 Cache-only service (only simple lookups) | not needed (S2) | — |
@@ -969,6 +1014,7 @@ exports[`calibration tables > variant session9 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -989,6 +1035,7 @@ exports[`calibration tables > variant session9 1`] = `
 | G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · java | 81.6 | — | — | — |
 | G12 Neutral input | nextjs · aspnet-core · postgresql · csharp | 82.9 | — | language: java = csharp → csharp (stack score) | — |
 | G13 Product catalogue with very different items | nextjs · nestjs · mongodb · typescript-node | 80.9 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | nextjs · spring-boot · postgresql · java | 85.6 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — |
 | P1 G10 + scalability High | nextjs · nestjs · postgresql · typescript-node | 80.5 | — | — | — |
 | P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · typescript-node | 79.7 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — |
 | P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · csharp | 80.1 | — | language: java = csharp → csharp (stack score) | — |
@@ -996,7 +1043,7 @@ exports[`calibration tables > variant session9 1`] = `
 `;
 
 exports[`calibration tables > variant session13 1`] = `
-"Variant: session13: current, with the session-14 owner decision undone (Q32: Java's and C#'s GK-only ecosystem back at 4): the KB of session 13. KB 0.1.0.
+"Variant: session13: current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12): the KB of session 13. KB 0.1.0.
 
 ## database
 | Scenario | Types | Products |
@@ -1014,6 +1061,7 @@ exports[`calibration tables > variant session13 1`] = `
 | G11 Microservices from Architecture Advisor | document 71.9; relational 69.4; key-value 45.6; graph 40.6 (close call: relational) | mongodb 73.2 |
 | G12 Neutral input | relational 72.5; document 70.8; graph 45.8; key-value 42.5 (close call: document) | postgresql 78.6, sqlite 76.8, mysql 71.4 |
 | G13 Product catalogue with very different items | document 93.1; relational 59.4; graph 53.1; key-value 39.4 | mongodb 73.2 |
+| G14 Hospital's internal records app that must stay on its own servers | relational 92.5; graph 57.5; document 47.5; key-value 27.5 | postgresql 83.3, sqlite 76.4, mysql 72.2 |
 | P1 G10 + scalability High | graph 60.6; relational 59.4; key-value 45.6; document 41.9 (close call: relational) | neo4j 41.1 |
 | P2 G13 without 'fields vary' | document 85.8; relational 62.5; graph 45.8; key-value 42.5 | mongodb 68.8 |
 | P3 Cache-only service (only simple lookups) | key-value 86.9; document 71.9; relational 65.6; graph 46.9 | redis 67.9, valkey 64.3 |
@@ -1034,6 +1082,7 @@ exports[`calibration tables > variant session13 1`] = `
 | G11 Microservices from Architecture Advisor | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | spring-boot 78.2, aspnet-core 77.3, nestjs 68.2; team language: spring-boot 78.2 |
 | G12 Neutral input | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 77.3, laravel 70.5; team language: aspnet-core 86.4 |
 | G13 Product catalogue with very different items | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
+| G14 Hospital's internal records app that must stay on its own servers | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 86.4, spring-boot 82.3, laravel 70.5; team language: spring-boot 82.3 |
 | P1 G10 + scalability High | batteries 67.9; minimal 64.3; fullstack 50.0 (close call: minimal) | nestjs 78.2, aspnet-core 77.3, fastify 72.3; team language: nestjs 78.2 |
 | P2 G13 without 'fields vary' | batteries 65.0; minimal 60.0; fullstack 50.0 | aspnet-core 83.3, nestjs 76.7, spring-boot 72.2; team language: nestjs 76.7 |
 | P3 Cache-only service (only simple lookups) | minimal 64.3; batteries 60.7 (close call: batteries) | aspnet-core 86.4, spring-boot 69.2, fastify 65.9; team language: aspnet-core 86.4 |
@@ -1054,6 +1103,7 @@ exports[`calibration tables > variant session13 1`] = `
 | G11 Microservices from Architecture Advisor | spa 81.4; server-templates 67.1; static 64.3; ssr 60.7 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | G12 Neutral input | static 80.0; server-templates 70.0; spa 60.0; ssr 55.0 | nextjs 80.6, plain-html 77.8, astro 63.9, backend-templates 62.2 |
 | G13 Product catalogue with very different items | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | spa 71.4; server-templates 67.1; static 64.3; ssr 60.7 (close call: server-templates) | nextjs 80.6, angular 75.0, vue 72.2, plain-html 70.6 |
 | P1 G10 + scalability High | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P2 G13 without 'fields vary' | spa 81.4; static 64.3; ssr 60.7; server-templates 57.1 | nextjs 75.0, vue 71.4, angular 67.9, svelte 64.3 |
 | P3 Cache-only service (only simple lookups) | not needed (S2) | — |
@@ -1074,6 +1124,7 @@ exports[`calibration tables > variant session13 1`] = `
 | G11 Microservices from Architecture Advisor | paas 77.5; frontend-platform 68.8; cloud 68.1; vps 40.6 | railway 70.0, cloudflare 63.8, fly-io 62.5, vercel 61.3 |
 | G12 Neutral input | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 65.0, cloudflare 62.5, vercel 60.0, render 60.0 |
 | G13 Product catalogue with very different items | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
+| G14 Hospital's internal records app that must stay on its own servers | vps 45.8 | vps-server 52.5 |
 | P1 G10 + scalability High | paas 72.5; frontend-platform 68.8; cloud 53.1; vps 40.6 (close call: frontend-platform) | railway 70.0, cloudflare 68.8, vercel 66.3, fly-io 62.5 |
 | P2 G13 without 'fields vary' | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 68.8, render 62.5, cloudflare 61.9, fly-io 59.4 |
 | P3 Cache-only service (only simple lookups) | paas 76.7; frontend-platform 66.7; cloud 45.8; vps 45.8 | railway 70.0, cloudflare 62.5, fly-io 62.5, vercel 60.0 |
@@ -1094,6 +1145,7 @@ exports[`calibration tables > variant session13 1`] = `
 | G11 Microservices from Architecture Advisor | java 100.0, go 85.0, csharp 82.1, typescript-node 78.6, python 67.9, php 64.3 |
 | G12 Neutral input | java 86.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | G13 Product catalogue with very different items | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
+| G14 Hospital's internal records app that must stay on its own servers | java 96.1, csharp 86.1, typescript-node 83.3, go 80.6, python 75.0, php 72.2 |
 | P1 G10 + scalability High | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P2 G13 without 'fields vary' | typescript-node 98.6, java 82.1, csharp 82.1, go 75.0, python 67.9, php 64.3 |
 | P3 Cache-only service (only simple lookups) | java 86.1, csharp 86.1, go 80.6, typescript-node 77.8, php 55.6, python 52.8 |
@@ -1114,6 +1166,7 @@ exports[`calibration tables > variant session13 1`] = `
 | G11 Microservices from Architecture Advisor | nextjs · spring-boot · mongodb · railway · java | 79.3 | — | — | — | — |
 | G12 Neutral input | nextjs · aspnet-core · postgresql · railway · csharp | 79.3 | — | language: java = csharp → csharp (stack score) | — | — |
 | G13 Product catalogue with very different items | nextjs · nestjs · mongodb · railway · typescript-node | 78.4 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
+| G14 Hospital's internal records app that must stay on its own servers | nextjs · spring-boot · postgresql · vps-server · java | 79.0 | backend: aspnet-core → spring-boot (C-aspnet-core-language) | — | — | — |
 | P1 G10 + scalability High | nextjs · nestjs · postgresql · railway · typescript-node | 78.4 | — | — | — | — |
 | P2 G13 without 'fields vary' | nextjs · nestjs · mongodb · railway · typescript-node | 77.5 | backend: aspnet-core → nestjs (C-aspnet-core-language) | — | — | — |
 | P3 Cache-only service (only simple lookups) | — · aspnet-core · redis · railway · csharp | 77.6 | — | language: java = csharp → csharp (stack score) | — | — |
