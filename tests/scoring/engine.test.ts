@@ -360,8 +360,9 @@ describe("language part, team skills and stack assembly", () => {
   });
 
   it("settles a tie at the top of a part by the stack rule and reports it as a tie, not an adjusted pick", () => {
-    // Neutral input: Java and C# have the same language score (calibration log §13).
-    const r = score({ weights: { maturity: "high" } }, kb);
+    // Performance high: Java and C# have the same language score (calibration log §13; since the registry rubric,
+    // TypeScript leads the neutral input, so this input keeps a tie at the top).
+    const r = score({ weights: { performance: "high" } }, kb);
     const [first, second] = r.parts.language!.products;
     expect(first!.final).toBe(second!.final);
     const tie = r.stack.ties.find((t) => t.partId === "language")!;
@@ -407,6 +408,14 @@ describe("language part, team skills and stack assembly", () => {
     // Same input with the threshold at 1 point: no close call, the pick alone.
     const strict = score(input, { ...kb, meta: { ...kb.meta, closeCallPoints: 1 } });
     expect(strict.stack.closeCalls).toEqual([]);
+  });
+
+  it("lists a close-call stack once, even when keeping two parts' #1 leads to the same stack (G12)", () => {
+    // G12: keeping TypeScript (language #1) or Cloudflare (hosting #1) both give Next.js + NestJS + Cloudflare.
+    const r = score({ weights: { maturity: "high" } }, kb);
+    const stacks = r.stack.closeCalls.map((c) => JSON.stringify(c.picks));
+    expect(stacks.length).toBeGreaterThan(0);
+    expect(new Set(stacks).size).toBe(stacks.length);
   });
 
   it("T7: with goal 'Use what we know', a stack close call keeps a language the team knows; 'learn' shows any", () => {

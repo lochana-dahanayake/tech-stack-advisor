@@ -7356,18 +7356,28 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "npm is the largest package registry (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 5,
+        "why": "npm: 6,222,398 packages on libraries.io (band ≥ 2M → 5)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "npm count not reachable from cloud sessions"
+            "kind": "ref",
+            "ref": "libraries-io",
+            "quality": "P",
+            "note": "libraries.io/api/platforms, npm project_count, 2026-11-09"
+          },
+          {
+            "kind": "ref",
+            "ref": "lang-repos",
+            "quality": "P",
+            "note": "cross-check: npm's own count: 4,585,439 (replicate.npmjs.com doc_count, 2026-11-09); libraries.io counts more (its method differs), both counts are in band 5"
+          },
+          {
+            "kind": "design",
+            "note": "language ecosystem rubric (KB schema §8, Q20/Q32 option b): packages in the language's main registry, all counted by libraries.io (api/platforms) so one method covers every registry; bands four times apart so only large differences count: ≥ 2M → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 5,
@@ -7518,18 +7528,28 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "PyPI has 921,802 projects (P), but no comparable counts for every registry yet (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "PyPI: 971,457 packages on libraries.io (band 500k–2M → 4)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "registry-size rubric needs all six registries"
+            "kind": "ref",
+            "ref": "libraries-io",
+            "quality": "P",
+            "note": "libraries.io/api/platforms, PyPI project_count, 2026-11-09"
+          },
+          {
+            "kind": "ref",
+            "ref": "lang-repos",
+            "quality": "P",
+            "note": "cross-check: PyPI's own simple index: 935,594 projects (2026-11-09)"
+          },
+          {
+            "kind": "design",
+            "note": "language ecosystem rubric (KB schema §8, Q20/Q32 option b): packages in the language's main registry, all counted by libraries.io (api/platforms) so one method covers every registry; bands four times apart so only large differences count: ≥ 2M → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 5,
@@ -7652,17 +7672,28 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Maven Central and the Spring ecosystem (Unsourced: held at 3 until a registry-size rubric covers every language, as for Python and TypeScript; owner Q32, 2026-11-09)",
+        "value": 4,
+        "why": "Maven: 821,711 packages on libraries.io (band 500k–2M → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "libraries-io",
+            "quality": "P",
+            "note": "libraries.io/api/platforms, Maven project_count, 2026-11-09"
+          },
+          {
+            "kind": "ref",
+            "ref": "lang-repos",
+            "quality": "P",
+            "note": "cross-check: Maven Central search: 661,801 group:artifact pairs (2026-11-09)"
+          },
+          {
+            "kind": "design",
+            "note": "language ecosystem rubric (KB schema §8, Q20/Q32 option b): packages in the language's main registry, all counted by libraries.io (api/platforms) so one method covers every registry; bands four times apart so only large differences count: ≥ 2M → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "proposed": 4,
-        "unsourced": true
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 4,
@@ -7801,17 +7832,28 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "NuGet and the .NET libraries (Unsourced: held at 3 until a registry-size rubric covers every language, as for Python and TypeScript; owner Q32, 2026-11-09)",
+        "value": 4,
+        "why": "NuGet: 717,369 packages on libraries.io (band 500k–2M → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "libraries-io",
+            "quality": "P",
+            "note": "libraries.io/api/platforms, NuGet project_count, 2026-11-09"
+          },
+          {
+            "kind": "ref",
+            "ref": "lang-repos",
+            "quality": "P",
+            "note": "cross-check: NuGet search totalHits: 507,461 (2026-11-09)"
+          },
+          {
+            "kind": "design",
+            "note": "language ecosystem rubric (KB schema §8, Q20/Q32 option b): packages in the language's main registry, all counted by libraries.io (api/platforms) so one method covers every registry; bands four times apart so only large differences count: ≥ 2M → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "proposed": 4,
-        "unsourced": true
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 4,
@@ -7946,15 +7988,28 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Smaller web ecosystem",
+        "value": 4,
+        "why": "Go: 858,082 packages on libraries.io (band 500k–2M → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "libraries-io",
+            "quality": "P",
+            "note": "libraries.io/api/platforms, Go project_count, 2026-11-09"
+          },
+          {
+            "kind": "ref",
+            "ref": "lang-repos",
+            "quality": "P",
+            "note": "cross-check: the Go project publishes no total module count; libraries.io indexes proxy.golang.org"
+          },
+          {
+            "kind": "design",
+            "note": "language ecosystem rubric (KB schema §8, Q20/Q32 option b): packages in the language's main registry, all counted by libraries.io (api/platforms) so one method covers every registry; bands four times apart so only large differences count: ≥ 2M → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 3,
@@ -8073,16 +8128,27 @@
       },
       "ecosystem": {
         "value": 4,
-        "why": "Packagist has 475,503 packages (P)",
+        "why": "Packagist: 525,236 packages on libraries.io (band 500k–2M → 4)",
         "sources": [
+          {
+            "kind": "ref",
+            "ref": "libraries-io",
+            "quality": "P",
+            "note": "libraries.io/api/platforms, Packagist project_count, 2026-11-09"
+          },
           {
             "kind": "ref",
             "ref": "lang-repos",
             "quality": "P",
-            "note": "packagist.org/statistics.json, 2026-10-24"
+            "note": "cross-check: packagist.org/statistics.json: 479,556 packages (2026-11-09), just under the 500k band edge; the rubric uses libraries.io for every registry, so one method decides"
+          },
+          {
+            "kind": "design",
+            "note": "language ecosystem rubric (KB schema §8, Q20/Q32 option b): packages in the language's main registry, all counted by libraries.io (api/platforms) so one method covers every registry; bands four times apart so only large differences count: ≥ 2M → 5 · 500k–2M → 4 · 100k–500k → 3 · 20k–100k → 2 · < 20k → 1",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 3,
