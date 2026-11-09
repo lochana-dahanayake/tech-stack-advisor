@@ -214,3 +214,8 @@ Re-checked for Phase 4 (the sibling last checked 2026-10-20). Used in `AI_INTEGR
 - **Groq models** (…/docs/models): `openai/gpt-oss-120b` is a production model (131,072-token context); no deprecation notice.
 - **Groq data** (…/docs/your-data): inference inputs and outputs are not retained by default; they may be logged for up to 30 days to troubleshoot reliability failures or investigate abuse; Zero Data Retention can be turned on in Data Controls.
 - **SDK versions** used: `ai` 7.0.152, `@ai-sdk/google` 4.0.104, `@ai-sdk/groq` 4.0.69 (TECH_STACK's 2026-10-23 versions; newer patch releases exist, 7.0.166 / 4.0.114 / 4.0.78 on 2026-11-09, and are picked up within the caret range on the next `npm update`).
+
+## 10. Vercel deploy facts (checked 2026-11-09, P: vercel.com docs)
+- Function duration (docs/functions/configuring-functions/duration, updated 2026-08-24): Hobby default and maximum 300 s, Fluid compute on by default.
+- Node.js versions (docs/functions/runtimes/node-js/node-js-versions, updated 2026-02-27): new projects use the latest LTS, 26.x; 24.x and 22.x also available.
+- Used in `DEPLOY.md` §2.
