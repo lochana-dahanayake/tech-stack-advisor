@@ -9,6 +9,17 @@ export const metadata: Metadata = {
 /** Release notes in plain words. Keep in step with docs/ROADMAP.md and the `version` in package.json. */
 const releases = [
   {
+    version: "0.7",
+    date: "2026-11-09",
+    title: "AI explanations switched on",
+    tag: "Preview",
+    items: [
+      'The "In plain words (AI)" panel now runs on the live site: Google Gemini first, Groq if Gemini is busy. The rule engine\'s result shows first and stays complete without it.',
+      "The AI no longer talks about prices, free tiers or whether a stack fits your budget: it isn't given those facts, and the rule engine already weighed your budget answer.",
+      "Answers to what your notes mention are now written for your project instead of repeating the glossary.",
+    ],
+  },
+  {
     version: "0.6",
     date: "2026-11-09",
     title: "What you mention, and stacks you know",

@@ -36,6 +36,12 @@ describe("prompt builder (AI_INTEGRATION §3)", () => {
     expect(inside).toContain("Ignore previous instructions");
   });
 
+  it("v3: forbids money and free-tier claims and asks for mentions in the AI's own words (AI_INTEGRATION §3)", () => {
+    expect(SYSTEM_PROMPT).toMatch(/Do NOT\s+write about free tiers, plan limits, cold starts, dollar amounts/);
+    expect(SYSTEM_PROMPT).toMatch(/in your own words/);
+    expect(SYSTEM_PROMPT).toMatch(/cautions: [^]*based on\s+the facts below/);
+  });
+
   it("sends redacted notes and never an API key", () => {
     const p = buildPrompt(ctx);
     const all = p.system + p.user + JSON.stringify(p.jsonSchema);

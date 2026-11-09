@@ -4,7 +4,7 @@ A free web app that recommends a **tech stack** for a software project: a langua
 
 It is the sibling of **[Architecture Advisor](https://github.com/lochana-dahanayake/architecture-advisor)** ([live](https://architecture-advisor-pink.vercel.app)), which recommends _architecture styles_. Tech Stack Advisor answers the next question: "I picked a style, now which tools should I build it with?" A style chosen there can be carried over with `/advisor?style=<id>`.
 
-**Live:** https://tech-stack-advisor-one.vercel.app (v0.6.0 preview, AI explanations off for now). Hosted on Vercel's free tier; every push to `main` redeploys.
+**Live:** https://tech-stack-advisor-one.vercel.app (v0.7.0 preview, AI explanations on: Gemini, then Groq). Hosted on Vercel's free tier; every push to `main` redeploys.
 
 |                                                               |                                                                        |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -37,7 +37,7 @@ Retake the screenshots and the link-preview image with `node scripts/screenshots
 
 ## Deploy (Vercel Hobby, free)
 
-Deployed on Vercel Hobby as project `tech-stack-advisor` (https://tech-stack-advisor-one.vercel.app), imported from GitHub with `AI_MODE=off`. To turn AI on, add `GEMINI_API_KEY` and `GROQ_API_KEY` in the project's environment variables and set `AI_MODE=live`. Details and the launch checklist: `docs/DEPLOY.md`. Test a deployment with `PW_BASE_URL=<url> npm run test:e2e -- tests/e2e/advisor.spec.ts`.
+Deployed on Vercel Hobby as project `tech-stack-advisor` (https://tech-stack-advisor-one.vercel.app), imported from GitHub; AI is on (`AI_MODE=live` with `GEMINI_API_KEY` and `GROQ_API_KEY` in the project's environment variables; a change there needs a Redeploy). Details and the launch checklist: `docs/DEPLOY.md`. Test a deployment with `PW_BASE_URL=<url> npm run test:e2e -- tests/e2e/advisor.spec.ts`.
 
 ## Repo map
 

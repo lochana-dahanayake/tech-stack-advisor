@@ -12,8 +12,8 @@ Hosting is **Vercel Hobby** (free; TECH_STACK, decided Q8), the same as Architec
 
    | Name | Value | Notes |
    |---|---|---|
-   | `AI_MODE` | `off` | Start with `off`: the site is complete without AI and says so. Switch to `live` after the live check (Q39). |
-   | `GEMINI_API_KEY`, `GROQ_API_KEY` | (empty until Q39) | Free keys from Google AI Studio and GroqCloud. Server-only: never `NEXT_PUBLIC_`. |
+   | `AI_MODE` | `off`, now `live` | Start with `off`: the site is complete without AI and says so. Switched to `live` after the live check (Q39, 2026-11-09). |
+   | `GEMINI_API_KEY`, `GROQ_API_KEY` | set (Production), 2026-11-09 | Free keys from Google AI Studio and GroqCloud, stored as Vercel Secrets. Server-only: never `NEXT_PUBLIC_`. **Changing a variable needs a Redeploy** (Deployments → ⋯ → Redeploy); a running deployment keeps the values it was built with. |
 
    Optional settings and their defaults are in `.env.example` and AI_INTEGRATION §12.
 4. **Deploy.** From then on every push to `main` redeploys, and every PR gets a preview URL.
@@ -46,6 +46,6 @@ Hosting is **Vercel Hobby** (free; TECH_STACK, decided Q8), the same as Architec
 - [x] First deploy (§1) and the smoke test (§3), 2026-11-09
 - [x] Q41: public repo without the reference PDFs (old history in the private `tech-stack-advisor-archive`), 2026-11-09
 - [x] Vercel project reconnected to the new public repo (Settings → Git; it had followed the renamed archive by repo id), 2026-11-09
-- [ ] Live AI check per provider, then `AI_MODE=live` (Q39)
+- [x] Live AI check per provider, then `AI_MODE=live` (Q39), 2026-11-09
 - [ ] Architecture Advisor → `/advisor?style=<id>` link, in the sibling repo, once the URL exists (Q2)
 - [ ] First KB refresh session scheduled (every 3 months, Q7)

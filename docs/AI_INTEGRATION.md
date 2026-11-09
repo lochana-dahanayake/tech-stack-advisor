@@ -33,6 +33,10 @@ Size: about 1,300–2,100 tokens of prompt plus ~470 of JSON schema for the 13 g
 ### System prompt (v1, `PROMPT_VERSION = "1"`)
 Starts from the sibling's v2 writing rules (short summary tied to the user's answers, no lists of definitions, jargon explained in the same sentence, no markdown). Changes for stacks: `explanation.stack` has one entry per part, in order, naming the option **in the stack after the AI's adjustments**; the AI is told it cannot pick the stack, the engine re-assembles it with its compatibility rules.
 
+### v2 and v3
+- **v2** (2026-11-09, PR #11): `mentions` for items the notes name (glossary, option aliases).
+- **v3** (2026-11-09, after the first live replies, §12): cautions must rest on the facts in the prompt, not general knowledge; a **money rule** (the prompt carries no prices, free tiers or plan limits, so no field may talk about free tiers, plan limits, cold starts, dollar amounts or whether the stack fits the budget; the engine already weighed the budget answer); mentions in the AI's own words, tied to the stack, not a copy of the given text. A rule against adjusting an option that is already #1 and in the stack was tried and dropped: Gemini kept doing it, and such an adjustment is allowed by §5 (the note is information the engine couldn't see) and shown openly as "AI: +5".
+
 ## 4. Response schema (`src/modules/ai/schema.ts`)
 ```ts
 {
@@ -91,7 +95,7 @@ Phase 4 step 1 (2026-11-09): `src/modules/ai/` (`context.ts`, `prompt.ts`, `sche
 
 | Setting (server-only env) | Default | Meaning |
 |---|---|---|
-| `AI_MODE` | `off` | `off` / `mock` / `live` |
+| `AI_MODE` | `off` | `off` / `mock` / `live` (the live site runs `live` since 2026-11-09) |
 | `GEMINI_API_KEY`, `GEMINI_MODEL` | –, `gemini-3.5-flash-lite` | Provider 1; skipped when the key is empty |
 | `GROQ_API_KEY`, `GROQ_MODEL` | –, `openai/gpt-oss-120b` | Provider 2; skipped when the key is empty |
 | `CACHE_IDENTICAL_REUSE` | `true` | `false` sends identical requests to the AI again |
@@ -107,4 +111,14 @@ Step 3 (2026-11-09, app v0.4.0): the UI.
 - **"In plain words (AI)" panel** (`src/components/result/ai-panel.tsx`), right under the result header: loading skeleton; neutral info boxes for `disabled`, `skipped`, `unavailable` (with Retry) and `rate_limited`; otherwise an **"AI changed the stack"** box (what the rule engine picked and what the stack uses now), the summary, one line per part, cautions, the adjustments with reasons, the notes used, and "Explanation by <provider>" with "AI text can be wrong". AI text is plain text only. The header adds one sentence when the AI changed the stack.
 - **`/privacy`** (`src/app/privacy/page.tsx`, footer link; About and Methodology link to it): what stays in the browser, what the AI request sends and to whom, the providers' data use (RESEARCH §9, checked 2026-11-09), the opt-out, the bounds on what the AI can change, what our server keeps (log fields, 30-day hashed cache, hashed-IP counters) and links to the providers' terms.
 
-Next: one live call per provider once keys are set (`AI_MODE=live`), as the sibling did (its Q26). A real reply may need prompt tuning (the sibling went to prompt v2 after its first live answers).
+### Live check (2026-11-09, Q39)
+Keys from the owner: Vercel Production (`AI_MODE=live`, `GEMINI_API_KEY`, `GROQ_API_KEY`) and a local `.env.local`. Input: golden G3 (real-time chat app, strong TypeScript) with the note "We already use PostgreSQL at work and would like to stay on it. Mobile app maybe later." (two mentions: `option:postgresql`, `glossary:mobile-apps`). Rules-only stack: TypeScript/Node + Vue + NestJS + PostgreSQL + Render.
+
+| Call | Prompt | Result |
+|---|---|---|
+| Gemini `gemini-3.5-flash-lite`, live site `POST /api/explain` | v2 | `ok`, 2.4 s model time (3.2 s round trip). One adjustment: PostgreSQL +5 (basis notes); stack unchanged. Both mentions answered. One caution invented a price ("under a twenty-five dollar monthly budget", from the budget label); the result page (checked in Chrome) also said the stack "fits comfortably within your budget" and warned about free-tier spin-down, neither of which the prompt states. |
+| Groq `openai/gpt-oss-120b`, Gemini left out (local, the app's `explain()` with only the Groq provider) | v2 | `ok`, 2.4 s. No adjustments, same stack. Cautions and the hosting `why` claimed Render's free tier and the $25 budget fit; mentions copied the glossary text word for word. |
+| Gemini, local | v3 | `ok`, 2.7–2.9 s, two runs. No money or free-tier text; mentions in its own words. One of two runs again gave PostgreSQL +5 (allowed, see §3). |
+| Groq, local | v3 | `ok`, 1.7–2.0 s, three runs. Mentions in its own words. One of three runs still said "Render's free tier limits may require careful monitoring". |
+
+Every reply passed schema and consistency validation on the first try (no repair turn), and every final stack equalled the server's re-assembly. Remaining gap: Groq (the fallback, low reasoning effort) sometimes ignores the money rule. If that shows up often, the next step is a deterministic filter in `validate.ts` that drops a caution naming a free tier or a dollar amount, rather than more prompt wording. The "AI text can be wrong" line stays.
