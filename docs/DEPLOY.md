@@ -44,7 +44,8 @@ Hosting is **Vercel Hobby** (free; TECH_STACK, decided Q8), the same as Architec
 - [x] README with screenshots, how it works, local run, deploy (2026-11-09)
 - [x] Open Graph image + alt text, `og`/`twitter` metadata (2026-11-09)
 - [x] First deploy (§1) and the smoke test (§3), 2026-11-09
-- [ ] Q41: the repo is private (and has copyrighted PDFs in its history), but the site links to it as public: reword the pages, or purge the PDFs and make it public
+- [x] Q41: public repo without the reference PDFs (old history in the private `tech-stack-advisor-archive`), 2026-11-09
+- [ ] Vercel project connected to the new public repo (it followed the renamed archive by repo id; reconnect under Settings → Git)
 - [ ] Live AI check per provider, then `AI_MODE=live` (Q39)
 - [ ] Architecture Advisor → `/advisor?style=<id>` link, in the sibling repo, once the URL exists (Q2)
 - [ ] First KB refresh session scheduled (every 3 months, Q7)

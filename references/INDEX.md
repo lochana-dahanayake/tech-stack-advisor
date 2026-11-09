@@ -3,9 +3,9 @@
 Source material for knowledge-base rules. Each entry gets a short id; KB entries cite it as `ref:<id>` (or `book:<id> <chapter>` for books).
 
 ## How to add a reference (owner)
-- Drop files into `books/`, `articles/` or `notes/` (PDF, markdown, text, links file, screenshots all fine).
+- Drop files into `books/`, `articles/` or `notes/` (markdown, text, links file, screenshots all fine).
+- **Books and other copyrighted files stay on your disk only.** The repo is public (since 2026-11-09, Q41), so `.gitignore` keeps every `*.pdf`/`*.epub` under `references/` out of git. The four books below live only in the owner's local `references/books/`; the private repo `tech-stack-advisor-archive` keeps the old history that contained them.
 - Add a row below. A link alone is fine: put it in the "Location" column.
-- Large PDFs: GitHub refuses files over 100 MB; prefer a link or extracted chapters.
 - **Never** add university lecture material here.
 
 ## How to use them (Claude)

@@ -16,3 +16,7 @@ private/
 # Playwright output
 test-results/
 playwright-report/
+
+# Copyrighted reference books stay on the owner's disk only; the repo is public (Q41).
+references/**/*.pdf
+references/**/*.epub
