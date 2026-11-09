@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   title: { default: "Tech Stack Advisor", template: "%s · Tech Stack Advisor" },
   description:
     "Answer a few questions about your project and team and get a full tech stack (language, frontend, backend, database and hosting), ranked and explained.",
+  // The image is src/app/opengraph-image.png (scripts/screenshots.mjs). On Vercel, Next.js builds absolute image URLs from
+  // the production domain, so no metadataBase is needed there.
+  openGraph: { type: "website", siteName: "Tech Stack Advisor" },
+  twitter: { card: "summary_large_image" },
 };
 
 const nav = [
