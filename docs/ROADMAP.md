@@ -7,7 +7,7 @@ Keep this current. At the end of every session, update **Next up** so the next (
 1. ~~Bundles~~ **done** (PR #9): `bundles.json`, "This is the well-known T3 stack" under Things to know (schema §10).
 2. ~~`worksBestWith` pair bonuses~~ **done** (PR #10): Next.js + Vercel +2, Django + PostgreSQL +1 (G4 now Django); KB draft §24.
 3. ~~Glossary~~ **done** (PR #11): `glossary.json` (18 entries), option aliases, "You mentioned" on the result, AI `mentions` (prompt v2).
-4. **Live AI** once the owner adds keys (Q39): one call per provider, then prompt tuning; set `AI_MODE=live` in Vercel.
+4. ~~Live AI~~ **done** (session 15, PR #13): keys in Vercel, `AI_MODE=live`; one call per provider passed; prompt v3; v0.7.0 (AI_INTEGRATION §12, Q39 decided).
 5. Remaining rubrics (Q20): a registry-size `ecosystem` rubric for languages (needs a Go module count; Q32 option b), hosting `ops-effort`/`portability`/`learning-curve` (still GK), language `productivity`.
 6. First KB refresh session in about 3 months (Q7).
 
@@ -17,7 +17,7 @@ Done in session 11 (details below under Phase 3): 1. scaffold + landing (PR #11)
 
 **Remaining Phase 1 items (not blocking the UI):** the rest of the rubrics (Q20). Bundles, pair bonuses and the glossary done 2026-11-09. Fairness lint done 2026-11-09.
 
-**Waiting for the owner (don't block on it):** Q39 (AI keys for one live call per provider). All other owner questions are decided.
+**Waiting for the owner:** nothing. All owner questions are decided (Q39 on 2026-11-09).
 
 Session 13 (2026-11-09, local): Phase 4 (PRs #19–#21): AI module + platform with mocked providers, engine `aiDeltas`, `/api/explain`, notes box + opt-out + AI panel + `/privacy`, app v0.4.0. Session 12 (2026-11-09, local): Phase 3 steps 5–8 (e2e + axe + dependency-cruiser, share links, locks + `?style=`, methodology/about), app v0.3.0. Session 11 (2026-11-09, local): Phase 3 steps 1–4 (scaffold + landing, form, result page, changelog + Markdown export), app v0.2.0. Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
 

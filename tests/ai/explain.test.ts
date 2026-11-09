@@ -36,7 +36,7 @@ describe("explain (AI_INTEGRATION §1–7)", () => {
   it("returns ok with provider details, the explanation and the engine's stack", async () => {
     const { deps: d } = deps();
     const ai = await explain(G3, kb, d);
-    expect(ai).toMatchObject({ status: "ok", provider: "a", model: "a-model", promptVersion: "2", adjustments: [] });
+    expect(ai).toMatchObject({ status: "ok", provider: "a", model: "a-model", promptVersion: "3", adjustments: [] });
     expect(ai.stack).toEqual(ctxFor(G3).rules.stack.picks);
     expect(ai.explanation?.stack.map((s) => s.optionId)).toEqual(ctxFor(G3).parts.map((p) => ai.stack![p]));
   });
@@ -52,7 +52,7 @@ describe("explain (AI_INTEGRATION §1–7)", () => {
   it("returns unavailable when every provider fails, and stores nothing", async () => {
     const failing = fakeProvider("a", [new ProviderError("server", "503")]);
     const { deps: d } = deps({}, failing);
-    expect(await explain(G3, kb, d)).toEqual({ status: "unavailable", adjustments: [], promptVersion: "2" });
+    expect(await explain(G3, kb, d)).toEqual({ status: "unavailable", adjustments: [], promptVersion: "3" });
     expect((await explain(G3, kb, d)).status).toBe("unavailable");
     expect(failing.calls).toHaveLength(2);
   });

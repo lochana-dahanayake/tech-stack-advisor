@@ -6,7 +6,6 @@ Product decisions belong to the owner. Claude: add new questions here instead of
 
 | # | Question | Recommendation and reason |
 |---|---|---|
-| Q39 | **AI keys for a live check (Phase 4, 2026-11-09).** The AI layer is built and tested with mock replies; it has never called Gemini or Groq. Can you create free keys (Google AI Studio and GroqCloud) and add them as `GEMINI_API_KEY` and `GROQ_API_KEY` (in `.env.local` locally, or in the cloud environment/Vercel settings), with `AI_MODE=live`? | Recommend yes before launch: one real call per provider proves the adapters and usually shows prompt wording to fix (the sibling needed a v2 prompt). While you're in the Groq console, the Limits page shows the free-plan numbers its docs didn't (RESEARCH §9). Until then the site runs with `AI_MODE=off` and says so. |
 
 ## Open: delegated to Claude (no answer needed unless you disagree)
 
@@ -24,6 +23,7 @@ Product decisions belong to the owner. Claude: add new questions here instead of
 
 | # | Decision | Date |
 |---|---|---|
+| Q39 | **Live AI is on.** The owner created free Gemini and Groq keys and set them with `AI_MODE=live` in Vercel (Production) and in a local `.env.local`. One real call per provider on golden G3 with a note: Gemini on the live site and Groq alone locally both returned `ok` and passed validation (AI_INTEGRATION §12). The replies led to prompt v3 (no money or free-tier claims, mentions in the AI's own words). Free-tier limits read from both consoles (RESEARCH §9). | 2026-11-09 |
 | Q33 | **Frontend, as recommended:** (1c) React's `ecosystem` (npm keyword rubric: 5) and a frontend `productivity` rubric (React 3, Svelte 3 from their own docs) sourced; Next.js still led SPA lists, so **(1b) Next.js is listed under `ssr` and `static` only** (its SPA mode is a static export without its server features, per its docs). Vue now wins most SPA scenarios. (2) S15 kept. KB draft §24. | 2026-11-09 |
 | Q34 | **Hosting, as recommended:** (1) cloud and PaaS `scalability` sourced with a rubric from the vendors' own docs (no new rule points); G8 now picks AWS, matching its cloud type. (2) Golden **G14** "must self-host" added; the `vps` exemption is gone. (3) Render's free-tier-based `performance`/`scalability` replaced by paid-plan scores (the free sleep is rule K12); Railway and Render now tie and the tie rule says so. KB draft §24. | 2026-11-09 |
 | Q36 | **Budget options name amounts:** Free tiers only ($0) · Up to about $25 a month · About $25–$100 a month · More than $100 a month, with hints naming real plans (Railway Hobby $5 plus usage, a $4–6 VPS, Vercel Pro $20 per seat; RESEARCH §4, checked 2026-11-08). Copy only: the rules still test only `free-only`, so no result changes. | 2026-11-09 |
