@@ -189,7 +189,7 @@ Every question has "Not sure". Ids are the `q.` paths used by rules. Since Phase
 | `real-time` | Live updates needed? | yes / no |
 | `seo` | Must pages be found by search engines? | yes / no |
 | `team-size`, `experience` | Team | solo, 2–5, 6–15, 16+; beginner, some, experienced |
-| `budget` | Monthly budget for running it | free only, small paid, moderate, comfortable |
+| `budget` | Monthly budget for running it | free only ($0), small paid (up to about $25), moderate (about $25–$100), comfortable (more than $100); amounts are form copy (Q36), rules only test `free-only` |
 | `deadline`, `lifespan` | Time | very tight (< 1 month), tight, relaxed; prototype, 1–3 years, 5+ years |
 | `commercial` | Is this a commercial project? (Q15) | yes / no |
 | `hosting-rule` | Hosting constraint | none, must self-host, must use AWS / Azure / Google Cloud |

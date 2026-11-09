@@ -186,7 +186,7 @@
   {
     "id": "budget",
     "text": "Monthly budget for running it",
-    "help": "For running it: hosting and database. Not salaries or licences you already pay for.",
+    "help": "For running it: hosting and database, per month. Not salaries or licences you already pay for. Amounts are rough guides (prices checked 2026-11-08).",
     "kind": "single",
     "options": [
       "free-only",
@@ -196,11 +196,17 @@
       "not-sure"
     ],
     "labels": {
-      "free-only": "Free tiers only",
-      "small-paid": "A small paid plan",
-      "moderate": "Moderate",
-      "comfortable": "Comfortable",
+      "free-only": "Free tiers only ($0)",
+      "small-paid": "Up to about $25 a month",
+      "moderate": "About $25–$100 a month",
+      "comfortable": "More than $100 a month",
       "not-sure": "Not sure"
+    },
+    "hints": {
+      "free-only": "Only services with a free tier that keeps running",
+      "small-paid": "One small paid plan, e.g. Railway Hobby ($5 plus usage), a $4–6 VPS or Vercel Pro ($20 per seat)",
+      "moderate": "A few paid services, e.g. a server plus a managed database",
+      "comfortable": "Bigger servers or managed cloud services"
     }
   },
   {
