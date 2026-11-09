@@ -111,7 +111,7 @@ test("a new visit starts blank, and Start over clears the answers", async ({ pag
   await expect(page.getByRole("radio", { name: "Interactive web app" })).not.toBeChecked();
 });
 
-test("Download Markdown saves the result as a dated .md file", async ({ page }) => {
+test("Download Markdown saves the result as a dated .md file", async ({ page, baseURL }) => {
   await page.goto("/advisor?example=api");
   await expect(stackHeading(page)).toHaveText(EXPECTED.api!);
   const download = page.waitForEvent("download");
@@ -122,7 +122,10 @@ test("Download Markdown saves the result as a dated .md file", async ({ page }) 
   const text = await readFile(await file.path(), "utf8");
   expect(text).toContain("ASP.NET Core");
   expect(text).toContain("PostgreSQL");
-  expect(text).toMatch(/\[Open this result in Tech Stack Advisor\]\(http:\/\/localhost:\d+\/advisor#a=[\w-]+\)/);
+  // The link points back at the site the file came from (localhost here, the real domain with PW_BASE_URL).
+  const link = text.match(/\[Open this result in Tech Stack Advisor\]\(([^)]+)\)/)?.[1] ?? "";
+  expect(link.startsWith(`${baseURL!.replace(/\/$/, "")}/advisor#a=`)).toBe(true);
+  expect(link).toMatch(/#a=[\w-]+$/);
 });
 
 test("the home page and /changelog render and are accessible", async ({ page }) => {
