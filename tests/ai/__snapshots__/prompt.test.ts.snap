@@ -13,7 +13,7 @@ exports[`prompt builder (AI_INTEGRATION §3) > matches the snapshot for a fixed 
 IMPORTANCE (effective, others low): Fast to build with=medium, Maturity and long-term support=high, Data integrity=critical, Search engines and first load=high, Rich interactivity=high
 TEAM SKILLS: Java / Kotlin on the JVM strong
 GOAL: use what we know
-RECOMMENDED STACK (rule engine, stack score 83.1/100): language=java "Java / Kotlin on the JVM", frontend=nextjs "Next.js", backend=spring-boot "Spring Boot", database=postgresql "PostgreSQL", hosting=render "Render"
+RECOMMENDED STACK (rule engine, stack score 83.6/100): language=java "Java / Kotlin on the JVM", frontend=nextjs "Next.js", backend=spring-boot "Spring Boot", database=postgresql "PostgreSQL", hosting=render "Render"
 PART language "Programming language":
   1. java "Java / Kotlin on the JVM" [in stack]: final 100 (base 80, skill +20)
      scores: Maturity and long-term support 5/5, Fast to build with 3/5, Performance 5/5
@@ -29,8 +29,8 @@ PART language "Programming language":
   5. python "Python": final 75 (base 75)
 PART frontend "Frontend":
   approach: Server-rendered (meta-framework) 84.4; next: Pages from the backend 76.7, Static site 72.2
-  1. nextjs "Next.js" [in stack]: final 80 (base 80)
-     scores: Maturity and long-term support 5/5, Fast to build with 4/5, Community and hiring 5/5
+  1. nextjs "Next.js" [in stack]: final 82.5 (base 82.5)
+     scores: Maturity and long-term support 5/5, Fast to build with 4/5, Ecosystem and libraries 5/5
      about: React meta-framework: server rendering, static export and API routes.
   2. angular "Angular": final 75 (base 75)
      scores: Maturity and long-term support 5/5, Fast to build with 4/5, Community and hiring 5/5
