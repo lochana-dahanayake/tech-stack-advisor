@@ -8,10 +8,10 @@ import { axe, stackHeading } from "./helpers";
  * change that moves one fails the engine tests first (tests/scoring/golden.test.ts); update both together.
  */
 const EXPECTED: Record<string, string> = {
-  chat: "TypeScript / JavaScript on Node.js + Next.js + NestJS + PostgreSQL + Railway",
-  shop: "Java / Kotlin on the JVM + Next.js + Spring Boot + PostgreSQL + Railway",
-  portfolio: "Plain HTML, CSS and JavaScript + GitHub Pages",
-  api: "C# (.NET) + ASP.NET Core + PostgreSQL + Railway",
+  chat: "TypeScript / JavaScript on Node.js + Next.js + NestJS + PostgreSQL + Render",
+  shop: "Java / Kotlin on the JVM + Next.js + Spring Boot + PostgreSQL + Render",
+  portfolio: "Plain HTML, CSS and JavaScript + Cloudflare Workers",
+  api: "C# (.NET) + ASP.NET Core + PostgreSQL + AWS",
   mvp: "TypeScript / JavaScript on Node.js + Next.js + Frontend framework server + PostgreSQL + Cloudflare Workers",
   hobby: "Python + Vue + FastAPI + PostgreSQL + Render",
 };

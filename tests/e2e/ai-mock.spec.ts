@@ -22,9 +22,7 @@ test("AI ok: the explanation fills in, explains every part and names the provide
   await expect(panel.getByText(/^Mock explanation: java \+ nextjs/)).toBeVisible();
   await expect(panel.getByText("Explanation by Mock AI.", { exact: false })).toBeVisible();
   await expect(panel.getByText("AI changed the stack")).toHaveCount(0);
-  await expect(stackHeading(page)).toHaveText(
-    "Java / Kotlin on the JVM + Next.js + Spring Boot + PostgreSQL + Railway",
-  );
+  await expect(stackHeading(page)).toHaveText("Java / Kotlin on the JVM + Next.js + Spring Boot + PostgreSQL + Render");
   await axe(page);
 });
 

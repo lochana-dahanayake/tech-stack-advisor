@@ -19,7 +19,7 @@ describe("resultToMarkdown", () => {
   it("leads with the stack, the score and the versions", () => {
     const text = md("shop");
     expect(text.split("\n")[0]).toBe(
-      "# Tech stack recommendation: Java / Kotlin on the JVM + Next.js + Spring Boot + PostgreSQL + Railway",
+      "# Tech stack recommendation: Java / Kotlin on the JVM + Next.js + Spring Boot + PostgreSQL + Render",
     );
     expect(text).toContain("_Tech Stack Advisor, 2026-11-09 · app v9.9.9 · knowledge base v" + kb.meta.kbVersion + "_");
     expect(text).toMatch(/\*\*Strong fit, stack score \d+ out of 100\.\*\*/);

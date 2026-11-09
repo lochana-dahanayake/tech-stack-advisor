@@ -1690,6 +1690,37 @@
     ]
   },
   {
+    "id": "K12",
+    "name": "Free only: Render Free sleeps",
+    "when": {
+      "eq": [
+        "q.budget",
+        "free-only"
+      ]
+    },
+    "effects": [
+      {
+        "type": "modify",
+        "target": "render",
+        "points": -5
+      }
+    ],
+    "explanation": "On Render's free plan a web service sleeps after 15 minutes without traffic, and the next visitor waits about a minute while it wakes up.",
+    "sources": [
+      {
+        "kind": "ref",
+        "ref": "host-docs",
+        "quality": "P",
+        "note": "render.com/docs/free (RESEARCH §4)"
+      },
+      {
+        "kind": "design",
+        "note": "−5 stands in for the performance step the free tier loses (Q34, 2026-11-09)",
+        "reviewed": false
+      }
+    ]
+  },
+  {
     "id": "A2",
     "name": "Serverless style",
     "when": {

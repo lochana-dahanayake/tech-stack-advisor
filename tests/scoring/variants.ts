@@ -13,8 +13,22 @@ export const variants: Record<
   current: { description: "The KB as committed", apply: (kb) => kb },
   session13: {
     description:
-      "current, with the session-14 owner decision undone (Q32: Java's and C#'s GK-only ecosystem back at 4): the KB of session 13",
-    apply: (kb) => setValues(kb, { java: { ecosystem: { value: 4 } }, csharp: { ecosystem: { value: 4 } } }),
+      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12): the KB of session 13",
+    apply: (kb) => {
+      const k = setValues(kb, {
+        java: { ecosystem: { value: 4 } },
+        csharp: { ecosystem: { value: 4 } },
+        render: { scalability: { value: 3 }, performance: { value: 3 } },
+        paas: { scalability: { value: 3 } },
+        ...Object.fromEntries(
+          ["frontend-platform", "cloud", "netlify", "vercel", "cloudflare", "aws", "azure", "gcp"].map((id) => [
+            id,
+            { scalability: { value: 4 } },
+          ]),
+        ),
+      });
+      return { ...k, rules: k.rules.filter((r) => r.id !== "K12") };
+    },
   },
   draft: {
     description: "Unsourced scores at their proposed (draft) values: the KB as drafted in PR #5 (session 3)",

@@ -584,3 +584,24 @@ Java's and C#'s GK-only `ecosystem` 4s are now held at 3 (`unsourced`, `proposed
 - C# and Java lose 1.4–3.5 points on the language list; where they led TypeScript they now tie with it (G2, G4, G6, G7, G11, G12) or fall behind it (G9: C# 5th).
 - **No stack pick changes.** G8's close-call gap shrinks from 2.4 to 1.9 (stack 77.7 vs Go + Gin + Vercel 75.9). G12's language tie is now three-way (TypeScript, Java, C# at 83.3); the stack still picks C# (stack score).
 - Every golden expectation holds (`tests/scoring/golden.test.ts`); `--variant current` shows the new tables.
+
+### Q34: hosting scores sourced, G14 added
+**Scalability rubric for hosting** (DESIGN, from each vendor's own docs, checked 2026-11-09; sources: `ref:host-docs` with the page in the note): 5 automatic horizontal scaling by load on a self-serve plan · 4 more instances by setting a count, with some automatic help · 3 one instance or soft limits · 2 one server you resize by hand. Applied:
+| Option | Before | Now | Why (vendor docs) |
+|---|---|---|---|
+| `gcp` · `azure` · `aws` | 4 (GK) | **5** | Cloud Run autoscales on CPU and concurrency; App Service autoscale (Standard and up); ECS Service Auto Scaling on Fargate (App Runner is closed to new customers) |
+| `vercel` · `netlify` · `cloudflare` | 4 | **5** | functions/Workers scale out with traffic |
+| `render` | 3 (free tier) | **4** | up to 100 instances on paid plans; autoscaling needs a Pro workspace |
+| `railway` | 4 (GK) | 4 | replicas by hand; vertical scaling automatic within plan limits |
+| `fly-io` | 4 (GK) | 4 | more Machines by hand or a fly-autoscaler you run; Fly Proxy starts/stops existing Machines |
+| `vps-server` | 2 (GK) | 2 | a single Droplet doesn't autoscale (DigitalOcean docs) |
+| types `cloud` / `frontend-platform` / `paas` / `vps` | 4 / 4 / 3 / 2 | **5 / 5 / 4** / 2 | as their providers |
+
+**Render `performance` 3 → 4**: the 3 came from the free tier's sleep; Render's docs say a paid plan removes the Free-instance limits, so paid Render scores like Railway (always on). The sleep is now rule **K12** (budget free only: Render −5, sourced to render.com/docs/free; the −5 stands in for the lost performance step, DESIGN). Railway is excluded on a free-only budget anyway (K5).
+
+**Results** (`--variant current`; `--variant session13` is the KB before Q32 and Q34):
+- **G8 now picks AWS** (stack 78.8; close call Go + Gin + Vercel 77.0), so its stack matches its cloud type, as the scenario expected (Q34 call 1).
+- **Railway and Render tie exactly** wherever a PaaS wins (G2–G4, G7, G10–G13), and the tie rule (step 6.6) picks Render by KB order; the result says "Render = Railway → Render (KB order)" (Q34 call 3: no unsourced lead for Railway any more).
+- **G1 picks Cloudflare Workers** over GitHub Pages (68.3 vs 65.6; G1 allows either). G2, G11, G12: Cloudflare is the hosting #1 but can't run their language (C-cloudflare-language), so the stack moves to Render.
+- **G14 added** (must self-host, Q34 call 2): `vps` 45.8 is the only type K3 leaves, `vps-server` the pick; Java + Spring Boot + PostgreSQL + VPS (Next.js frontend; see Q33). The `vps` coverage exemption is gone; only `key-value` keeps one.
+- Every golden expectation holds. The historic variants now also print a G14 row; their other rows are unchanged. The e2e expectations moved with the engine (chat, shop → Render; portfolio → Cloudflare Workers; api → AWS).

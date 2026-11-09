@@ -86,8 +86,8 @@ describe("knowledge base", () => {
 
   it("gives every coverage exemption to a ranked type with a reason", () => {
     const exempt = kb.options.filter((o) => o.coverageExempt).map((o) => o.id);
-    // key-value: TESTING_STRATEGY §3. vps: interim, until the owner answers Q34 (K3 unit test covers its win).
-    expect(exempt).toEqual(["key-value", "vps"]);
+    // key-value: TESTING_STRATEGY §3. vps lost its exemption when golden G14 (must self-host) was added (Q34).
+    expect(exempt).toEqual(["key-value"]);
   });
 
   it("release gate: no unreviewed sources, no unsourced scores, no fact more than 2x its stale window overdue", () => {
