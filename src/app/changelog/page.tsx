@@ -9,6 +9,18 @@ export const metadata: Metadata = {
 /** Release notes in plain words. Keep in step with docs/ROADMAP.md and the `version` in package.json. */
 const releases = [
   {
+    version: "0.4",
+    date: "2026-11-09",
+    title: "In plain words (AI, optional)",
+    tag: "Preview",
+    items: [
+      "An optional AI explanation of your stack in plain words, with what to watch out for. It runs on free AI services (Google Gemini, then Groq) and the result page says when it is off.",
+      "A notes box on the last step for things the questions don't cover. Only the AI reads it; the ranking still comes from your answers.",
+      "The AI may nudge up to three options by at most 5 points each, with a reason you can see. The rule engine then rebuilds the stack, so the AI can only tip a close call, never pick the stack.",
+      "A “Don't use AI for this request” box, and a Privacy page that says what is sent where.",
+    ],
+  },
+  {
     version: "0.3",
     date: "2026-11-09",
     title: "Share, must-use picks and the full method",

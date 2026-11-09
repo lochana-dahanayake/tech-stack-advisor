@@ -2,12 +2,23 @@ import { defineConfig, devices } from "@playwright/test";
 
 const PORT = 3100;
 
+/** One production server per AI setting: AI off for the main flow, plus AI_MODE=mock fixtures (no AI service is called). */
+export const MOCK_PORTS = { ok: 3101, reorder: 3102, fail: 3103 } as const;
+
+const server = (port: number, env: Record<string, string>) => ({
+  command: `npm run start -- --port ${port}`,
+  url: `http://localhost:${port}`,
+  reuseExistingServer: true,
+  timeout: 60_000,
+  env,
+});
+
 /** Set PW_CHANNEL=msedge (or chrome) to use an installed browser instead of Playwright's own Chromium. */
 const channel = process.env.PW_CHANNEL;
 
 /**
- * End-to-end and accessibility checks of the main flow (TESTING_STRATEGY §6), run against a production build
- * (`npm run build` first). The app works fully with AI off, so no AI setting is needed yet.
+ * End-to-end and accessibility checks (TESTING_STRATEGY §6), run against a production build (`npm run build` first).
+ * The main flow runs with AI off; tests/e2e/ai-mock.spec.ts uses the mock servers.
  */
 export default defineConfig({
   testDir: "tests/e2e",
@@ -21,10 +32,8 @@ export default defineConfig({
     { name: "desktop", use: { ...devices["Desktop Chrome"], channel } },
     { name: "mobile", use: { ...devices["Pixel 7"], channel } },
   ],
-  webServer: {
-    command: `npm run start -- --port ${PORT}`,
-    url: `http://localhost:${PORT}`,
-    reuseExistingServer: true,
-    timeout: 60_000,
-  },
+  webServer: [
+    server(PORT, { AI_MODE: "off" }),
+    ...Object.entries(MOCK_PORTS).map(([mock, port]) => server(port, { AI_MODE: "mock", AI_MOCK: mock })),
+  ],
 });

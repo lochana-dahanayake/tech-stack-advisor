@@ -182,9 +182,14 @@ export default function MethodologyPage() {
             nudges a few picks by small amounts.
           </li>
           <li>
-            <strong>AI (optional, not enabled yet).</strong> An AI model may later explain the result in plain words and
-            nudge a few options by up to ±{kb.meta.caps.ai} points, always with a visible reason. It never builds the
-            comparison and the app works fully without it.
+            <strong>AI (optional).</strong> An AI model may explain the result in plain words and nudge up to three
+            options in the top five of a part by up to ±{kb.meta.caps.ai} points, always with a visible reason. The rule
+            engine then puts the stack together again with the same compatibility rules: the AI never picks the stack or
+            builds the comparison, and the app works fully without it (
+            <Link href="/privacy" className="underline underline-offset-4">
+              what it sends
+            </Link>
+            ).
           </li>
         </ol>
       </section>

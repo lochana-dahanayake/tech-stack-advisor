@@ -36,6 +36,7 @@ const footerColumns = [
     title: "Project",
     links: [
       { href: "/about", label: "About" },
+      { href: "/privacy", label: "Privacy" },
       { href: "https://github.com/lochana-dahanayake/tech-stack-advisor", label: "Source on GitHub" },
       { href: "https://architecture-advisor-pink.vercel.app", label: "Architecture Advisor" },
     ],

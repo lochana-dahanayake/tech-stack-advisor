@@ -51,8 +51,11 @@ export default function AboutPage() {
             don&apos;t send that part to our server, but anyone you give the link to can see the answers.
           </li>
           <li>
-            AI isn&apos;t enabled yet. When it is, it will be optional, and this page will say exactly what is sent
-            where.
+            The plain-words AI explanation is optional. The{" "}
+            <Link href="/privacy" className={link}>
+              privacy page
+            </Link>{" "}
+            says exactly what it sends, to whom, and how to turn it off.
           </li>
         </ul>
       </section>

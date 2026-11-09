@@ -192,6 +192,8 @@ export function ResultView({
   onEdit,
   onStartOver,
   actions,
+  ai,
+  aiChanged,
 }: {
   rec: Recommendation;
   /** Set when this result is one of the home page's examples. */
@@ -200,6 +202,10 @@ export function ResultView({
   onStartOver: () => void;
   /** Extra header actions (share and save). */
   actions?: React.ReactNode;
+  /** The "In plain words (AI)" panel. */
+  ai?: React.ReactNode;
+  /** True when the AI's adjustments changed a pick (the panel explains it). */
+  aiChanged?: boolean;
 }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => headingRef.current?.focus(), []);
@@ -250,6 +256,7 @@ export function ResultView({
               {notNeeded.length > 0 &&
                 `; no ${notNeeded.map((p) => partName(p.partId, true).toLowerCase()).join(" or ")} needed`}
               . Every part&apos;s full ranking and the reasons are below.
+              {aiChanged && " The AI's small score adjustments changed the stack; see “In plain words (AI)”."}
             </p>
           </div>
           <ScoreDial score={rec.stackScore} />
@@ -265,6 +272,8 @@ export function ResultView({
           {actions}
         </div>
       </header>
+
+      {ai}
 
       <ThingsToKnow rec={rec} />
 
