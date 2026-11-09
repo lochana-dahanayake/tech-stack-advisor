@@ -9,6 +9,19 @@ export const metadata: Metadata = {
 /** Release notes in plain words. Keep in step with docs/ROADMAP.md and the `version` in package.json. */
 const releases = [
   {
+    version: "0.3",
+    date: "2026-11-09",
+    title: "Share, must-use picks and the full method",
+    tag: "Preview",
+    items: [
+      "Share & save: copy a link that reopens your result (your answers travel in the link, never to our server), download Markdown with a link back, or print.",
+      "Must use: on step 3, pick a language, framework, database or host you have to use. It always stays in your stack, and the result says what it costs: its rank, any rule it overrides, or a clash with another must-use.",
+      "Coming from Architecture Advisor: a link with your architecture style starts the form with it, and the result says which picks it nudged.",
+      "A “How it works” page with the steps, the formula, the fairness rules, every rule and source, and how often facts are re-checked, plus an About page.",
+      "Accessibility checks on every page in light and dark mode, which fixed a contrast issue on button hover and the stack card's markup.",
+    ],
+  },
+  {
     version: "0.2",
     date: "2026-11-09",
     title: "The advisor you can use",

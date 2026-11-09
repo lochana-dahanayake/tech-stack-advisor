@@ -172,7 +172,11 @@ export default function Home() {
         <p className="flex items-start gap-2 text-sm text-muted-foreground">
           <CalendarCheckIcon className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
           Versions, licences and free tiers change, so every such fact carries the date it was last checked, and the
-          knowledge base is refreshed every three months.
+          knowledge base is refreshed every three months.{" "}
+          <Link href="/methodology" className="font-medium text-primary underline-offset-4 hover:underline">
+            Read the full methodology
+          </Link>
+          .
         </p>
       </section>
 

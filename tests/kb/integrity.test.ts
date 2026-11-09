@@ -177,6 +177,20 @@ describe("integrity: parts, languages and skills", () => {
   });
 });
 
+describe("integrity: references (methodology page)", () => {
+  it("every cited book or ref has a reference entry of the right kind, and every entry is cited", () => {
+    expect(findIntegrityProblems(kb).filter((x) => /reference/.test(x))).toEqual([]);
+    const k = structuredClone(kb);
+    k.rules[0]!.sources = [{ kind: "ref", ref: "nope", quality: "P" }];
+    k.references.push({ id: "lonely", kind: "docs", citation: "Never cited" });
+    k.rules[1]!.sources = [{ kind: "book", ref: "so-survey" }];
+    const problems = findIntegrityProblems(k).join("\n");
+    expect(problems).toMatch(/unknown reference ref:nope/);
+    expect(problems).toMatch(/reference lonely is never cited/);
+    expect(problems).toMatch(/book:so-survey doesn't match the reference's kind survey/);
+  });
+});
+
 describe("integrity: question labels (Phase 3 form)", () => {
   const withQuestion = (id: string, change: Partial<KnowledgeBase["questions"][number]>): KnowledgeBase => ({
     ...kb,
