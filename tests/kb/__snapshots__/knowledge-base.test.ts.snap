@@ -2,7 +2,6 @@
 
 exports[`knowledge base > holds unsourced scores at 3 with only GK sources, and lists them (visible diff when one gets sourced) 1`] = `
 [
-  "react.ecosystem (proposed 5)",
   "key-value.real-time (proposed 5)",
   "postgresql.ecosystem (proposed 5)",
   "mysql.ecosystem (proposed 5)",
@@ -68,7 +67,7 @@ exports[`knowledge base > matches the score matrix snapshot (any KB change is a 
   "neo4j": "learning-curve=2 performance=3 scalability=2 real-time=2 data-integrity=4 schema-flexibility=4 ecosystem=3 community=1 maturity=4 cost=3 ops-effort=3 portability=2",
   "nestjs": "learning-curve=2 productivity=4 performance=3 scalability=4 real-time=5 ecosystem=4 community=3 maturity=4 type-safety=4",
   "netlify": "learning-curve=4 performance=4 scalability=5 maturity=4 cost=4 real-time=1 ops-effort=4 portability=3",
-  "nextjs": "learning-curve=3 productivity=4 performance=3 ecosystem=4 community=5 maturity=5 type-safety=4",
+  "nextjs": "learning-curve=3 productivity=4 performance=3 ecosystem=5 community=5 maturity=5 type-safety=4",
   "nuxt": "learning-curve=3 productivity=4 performance=2 ecosystem=4 community=2 maturity=4 type-safety=4",
   "paas": "learning-curve=4 scalability=4 real-time=4 ops-effort=4 cost=3 portability=4",
   "php": "learning-curve=4 productivity=4 performance=2 ecosystem=4 community=3 maturity=5 type-safety=3",
@@ -76,7 +75,7 @@ exports[`knowledge base > matches the score matrix snapshot (any KB change is a 
   "postgresql": "learning-curve=3 performance=4 scalability=3 real-time=3 data-integrity=5 schema-flexibility=4 ecosystem=3u community=5 maturity=5 cost=5 ops-effort=3 portability=5",
   "python": "learning-curve=5 productivity=4 performance=1 ecosystem=3u community=5 maturity=5 type-safety=3",
   "railway": "learning-curve=4 performance=4 scalability=4 maturity=3 cost=3 real-time=4 ops-effort=4 portability=4",
-  "react": "learning-curve=3 productivity=3 performance=2 ecosystem=3u community=5 maturity=4 type-safety=4",
+  "react": "learning-curve=3 productivity=3 performance=2 ecosystem=5 community=5 maturity=4 type-safety=4",
   "redis": "learning-curve=4 performance=5 scalability=4 real-time=3u data-integrity=2 schema-flexibility=3 ecosystem=4 community=4 maturity=4 cost=3 ops-effort=3 portability=3",
   "relational": "learning-curve=3 performance=4 scalability=3 real-time=3 data-integrity=5 schema-flexibility=3",
   "render": "learning-curve=4 performance=4 scalability=4 maturity=3 cost=3 real-time=4 ops-effort=4 portability=4",
@@ -87,7 +86,7 @@ exports[`knowledge base > matches the score matrix snapshot (any KB change is a 
   "ssr": "learning-curve=2 performance=3 seo=5 interactivity=4 cost=2",
   "static": "learning-curve=4 performance=5 seo=5 interactivity=2 cost=5",
   "static-hosting": "learning-curve=4 scalability=3 real-time=1 ops-effort=4 cost=5 portability=4",
-  "svelte": "learning-curve=4 productivity=4 performance=3 ecosystem=3 community=3 maturity=4 type-safety=4",
+  "svelte": "learning-curve=4 productivity=3 performance=3 ecosystem=3 community=3 maturity=4 type-safety=4",
   "sveltekit": "learning-curve=3 productivity=4 performance=3 ecosystem=3 community=3 maturity=3 type-safety=4",
   "typescript-node": "learning-curve=4 productivity=4 performance=4 ecosystem=3u community=5 maturity=5 type-safety=4",
   "valkey": "learning-curve=4 performance=5 scalability=4 real-time=3u data-integrity=2 schema-flexibility=3 ecosystem=3 community=3u maturity=3 cost=3 ops-effort=3 portability=4",

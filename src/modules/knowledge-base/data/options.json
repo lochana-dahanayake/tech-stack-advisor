@@ -648,14 +648,21 @@
       },
       "productivity": {
         "value": 3,
-        "why": "UI only: router, forms and data fetching are separate choices",
+        "why": "UI only: React's docs recommend starting with a framework, or choosing your own tools for routing and data fetching",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "react.dev/learn/creating-a-react-app"
+          },
+          {
+            "kind": "design",
+            "note": "frontend productivity rubric (Q33): 4 routing, data loading and more built in or official · 3 a UI library whose own docs point to a separate framework for routing and data loading",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "performance": {
         "value": 2,
@@ -677,17 +684,22 @@
         "checked": "2026-11-08"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "The largest set of component libraries and tools",
+        "value": 5,
+        "why": "195,685 npm packages tagged “react” (band ≥ 100k → 5)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:react, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 5,
@@ -820,14 +832,21 @@
       },
       "ecosystem": {
         "value": 4,
-        "why": "Large, with official libraries",
+        "why": "57,436 npm packages tagged “vue” (band 25k–100k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:vue, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 5,
@@ -927,15 +946,22 @@
         "checked": "2026-11-08"
       },
       "productivity": {
-        "value": 4,
-        "why": "Less code per component; built-in state and transitions",
+        "value": 3,
+        "why": "UI only: Svelte's docs recommend SvelteKit for routing and data loading",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "svelte.dev/docs/svelte/getting-started"
+          },
+          {
+            "kind": "design",
+            "note": "frontend productivity rubric (Q33): 4 routing, data loading and more built in or official · 3 a UI library whose own docs point to a separate framework for routing and data loading",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "performance": {
         "value": 3,
@@ -958,14 +984,21 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "Smaller library ecosystem",
+        "why": "10,160 npm packages tagged “svelte” (band 5k–25k → 3)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:svelte, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 3,
@@ -1099,14 +1132,21 @@
       },
       "ecosystem": {
         "value": 4,
-        "why": "Large, many first-party packages",
+        "why": "32,284 npm packages tagged “angular” (band 25k–100k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:angular, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 5,
@@ -1198,8 +1238,7 @@
     "level": "product",
     "types": [
       "ssr",
-      "static",
-      "spa"
+      "static"
     ],
     "name": "Next.js",
     "summary": "React meta-framework: server rendering, static export and API routes.",
@@ -1261,15 +1300,22 @@
         "checked": "2026-11-08"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "The React ecosystem",
+        "value": 5,
+        "why": "Uses React's packages: 195,685 tagged “react” (17,034 tagged “nextjs”)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:react and keywords:nextjs, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 5,
@@ -1417,14 +1463,21 @@
       },
       "ecosystem": {
         "value": 4,
-        "why": "Nuxt modules plus the Vue ecosystem",
+        "why": "Uses Vue's packages: 57,436 tagged “vue” (4,177 tagged “nuxt”)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:vue and keywords:nuxt, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 2,
@@ -1559,14 +1612,21 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "The smaller Svelte ecosystem",
+        "why": "Uses Svelte's packages: 10,160 tagged “svelte” (2,196 tagged “sveltekit”)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org search keywords:svelte and keywords:sveltekit, 2026-11-09"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (KB draft §24, Q33): npm packages with the library's keyword (registry search API), a meta-framework counts its base library's: ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-09"
       },
       "community": {
         "value": 3,
