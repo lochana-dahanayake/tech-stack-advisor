@@ -5,8 +5,8 @@ Keep this current. At the end of every session, update **Next up** so the next (
 ## Next up
 **Phase 4 is built (session 13, 2026-11-09, app v0.4.0)** with mocked AI providers; the app still works fully with AI off (the default). Phase 3 was done in session 12 (v0.3.0). Next, in this order (one branch + PR each):
 1. **Phase 4: the AI layer** (`docs/AI_INTEGRATION.md`). **Done (session 13, PRs #19–#21, app v0.4.0):** `src/modules/ai/` + `platform/` with mocked providers, `score(input, kb, aiDeltas)` re-runs assembly, boundary rules and the env-name check; `POST /api/explain`; the notes box, opt-out, "In plain words (AI)" panel, mock e2e and `/privacy`. **Left in Phase 4:** one live call per provider once the owner sets `GEMINI_API_KEY`/`GROQ_API_KEY` (Q39), then prompt tuning from real replies.
-2. **Architecture Advisor → `/advisor?style=<id>` link** (Q2): in the sibling repo, once this app has a public URL (Phase 5 deploy). **Still no public URL (checked session 13), so not done.** Our side is done; style ids must stay in step with `meta.architectureStyles`.
-3. **Phase 5 launch** (`docs/DEPLOY.md`): README and Open Graph image done (session 13, PR #22). **Next:** the owner imports the repo in Vercel (DEPLOY §1, Q40); then Claude runs the smoke test on the real URL (DEPLOY §3), puts the URL in the README, and does item 2.
+2. **Architecture Advisor → `/advisor?style=<id>` link** (Q2): in the sibling repo, once this app has a public URL (Phase 5 deploy). **The URL now exists (https://tech-stack-advisor-one.vercel.app): do this next, in the sibling repo.** Our side is done; style ids must stay in step with `meta.architectureStyles`.
+3. **Phase 5 launch** (`docs/DEPLOY.md`): README and Open Graph image (PR #22); **live at https://tech-stack-advisor-one.vercel.app** since 2026-11-09, smoke test and e2e passed on the real URL (PR #23). Open: the repo is private but the site links to it as public (Q41); live AI (Q39).
 
 Done in session 12 (details under Phase 3, steps 5–8): e2e + axe tests and dependency-cruiser (PR #15), share links and "Share & save" (PR #16), locks + `?style=` (PR #17), methodology + about pages and v0.3.0 (PR #18).
 
@@ -14,7 +14,7 @@ Done in session 11 (details below under Phase 3): 1. scaffold + landing (PR #11)
 
 **Remaining Phase 1 items (not blocking the UI):** `worksBestWith` pair bonuses, bundles and glossary JSON, rubrics (Q20), fairness lint.
 
-**Waiting for the owner (don't block on it):** Q40 (Vercel import, DEPLOY §1), Q39 (AI keys for one live call per provider), Q36 (budget amounts), Q32 (language `ecosystem`), Q33 (Next.js as the SPA pick; S15), Q34 (G8's hosting pick, a self-hosting scenario for `vps`, Railway vs Render).
+**Waiting for the owner (don't block on it):** Q41 (public repo), Q39 (AI keys for one live call per provider), Q36 (budget amounts), Q32 (language `ecosystem`), Q33 (Next.js as the SPA pick; S15), Q34 (G8's hosting pick, a self-hosting scenario for `vps`, Railway vs Render).
 
 Session 13 (2026-11-09, local): Phase 4 (PRs #19–#21): AI module + platform with mocked providers, engine `aiDeltas`, `/api/explain`, notes box + opt-out + AI panel + `/privacy`, app v0.4.0. Session 12 (2026-11-09, local): Phase 3 steps 5–8 (e2e + axe + dependency-cruiser, share links, locks + `?style=`, methodology/about), app v0.3.0. Session 11 (2026-11-09, local): Phase 3 steps 1–4 (scaffold + landing, form, result page, changelog + Markdown export), app v0.2.0. Session 10 (2026-11-08, local): **Part 5 (hosting)** merged: 5 types, 11 providers with free tiers read from the vendors' own pages, K1–K10, S17–S21, new relation kinds (conflicts, note, penalty with a dated beta fact), faster assembly (KB draft §19–23). Session 9: Part 4 (frontend).
 
@@ -79,7 +79,7 @@ Session 11 steps (2026-11-09):
 
 ## Phase 5: Launch
 - [x] README (screenshots, how it works, run, deploy), Open Graph image + metadata, `scripts/screenshots.mjs`, `docs/DEPLOY.md` (session 13, 2026-11-09)
-- [ ] Deploy on Vercel Hobby (owner, Q40) + smoke test; [x] about/methodology pages (sources, fairness rules, refresh dates; 2026-11-09)
+- [x] Deploy on Vercel Hobby (https://tech-stack-advisor-one.vercel.app, 2026-11-09) + smoke test (DEPLOY §3); [x] about/methodology pages (sources, fairness rules, refresh dates; 2026-11-09)
 - [ ] First KB refresh session scheduled (every 3 months, Q7)
 
 ## v1.1 (decided order)

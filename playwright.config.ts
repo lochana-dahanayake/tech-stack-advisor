@@ -16,6 +16,10 @@ const server = (port: number, env: Record<string, string>) => ({
 /** Set PW_CHANNEL=msedge (or chrome) to use an installed browser instead of Playwright's own Chromium. */
 const channel = process.env.PW_CHANNEL;
 
+/** Set PW_BASE_URL (e.g. the live site) to test a running deployment: no local servers are started. Only the main
+ * flow applies there (tests/e2e/advisor.spec.ts); the AI mock tests need the local mock servers. */
+const remote = process.env.PW_BASE_URL;
+
 /**
  * End-to-end and accessibility checks (TESTING_STRATEGY §6), run against a production build (`npm run build` first).
  * The main flow runs with AI off; tests/e2e/ai-mock.spec.ts uses the mock servers.
@@ -25,15 +29,17 @@ export default defineConfig({
   fullyParallel: true,
   reporter: "list",
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: remote ?? `http://localhost:${PORT}`,
     trace: "retain-on-failure",
   },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], channel } },
     { name: "mobile", use: { ...devices["Pixel 7"], channel } },
   ],
-  webServer: [
-    server(PORT, { AI_MODE: "off" }),
-    ...Object.entries(MOCK_PORTS).map(([mock, port]) => server(port, { AI_MODE: "mock", AI_MOCK: mock })),
-  ],
+  webServer: remote
+    ? []
+    : [
+        server(PORT, { AI_MODE: "off" }),
+        ...Object.entries(MOCK_PORTS).map(([mock, port]) => server(port, { AI_MODE: "mock", AI_MOCK: mock })),
+      ],
 });

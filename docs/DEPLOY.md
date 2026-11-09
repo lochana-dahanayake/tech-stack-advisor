@@ -2,9 +2,9 @@
 
 Hosting is **Vercel Hobby** (free; TECH_STACK, decided Q8), the same as Architecture Advisor. Hobby is for **non-commercial personal use only** (RESEARCH §4), which fits: the app is free, with no ads and no paid tier. Nothing in the repo needs changing for Vercel: it is a standard Next.js app, so there is no `vercel.json`.
 
-## 1. First deploy (owner, about 5 minutes)
+## 1. First deploy (done 2026-11-09)
 
-Deploying needs the owner's Vercel account; Claude has no login (OPEN_QUESTIONS Q40).
+**Live at https://tech-stack-advisor-one.vercel.app** (Vercel project `tech-stack-advisor` under "Lochana's projects", Hobby; `tech-stack-advisor.vercel.app` belongs to someone else, so Vercel added `-one`). The owner signed in to Vercel in Chrome and Claude did the import with `AI_MODE=off` for Production and Preview (Q40). The first build took 40 s. The steps, for a re-import:
 
 1. Sign in at vercel.com with the GitHub account `lochana-dahanayake` (the same account as Architecture Advisor).
 2. **Add New → Project → Import** `lochana-dahanayake/tech-stack-advisor`. Vercel detects Next.js; leave the build and output settings as they are. The project name sets the free URL (`<name>.vercel.app`); `tech-stack-advisor` if it is free.
@@ -27,7 +27,9 @@ Deploying needs the owner's Vercel account; Claude has no login (OPEN_QUESTIONS 
 - **Link previews:** `src/app/opengraph-image.png` becomes `og:image`/`twitter:image`. Next.js builds the absolute image URL from Vercel's production domain, so no `metadataBase` is set. Retake the image with `node scripts/screenshots.mjs` when the landing page changes.
 - **AI state is per instance:** the cache, rate limits, daily budget and provider breaker live in memory per server instance (AI_INTEGRATION §8), so with several warm instances the limits are per instance. Fine for launch traffic; an Upstash Redis adapter is one file if it isn't (sibling's Q25).
 
-## 3. After the first deploy: smoke test (Claude, on the real URL)
+## 3. Smoke test on the real URL
+
+**Run 2026-11-09, all passed:** `/`, `/advisor`, `/methodology`, `/about`, `/privacy`, `/changelog` and `/opengraph-image.png` return 200; with a crawler user agent `og:image` is `https://tech-stack-advisor-one.vercel.app/opengraph-image.png?…`; `POST /api/explain` returns 400 for `{}` and `disabled` for a valid input; `PW_BASE_URL=https://tech-stack-advisor-one.vercel.app PW_CHANNEL=msedge npx playwright test tests/e2e/advisor.spec.ts` passed 42/42 (desktop + mobile: every example's stack, the form, share links, Markdown, locks, `?style=`, axe on every page). The checklist:
 
 1. `/` loads; the "See the full result" link opens the chat example.
 2. The form end to end; the result's stack matches the e2e expectations; "AI explanation not enabled yet" shows with `AI_MODE=off`.
@@ -41,7 +43,8 @@ Deploying needs the owner's Vercel account; Claude has no login (OPEN_QUESTIONS 
 
 - [x] README with screenshots, how it works, local run, deploy (2026-11-09)
 - [x] Open Graph image + alt text, `og`/`twitter` metadata (2026-11-09)
-- [ ] First deploy (owner, §1) and the smoke test (§3)
+- [x] First deploy (§1) and the smoke test (§3), 2026-11-09
+- [ ] Q41: the repo is private (and has copyrighted PDFs in its history), but the site links to it as public: reword the pages, or purge the PDFs and make it public
 - [ ] Live AI check per provider, then `AI_MODE=live` (Q39)
 - [ ] Architecture Advisor → `/advisor?style=<id>` link, in the sibling repo, once the URL exists (Q2)
 - [ ] First KB refresh session scheduled (every 3 months, Q7)
