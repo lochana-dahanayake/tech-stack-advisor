@@ -86,6 +86,15 @@ export function resultToMarkdown(
   if (input.knownFrameworks?.length)
     push(`- Frameworks the team knows: ${input.knownFrameworks.map(optionName).join(", ")}`);
   if (input.goal === "learn") push("- Goal: learn something new");
+  const locks = Object.entries(input.locked ?? {}).filter((e): e is [string, string] => !!e[1]);
+  if (locks.length > 0)
+    push(
+      `- Must use: ${locks.map(([part, id]) => `${optionName(id)} (${partName(part, true).toLowerCase()})`).join(", ")}`,
+    );
+  if (input.style)
+    push(
+      `- Architecture style (from Architecture Advisor): ${kb.meta.architectureStyles.styles.find((s) => s.id === input.style)?.name ?? input.style}`,
+    );
   const weights = Object.entries(input.weights ?? {});
   if (weights.length > 0)
     push(

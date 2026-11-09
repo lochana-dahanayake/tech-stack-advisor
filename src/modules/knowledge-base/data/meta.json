@@ -28,5 +28,62 @@
     "ownership": 365,
     "usage": 365,
     "score": 365
+  },
+  "architectureStyles": {
+    "source": "Architecture Advisor knowledge base v1.2.0, styles.json (checked 2026-11-09)",
+    "styles": [
+      {
+        "id": "layered",
+        "name": "Layered architecture"
+      },
+      {
+        "id": "modular-monolith",
+        "name": "Modular monolith"
+      },
+      {
+        "id": "microkernel",
+        "name": "Microkernel (plug-in) architecture"
+      },
+      {
+        "id": "pipeline",
+        "name": "Pipeline (pipes and filters)"
+      },
+      {
+        "id": "service-based",
+        "name": "Service-based architecture"
+      },
+      {
+        "id": "event-driven",
+        "name": "Event-driven architecture"
+      },
+      {
+        "id": "space-based",
+        "name": "Space-based architecture"
+      },
+      {
+        "id": "microservices",
+        "name": "Microservices"
+      },
+      {
+        "id": "soa",
+        "name": "Orchestration-driven SOA"
+      },
+      {
+        "id": "serverless",
+        "name": "Serverless"
+      },
+      {
+        "id": "cell-based",
+        "name": "Cell-based architecture"
+      },
+      {
+        "id": "peer-to-peer",
+        "name": "Peer-to-peer"
+      },
+      {
+        "id": "edge",
+        "name": "Edge–cloud architecture"
+      }
+    ]
   }
 }

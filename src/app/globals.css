@@ -120,6 +120,8 @@
   /* Anchor links land below the sticky header. */
   html {
     scroll-padding-top: 5rem;
+    /* Native controls (the step 3 selects) follow the theme. */
+    color-scheme: light dark;
   }
   body {
     @apply bg-background text-foreground;

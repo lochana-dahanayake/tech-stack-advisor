@@ -270,7 +270,9 @@ Small nudges only (±5 to ±10), because the style describes structure, not tool
 | A1 | style ∈ {microservices, service-based, cell-based} | hosting `paas`, `cloud` +5; backend `frontend-server` −10; note: "one database per service is common" | `book:fosa ch.18` |
 | A2 | style = serverless | hosting `frontend-platform`, `cloud` +10 | `book:fosa` (implemented 2026-11-08) |
 | A3 | style ∈ {layered, modular-monolith} | backend `batteries` +5 | `book:fosa ch.10–11` |
-| A4 | style = event-driven | note: "you will also need a message broker (not ranked in v1)" | `book:fosa ch.15` |
+| A4 (not in the KB yet) | style = event-driven | note: "you will also need a message broker (not ranked in v1)" | `book:fosa ch.15` |
+
+**Style ids (2026-11-09):** `meta.json` `architectureStyles` lists Architecture Advisor's 13 style ids and names, copied from its knowledge base v1.2.0 (`styles.json`, checked 2026-11-09). The integrity check rejects a rule condition on an unknown style; the engine rejects an unknown `input.style`; the app ignores an unknown `?style=` and says so. When the sibling adds or renames a style, update this list. No `kbVersion` bump: the list changes no score or result.
 
 ## 8. Fairness and sourcing rules
 1. **Source tags as in the sibling:** `book:<id> <locator>`, `ref:<id>`, `GK` (general knowledge, needs review), `DESIGN`.

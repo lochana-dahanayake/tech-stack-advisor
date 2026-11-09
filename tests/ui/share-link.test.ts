@@ -23,6 +23,21 @@ describe("shareable link (URL hash)", () => {
     expect(link.status === "ok" && toUserInput(link.form)).toEqual(input);
   });
 
+  it("keeps must-use locks and the architecture style", () => {
+    const input = { ...shop, locked: { database: "mongodb", hosting: "render" }, style: "microservices" };
+    const link = decodeShareHash(encodeShareHash(input), kb);
+    expect(link.status === "ok" && toUserInput(link.form)).toEqual(input);
+  });
+
+  it("drops an unknown lock or style and asks to check the answers", () => {
+    const badLock = decodeShareHash(hashOf({ v: 1, a: shop.answers, l: { database: "django" } }), kb);
+    expect(badLock.status).toBe("partial");
+    if (badLock.status === "partial") expect(badLock.form.locked).toEqual({});
+    const badStyle = decodeShareHash(hashOf({ v: 1, a: shop.answers, st: "big-ball-of-mud" }), kb);
+    expect(badStyle.status).toBe("partial");
+    if (badStyle.status === "partial") expect(badStyle.form.style).toBeUndefined();
+  });
+
   it("only uses URL-safe characters", () => {
     for (const p of presets) expect(encodeShareHash(p.input)).toMatch(/^#a=[A-Za-z0-9_-]+$/);
   });
@@ -73,7 +88,9 @@ describe("shareable link (URL hash)", () => {
     fc.assert(
       fc.property(fc.string(), fc.anything(), (s, data) => {
         expect(() => decodeShareHash(`#a=${s}`, kb)).not.toThrow();
-        expect(() => decodeShareHash(hashOf({ v: 1, a: data, w: data, s: data, f: data, g: data }), kb)).not.toThrow();
+        expect(() =>
+          decodeShareHash(hashOf({ v: 1, a: data, w: data, s: data, f: data, g: data, l: data, st: data }), kb),
+        ).not.toThrow();
       }),
     );
   });

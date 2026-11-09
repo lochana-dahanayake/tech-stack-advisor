@@ -23,7 +23,7 @@ export function listSources(kb: KnowledgeBase): { where: string; source: Source 
   return out;
 }
 
-function conditionPaths(c: Condition): { path: string; values: string[]; op: string }[] {
+export function conditionPaths(c: Condition): { path: string; values: string[]; op: string }[] {
   if ("eq" in c) return [{ path: c.eq[0], values: [c.eq[1]], op: "eq" }];
   if ("in" in c) return [{ path: c.in[0], values: c.in[1], op: "in" }];
   if ("has" in c) return [{ path: c.has[0], values: [c.has[1]], op: "has" }];
@@ -148,7 +148,10 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
         for (const v of values) if (!levels.includes(v)) p.push(`rule ${r.id}: bad level ${v}`);
         if ([...r.effects, ...(r.otherwise ?? [])].some((e) => e.type === "floor"))
           p.push(`rule ${r.id}: a rule that sets floors can't depend on weights`);
-      } else if (scope !== "style") p.push(`rule ${r.id}: unknown path ${path}`);
+      } else if (scope === "style") {
+        for (const v of values)
+          if (!kb.meta.architectureStyles.styles.some((s) => s.id === v)) p.push(`rule ${r.id}: unknown style ${v}`);
+      } else p.push(`rule ${r.id}: unknown path ${path}`);
       if (op === "gte" && scope !== "weight") p.push(`rule ${r.id}: 'gte' only compares weight levels`);
     }
     if (r.otherwise && !r.otherwiseExplanation) p.push(`rule ${r.id}: otherwise needs an explanation`);

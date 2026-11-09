@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import { CircleAlertIcon } from "lucide-react";
+import { CircleAlertIcon, CompassIcon } from "lucide-react";
 import { kb } from "@/modules/knowledge-base";
 import { buildRecommendation } from "@/modules/recommendation";
 import { checkInput, score } from "@/modules/scoring";
@@ -11,6 +11,7 @@ import {
   clearSavedForm,
   emptyForm,
   fromInput,
+  isStyle,
   loadSavedForm,
   saveForm,
   toUserInput,
@@ -30,16 +31,36 @@ const ResultView = dynamic(() => import("@/components/result/result-view").then(
 
 type View = "form" | "result";
 
+interface Notice {
+  tone: "warning" | "info";
+  title: string;
+  text: string;
+}
+
 const NOTICES = {
   broken: {
+    tone: "warning",
     title: "We couldn't open that link",
     text: "It may be cut off or made by an older version of the app. You can start again below.",
   },
   partial: {
+    tone: "warning",
     title: "Some answers in that link need checking",
     text: "The questions have changed since the link was made. We kept every answer that still fits; please check the rest.",
   },
-} as const;
+  unknownStyle: {
+    tone: "warning",
+    title: "We didn't recognise the architecture style in that link",
+    text: "You can still pick one on step 3 (Budget and rules).",
+  },
+} satisfies Record<string, Notice>;
+
+/** The `?style=` hand-off from Architecture Advisor (Q2). */
+const styleNotice = (id: string): Notice => ({
+  tone: "info",
+  title: `Architecture style from Architecture Advisor: ${kb.meta.architectureStyles.styles.find((s) => s.id === id)?.name ?? id}`,
+  text: "It nudges a few picks. Answer the questions below to get your stack; you can change or remove the style on step 3.",
+});
 
 /** Today in the visitor's calendar, for "due for a re-check" on dated facts (the recommendation module stays pure). */
 const today = () => {
@@ -49,8 +70,9 @@ const today = () => {
 
 /**
  * The /advisor page: a 4-step form → result. `?new` (the home page's main button) always starts fresh;
- * `?example=<id>` opens one of the examples' results; a share link (`#a=…`, share-link.ts) opens the answers it holds. Answers are kept for this tab only (form-state.ts); the
- * result is recomputed from them, so a refresh shows the same result.
+ * `?example=<id>` opens one of the examples' results; `?style=<id>` (from Architecture Advisor, Q2) starts a form
+ * with that architecture style; a share link (`#a=…`, share-link.ts) opens the answers it holds. Answers are kept
+ * for this tab only (form-state.ts); the result is recomputed from them, so a refresh shows the same result.
  */
 export function Advisor() {
   const [view, setView] = useState<View>("form");
@@ -58,7 +80,7 @@ export function Advisor() {
   const [step, setStep] = useState<StepId>(1);
   const [loaded, setLoaded] = useState(false);
   const [example, setExample] = useState<Preset>();
-  const [notice, setNotice] = useState<keyof typeof NOTICES>();
+  const [notice, setNotice] = useState<Notice>();
 
   useEffect(() => {
     if (loaded) saveForm({ form, step, view, example: example?.id }, kb);
@@ -85,24 +107,32 @@ export function Advisor() {
       setForm(link.status === "partial" ? link.form : emptyForm());
       setStep(link.status === "partial" ? link.step : 1);
       setView("form");
-      setNotice(link.status);
+      setNotice(NOTICES[link.status]);
       window.scrollTo({ top: 0 });
     }
     return true;
   }, [showResult]);
 
-  /** `?new` and `?example=<id>` are read once and then removed, so a refresh keeps what's on screen. */
+  /** `?new`, `?example=<id>` and `?style=<id>` are read once and then removed, so a refresh keeps what's on screen. */
   const openFromQuery = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
-    if (!params.has("new") && !params.has("example")) return false;
+    const style = params.get("style");
+    if (!params.has("new") && !params.has("example") && style === null) return false;
     window.history.replaceState(null, "", window.location.pathname + window.location.hash);
     clearSavedForm();
     const preset = presets.find((p) => p.id === params.get("example"));
-    if (!preset) return true; // ?new, or an unknown example: a blank form.
-    setForm(fromInput(preset.input));
-    setStep(4);
+    const f = preset ? fromInput(preset.input) : emptyForm(); // ?new or an unknown example: a blank form
+    if (style !== null && isStyle(style, kb)) f.style = style;
+    setNotice(style === null ? undefined : isStyle(style, kb) ? styleNotice(style) : NOTICES.unknownStyle);
+    setForm(f);
     setExample(preset);
-    showResult();
+    if (preset) {
+      setStep(4);
+      showResult();
+    } else {
+      setStep(1);
+      setView("form");
+    }
     return true;
   }, [showResult]);
 
@@ -146,27 +176,30 @@ export function Advisor() {
   if (!loaded) return <p role="status">Loading…</p>;
 
   const noticeBox = notice && (
-    <Alert variant="warning" role="alert" className="mb-6">
-      <CircleAlertIcon aria-hidden />
-      <AlertTitle>{NOTICES[notice].title}</AlertTitle>
-      <AlertDescription>{NOTICES[notice].text}</AlertDescription>
+    <Alert variant={notice.tone} role={notice.tone === "warning" ? "alert" : "status"} className="mb-6">
+      {notice.tone === "warning" ? <CircleAlertIcon aria-hidden /> : <CompassIcon aria-hidden />}
+      <AlertTitle>{notice.title}</AlertTitle>
+      <AlertDescription>{notice.text}</AlertDescription>
     </Alert>
   );
 
   if (view === "result" && result)
     return (
-      <ResultView
-        rec={result.rec}
-        actions={<ExportActions rec={result.rec} input={result.input} date={result.date} />}
-        example={example?.title}
-        onEdit={() => {
-          setExample(undefined);
-          setView("form");
-          setStep(4);
-          window.scrollTo({ top: 0 });
-        }}
-        onStartOver={reset}
-      />
+      <>
+        {noticeBox}
+        <ResultView
+          rec={result.rec}
+          actions={<ExportActions rec={result.rec} input={result.input} date={result.date} />}
+          example={example?.title}
+          onEdit={() => {
+            setExample(undefined);
+            setView("form");
+            setStep(4);
+            window.scrollTo({ top: 0 });
+          }}
+          onStartOver={reset}
+        />
+      </>
     );
 
   return (

@@ -9,6 +9,7 @@ import type {
   ScoreResult,
   StackResult,
   StackTie,
+  LockWarning,
   TypeResult,
   UserInput,
 } from "./types";
@@ -32,6 +33,13 @@ export function validateInput(input: UserInput, kb: KnowledgeBase): void {
   for (const f of input.knownFrameworks ?? [])
     if (!kb.options.some((o) => o.id === f && o.level === "product" && o.part !== "language"))
       throw new Error(`unknown framework ${f}`);
+  if (input.style !== undefined && !kb.meta.architectureStyles.styles.some((s) => s.id === input.style))
+    throw new Error(`unknown architecture style ${input.style}`);
+  for (const [part, id] of Object.entries(input.locked ?? {})) {
+    if (!kb.parts.some((p) => p.id === part)) throw new Error(`unknown part ${part}`);
+    if (!kb.options.some((o) => o.id === id && o.part === part && o.level === "product"))
+      throw new Error(`${id} is not a ${part} product`);
+  }
 }
 
 /** Weighted average of the given criteria on 0–100 (SCORING_ENGINE steps 4–5). All weights 0 → 50. */
@@ -117,12 +125,12 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
   const w: Record<string, number> = {};
   for (const [c, l] of Object.entries(levels)) w[c] = kb.meta.levels[l];
   const points = new Map<string, number>();
-  const excluded = new Set<string>();
+  const excluded = new Map<string, string>(); // option → the first rule that excluded it
   const notNeeded = new Map<string, string>();
   const notes: string[] = [];
   for (const { rule, effect } of effects) {
     if (effect.type === "modify") points.set(effect.target, (points.get(effect.target) ?? 0) + effect.points);
-    else if (effect.type === "exclude") excluded.add(effect.target);
+    else if (effect.type === "exclude" && !excluded.has(effect.target)) excluded.set(effect.target, rule.id);
     else if (effect.type === "not-needed" && !notNeeded.has(effect.part)) notNeeded.set(effect.part, rule.id);
     else if (effect.type === "note") notes.push(effect.text);
   }
@@ -131,9 +139,22 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
 
   const order = kb.options.map((o) => o.id);
   const parts: Record<string, PartResult> = {};
+  const locked = Object.fromEntries(Object.entries(input.locked ?? {}).filter((e): e is [string, string] => !!e[1]));
+  const lockWarnings: LockWarning[] = [];
+  const warn = (partId: string, kind: LockWarning["kind"], ruleId: string) =>
+    lockWarnings.push({
+      partId,
+      option: locked[partId]!,
+      kind,
+      ruleId,
+      text: kb.rules.find((r) => r.id === ruleId)?.explanation ?? "",
+    });
   for (const part of kb.parts) {
     const all = kb.options.filter((o) => o.part === part.id);
-    if (notNeeded.has(part.id)) {
+    // A locked part is always needed (step 3); the rule that said otherwise becomes a warning.
+    const lockedOption = locked[part.id] ? kb.options.find((o) => o.id === locked[part.id]) : undefined;
+    if (lockedOption && notNeeded.has(part.id)) warn(part.id, "not-needed", notNeeded.get(part.id)!);
+    if (notNeeded.has(part.id) && !lockedOption) {
       parts[part.id] = {
         partId: part.id,
         needed: false,
@@ -146,24 +167,32 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
     }
     const hasTypes = part.levels.includes("type");
     const typeCriteria = part.typeCriteria ?? [];
+    // A locked product whose every approach was excluded keeps its approaches (with a warning), so it can be ranked.
+    const lockedTypes = lockedOption?.types ?? [];
+    const revived = lockedTypes.length > 0 && lockedTypes.every((t) => excluded.has(t)) ? lockedTypes : [];
+    for (const t of revived) warn(part.id, "excluded", excluded.get(t)!);
     const types: TypeResult[] = all
-      .filter((o) => hasTypes && o.level === "type" && !o.none && !excluded.has(o.id))
+      .filter((o) => hasTypes && o.level === "type" && !o.none && (!excluded.has(o.id) || revived.includes(o.id)))
       .map((o) => {
         const base = baseScore(o, typeCriteria, w);
         const rules = rulePoints(o.id);
         return { id: o.id, base, rules, final: clamp(base + rules, 0, 100) };
       });
     const rankedTypes = rank(types, (t) => [t.final, t.base], order);
-    const chosen = rankedTypes[0];
-    const second = rankedTypes[1];
+    // Step 4: with a lock, the locked product's best approach is the chosen one (and there's no type close call).
+    const chosen = lockedOption ? rankedTypes.find((t) => lockedTypes.includes(t.id)) : rankedTypes[0];
+    const second = lockedOption ? undefined : rankedTypes[1];
     const typeFinal = new Map(types.map((t) => [t.id, t.final]));
 
     const productCriteria = productCriteriaOf(kb, part.id);
-    const partExcluded = all.filter((o) => excluded.has(o.id)).map((o) => o.id);
+    const partExcluded = all
+      .filter((o) => excluded.has(o.id) && !revived.includes(o.id) && o !== lockedOption)
+      .map((o) => o.id);
+    if (lockedOption && excluded.has(lockedOption.id)) warn(part.id, "excluded", excluded.get(lockedOption.id)!);
     const products: ProductResult[] = [];
     for (const o of all.filter((x) => x.level === "product")) {
       const liveTypes = (o.types ?? []).filter((t) => typeFinal.has(t));
-      if (excluded.has(o.id) || (hasTypes && liveTypes.length === 0)) {
+      if (o !== lockedOption && (excluded.has(o.id) || (hasTypes && liveTypes.length === 0))) {
         if (!partExcluded.includes(o.id)) partExcluded.push(o.id);
         continue;
       }
@@ -213,7 +242,15 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
     firedRules: fired,
     notes,
     parts,
-    stack: assemble(parts, kb, protectStrong ? skillOf : undefined, knownCloseCalls ? skillOf : undefined, relations),
+    stack: assemble(
+      parts,
+      kb,
+      protectStrong ? skillOf : undefined,
+      knownCloseCalls ? skillOf : undefined,
+      relations,
+      locked,
+    ),
+    ...(Object.keys(locked).length > 0 ? { locks: lockWarnings } : {}),
   };
 }
 
@@ -280,15 +317,24 @@ export function assemble(
   skillOf?: (id: string) => string, // set when T6 applies: languages nobody knows can't beat a strong one
   closeCallSkillOf?: (id: string) => string, // set when T7 applies: close calls keep a known language
   relations: ActiveRelation[] = kb.compatibility.filter((c) => !c.when && c.kind !== "penalty"),
+  locked: Record<string, string> = {}, // part → product the user must use: its only candidate
 ): StackResult {
   const needed = kb.parts
     .filter((p) => parts[p.id]?.needed && (parts[p.id]?.products.length ?? 0) > 0)
     .map((p) => p.id);
+  const lockedIds = Object.values(locked);
+  const lockNeeds = new Set(
+    relations
+      .filter((c) => c.kind === "requires" && c.part === "language" && lockedIds.includes(c.option))
+      .flatMap((c) => c.anyOf),
+  );
   const lists = needed.map((id) => {
     const all = parts[id]!.products;
-    // T6: while a strongly known language is still ranked (no rule excluded it), drop languages nobody knows.
+    if (locked[id]) return all.filter((p) => p.id === locked[id]);
+    // T6: while a strongly known language is still ranked (no rule excluded it), drop languages nobody knows,
+    // except one a locked product needs (a lock beats T6: "we must use Django" means Python).
     if (id !== "language" || !skillOf || !all.some((p) => skillOf(p.id) === "strong")) return all.slice(0, CANDIDATES);
-    return all.filter((p) => skillOf(p.id) !== "none").slice(0, CANDIDATES);
+    return all.filter((p) => skillOf(p.id) !== "none" || lockNeeds.has(p.id)).slice(0, CANDIDATES);
   });
   const order = kb.options.map((o) => o.id);
   const inStack = (picks: Record<string, string>, c: ActiveRelation) => Object.values(picks).includes(c.option);
@@ -364,7 +410,9 @@ export function assemble(
       adjusted: [],
       ties: [],
       closeCalls: [],
-      conflict: "No combination of the top candidates fits together; showing each part's #1.",
+      conflict:
+        lockConflict(needed, lists, relations, locked, partOf, holds) ??
+        "No combination of the top candidates fits together; showing each part's #1.",
       relationNotes: [],
     };
   }
@@ -375,6 +423,7 @@ export function assemble(
     return [top!, ...rest.filter((p) => Math.abs(p.cand - top!.cand) <= EPS && Math.abs(p.final - top!.final) <= EPS)];
   };
   const ties = needed.flatMap((id) => {
+    if (locked[id]) return []; // a locked pick isn't settled by the tie rule
     const tied = tiedTop(id);
     const pick = result.picks[id]!;
     if (tied.length < 2 || !tied.some((p) => p.id === pick)) return [];
@@ -402,7 +451,8 @@ export function assemble(
             c.anyOf.includes(result.picks[c.part]!)) ||
           (c.kind === "conflicts" && c.part === id && c.anyOf.includes(top) && inStack(result.picks, c)),
       );
-      return { partId: id, best: top, pick: result.picks[id]!, relation: relation?.id ?? "stack score" };
+      const reason = locked[id] ? "locked" : (relation?.id ?? "stack score");
+      return { partId: id, best: top, pick: result.picks[id]!, relation: reason };
     });
   // Step 6.7: a pick that beat the part's own #1 by less than the close-call threshold shows both stacks.
   const closeCalls = adjusted.flatMap((a) => {
@@ -418,4 +468,31 @@ export function assemble(
     .filter((c) => (c.kind === "note" || c.kind === "penalty") && matches(result.picks, c))
     .map((c) => ({ id: c.id, text: c.explanation, ...(c.kind === "penalty" ? { points: c.points } : {}) }));
   return { picks: result.picks, score: result.score, adjusted, ties, closeCalls, relationNotes };
+}
+
+/**
+ * Step 6.5 with locks: names the relation that leaves a locked pick without a valid partner among the candidates
+ * (e.g. Django locked with Java), so the result explains the clash instead of only saying nothing fits.
+ */
+function lockConflict(
+  needed: string[],
+  lists: { id: string }[][],
+  relations: ActiveRelation[],
+  locked: Record<string, string>,
+  partOf: Map<string, string>,
+  holds: (c: ActiveRelation, picks: Record<string, string>) => boolean,
+): string | undefined {
+  const lockedIds = new Set(Object.values(locked));
+  const blocking = relations.find((c) => {
+    if ((c.kind !== "requires" && c.kind !== "conflicts") || !lockedIds.has(c.option)) return false;
+    const i = needed.indexOf(c.part);
+    const partners = i < 0 ? [undefined] : lists[i]!.map((p) => p.id);
+    return partners.every(
+      (other) => !holds(c, { [partOf.get(c.option)!]: c.option, ...(other ? { [c.part]: other } : {}) }),
+    );
+  });
+  if (blocking) return `Your “Must use” choices don't work together: ${blocking.explanation}`;
+  return Object.keys(locked).length > 0
+    ? "Your “Must use” choices leave no combination that works together; showing each part's #1."
+    : undefined;
 }

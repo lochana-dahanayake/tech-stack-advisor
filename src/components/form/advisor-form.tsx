@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeftIcon, ArrowRightIcon, ChevronDownIcon, CircleAlertIcon, RotateCcwIcon } from "lucide-react";
 import { kb } from "@/modules/knowledge-base";
 import { checkInput, score } from "@/modules/scoring";
+import { partName, PART_ORDER } from "@/components/result/format";
 import { StackCard } from "@/components/result/stack-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils";
 import {
   frameworkOptions,
   LEVEL_OPTIONS,
+  lockOptions,
   SKILL_OPTIONS,
   STEP_QUESTIONS,
   STEPS,
@@ -89,6 +91,8 @@ export function AdvisorForm({
     step > 1 ||
     form.knownFrameworks.length > 0 ||
     form.goal !== "ship" ||
+    form.style !== undefined ||
+    Object.keys(form.locked).length > 0 ||
     [form.answers, form.weights, form.skills].some((o) => Object.keys(o).length > 0);
   const ready = issues.length === 0;
 
@@ -162,6 +166,7 @@ export function AdvisorForm({
             );
           })}
           {step === 2 && <TeamSkills form={form} onChange={onFormChange} />}
+          {step === 3 && <MustUse form={form} onChange={onFormChange} />}
           {step === 4 && (
             <Priorities
               form={form}
@@ -310,6 +315,93 @@ function TeamSkills({ form, onChange }: { form: FormState; onChange: (f: FormSta
             description="Skills count half as much and easy-to-learn tools get a boost."
           />
         </RadioGroup>
+      </div>
+    </>
+  );
+}
+
+const selectClass =
+  "h-9 w-full rounded-md border border-input bg-background px-2 text-sm text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:w-64";
+
+/**
+ * Locks (Q12) and the architecture style (Q2). A must-use pick always stays in the stack; the result says what it
+ * costs (its rank, any rule it overrides, or a clash with another must-use).
+ */
+function MustUse({ form, onChange }: { form: FormState; onChange: (f: FormState) => void }) {
+  const setLock = (part: string, id: string) => {
+    const locked = { ...form.locked, [part]: id };
+    if (!id) delete locked[part];
+    onChange({ ...form, locked });
+  };
+  return (
+    <>
+      <div className="space-y-2.5">
+        <div className="space-y-0.5">
+          <h3 className="font-medium">Anything you must use?</h3>
+          <p className="text-sm text-muted-foreground">
+            Optional. A must-use pick always stays in your stack, even when something else scores higher; the result
+            shows what it costs.
+          </p>
+        </div>
+        <ul className="divide-y rounded-lg border">
+          {PART_ORDER.map((part) => (
+            <li key={part} className="flex flex-wrap items-center justify-between gap-2 px-3 py-2">
+              <label htmlFor={`lock-${part}`} className="text-sm font-medium">
+                {partName(part, true)}
+              </label>
+              <select
+                id={`lock-${part}`}
+                value={form.locked[part] ?? ""}
+                onChange={(e) => setLock(part, e.target.value)}
+                className={selectClass}
+              >
+                <option value="">No preference</option>
+                {lockOptions(kb, part).map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.name}
+                  </option>
+                ))}
+              </select>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="space-y-2.5">
+        <div className="space-y-0.5">
+          <label htmlFor="arch-style" className="font-medium">
+            Architecture style
+          </label>
+          <p id="arch-style-help" className="text-sm text-muted-foreground">
+            Optional. If{" "}
+            <a
+              href="https://architecture-advisor-pink.vercel.app"
+              className="underline underline-offset-4 hover:text-foreground"
+            >
+              Architecture Advisor
+            </a>{" "}
+            recommended a style, pick it here: it nudges a few picks, for example towards cloud hosting for
+            microservices.
+          </p>
+        </div>
+        <select
+          id="arch-style"
+          aria-describedby="arch-style-help"
+          value={form.style ?? ""}
+          onChange={(e) => {
+            const next: FormState = { ...form, style: e.target.value };
+            if (!next.style) delete next.style;
+            onChange(next);
+          }}
+          className={selectClass}
+        >
+          <option value="">None</option>
+          {kb.meta.architectureStyles.styles.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.name}
+            </option>
+          ))}
+        </select>
       </div>
     </>
   );
