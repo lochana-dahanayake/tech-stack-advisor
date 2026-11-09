@@ -6,6 +6,9 @@ export interface InputMessage {
   message: string;
 }
 
+/** Free-text notes longer than this are cut (SCORING_ENGINE step 1; same as the sibling). */
+export const MAX_NOTES_LENGTH = 1000;
+
 /** More Critical priorities than this gets a warning (SCORING_ENGINE step 1; DESIGN, same as the sibling). */
 export const MAX_CRITICAL = 3;
 

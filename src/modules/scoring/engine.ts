@@ -65,9 +65,34 @@ function rank<T extends { id: string }>(items: T[], key: (x: T) => number[], ord
   });
 }
 
-/** score(input, kb): pure and deterministic (SCORING_ENGINE steps 1–6 for the parts in the KB). */
-export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
+/** At most this many options may carry an AI adjustment (AI_INTEGRATION §5). */
+export const MAX_AI_ADJUSTMENTS = 3;
+
+/**
+ * Rejects AI adjustments the engine must never apply, whatever the AI layer let through (defence in depth,
+ * AI_INTEGRATION §5): unknown or non-product ids, a delta that isn't a non-zero integer within ±caps.ai, more
+ * than MAX_AI_ADJUSTMENTS options. "Only the top 5 of their part" is checked by the AI layer, which knows the
+ * unadjusted ranking.
+ */
+export function validateAiDeltas(deltas: Record<string, number>, kb: KnowledgeBase): void {
+  const entries = Object.entries(deltas);
+  if (entries.length > MAX_AI_ADJUSTMENTS) throw new Error(`at most ${MAX_AI_ADJUSTMENTS} AI adjustments`);
+  for (const [id, d] of entries) {
+    if (!kb.options.some((o) => o.id === id && o.level === "product")) throw new Error(`${id} is not a product`);
+    if (!Number.isInteger(d) || d === 0 || Math.abs(d) > kb.meta.caps.ai)
+      throw new Error(`AI delta for ${id} must be a non-zero integer within ±${kb.meta.caps.ai}`);
+  }
+}
+
+/**
+ * score(input, kb): pure and deterministic (SCORING_ENGINE steps 1–6 for the parts in the KB).
+ * `aiDeltas` (option id → points, AI_INTEGRATION §5) are added to those products' final scores before ranking
+ * and stack assembly, so the server re-runs the whole assembly after the AI's adjustments; the AI never picks
+ * the stack itself. Hard rules still hold: T6 and locks are applied after the deltas.
+ */
+export function score(input: UserInput, kb: KnowledgeBase, aiDeltas: Record<string, number> = {}): ScoreResult {
   validateInput(input, kb);
+  validateAiDeltas(aiDeltas, kb);
   const ctx: ConditionContext = { answers: input.answers ?? {}, skills: input.skills ?? {}, style: input.style };
   const learning = input.goal === "learn" ? kb.skills.find((s) => "goal" in s.when) : undefined;
   const skillOf = (l: string) => input.skills?.[l] ?? "none";
@@ -203,11 +228,21 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
         kb.meta.caps.skillsMin,
         kb.meta.caps.skillsMax,
       );
-      const final = clamp(base + rules + skill, 0, 100);
+      const ai = aiDeltas[o.id] ?? 0;
+      const final = clamp(base + rules + skill + ai, 0, 100);
       const gap = hasTypes
         ? Math.max(0, (chosen?.final ?? 0) - Math.max(...liveTypes.map((t) => typeFinal.get(t) ?? 0)))
         : 0;
-      products.push({ id: o.id, types: o.types ?? [], base, rules, skill, final, cand: final - gap });
+      products.push({
+        id: o.id,
+        types: o.types ?? [],
+        base,
+        rules,
+        skill,
+        ...(ai !== 0 ? { ai } : {}),
+        final,
+        cand: final - gap,
+      });
     }
     parts[part.id] = {
       partId: part.id,
@@ -251,6 +286,7 @@ export function score(input: UserInput, kb: KnowledgeBase): ScoreResult {
       locked,
     ),
     ...(Object.keys(locked).length > 0 ? { locks: lockWarnings } : {}),
+    ...(Object.keys(aiDeltas).length > 0 ? { ai: { ...aiDeltas } } : {}),
   };
 }
 

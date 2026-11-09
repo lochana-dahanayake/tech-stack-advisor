@@ -1,8 +1,8 @@
 /**
  * Fitness functions for module boundaries (ARCHITECTURE.md §2, sibling ADR-004).
  * Allowed: app → components → recommendation → scoring → knowledge-base.
- * `ai/` and `platform/` (Phase 4) get their own rules when they exist; the rules below already keep them
- * out of the pure modules.
+ * app/api → ai, platform, recommendation, scoring, knowledge-base; ai → recommendation, scoring, knowledge-base,
+ * platform; platform → nothing of ours (Phase 4, AI_INTEGRATION §12).
  */
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
@@ -29,6 +29,20 @@ module.exports = {
       to: { pathNot: ["^src/modules/(recommendation|scoring|knowledge-base)/", "node_modules/zod/"] },
     },
     {
+      name: "ai-boundary",
+      comment: "The AI module uses the pure modules and platform only: never UI code (AI_INTEGRATION §12).",
+      severity: "error",
+      from: { path: "^src/modules/ai/" },
+      to: { path: "^src/modules/", pathNot: ["^src/modules/(ai|recommendation|scoring|knowledge-base|platform)/"] },
+    },
+    {
+      name: "platform-is-a-leaf",
+      comment: "Platform (env, store, rate limits) depends on none of our modules.",
+      severity: "error",
+      from: { path: "^src/modules/platform/" },
+      to: { path: "^src/", pathNot: "^src/modules/platform/" },
+    },
+    {
       name: "modules-dont-import-ui",
       comment: "Domain modules never depend on the UI layer.",
       severity: "error",
@@ -37,10 +51,11 @@ module.exports = {
     },
     {
       name: "no-server-code-in-client",
-      comment: "Components and pages never import server-only modules (platform, AI providers).",
+      comment:
+        "Components and pages never import server-only modules (platform, the AI layer). AI types live in recommendation.",
       severity: "error",
       from: { path: "^src/(components|lib)/|^src/app/(?!api/)" },
-      to: { path: ["^src/modules/platform/", "^src/modules/ai/providers/", "node_modules/server-only/"] },
+      to: { path: ["^src/modules/platform/", "^src/modules/ai/", "node_modules/server-only/"] },
     },
     {
       name: "no-circular",

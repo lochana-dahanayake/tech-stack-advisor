@@ -15,13 +15,16 @@
     "coverage": "vitest run --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "fitness": "depcruise src --config .dependency-cruiser.cjs",
+    "fitness": "depcruise src --config .dependency-cruiser.cjs && node scripts/check-env-names.mjs",
     "check": "npm run lint && npm run typecheck && npm run format:check && npm run fitness && npm run coverage",
     "calibrate": "tsx scripts/calibrate.ts",
     "sources": "tsx scripts/sources.ts",
     "kb:release-gate": "KB_RELEASE_GATE=1 vitest run tests/kb"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.104",
+    "@ai-sdk/groq": "^4.0.69",
+    "ai": "^7.0.152",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.70.0",
@@ -29,6 +32,7 @@
     "radix-ui": "^1.8.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.7"
   },
