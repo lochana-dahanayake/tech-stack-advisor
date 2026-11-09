@@ -222,6 +222,16 @@ export const referenceSchema = z.object({
   url: z.url().optional(),
 });
 
+/** A well-known stack (schema §10): shown as information when the result matches it, never ranked. */
+export const bundleSchema = z.object({
+  id,
+  name: z.string().min(1),
+  description: z.string().min(1),
+  /** part id → product id */
+  picks: z.record(id, id).refine((p) => Object.keys(p).length >= 2, "a bundle names at least two parts"),
+  sources: z.array(sourceSchema).min(1),
+});
+
 export const knowledgeBaseSchema = z.object({
   meta: metaSchema,
   parts: z.array(partSchema),
@@ -232,10 +242,12 @@ export const knowledgeBaseSchema = z.object({
   skills: z.array(skillRuleSchema),
   compatibility: z.array(relationSchema),
   references: z.array(referenceSchema),
+  bundles: z.array(bundleSchema),
 });
 
 export type Source = z.infer<typeof sourceSchema>;
 export type Reference = z.infer<typeof referenceSchema>;
+export type Bundle = z.infer<typeof bundleSchema>;
 export type ScoreEntry = z.infer<typeof scoreEntrySchema>;
 export type Fact = z.infer<typeof factSchema>;
 export type Part = z.infer<typeof partSchema>;

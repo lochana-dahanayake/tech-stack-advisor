@@ -54,6 +54,15 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
       p.push(`${where}: ${source.kind}:${source.ref} doesn't match the reference's kind ${ref.kind}`);
   }
   for (const r of kb.references) if (!cited.has(r.id)) p.push(`reference ${r.id} is never cited`);
+  // Bundles name products of the part they're listed under, once each (schema §10).
+  const bundleIds = new Set<string>();
+  for (const b of kb.bundles) {
+    if (bundleIds.has(b.id)) p.push(`duplicate bundle id ${b.id}`);
+    bundleIds.add(b.id);
+    for (const [part, option] of Object.entries(b.picks))
+      if (!kb.options.some((o) => o.id === option && o.part === part && o.level === "product"))
+        p.push(`bundle ${b.id}: ${option} is not a ${part} product`);
+  }
   const optionIds = new Set<string>();
   for (const o of kb.options) {
     if (optionIds.has(o.id)) p.push(`duplicate option id ${o.id}`);

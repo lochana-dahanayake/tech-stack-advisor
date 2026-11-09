@@ -231,5 +231,22 @@ export function buildRecommendation(
     ties: result.stack.ties,
     raised,
     notes: [...result.notes.map((text) => ({ text })), ...result.stack.relationNotes],
+    bundles: matchBundles(result.stack.picks, kb),
   };
+}
+
+/**
+ * Well-known stacks (schema §10) the picks match: all of a bundle's parts, or all but one for a bundle that names four
+ * or more parts. Information only: bundles never change a score or a pick. Without a stack conflict only.
+ */
+export function matchBundles(picks: Record<string, string>, kb: KnowledgeBase): Recommendation["bundles"] {
+  return kb.bundles.flatMap((b) => {
+    const differs = Object.entries(b.picks)
+      .filter(([part, id]) => picks[part] !== id)
+      .map(([partId, bundle]) => ({ partId, bundle, ...(picks[partId] ? { stack: picks[partId] } : {}) }));
+    const parts = Object.keys(b.picks).length;
+    return differs.length === 0 || (differs.length === 1 && parts >= 4)
+      ? [{ id: b.id, name: b.name, description: b.description, differs }]
+      : [];
+  });
 }

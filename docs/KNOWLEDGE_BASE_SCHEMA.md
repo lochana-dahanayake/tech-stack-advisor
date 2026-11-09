@@ -322,6 +322,7 @@ Windows live in `meta.json` (`staleAfterDays`) so they're data. How they're enfo
 - An option whose project is abandoned or deprecated gets `status: "deprecated"` and moves to the glossary.
 
 ## 10. Bundles and glossary
+- **`bundles.json`, implemented 2026-11-09:** 7 bundles (MERN, MEAN, PERN, LAMP, T3, Django + PostgreSQL, Spring Boot + Angular), validated by `bundleSchema` and the integrity check (each pick is a product of its part). `buildRecommendation` lists a bundle when the stack matches all its parts, or all but one for a bundle of four or more parts; the result shows it under "Things to know" (and in the Markdown). Never changes a score or pick (tested). G5 is the T3 stack.
 - `bundles.json`: well-known stacks (MERN, LAMP, T3, Django + PostgreSQL, Spring + Angular) with a one-line description and their option ids. Shown as "This is close to the well-known X stack". **Not ranked** (same reasoning as sibling ADR-007).
 - `glossary.json`: things users mention that we don't rank: CMSs (WordPress), backend-as-a-service (Firebase, Supabase), Python dashboard tools (Streamlit, Dash), runtimes (Bun, Deno), ORMs (Prisma, Drizzle, SQLAlchemy, Hibernate), terms (SSR, SPA, ORM, ACID). Matched against notes with the sibling's alias matcher (longest alias first, max 4).
 

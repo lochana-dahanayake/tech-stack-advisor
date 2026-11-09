@@ -1,0 +1,51 @@
+[
+  {
+    "id": "mern",
+    "name": "MERN",
+    "description": "MongoDB, Express, React and Node.js: one language (JavaScript or TypeScript) from the browser to the database.",
+    "picks": { "language": "typescript-node", "frontend": "react", "backend": "express", "database": "mongodb" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "a widely used name for this combination" }]
+  },
+  {
+    "id": "mean",
+    "name": "MEAN",
+    "description": "MongoDB, Express, Angular and Node.js: MERN with Angular instead of React.",
+    "picks": { "language": "typescript-node", "frontend": "angular", "backend": "express", "database": "mongodb" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "a widely used name for this combination" }]
+  },
+  {
+    "id": "pern",
+    "name": "PERN",
+    "description": "PostgreSQL, Express, React and Node.js: MERN with a relational database.",
+    "picks": { "language": "typescript-node", "frontend": "react", "backend": "express", "database": "postgresql" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "a widely used name for this combination" }]
+  },
+  {
+    "id": "lamp",
+    "name": "LAMP",
+    "description": "Linux, Apache, MySQL and PHP on a server you run: the classic way to host PHP sites.",
+    "picks": { "language": "php", "database": "mysql", "hosting": "vps-server" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "a widely used name for this combination" }]
+  },
+  {
+    "id": "t3",
+    "name": "T3",
+    "description": "Next.js and TypeScript in one project, usually with tRPC, Prisma, Tailwind CSS and NextAuth (create.t3.gg).",
+    "picks": { "language": "typescript-node", "frontend": "nextjs", "backend": "frontend-server" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "create.t3.gg describes the stack" }]
+  },
+  {
+    "id": "django-postgres",
+    "name": "Django + PostgreSQL",
+    "description": "Python's batteries-included framework with PostgreSQL; Django ships a module for PostgreSQL-only features (django.contrib.postgres).",
+    "picks": { "language": "python", "backend": "django", "database": "postgresql" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "a common pairing; Django has a PostgreSQL-specific module (django.contrib.postgres)" }]
+  },
+  {
+    "id": "spring-angular",
+    "name": "Spring Boot + Angular",
+    "description": "A Java backend with an Angular frontend: common in larger companies' business apps.",
+    "picks": { "language": "java", "backend": "spring-boot", "frontend": "angular" },
+    "sources": [{ "kind": "general", "reviewed": false, "note": "a common enterprise pairing" }]
+  }
+]

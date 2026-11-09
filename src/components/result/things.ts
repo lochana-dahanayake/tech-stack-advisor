@@ -2,7 +2,7 @@ import type { Recommendation } from "@/modules/recommendation";
 import { criterionName, fmt, LEVEL_LABELS, optionName, PART_ORDER, partName } from "./format";
 
 export interface Thing {
-  kind: "conflict" | "lock" | "style" | "close-call" | "adjusted" | "tie" | "raised" | "note";
+  kind: "conflict" | "lock" | "style" | "close-call" | "adjusted" | "tie" | "raised" | "note" | "bundle";
   title: string;
   body: string;
 }
@@ -73,5 +73,15 @@ export function thingsToKnow(rec: Recommendation): Thing[] {
     });
   for (const n of rec.notes)
     out.push({ kind: "note", title: n.points ? `Note (${n.points} points)` : "Note", body: n.text });
+  for (const b of rec.bundles) {
+    const d = b.differs[0];
+    out.push({
+      kind: "bundle",
+      title: d ? `Close to the well-known ${b.name} stack` : `This is the well-known ${b.name} stack`,
+      body: d
+        ? `${b.description} Yours has ${d.stack ? optionName(d.stack) : `no ${partName(d.partId, true).toLowerCase()}`} instead of ${optionName(d.bundle)}. Shown for orientation; it doesn't change the ranking.`
+        : `${b.description} Shown for orientation; it doesn't change the ranking.`,
+    });
+  }
   return out;
 }

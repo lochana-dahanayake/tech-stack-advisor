@@ -87,6 +87,16 @@ export interface Recommendation {
   ties: StackTie[];
   /** "You chose Medium for Real-time; we used High because …". */
   raised: { criterion: string; chosen: Level; used: Level; reason: string }[];
+  /**
+   * Well-known stacks the result matches (schema §10, never ranked): `differs` is empty for a full match, or the one
+   * part that differs for a bundle of four or more parts ("close to MERN, with Vue instead of React").
+   */
+  bundles: {
+    id: string;
+    name: string;
+    description: string;
+    differs: { partId: string; bundle: string; stack?: string }[];
+  }[];
   /** Rule notes and relation notes for the chosen stack. */
   notes: { id?: string; text: string; points?: number }[];
 }

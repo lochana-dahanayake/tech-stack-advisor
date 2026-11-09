@@ -31,6 +31,14 @@ for (const preset of presets) {
   });
 }
 
+test("a stack that matches a well-known bundle says so, without changing the ranking (MVP = T3)", async ({ page }) => {
+  await page.goto("/advisor?example=mvp");
+  await expect(stackHeading(page)).toHaveText(EXPECTED.mvp!);
+  const know = page.getByRole("region", { name: "Things to know" });
+  await expect(know.getByText("This is the well-known T3 stack")).toBeVisible();
+  await expect(know.getByText(/doesn't change the ranking/)).toBeVisible();
+});
+
 test("a not-needed part says why, and the result is accessible", async ({ page }) => {
   await page.goto("/advisor?example=portfolio");
   await expect(stackHeading(page)).toHaveText(EXPECTED.portfolio!);
