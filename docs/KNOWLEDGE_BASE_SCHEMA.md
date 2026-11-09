@@ -293,7 +293,14 @@ Small nudges only (±5 to ±10), because the style describes structure, not tool
    | `productivity` (backend) | Built-in or first-party building blocks out of 8 (KB draft §6) |
    | `real-time` (backend) | First-party WebSockets with group broadcasting → 5 … third-party only → 2 (KB draft §6) |
    | `community` (backend) | Own bands: ≥ 15% → 5 … < 2% → 1 (usage shares are lower than for databases; KB draft §6) |
-7. **A score of 5 or 1 needs a `book:` or `ref:` source** (owner, 2026-10-24). Until then it is stored as 3 with `unsourced: true` and its `proposed` value; the release gate fails while any remain. Enforced by `tests/kb`.
+   | `cost` (database) | Free under an OSI or public-domain licence with every feature a small app needs → 5 · a free edition with limits (licence limits on offering it as a service, paid clustering, memory-bound storage) → 3 (written down 2026-11-09 from the scores' reasons) |
+   | `portability` (database) | OSI licence and standard SQL → 5 · OSI licence and a protocol several products implement → 4 · a choice of licences including an OSI one → 3 · a non-OSI licence, or a query language with one main implementation → 2 (written down 2026-11-09) |
+   | `real-time` (hosting) | Long-lived WebSocket connections run on the platform → 4 · not possible (static files only, or functions without a WebSocket API) → 1 |
+   | `scalability` (hosting) | Automatic horizontal scaling by load on a self-serve plan → 5 · more instances by setting a count → 4 · one instance or soft limits → 3 · one server you resize by hand → 2 (vendors' own docs, KB draft §24, Q34) |
+   | `ecosystem` (frontend) | npm packages with the library's keyword (registry search): ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2; a meta-framework counts its base library's (KB draft §24, Q33) |
+   | `productivity` (frontend) | Routing, data loading and more built in or official → 4 · a UI library whose own docs point to a separate framework → 3 (Q33) |
+7. **Fairness lint (tested, 2026-11-09):** a comparative score (2 or more away from the median of its part, level and criterion) whose only evidence is the vendor's own documentation must also cite one of the rubrics above (a DESIGN source naming it); otherwise `tests/kb` fails. A vendor proves its own fact, the rubric turns the fact into a score the same way for every rival.
+8. **A score of 5 or 1 needs a `book:` or `ref:` source** (owner, 2026-10-24). Until then it is stored as 3 with `unsourced: true` and its `proposed` value; the release gate fails while any remain. Enforced by `tests/kb`.
 
 ## 9. Stale facts
 Tech facts age fast. Every `ScoreEntry` and every `facts[]` item has `checked`.

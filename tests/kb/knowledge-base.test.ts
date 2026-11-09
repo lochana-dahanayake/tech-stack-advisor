@@ -84,6 +84,32 @@ describe("knowledge base", () => {
     expect(matrix).toMatchSnapshot();
   });
 
+  it("fairness lint: a comparative score never rests on the vendor's own docs alone (schema §8.7)", () => {
+    const refKind = new Map(kb.references.map((r) => [r.id, r.kind]));
+    const median = (xs: number[]) => {
+      const s = [...xs].sort((a, b) => a - b);
+      const m = s.length >> 1;
+      return s.length % 2 ? s[m]! : (s[m - 1]! + s[m]!) / 2;
+    };
+    const values = new Map<string, number[]>();
+    for (const o of kb.options)
+      for (const [c, s] of Object.entries(o.scores)) {
+        const key = `${o.part}|${o.level}|${c}`;
+        values.set(key, [...(values.get(key) ?? []), s.value]);
+      }
+    const offenders = kb.options.flatMap((o) =>
+      Object.entries(o.scores).flatMap(([c, s]) => {
+        if (Math.abs(s.value - median(values.get(`${o.part}|${o.level}|${c}`)!)) < 2) return [];
+        const evidence = s.sources.filter((x) => x.kind !== "design");
+        const vendorOnly =
+          evidence.length > 0 && evidence.every((x) => x.kind === "ref" && refKind.get(x.ref) === "vendor");
+        const rubric = s.sources.some((x) => x.kind === "design" && /rubric/i.test(x.note));
+        return vendorOnly && !rubric ? [`${o.id}.${c}`] : [];
+      }),
+    );
+    expect(offenders).toEqual([]);
+  });
+
   it("gives every coverage exemption to a ranked type with a reason", () => {
     const exempt = kb.options.filter((o) => o.coverageExempt).map((o) => o.id);
     // key-value: TESTING_STRATEGY §3. vps lost its exemption when golden G14 (must self-host) was added (Q34).

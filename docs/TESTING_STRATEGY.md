@@ -11,7 +11,7 @@ Test pyramid: many fast unit tests on the KB and the engine, focused tests on th
 - Every id referenced in rules, compatibility, skills, bundles and glossary exists.
 - Every rule and relation has a user-facing explanation and a source.
 - **Licence and free-tier fields** are set for every product / hosting product.
-- **Fairness lint:** a comparative score whose only source is the vendor itself fails (§8 of the schema: vendor sources only for their own facts). Comparative = differs from the type's median by ≥ 2.
+- **Fairness lint:** a comparative score whose only source is the vendor itself fails (§8 of the schema: vendor sources only for their own facts). Comparative = differs from the type's median by ≥ 2. **In the repo since 2026-11-09** (`tests/kb/knowledge-base.test.ts`): the median is taken per part, level and criterion; a score passes when it also cites a written rubric (schema §8.6, a DESIGN source naming it) or an independent source. Its first run flagged 16 scores, all vendor facts already scored by a rubric that wasn't cited (database cost and portability, hosting cost, real-time and scalability, backend productivity and real-time); the rubrics were written into schema §8.6 and cited. A hand-removed rubric citation makes it fail (checked).
 - **Stale facts:** `kb:stale` lists facts past their window (warning); the release gate fails at 2× the window or when a `support.until` date has passed (schema §9). The test gets "today" from the test runner, never from the engine.
 - **Release gate:** fails in production mode if any source has `reviewed: false`.
 - **Snapshot of the score matrix,** so any KB change is a visible diff.
