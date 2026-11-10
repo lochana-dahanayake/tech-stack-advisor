@@ -81,6 +81,8 @@ function effectText(e: Effect): string {
       return `no ${partName(e.part, true).toLowerCase()} needed`;
     case "note":
       return "shows a note";
+    case "keep-type":
+      return `${partName(e.part, true).toLowerCase()} picked from ${optionName(e.target)}`;
   }
 }
 

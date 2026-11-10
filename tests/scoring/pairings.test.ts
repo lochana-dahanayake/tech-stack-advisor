@@ -3,6 +3,7 @@ import { kb, rawKnowledgeBase, type KnowledgeBase, type Relation } from "@/modul
 import { knowledgeBaseSchema } from "@/modules/knowledge-base/schema";
 import { score } from "@/modules/scoring";
 import { golden } from "./golden";
+import undoSession17 from "./undo-session17.json";
 
 const input = (id: string) => golden.find((g) => g.id === id)!.input;
 const withoutPairings: KnowledgeBase = {
@@ -12,8 +13,21 @@ const withoutPairings: KnowledgeBase = {
 
 describe("worksBestWith pairings (KB schema §6, SCORING_ENGINE step 6)", () => {
   it("adds a small bonus that can settle a near-tie: G4 picks Django (with PostgreSQL) over FastAPI", () => {
-    expect(score(input("G4"), withoutPairings).stack.picks.backend).toBe("fastapi");
-    const r = score(input("G4"), kb);
+    // Fixture: the KB before the session-17 rubrics (undo-session17.json), where G4 was a near-tie the bonus
+    // settled. With the current KB Django wins G4 without the bonus.
+    const before = (k: KnowledgeBase): KnowledgeBase => ({
+      ...k,
+      options: k.options.map((o) => {
+        const undo = (undoSession17 as Record<string, Record<string, { value: number }>>)[o.id];
+        if (!undo) return o;
+        const scores = { ...o.scores };
+        for (const [c, x] of Object.entries(undo)) scores[c] = { ...scores[c]!, value: x.value };
+        return { ...o, scores };
+      }),
+    });
+    expect(score(input("G4"), before(withoutPairings)).stack.picks.backend).toBe("fastapi");
+    expect(score(input("G4"), withoutPairings).stack.picks.backend).toBe("django");
+    const r = score(input("G4"), before(kb));
     expect(r.stack.picks).toMatchObject({ backend: "django", database: "postgresql" });
     expect(r.stack.relationNotes).toContainEqual(expect.objectContaining({ id: "C-django-postgresql", points: 1 }));
   });

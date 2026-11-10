@@ -45,11 +45,14 @@ describe("property 8: highly connected data never picks document (owner, 2026-10
     expect(fit).toHaveLength(6);
     expect(combos).toBe(15_625);
     expect(documentWins).toBe(0); // never #1, never the close-call runner-up
-    // Calibration log §5 session 3: smallest margin 2.7 points, at learning-curve + scalability Critical.
-    expect(worst.margin).toBeCloseTo(2.73, 2);
+    // Calibration log §5 session 3: smallest margin 2.7 points, at learning-curve + scalability Critical;
+    // 2.50 since session 17 (document real-time 3 → 4, KB draft §27), at learning-curve Critical, scalability High,
+    // real-time and schema-flexibility Low.
+    expect(worst.margin).toBeCloseTo(2.5, 2);
     expect(Object.entries(worst.weights).filter(([, l]) => l !== "none")).toEqual([
       ["learning-curve", "critical"],
-      ["scalability", "critical"],
+      ["scalability", "high"],
+      ["real-time", "low"],
       ["schema-flexibility", "low"],
     ]);
   }, 60_000);

@@ -175,6 +175,7 @@ Effect types:
 | `floor` | Raise a criterion's minimum importance |
 | `not-needed` | Mark a part as not needed (its `none` type wins; products not ranked) |
 | `note` | No score change; adds a message and an AI hint |
+| `keep-type` | `part` + `target` (a type of that part): the stack takes that part's product from this approach while one of its products is ranked; a lock still wins (B2, owner 2026-11-10, SCORING_ENGINE step 6.1) |
 
 Every rule has `id`, `name`, `explanation` (shown when it fires), `source`, and optionally `otherwise` + `otherwiseExplanation`. Rule ids: `S…` situation, `D…` data shape, `B…` backend, `K…` constraint, `A…` architecture-style link, `N…` notes. Team-skill rules live in `skills.json` (§7.4).
 
@@ -303,6 +304,7 @@ Small nudges only (±5 to ±10), because the style describes structure, not tool
    | `portability` (hosting) | A standard artefact another host runs unchanged (static files, OCI image, plain Linux server) → 4 · standard code with the platform's own function API, runtime or config → 3 · built from the provider's own managed services → 2 (KB draft §26) |
    | `learning-curve` (hosting) | The vendor's own quick start: Git import in the dashboard → 4 · a CLI first, or a runtime unlike standard Node.js → 3 · IAM, networking or a server before the first deploy → 2 (KB draft §26) |
    | `productivity` (language) | No fair public metric: every language held at 3 (KB draft §26; the framework's built-in features are scored on the backend part) |
+   | Every other criterion | Written rubrics for the last GK scores (session 17): backend learning-curve, scalability, type-safety split; backend ecosystem held at 3; frontend learning-curve (MDN layers, framework deductions); database ecosystem (npm keyword), real-time, schema-flexibility, ops-effort, scalability, learning-curve; hosting maturity and performance; type scores as the median of their products. Full text in each score's DESIGN source and KB draft §27 |
    | `productivity` (frontend) | Routing, data loading and more built in or official → 4 · a UI library whose own docs point to a separate framework → 3 (Q33) |
 7. **Fairness lint (tested, 2026-11-09):** a comparative score (2 or more away from the median of its part, level and criterion) whose only evidence is the vendor's own documentation must also cite one of the rubrics above (a DESIGN source naming it); otherwise `tests/kb` fails. A vendor proves its own fact, the rubric turns the fact into a score the same way for every rival.
 8. **A score of 5 or 1 needs a `book:` or `ref:` source** (owner, 2026-10-24). Until then it is stored as 3 with `unsourced: true` and its `proposed` value; the release gate fails while any remain. Enforced by `tests/kb`.

@@ -47,7 +47,7 @@ describe("resultToMarkdown", () => {
     expect(text).toContain("## Things to know");
     expect(text).toMatch(/- \*\*Close call: Go \+ Gin/);
     expect(text).toContain("## Backend");
-    expect(text).toMatch(/\| 2 \| Fastify \| \d+ \| Needs TypeScript \/ JavaScript on Node\.js \|/);
+    expect(text).toMatch(/\| 2 \| Gin \| \d+ \| Needs Go \|/);
     expect(text).toMatch(/checked 20\d\d-\d\d-\d\d/);
   });
 

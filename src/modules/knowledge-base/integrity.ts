@@ -153,6 +153,10 @@ export function findIntegrityProblems(kb: KnowledgeBase): string[] {
       p.push(`rule ${r}: unknown target ${e.target}`);
     if (e.type === "floor" && !criteria.has(e.criterion)) p.push(`rule ${r}: unknown criterion ${e.criterion}`);
     if (e.type === "not-needed" && !parts.has(e.part)) p.push(`rule ${r}: unknown part ${e.part}`);
+    if (e.type === "keep-type") {
+      const t = kb.options.find((o) => o.id === e.target);
+      if (!t || t.level !== "type" || t.part !== e.part) p.push(`rule ${r}: keep-type needs a type of part ${e.part}`);
+    }
   };
   const ruleIds = new Set<string>();
   for (const r of kb.rules) {

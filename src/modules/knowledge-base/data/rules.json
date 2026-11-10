@@ -538,6 +538,11 @@
         "type": "modify",
         "target": "batteries",
         "points": -15
+      },
+      {
+        "type": "keep-type",
+        "part": "backend",
+        "target": "fullstack"
       }
     ],
     "explanation": "One project and one deploy: the frontend framework's server handles forms and API routes, so there's no second app to set up and keep in sync.",
@@ -545,6 +550,11 @@
       {
         "kind": "design",
         "note": "one project instead of two (owner kept it 2026-10-24: DESIGN, weight not to be raised)",
+        "reviewed": false
+      },
+      {
+        "kind": "design",
+        "note": "keep-type added 2026-11-10 (owner, session 17): the stack takes the backend from the full-stack approach, so the pick matches this explanation; the +20/−15 weights are unchanged",
         "reviewed": false
       }
     ]

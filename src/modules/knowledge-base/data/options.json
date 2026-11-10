@@ -20,14 +20,20 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Mostly HTML and CSS; little to set up",
+        "why": "Mostly HTML and CSS: nothing beyond MDN's first steps",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "mdn-learn",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "frontend approach learning-curve rubric: layers beyond HTML and CSS in MDN's curriculum order: none (or templates in the backend's language) → 4 · a component framework → 3 · a framework plus a server/client split → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -106,14 +112,20 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "A component framework, state and client-side routing to learn",
+        "why": "A component framework, state and client-side routing on top",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "mdn-learn",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "frontend approach learning-curve rubric: layers beyond HTML and CSS in MDN's curriculum order: none (or templates in the backend's language) → 4 · a component framework → 3 · a framework plus a server/client split → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 2,
@@ -192,14 +204,25 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Component framework plus server/client split, data loading and caching rules",
+        "why": "A component framework plus the server/client split, data loading and caching",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "mdn-learn",
+            "quality": "P"
+          },
+          {
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "frontend approach learning-curve rubric: layers beyond HTML and CSS in MDN's curriculum order: none (or templates in the backend's language) → 4 · a component framework → 3 · a framework plus a server/client split → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 3,
@@ -272,14 +295,20 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Templates in the language the team already uses; no second app",
+        "why": "HTML with a few template tags, in the language the team already uses",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "mdn-learn",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "frontend approach learning-curve rubric: layers beyond HTML and CSS in MDN's curriculum order: none (or templates in the backend's language) → 4 · a component framework → 3 · a framework plus a server/client split → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -328,14 +357,21 @@
       },
       "cost": {
         "value": 4,
-        "why": "Rendered by the backend you already run; no extra server",
+        "why": "Rendered by the backend you already run; that server does the rendering work",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "web-rendering",
+            "quality": "P",
+            "note": "server rendering costs compute on the server"
+          },
+          {
+            "kind": "design",
+            "note": "frontend approach cost rubric: files on a CDN, no server → 5 · rendered by a server the app already runs → 4 · needs its own rendering server or functions → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -378,14 +414,20 @@
       },
       "productivity": {
         "value": 2,
-        "why": "No components or build tools; repeated markup is copied by hand",
+        "why": "No components or routing; repeated markup is copied by hand",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "whatwg-html",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "frontend productivity rubric (schema §8), extended: routing, data loading and more built in or official → 4 · a UI library pointing to a separate framework → 3 · no components or routing at all → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -402,14 +444,15 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "Any library can be added by hand, but nothing is integrated",
+        "why": "No npm package of its own: held at 3",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "frontend ecosystem rubric (schema §8, npm keyword count): ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2; options with no npm package of their own are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -441,11 +484,12 @@
         "why": "No type checking unless you add TypeScript or JSDoc checks yourself",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-safety rubric (schema §8): compiler-enforced → 5; optional static types → 3–4; none → 1–2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -493,11 +537,18 @@
         "why": "HTML-like components; JavaScript only where you ask for it",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "docs.astro.build tutorial (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -532,15 +583,22 @@
         "checked": "2026-11-08"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Integrations for React, Vue, Svelte; smaller own ecosystem",
+        "value": 2,
+        "why": "npm keyword astro: 3,739 packages (rubric 1k–5k → 2); it can use React, Vue or Svelte components, but has no single base library",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "keywords:astro, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "frontend ecosystem rubric (schema §8, npm keyword count): ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2; options with no npm package of their own are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 3,
@@ -640,14 +698,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "JSX, hooks and state; routing and data loading come from other libraries",
+        "why": "Markup written in JavaScript (JSX), hooks and state",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "react.dev Learn (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -796,14 +861,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "HTML-based templates; gentle start",
+        "why": "HTML-based templates; TypeScript optional",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "vuejs.org guide (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -950,11 +1022,18 @@
         "why": "Components look like HTML, CSS and JavaScript",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "svelte.dev tutorial (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -1100,14 +1179,21 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Large API: modules or standalone components, dependency injection, RxJS, signals",
+        "why": "TypeScript required; @Component classes with decorators and dependency injection",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "angular.dev tutorial (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -1268,15 +1354,22 @@
     },
     "scores": {
       "learning-curve": {
-        "value": 3,
-        "why": "React plus server components, caching and the App Router",
+        "value": 2,
+        "why": "JSX plus the server/client split (Server Components) with its own data-loading and caching rules",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "nextjs.org docs: App Router (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -1431,14 +1524,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Vue plus server rendering and Nuxt conventions",
+        "why": "Vue templates plus a server/client split with its own data loading",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "nuxt.com docs (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -1583,14 +1683,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Svelte plus routing, load functions and server/client split",
+        "why": "Svelte plus a server/client split with load functions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fe-repos",
+            "quality": "S",
+            "note": "svelte.dev/docs/kit (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -1724,25 +1831,38 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "One language and one project; templates are HTML with a few tags",
+        "why": "HTML with a few template tags, in the backend's language",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "Django templates, Blade, Razor, Thymeleaf docs (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "frontend framework learning-curve rubric: start at 4 and take 1 off for each of: markup written in JavaScript (JSX), TypeScript required, classes with decorators and dependency injection, a server/client split with its own data-loading rules; floor 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
         "why": "Forms, validation messages and auth pages come with the backend framework",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S"
+          },
+          {
+            "kind": "design",
+            "note": "frontend productivity rubric (schema §8), extended: routing, data loading and more built in or official → 4 · a UI library pointing to a separate framework → 3 · no components or routing at all → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -1758,15 +1878,16 @@
         "checked": "2026-11-08"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "Template engines come with the backend framework and its libraries (form helpers, auth pages)",
+        "value": 3,
+        "why": "No npm package of its own: held at 3",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "frontend ecosystem rubric (schema §8, npm keyword count): ≥ 100k → 5 · 25k–100k → 4 · 5k–25k → 3 · 1k–5k → 2; options with no npm package of their own are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -1782,26 +1903,39 @@
         "checked": "2026-11-08"
       },
       "maturity": {
-        "value": 4,
-        "why": "The template engines of mature backend frameworks",
+        "value": 5,
+        "why": "Template engines of Django, Laravel, Spring Boot and ASP.NET Core: all 10+ years with published support windows",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "P",
+            "note": "endoflife.date data repo: the backend frameworks' support windows"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8, KB draft §15): ≥ 10 years since the first stable release and published support windows → 5 · ≥ 10 years without windows, or 5–10 years → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "type-safety": {
         "value": 2,
         "why": "Most template languages aren't type-checked (Razor is)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8): compiler-enforced → 5; optional static types → 3–4; none → 1–2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -1830,33 +1964,51 @@
         "why": "SQL and schema design take some learning",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.2"
+          },
+          {
+            "kind": "design",
+            "note": "database learning-curve: get and set by key → 4 · a query language plus schema design → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
-        "why": "Fast for typical lookups and joins with indexes",
+        "why": "Indexes (B-trees) make typical lookups and joins fast",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          },
+          {
+            "kind": "design",
+            "note": "database performance: no independent cross-product benchmark (vendor benchmarks don't count, rule 3), so products take their type's value; types without a book source are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
-        "why": "Usually scales up one machine first; scaling out needs extra work",
+        "why": "Scales up one machine first; replication spreads reads",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.5"
+          },
+          {
+            "kind": "design",
+            "note": "database type scalability from DDIA: keys partition easily (ch.6) · relational scales up first, replication for reads (ch.5) · graphs are hard to partition (ch.10) (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 3,
@@ -1950,15 +2102,22 @@
         "checked": "2026-10-23"
       },
       "real-time": {
-        "value": 3,
-        "why": "Depends on the product",
+        "value": 4,
+        "why": "MongoDB change streams push changes (median of its products)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "mdb-docs",
+            "quality": "S",
+            "note": "change streams (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 3,
@@ -2005,11 +2164,17 @@
         "why": "Few concepts: get and set by key",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          },
+          {
+            "kind": "design",
+            "note": "database learning-curve: get and set by key → 4 · a query language plus schema design → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -2028,25 +2193,29 @@
         "why": "Keys spread easily across machines",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.6"
+          },
+          {
+            "kind": "design",
+            "note": "database type scalability from DDIA: keys partition easily (ch.6) · relational scales up first, replication for reads (ch.5) · graphs are hard to partition (ch.10) (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 3,
-        "why": "Many key-value stores have publish/subscribe (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Redis and Valkey have pub/sub and keyspace notifications (median of its products)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "pub/sub as a category feature"
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 2,
@@ -2062,14 +2231,20 @@
       },
       "schema-flexibility": {
         "value": 3,
-        "why": "Values are opaque; structure is up to the app",
+        "why": "Values are opaque or simple data structures; structure is up to the app",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          },
+          {
+            "kind": "design",
+            "note": "database schema-flexibility rubric: documents as the native model → 5 · a JSON type in the default distribution that can be indexed → 4 · values hold data structures, not documents → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       }
     },
     "facts": [],
@@ -2111,47 +2286,62 @@
       },
       "performance": {
         "value": 3,
-        "why": "Fast at following relationships, average otherwise",
+        "why": "No book source separates it: held at the middle",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database performance: no independent cross-product benchmark (vendor benchmarks don't count, rule 3), so products take their type's value; types without a book source are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 2,
         "why": "Hard to split a connected graph across machines",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.10"
+          },
+          {
+            "kind": "design",
+            "note": "database type scalability from DDIA: keys partition easily (ch.6) · relational scales up first, replication for reads (ch.5) · graphs are hard to partition (ch.10) (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
-        "why": "Rarely a built-in strength",
+        "why": "Neo4j Community pushes changes only through plugins (median of its products)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 4,
-        "why": "Graph products usually offer transactions",
+        "why": "Neo4j: ACID transactions, read committed by default",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "neo4j docs: transaction management (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; data-integrity rubric (DDIA ch.7): ACID with serializable isolation → 5 · ACID with a weaker default isolation → 4 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "schema-flexibility": {
         "value": 4,
@@ -2193,25 +2383,32 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Standard SQL; many features to learn over time",
+        "why": "Standard SQL; a server to connect to",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database learning-curve rubric: commands on keys → 4 · SQL or another query language → 3; +1 (max 4) when there is no server to install or connect to (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
-        "why": "Fast for typical web workloads with indexes",
+        "why": "The relational type's value",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          },
+          {
+            "kind": "design",
+            "note": "database performance: no independent cross-product benchmark (vendor benchmarks don't count, rule 3), so products take their type's value; types without a book source are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
@@ -2268,17 +2465,22 @@
         "checked": "2026-10-23"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Drivers and ORMs for every major language; many managed hosts (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "npm keywords postgres 5,809 / postgresql 5,187 (rubric 4k–16k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -2328,11 +2530,12 @@
         "why": "A server to run, back up and upgrade",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 5,
@@ -2421,47 +2624,68 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Standard SQL",
+        "why": "Standard SQL; a server to connect to",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database learning-curve rubric: commands on keys → 4 · SQL or another query language → 3; +1 (max 4) when there is no server to install or connect to (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
-        "why": "Fast for typical web workloads",
+        "why": "The relational type's value",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          },
+          {
+            "kind": "design",
+            "note": "database performance: no independent cross-product benchmark (vendor benchmarks don't count, rule 3), so products take their type's value; types without a book source are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
         "why": "Replication built in",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "MySQL manual: replication (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database scalability rubric: automatic sharding built in → 5 · a cluster mode that spreads keys → 4 · replication for reads built in → 3 · one machine (one writer, or no clustering in the free edition) → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
-        "why": "Change capture needs binlog tools",
+        "why": "Change capture needs binlog-reading tools",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "MySQL manual: binary log (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 4,
@@ -2476,28 +2700,40 @@
         "checked": "2026-10-23"
       },
       "schema-flexibility": {
-        "value": 3,
-        "why": "JSON column type",
+        "value": 4,
+        "why": "Native JSON type, indexed through generated columns or functional indexes",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "MySQL manual: JSON data type, functional key parts (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database schema-flexibility rubric: documents as the native model → 5 · a JSON type in the default distribution that can be indexed → 4 · values hold data structures, not documents → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Drivers, ORMs and hosts everywhere (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "npm keyword mysql 5,544 (rubric 4k–16k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 4,
@@ -2547,11 +2783,12 @@
         "why": "A server to run, back up and upgrade",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 5,
@@ -2613,90 +2850,132 @@
     },
     "scores": {
       "learning-curve": {
-        "value": 3,
-        "why": "No server to set up: the database is one file (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "SQL, but no server to install: the database is one file",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "verify with sqlite.org"
+            "kind": "ref",
+            "ref": "sqlite-whentouse",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database learning-curve rubric: commands on keys → 4 · SQL or another query language → 3; +1 (max 4) when there is no server to install or connect to (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
-        "why": "Fast for reads on one machine",
+        "why": "The relational type's value",
         "sources": [
           {
-            "kind": "general",
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.3"
+          },
+          {
+            "kind": "design",
+            "note": "database performance: no independent cross-product benchmark (vendor benchmarks don't count, rule 3), so products take their type's value; types without a book source are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "scalability": {
-        "value": 3,
-        "why": "One writer at a time on one machine (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 2,
+        "why": "One writer at a time on one machine; fine for most low-to-medium traffic sites",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "verify with sqlite.org 'Appropriate uses' (Q21)"
+            "kind": "ref",
+            "ref": "sqlite-whentouse",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database scalability rubric: automatic sharding built in → 5 · a cluster mode that spreads keys → 4 · replication for reads built in → 3 · one machine (one writer, or no clustering in the free edition) → 2 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 1
+        "checked": "2026-11-10"
       },
       "real-time": {
-        "value": 3,
-        "why": "No built-in way to push changes to listeners (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 1,
+        "why": "No way for other connections to listen for changes (update hooks are per connection)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "verify with sqlite.org"
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "sqlite.org C API: sqlite3_update_hook (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 1
+        "checked": "2026-11-10"
       },
       "data-integrity": {
-        "value": 4,
-        "why": "Transactions; one writer at a time",
+        "value": 5,
+        "why": "ACID transactions with serializable isolation",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "sqlite.org/isolation.html (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "book",
+            "ref": "ddia",
+            "locator": "ch.7"
+          },
+          {
+            "kind": "design",
+            "note": "data-integrity rubric (DDIA ch.7): ACID with serializable isolation → 5 · ACID with a weaker default isolation → 4 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "schema-flexibility": {
-        "value": 3,
-        "why": "JSON functions available",
+        "value": 4,
+        "why": "JSON functions and JSONB in the default build; expression indexes on JSON values",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "sqlite.org/json1.html, expression indexes (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database schema-flexibility rubric: documents as the native model → 5 · a JSON type in the default distribution that can be indexed → 4 · values hold data structures, not documents → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ecosystem": {
         "value": 4,
-        "why": "Bindings for every language",
+        "why": "npm keyword sqlite 6,704 (rubric 4k–16k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -2742,18 +3021,21 @@
         "checked": "2026-10-23"
       },
       "ops-effort": {
-        "value": 3,
-        "why": "Nothing to run; back up by copying a file (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "Nothing to run; back up by copying a file",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "verify with sqlite.org"
+            "kind": "ref",
+            "ref": "sqlite-whentouse",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 5,
@@ -2846,15 +3128,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Change streams push changes",
+        "why": "Change streams push changes and can resume",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "verify in mdb-docs"
+            "kind": "ref",
+            "ref": "mdb-docs",
+            "quality": "S",
+            "note": "change streams (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 4,
@@ -2882,14 +3170,21 @@
       },
       "ecosystem": {
         "value": 4,
-        "why": "Drivers for all major languages; Mongoose for Node",
+        "why": "npm keyword mongodb 7,444 (rubric 4k–16k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 3,
@@ -2905,15 +3200,22 @@
         "checked": "2026-10-23"
       },
       "maturity": {
-        "value": 4,
-        "why": "In production since 2009",
+        "value": 5,
+        "why": "In production since 2009; published support windows",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "S",
+            "note": "endoflife.date mongodb (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8, KB draft §15): ≥ 10 years since the first stable release and published support windows → 5 · ≥ 10 years without windows, or 5–10 years → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
@@ -2932,11 +3234,12 @@
         "why": "A server or cluster to run",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 2,
@@ -3001,14 +3304,15 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Simple commands",
+        "why": "Simple commands on keys",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database learning-curve rubric: commands on keys → 4 · SQL or another query language → 3; +1 (max 4) when there is no server to install or connect to (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -3027,24 +3331,36 @@
         "why": "Cluster mode spreads keys",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "redis docs: cluster (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database scalability rubric: automatic sharding built in → 5 · a cluster mode that spreads keys → 4 · replication for reads built in → 3 · one machine (one writer, or no clustering in the free edition) → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 3,
-        "why": "Pub/sub built in (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Pub/sub and keyspace notifications built in, but no resumable change feed",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "redis docs: pub/sub, keyspace notifications (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 2,
@@ -3059,26 +3375,40 @@
         "checked": "2026-10-23"
       },
       "schema-flexibility": {
-        "value": 3,
-        "why": "Values hold data structures, not documents",
+        "value": 4,
+        "why": "Redis 8 includes a JSON data type with JSONPath, queryable by the built-in query engine",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "redis.io/blog/redis-8-ga; RedisJSON README: integral to Redis 8 (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database schema-flexibility rubric: documents as the native model → 5 · a JSON type in the default distribution that can be indexed → 4 · values hold data structures, not documents → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ecosystem": {
         "value": 4,
-        "why": "Clients for every language",
+        "why": "npm keyword redis 6,408 (rubric 4k–16k → 4)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 4,
@@ -3094,37 +3424,46 @@
         "checked": "2026-10-23"
       },
       "maturity": {
-        "value": 4,
-        "why": "Long production record",
+        "value": 5,
+        "why": "Since 2009; published support windows",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "S",
+            "note": "endoflife.date redis (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8, KB draft §15): ≥ 10 years since the first stable release and published support windows → 5 · ≥ 10 years without windows, or 5–10 years → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
         "why": "Free; memory is the main cost",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database cost rubric (schema §8): free under OSI or public domain with every feature → 5 · free edition with limits (memory-bound storage, paid clustering, service limits) → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 3,
         "why": "A server to run",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 3,
@@ -3184,11 +3523,12 @@
         "why": "Same commands as Redis",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database learning-curve rubric: commands on keys → 4 · SQL or another query language → 3; +1 (max 4) when there is no server to install or connect to (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -3207,24 +3547,36 @@
         "why": "Cluster mode",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "valkey docs: cluster (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database scalability rubric: automatic sharding built in → 5 · a cluster mode that spreads keys → 4 · replication for reads built in → 3 · one machine (one writer, or no clustering in the free edition) → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 3,
-        "why": "Pub/sub built in (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Pub/sub and keyspace notifications built in",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "valkey docs (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 2,
@@ -3240,72 +3592,99 @@
       },
       "schema-flexibility": {
         "value": 3,
-        "why": "Values hold data structures",
+        "why": "Values hold data structures; JSON is a separate module",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "valkey-io/valkey-json (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database schema-flexibility rubric: documents as the native model → 5 · a JSON type in the default distribution that can be indexed → 4 · values hold data structures, not documents → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Works with Redis clients",
+        "value": 4,
+        "why": "Works with Redis clients, so counts redis: 6,408 (own keyword: 191)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "community": {
-        "value": 3,
-        "why": "Not listed in the survey results found so far (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 2,
+        "why": "Stack Overflow 2026: 5.0% usage (rubric 4–10% → 2)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "placeholder until a survey lists it"
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 databases, all respondents (n = 12,061); `npm run sources`"
+          },
+          {
+            "kind": "design",
+            "note": "database community rubric (schema §8, survey bands): ≥ 40% → 5 · 20–40% → 4 · 10–20% → 3 · 4–10% → 2 · < 4% → 1 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-23",
-        "unsourced": true,
-        "proposed": 1
+        "checked": "2026-11-10"
       },
       "maturity": {
         "value": 3,
-        "why": "Fork since 2024",
+        "why": "First release 2024 (fork of Redis 7.2)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "valkey-io/valkey releases (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8, KB draft §15): ≥ 10 years since the first stable release and published support windows → 5 · ≥ 10 years without windows, or 5–10 years → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
         "why": "Free; memory is the main cost",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database cost rubric (schema §8): free under OSI or public domain with every feature → 5 · free edition with limits (memory-bound storage, paid clustering, service limits) → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 3,
         "why": "A server to run",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 4,
@@ -3374,47 +3753,69 @@
       },
       "performance": {
         "value": 3,
-        "why": "Fast traversals",
+        "why": "The graph type's value (no independent benchmark)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database performance: no independent cross-product benchmark (vendor benchmarks don't count, rule 3), so products take their type's value; types without a book source are held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 2,
-        "why": "Scaling out a graph is hard",
+        "why": "Clustering is in the Enterprise edition only",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "neo4j operations manual: clustering (Enterprise) (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database scalability rubric: automatic sharding built in → 5 · a cluster mode that spreads keys → 4 · replication for reads built in → 3 · one machine (one writer, or no clustering in the free edition) → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
-        "why": "No built-in change push in Community",
+        "why": "Change data capture is Enterprise/Aura; Community only through plugins",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "neo4j docs: CDC (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "database real-time rubric: built-in resumable push of data changes (change streams) → 4 · a built-in messaging channel (LISTEN/NOTIFY, pub/sub, keyspace notifications) → 3 · only through log-reading tools or server plugins → 2 · nothing other connections can listen to → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "data-integrity": {
         "value": 4,
-        "why": "ACID transactions",
+        "why": "ACID transactions, read committed by default",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "db-repos",
+            "quality": "S",
+            "note": "neo4j docs: transaction management (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "data-integrity rubric (DDIA ch.7): ACID with serializable isolation → 5 · ACID with a weaker default isolation → 4 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "schema-flexibility": {
         "value": 4,
@@ -3429,15 +3830,22 @@
         "checked": "2026-10-23"
       },
       "ecosystem": {
-        "value": 3,
-        "why": "Drivers for major languages",
+        "value": 2,
+        "why": "npm keyword neo4j 494 (rubric 250–1k → 2)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "npm-search",
+            "quality": "P",
+            "note": "registry.npmjs.org/-/v1/search?text=keywords:<name>, 2026-11-10"
+          },
+          {
+            "kind": "design",
+            "note": "database ecosystem rubric: npm packages with the product's keyword (registry search, one registry for all): ≥ 16k → 5 · 4k–16k → 4 · 1k–4k → 3 · 250–1k → 2 · < 250 → 1; a product whose own docs say it works with another's clients counts that product's (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 1,
@@ -3453,37 +3861,46 @@
         "checked": "2026-10-23"
       },
       "maturity": {
-        "value": 4,
-        "why": "In production since 2010",
+        "value": 5,
+        "why": "1.0 in 2010; published support windows",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "eol",
+            "quality": "S",
+            "note": "endoflife.date neo4j (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8, KB draft §15): ≥ 10 years since the first stable release and published support windows → 5 · ≥ 10 years without windows, or 5–10 years → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
-        "why": "Community edition free",
+        "why": "Community edition free; clustering paid",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database cost rubric (schema §8): free under OSI or public domain with every feature → 5 · free edition with limits (memory-bound storage, paid clustering, service limits) → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 3,
         "why": "A server to run",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "database ops-effort rubric (self-run): no server process, the database is a file in the app → 4 · a server to run, back up and upgrade → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-23"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 2,
@@ -3526,14 +3943,15 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Nothing new to learn if you know the frontend framework",
+        "why": "Route handlers in the frontend project you already have",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -3554,25 +3972,27 @@
       },
       "performance": {
         "value": 3,
-        "why": "Rendering and API share one process",
+        "why": "Its one product is not in TechEmpower; held at the middle",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend performance rubric (TechEmpower bands): not in TechEmpower, so held at the middle (3) (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
         "why": "Deployed and scaled together with the frontend",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
@@ -3599,14 +4019,15 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Few concepts",
+        "why": "Median of Express 4, Fastify 4, FastAPI 4, Gin 4, ASP.NET Core 3",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 2,
@@ -3622,26 +4043,27 @@
       },
       "performance": {
         "value": 4,
-        "why": "Little work per request",
+        "why": "Median of Express 3, Fastify 4, FastAPI 2, Gin 4, ASP.NET Core 5 (TechEmpower)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "TechEmpower blocked"
-          }
-        ],
-        "checked": "2026-10-24"
-      },
-      "scalability": {
-        "value": 4,
-        "why": "Stateless servers scale out",
-        "sources": [
-          {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
+      },
+      "scalability": {
+        "value": 4,
+        "why": "All its frameworks are stateless and scale out",
+        "sources": [
+          {
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
+            "reviewed": false
+          }
+        ],
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 3,
@@ -3667,15 +4089,16 @@
     "status": "active",
     "scores": {
       "learning-curve": {
-        "value": 2,
-        "why": "More to learn up front: dependency injection, conventions, an ORM",
+        "value": 3,
+        "why": "Median of NestJS 2, Django 3, Spring Boot 2, Laravel 3, ASP.NET Core 3",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 5,
@@ -3696,25 +4119,27 @@
       },
       "performance": {
         "value": 3,
-        "why": "More work per request than minimal frameworks",
+        "why": "Median of NestJS 3, Django 1, Spring Boot 4, Laravel 2, ASP.NET Core 5 (TechEmpower)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 4,
-        "why": "Stateless servers scale out",
+        "why": "All its frameworks are stateless and scale out",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "type-level rule: a type's GK-only score becomes the median of its listed products' rubric scores; backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 4,
@@ -3756,14 +4181,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Same project and language as the frontend",
+        "why": "Route handlers are exported functions in the project you already have",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "Next.js route handlers, Nuxt server routes (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -3784,25 +4216,27 @@
       },
       "performance": {
         "value": 3,
-        "why": "Node.js runtime",
+        "why": "Not in TechEmpower; held at the middle",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend performance rubric (TechEmpower bands): not in TechEmpower, so held at the middle (3) (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
-        "why": "Scaled with the frontend",
+        "why": "Scales only together with the frontend app",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
@@ -3822,15 +4256,16 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "npm ecosystem",
+        "value": 3,
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -3865,14 +4300,21 @@
       },
       "type-safety": {
         "value": 4,
-        "why": "TypeScript-first frameworks",
+        "why": "TypeScript-first frameworks that ship their types",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org/next/latest: types index.d.ts (16.4.6)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -3901,17 +4343,22 @@
     },
     "scores": {
       "learning-curve": {
-        "value": 3,
-        "why": "Tiny API: routes and middleware (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "Hello world is a function on a route",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "expressjs.com hello world (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 2,
@@ -3946,38 +4393,45 @@
       },
       "scalability": {
         "value": 4,
-        "why": "Stateless; scale out",
+        "why": "Stateless; scale out with more processes",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
-        "why": "No WebSockets built in; use ws or Socket.IO",
+        "why": "No WebSockets built in; ws or Socket.IO",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "expressjs/express: no WebSocket API (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend real-time rubric (schema §8): first-party WebSockets with group broadcasting → 5 … third-party only → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "ecosystem": {
         "value": 3,
-        "why": "The largest set of Node.js middleware (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -4012,14 +4466,21 @@
       },
       "type-safety": {
         "value": 3,
-        "why": "Written for JavaScript; types via @types",
+        "why": "Types come from DefinitelyTyped (@types/express), not the package",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org/express/latest: no types field (5.3.0)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": [],
@@ -4053,14 +4514,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Small API plus plugins",
+        "why": "Getting started registers a function on a route",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "fastify docs: Getting Started (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 2,
@@ -4095,14 +4563,15 @@
       },
       "scalability": {
         "value": 4,
-        "why": "Stateless; scale out",
+        "why": "Stateless; scale out with more processes",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 4,
@@ -4117,15 +4586,16 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "Official plugin ecosystem",
+        "value": 3,
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 2,
@@ -4154,14 +4624,21 @@
       },
       "type-safety": {
         "value": 4,
-        "why": "Types ship with the framework",
+        "why": "Ships its own TypeScript types",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org/fastify/latest: types fastify.d.ts (5.12.8)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -4191,14 +4668,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Type hints drive validation and docs",
+        "why": "First steps: a decorated function returns a dict",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "fastapi docs: First Steps (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -4233,14 +4717,15 @@
       },
       "scalability": {
         "value": 4,
-        "why": "Async; scale out with workers",
+        "why": "Stateless; scale out with workers",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 4,
@@ -4255,15 +4740,16 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "Python ecosystem",
+        "value": 3,
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -4292,14 +4778,21 @@
       },
       "type-safety": {
         "value": 4,
-        "why": "Type hints are central to the framework",
+        "why": "Type hints drive validation; the framework relies on them",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "fastapi docs: Python types intro (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -4328,15 +4821,22 @@
     },
     "scores": {
       "learning-curve": {
-        "value": 3,
-        "why": "Needs Go",
+        "value": 4,
+        "why": "Quick start: a handler function on a route (Go itself is scored on the language part)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "gin-gonic/gin README quick start (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 2,
@@ -4370,53 +4870,70 @@
         "checked": "2026-10-24"
       },
       "scalability": {
-        "value": 3,
-        "why": "Uses all cores in one process (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "Stateless; scale out with more instances",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 2,
         "why": "No WebSockets built in; gorilla/websocket",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "gin-gonic/gin: no WebSocket API (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend real-time rubric (schema §8): first-party WebSockets with group broadcasting → 5 … third-party only → 2 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "ecosystem": {
         "value": 3,
-        "why": "Smaller web ecosystem than Node or Python",
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 3,
-        "why": "Gin is not an answer option in the 2026 (or 2025) survey (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Not a survey option; estimate about 8%: Go 16.5% of 2026 respondents × Gin 48% of Go developers (JetBrains 2025)",
         "sources": [
           {
-            "kind": "general",
-            "reviewed": false,
-            "note": "placeholder: no survey lists Gin"
+            "kind": "ref",
+            "ref": "so-survey",
+            "quality": "P",
+            "note": "2026 languages: Go 2,332 of 14,099; `npm run sources`"
+          },
+          {
+            "kind": "ref",
+            "ref": "jb-eco",
+            "quality": "S",
+            "note": "JetBrains, Go ecosystem 2025 (blog.jetbrains.com/go/2025/11/10): Gin used by 48% of Go developers"
+          },
+          {
+            "kind": "design",
+            "note": "backend community rubric (schema §8): ≥ 15% → 5 · 10–15% → 4 · 5–10% → 3 · 2–5% → 2 · < 2% → 1 (KB draft §27)",
+            "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 2
+        "checked": "2026-11-10"
       },
       "maturity": {
         "value": 4,
@@ -4471,14 +4988,21 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Decorators, modules, dependency injection",
+        "why": "Controllers, modules and providers with decorators and dependency injection from the first example",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "docs.nestjs.com First steps (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -4516,11 +5040,12 @@
         "why": "Stateless; scale out",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 5,
@@ -4535,15 +5060,16 @@
         "checked": "2026-10-24"
       },
       "ecosystem": {
-        "value": 4,
-        "why": "npm ecosystem plus first-party modules",
+        "value": 3,
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 3,
@@ -4572,14 +5098,21 @@
       },
       "type-safety": {
         "value": 4,
-        "why": "TypeScript-first",
+        "why": "Written in TypeScript; ships its types",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "P",
+            "note": "registry.npmjs.org/@nestjs/core/latest: types ./index.d.ts (12.4.2)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": [],
@@ -4612,14 +5145,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Much to learn, very good tutorial",
+        "why": "The tutorial starts with startproject, startapp, settings, URLs and views",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "docs.djangoproject.com tutorial part 1 (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 5,
@@ -4653,15 +5193,16 @@
         "checked": "2026-10-24"
       },
       "scalability": {
-        "value": 3,
-        "why": "Scale out with more processes",
+        "value": 4,
+        "why": "Stateless; scale out with more processes",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 4,
@@ -4677,16 +5218,15 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "Large package ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 4,
@@ -4716,14 +5256,21 @@
       },
       "type-safety": {
         "value": 3,
-        "why": "Python type hints optional; the framework doesn't rely on them",
+        "why": "Django ships no type hints; django-stubs is a separate project",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "django/django; typeddjango/django-stubs (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -4753,14 +5300,21 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Large framework: DI, annotations, many modules",
+        "why": "A generated project and an annotated @RestController class from the first example",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "spring.io quickstart (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 4,
@@ -4794,17 +5348,16 @@
         "checked": "2026-10-24"
       },
       "scalability": {
-        "value": 3,
-        "why": "Multi-threaded JVM uses all cores (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "Stateless; scale out",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 5,
@@ -4820,16 +5373,15 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "The Spring ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 4,
@@ -4911,14 +5463,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Clear docs; many features",
+        "why": "A generated project with routes, controllers and views (MVC folders)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "laravel.com docs: installation, routing (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 5,
@@ -4952,15 +5511,16 @@
         "checked": "2026-10-24"
       },
       "scalability": {
-        "value": 3,
-        "why": "Scale out with more processes",
+        "value": 4,
+        "why": "Stateless; scale out with more processes",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 5,
@@ -4976,16 +5536,15 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "Large first-party and community ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 3,
@@ -5018,11 +5577,18 @@
         "why": "PHP type declarations, checked at runtime",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "lang-docs",
+            "quality": "S",
+            "note": "PHP manual: type declarations (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "type-safety rubric (schema §8) for TypeScript/Python/PHP frameworks: 4 the framework ships its own types and its API relies on them · 3 types from a separate community package, or runtime-only checks (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -5053,14 +5619,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Minimal APIs are easy; full MVC has more to learn",
+        "why": "The official get-started tutorial generates a Razor Pages app (dotnet new webapp); minimal APIs are simpler",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "fw-repos",
+            "quality": "S",
+            "note": "learn.microsoft.com Get started with ASP.NET Core (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "backend learning-curve rubric: the framework's own quick start: 4 a plain function on a route · 3 a project generator and the framework's conventions (settings, apps, MVC folders) first · 2 classes with decorators or annotations and dependency injection in the first example (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 5,
@@ -5094,17 +5667,16 @@
         "checked": "2026-10-24"
       },
       "scalability": {
-        "value": 3,
-        "why": "Uses all cores in one process (Unsourced: held at 3 until a non-GK source is found.)",
+        "value": 4,
+        "why": "Stateless; scale out",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend scalability rubric: 4 a stateless app server that scales out by adding processes or instances · 3 scales only together with another app · 2 keeps state in the process. Per-core speed is scored under performance (TechEmpower), not here (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "real-time": {
         "value": 5,
@@ -5120,16 +5692,15 @@
       },
       "ecosystem": {
         "value": 3,
-        "why": "The .NET ecosystem (Unsourced: held at 3 until a non-GK source is found.)",
+        "why": "Held even: plugin counts aren't comparable across registries",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "backend ecosystem: no single method counts framework plugins across six registries (npm keyword, PyPI name prefix, Packagist tag, NuGet tag, Maven starters differ by orders of magnitude for reasons of naming, not size); the language part already scores registry size. Every framework held at 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24",
-        "unsourced": true,
-        "proposed": 5
+        "checked": "2026-11-10"
       },
       "community": {
         "value": 5,
@@ -5522,14 +6093,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Any server or managed WebSocket service",
+        "why": "WebSockets run on load balancers and VMs",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "AWS ALB, Azure Web PubSub/App Service, Cloud Run WebSockets (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 2,
@@ -5623,14 +6201,15 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Your own server holds any connection",
+        "why": "Your own server keeps connections open",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 2,
@@ -5729,11 +6308,18 @@
         "why": "Served from a CDN",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "S",
+            "note": "Pages served through a CDN (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
@@ -5754,14 +6340,21 @@
       },
       "maturity": {
         "value": 4,
-        "why": "Long-running GitHub service",
+        "why": "Since 2008",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 5,
@@ -5900,11 +6493,12 @@
         "why": "CDN plus functions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -5929,11 +6523,18 @@
         "why": "Since 2014",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 4,
@@ -6092,11 +6693,12 @@
         "why": "CDN plus functions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -6121,11 +6723,18 @@
         "why": "Since 2015 (as ZEIT)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-pricing",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 4,
@@ -6273,11 +6882,18 @@
         "why": "Runs at the edge, close to users",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -6302,11 +6918,18 @@
         "why": "Workers since 2017",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 5,
@@ -6466,15 +7089,22 @@
         "checked": "2026-11-09"
       },
       "maturity": {
-        "value": 3,
+        "value": 4,
         "why": "Since 2019",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
@@ -6622,14 +7252,15 @@
       },
       "performance": {
         "value": 4,
-        "why": "Always-on servers",
+        "why": "Always-on servers on paid plans",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 4,
@@ -6650,15 +7281,22 @@
         "checked": "2026-11-09"
       },
       "maturity": {
-        "value": 3,
+        "value": 4,
         "why": "Since 2020",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
@@ -6675,14 +7313,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Long-lived servers",
+        "why": "WebSockets supported",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "docs.railway.com (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 4,
@@ -6788,11 +7433,12 @@
         "why": "Runs close to users in many regions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 4,
@@ -6813,15 +7459,22 @@
         "checked": "2026-11-09"
       },
       "maturity": {
-        "value": 3,
+        "value": 4,
         "why": "Since 2017",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 2,
@@ -6843,14 +7496,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Long-lived servers",
+        "why": "Long-lived connections on Machines",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "fly.io docs (not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 3,
@@ -6954,11 +7614,12 @@
         "why": "Any machine size, in many regions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -6980,14 +7641,15 @@
       },
       "maturity": {
         "value": 4,
-        "why": "One of the three largest clouds",
+        "why": "Since 2006",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 4,
@@ -7004,14 +7666,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Servers or managed WebSocket services",
+        "why": "WebSockets on ALB and API Gateway",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 2,
@@ -7115,11 +7784,12 @@
         "why": "Any machine size, in many regions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -7141,14 +7811,15 @@
       },
       "maturity": {
         "value": 4,
-        "why": "One of the three largest clouds",
+        "why": "Since 2010",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 4,
@@ -7165,14 +7836,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Servers or managed WebSocket services",
+        "why": "WebSockets on App Service and VMs",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 2,
@@ -7276,11 +7954,12 @@
         "why": "Any machine size, in many regions",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -7302,14 +7981,15 @@
       },
       "maturity": {
         "value": 4,
-        "why": "One of the three largest clouds",
+        "why": "Since 2008 (App Engine)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 4,
@@ -7326,14 +8006,21 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Servers or managed WebSocket services",
+        "why": "WebSockets on Cloud Run and VMs",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "(not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 2,
@@ -7431,14 +8118,15 @@
       },
       "performance": {
         "value": 3,
-        "why": "One fixed machine",
+        "why": "One fixed machine in one place",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting performance rubric: no independent benchmark compares providers; no cold start on a paid plan with a CDN or several regions → 4 · one machine in one place → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 2,
@@ -7463,11 +8151,12 @@
         "why": "A long-standing model",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "maturity rubric (schema §8) for hosting: services publish no support windows, so ≥ 5 years in service → 4 · 2–5 years → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 2,
@@ -7489,14 +8178,15 @@
       },
       "real-time": {
         "value": 4,
-        "why": "Any connection",
+        "why": "Your own server keeps connections open",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting real-time rubric (schema §8): long-lived WebSocket connections run on the platform → 4 · not possible → 1 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "ops-effort": {
         "value": 2,
@@ -7574,14 +8264,20 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Same language as the browser; async code takes practice",
+        "why": "JavaScript is the first programming language in MDN's web curriculum; async code takes practice",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "mdn-learn",
+            "quality": "P"
+          },
+          {
+            "kind": "design",
+            "note": "language learning-curve rubric (KB draft §11), completed: learners' #1 and top intro teaching language → 5 · a top intro teaching language, or the first programming language of MDN's web curriculum → 4 · neither → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -8053,14 +8749,20 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Many concepts; good tooling",
+        "why": "Not a top intro teaching language in the CS1 surveys",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "siegfried-2021",
+            "quality": "S"
+          },
+          {
+            "kind": "design",
+            "note": "language learning-curve rubric (KB draft §11), completed: learners' #1 and top intro teaching language → 5 · a top intro teaching language, or the first programming language of MDN's web curriculum → 4 · neither → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -8209,15 +8911,21 @@
     },
     "scores": {
       "learning-curve": {
-        "value": 4,
-        "why": "Small language with few features",
+        "value": 3,
+        "why": "Not a top intro teaching language in the CS1 surveys",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "siegfried-2021",
+            "quality": "S"
+          },
+          {
+            "kind": "design",
+            "note": "language learning-curve rubric (KB draft §11), completed: learners' #1 and top intro teaching language → 5 · a top intro teaching language, or the first programming language of MDN's web curriculum → 4 · neither → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
@@ -8349,15 +9057,21 @@
     },
     "scores": {
       "learning-curve": {
-        "value": 4,
-        "why": "Easy to start; many quirks",
+        "value": 3,
+        "why": "Not a top intro teaching language in the CS1 surveys",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "siegfried-2021",
+            "quality": "S"
+          },
+          {
+            "kind": "design",
+            "note": "language learning-curve rubric (KB draft §11), completed: learners' #1 and top intro teaching language → 5 · a top intro teaching language, or the first programming language of MDN's web curriculum → 4 · neither → 3 (KB draft §27)",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "productivity": {
         "value": 3,
