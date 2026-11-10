@@ -1,11 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { kb } from "@/modules/knowledge-base";
+import { kb, type KnowledgeBase } from "@/modules/knowledge-base";
 import { buildRecommendation, dayNumber, matchBundles, PART_ORDER } from "@/modules/recommendation";
 import { findIntegrityProblems } from "@/modules/knowledge-base";
 import { score, type UserInput } from "@/modules/scoring";
 import { golden } from "../scoring/golden";
 
 const TODAY = "2026-11-09";
+/** C#'s language productivity back at its old GK 4 (before the session-16 hold): Java and C# tie on "performance high". */
+const tieKb: KnowledgeBase = {
+  ...kb,
+  options: kb.options.map((o) =>
+    o.id === "csharp" ? { ...o, scores: { ...o.scores, productivity: { ...o.scores.productivity!, value: 4 } } } : o,
+  ),
+};
 const input = (id: string) => golden.find((g) => g.id === id)!.input;
 const build = (i: UserInput, today = TODAY) => buildRecommendation(i, score(i, kb), kb, today);
 const part = (r: ReturnType<typeof build>, id: string) => r.parts.find((p) => p.partId === id)!;
@@ -69,7 +76,8 @@ describe("buildRecommendation (ARCHITECTURE §2, SCORING_ENGINE step 7)", () => 
   });
 
   it("passes the tie rule's result through (performance high: Java and C# tie, the stack picks C#)", () => {
-    expect(build({ weights: { performance: "high" } }).ties).toContainEqual({
+    const i: UserInput = { weights: { performance: "high" } };
+    expect(buildRecommendation(i, score(i, tieKb), tieKb, TODAY).ties).toContainEqual({
       partId: "language",
       options: ["java", "csharp"],
       pick: "csharp",
@@ -77,8 +85,11 @@ describe("buildRecommendation (ARCHITECTURE §2, SCORING_ENGINE step 7)", () => 
     });
   });
 
-  it("G12 since the registry rubric: TypeScript is the language #1 and the stack still picks C# (stack score)", () => {
+  it("G12 since the productivity hold: TypeScript and Java share the language #1 and the stack still picks C#", () => {
     const r = build(input("G12"));
+    const [first, second] = part(r, "language").options;
+    expect([first!.id, second!.id]).toEqual(["typescript-node", "java"]);
+    // C# is outside the tie, so the pick is reported as adjusted (from the first in KB order), not as a tie.
     expect(r.ties.filter((t) => t.partId === "language")).toEqual([]);
     expect(r.adjusted).toContainEqual(
       expect.objectContaining({ partId: "language", best: "typescript-node", pick: "csharp" }),

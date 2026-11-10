@@ -360,9 +360,17 @@ describe("language part, team skills and stack assembly", () => {
   });
 
   it("settles a tie at the top of a part by the stack rule and reports it as a tie, not an adjusted pick", () => {
-    // Performance high: Java and C# have the same language score (calibration log §13; since the registry rubric,
-    // TypeScript leads the neutral input, so this input keeps a tie at the top).
-    const r = score({ weights: { performance: "high" } }, kb);
+    // Performance high with C#'s productivity at 4 (a fixture: the current KB holds every language at 3 and no
+    // longer has a tie whose pick is inside it): Java and C# have the same language score.
+    const tieKb: KnowledgeBase = {
+      ...kb,
+      options: kb.options.map((o) =>
+        o.id === "csharp"
+          ? { ...o, scores: { ...o.scores, productivity: { ...o.scores.productivity!, value: 4 } } }
+          : o,
+      ),
+    };
+    const r = score({ weights: { performance: "high" } }, tieKb);
     const [first, second] = r.parts.language!.products;
     expect(first!.final).toBe(second!.final);
     const tie = r.stack.ties.find((t) => t.partId === "language")!;

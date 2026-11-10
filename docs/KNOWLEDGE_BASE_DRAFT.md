@@ -643,3 +643,42 @@ PHP is the boundary case: its own count is just under 500k, libraries.io's just 
 - **G7** (PHP team): TypeScript's language score (85.7) is now above PHP's (84.3), but the rule that lists a language the team knows strongly before unknown ones (`strongBeforeUnknown`) keeps PHP first, and the stack is still Laravel + PHP.
 - **P3**: TypeScript and Go now tie at 83.3, behind the Java = C# tie.
 - **Engine fix found here:** in G12, keeping the language #1 and keeping the hosting #1 led to the same alternative stack, which was listed twice. Step 6.7 now lists an identical close-call stack once (SCORING_ENGINE step 7, `tests/scoring/engine.test.ts`). No historic table changed.
+
+## 26. Hosting rubrics and the language productivity hold (Q20, session 16, 2026-11-10)
+The last GK-only criteria named in ROADMAP "Next up" item 5: hosting `ops-effort`, `portability` and `learning-curve` (all 16 hosting options, types and products) and language `productivity`.
+
+### Hosting: three written rubrics (DESIGN, KB schema §8)
+Each turns a fact the vendor documents about itself into a score the same way for every rival (fairness rule 3). The split between what the provider runs and what you run comes from **NIST SP 800-145** (`ref:nist-800-145`, a non-vendor definition): under PaaS the customer doesn't manage servers or operating systems; under IaaS the customer controls the operating system.
+- **`ops-effort`:** count four upkeep jobs the provider does for you: runs the servers and operating system, issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2.
+- **`portability`:** 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model.
+- **`learning-curve`:** read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy.
+
+No band gives 5 or 1 (rule 8 would need a `book:`/`ref:` reason to separate the top or bottom).
+
+| Option | ops-effort | portability | learning-curve | Deciding facts |
+|---|---|---|---|---|
+| static-hosting, GitHub Pages | 4 | 4 | 4 | Publish from a branch, automatic HTTPS, plain files |
+| frontend-platform, Netlify, Vercel | 4 | 3 | 4 | Git deploys and HTTPS built in; functions use the platform's own API and config |
+| Cloudflare | 4 | 3 | 3 | Workers Builds deploys on push; Workers run on Cloudflare's runtime, Node.js APIs behind `nodejs_compat` |
+| paas, Render, Railway | 4 | 4 | 4 | Dashboard deploy from a repository or Dockerfile; TLS, auto-deploy, restarts |
+| Fly.io | 3 | 4 | 3 | Quick start installs `flyctl` and runs `fly launch`; deploy on push needs a GitHub Actions workflow and token you add |
+| cloud, AWS, Azure, Google Cloud | 2 | 2 | 2 | The base building block is a VM whose OS you manage (each provider's shared-responsibility page); IAM and networking first. A container on their PaaS services scores like the paas type |
+| vps, VPS server | 2 | 4 | 2 | You run the OS, HTTPS, deploys and restarts; standard Linux moves anywhere |
+
+**Every value equals the GK value it replaces**, so no score, ranking or calibration table changes from this half; the scores now have a written reason and sources. Fly.io's dashboard "Launch from GitHub" exists (fly.io changelog, January 2026) but its quick start still leads with the CLI and continuous deploy goes through a generated Actions workflow, so it stays at 3 on both. Facts: RESEARCH §11 (quality S: read through search results of each vendor's docs, not full page reads; re-read at the next KB refresh, Q7).
+
+### Language `productivity`: held even at 3
+No public metric compares how fast a *language* alone is to build with. Options looked at and dropped:
+- **First-party toolchain count** (package manager, test runner, formatter, JSON and an HTTP server in the standard distribution): measurable from the languages' docs, but it scores "batteries in the box", not productivity. It would rank Go and C# 5 and Java and PHP 1–2, although Java and PHP are productive through Maven/Composer and their frameworks.
+- **Survey "admired" shares:** rule 4 allows them only together with a second source, and none covers all six languages.
+- **Conciseness studies** (e.g. Rosetta Code comparisons): no PHP or TypeScript.
+
+The framework's built-in features are already scored on the backend part (`productivity` rubric: building blocks out of 8). So, as with `ecosystem` under Q32, every language is **held at 3** until a fair metric exists. Before: TypeScript, Python, C#, PHP 4; Java, Go 3 (all GK).
+
+**Results** (`npm run calibrate -- --variant current`; `--variant session13` restores the old values, so every older table is unchanged):
+- Languages that had 4 lose 2.2–8.3 points (most in G5, where productivity is weighted high: TypeScript 93.3 → 85.0, still #1 by 20).
+- **No stack pick changes**, and every golden expectation holds. Stack scores fall by at most 1.7 (G5 77.5 → 75.8).
+- **G12** (neutral input): TypeScript and Java now share the language #1 (86.1); the stack still picks C# + ASP.NET Core (79.3), reported as an adjusted pick (C# is outside the tie). Close call: Next.js + NestJS + Cloudflare + TypeScript 76.2.
+- **G8:** the Go + Gin close call is now 1.1 behind (was 1.7).
+- **P3:** Java (86.1) is now alone above C# (83.3), so the C# pick is an adjusted pick (stack score) instead of a tie, and Spring Boot + Java shows as a close call (−3.6).
+- Two unit tests that needed a Java = C# tie at the top now build it with a fixture (C# productivity 4).

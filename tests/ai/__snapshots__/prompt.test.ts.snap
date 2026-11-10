@@ -19,14 +19,14 @@ PART language "Programming language":
      scores: Maturity and long-term support 5/5, Fast to build with 3/5, Performance 5/5
      skill (+20): Team skills: your team has strong Java / Kotlin on the JVM skills
      about: Java or Kotlin on the Java Virtual Machine.
-  2. typescript-node "TypeScript / JavaScript on Node.js": final 87.5 (base 87.5)
-     scores: Maturity and long-term support 5/5, Fast to build with 4/5, Ecosystem and libraries 5/5
+  2. typescript-node "TypeScript / JavaScript on Node.js": final 82.5 (base 82.5)
+     scores: Maturity and long-term support 5/5, Fast to build with 3/5, Ecosystem and libraries 5/5
      about: JavaScript (TypeScript recommended) running on the server with Node.js.
-  3. csharp "C# (.NET)": final 85 (base 85)
-     scores: Maturity and long-term support 5/5, Fast to build with 4/5, Performance 5/5
+  3. csharp "C# (.NET)": final 80 (base 80)
+     scores: Maturity and long-term support 5/5, Fast to build with 3/5, Performance 5/5
      about: Microsoft's typed language on .NET.
   4. go "Go": final 80 (base 80)
-  5. python "Python": final 77.5 (base 77.5)
+  5. python "Python": final 72.5 (base 72.5)
 PART frontend "Frontend":
   approach: Server-rendered (meta-framework) 84.4; next: Pages from the backend 76.7, Static site 72.2
   1. nextjs "Next.js" [in stack]: final 82.5 (base 82.5)

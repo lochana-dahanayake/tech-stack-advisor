@@ -5187,14 +5187,15 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Push the files; nothing to configure",
+        "why": "Pick a repository or folder in the dashboard; nothing to configure",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 3,
@@ -5229,14 +5230,21 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "No server to patch",
+        "why": "No server to run; the host handles HTTPS and publishes on push",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 5,
@@ -5263,14 +5271,15 @@
       },
       "portability": {
         "value": 4,
-        "why": "Plain files move anywhere",
+        "why": "Plain files move to any host unchanged",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -5285,14 +5294,15 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Connect the repo; builds and previews are automatic",
+        "why": "Import the Git repository in the dashboard; the framework is detected",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -5331,14 +5341,21 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "No servers to manage",
+        "why": "No servers; HTTPS, deploys on push and restarts are the platform's job",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 4,
@@ -5355,14 +5372,15 @@
       },
       "portability": {
         "value": 3,
-        "why": "Function APIs and build settings differ per platform",
+        "why": "Pages are standard, but functions use the platform's own API and config file",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -5377,14 +5395,15 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Push code or a Dockerfile; the platform runs it",
+        "why": "Connect a repository or Dockerfile in the dashboard",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 4,
@@ -5419,14 +5438,21 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "No operating system to patch",
+        "why": "The platform runs the servers, certificates, deploys and restarts",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
@@ -5443,14 +5469,15 @@
       },
       "portability": {
         "value": 4,
-        "why": "Containers run anywhere",
+        "why": "A container image runs on any other container host",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -5465,14 +5492,15 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Many services, accounts, permissions and billing to understand",
+        "why": "Accounts, permissions (IAM) and networking come before the first deploy",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 5,
@@ -5505,14 +5533,27 @@
       },
       "ops-effort": {
         "value": 2,
-        "why": "You assemble and secure the pieces yourself",
+        "why": "The basic building block is a virtual machine whose operating system you manage (shared-responsibility model); you join and secure the services yourself",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "AWS, Azure and Google Cloud shared-responsibility pages: the customer manages the guest OS on IaaS (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
@@ -5529,14 +5570,15 @@
       },
       "portability": {
         "value": 2,
-        "why": "Managed services tie you to the provider",
+        "why": "Built from the provider's own managed services and permission model (a container on its PaaS service scores like the PaaS type)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -5551,14 +5593,15 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Linux administration, web server, TLS, backups",
+        "why": "A server to set up first: Linux, web server, HTTPS, backups",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "scalability": {
         "value": 2,
@@ -5591,14 +5634,21 @@
       },
       "ops-effort": {
         "value": 2,
-        "why": "You patch, secure, back up and monitor it",
+        "why": "You patch the operating system, set up HTTPS, deploys and restarts",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "cost": {
         "value": 3,
@@ -5615,14 +5665,15 @@
       },
       "portability": {
         "value": 4,
-        "why": "Standard Linux; move by copying",
+        "why": "A plain Linux server; move by copying",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": []
@@ -5657,14 +5708,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Push to a repository branch",
+        "why": "Choose the branch to publish in the repository settings",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "S",
+            "note": "Pages quickstart: Settings → Pages → branch (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -5736,25 +5794,39 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "Nothing to run",
+        "why": "Nothing to run; HTTPS certificates are automatic and pushes to the publishing branch deploy",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "S",
+            "note": "Pages: publishing source branch, HTTPS (Let's Encrypt for custom domains) (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 4,
         "why": "Plain files",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "github-docs",
+            "quality": "S",
+            "note": "Pages serves static HTML, CSS and JavaScript only (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -5807,14 +5879,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Git-based deploys and previews",
+        "why": "Import from Git in the dashboard; framework detected",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Netlify docs: import from an existing repository (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -5895,25 +5974,39 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "No servers",
+        "why": "No servers; automatic HTTPS, deploys on push",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Netlify docs: Git-based continuous deployment, automatic HTTPS (Let's Encrypt) (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 3,
-        "why": "Function and build settings are Netlify-specific",
+        "why": "Functions use Netlify's own handler and netlify.toml settings",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Netlify Functions overview (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -5978,14 +6071,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Git-based deploys and previews",
+        "why": "Import the Git repository; the framework preset is detected",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Vercel docs: import an existing project (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6055,25 +6155,39 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "No servers",
+        "why": "No servers; automatic HTTPS, deploys and previews on push",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Vercel docs: Git integration, automatic SSL certificates (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 3,
-        "why": "Vercel-specific features (ISR, middleware) tie you in a little",
+        "why": "Some features (ISR, middleware, vercel.json) are Vercel-specific",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Vercel Functions runtimes and limitations (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -6138,14 +6252,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "Workers runtime differs from Node.js; some packages need care",
+        "why": "The Workers runtime differs from Node.js; some packages need the compatibility flag",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "S",
+            "note": "Node.js compatibility (nodejs_compat) (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6215,25 +6336,39 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "No servers",
+        "why": "No servers; automatic HTTPS; Workers Builds deploys on push",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "S",
+            "note": "Workers Builds: connect a GitHub or GitLab repository, deploy on push (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 3,
-        "why": "Workers APIs are Cloudflare-specific",
+        "why": "Workers run on Cloudflare's own runtime (workerd) with wrangler config",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "cloudflare-docs",
+            "quality": "S",
+            "note": "Workers runtime APIs; Node.js APIs behind the nodejs_compat flag (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -6283,14 +6418,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Push code or a Dockerfile",
+        "why": "Connect the repository in the dashboard",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Render docs: your first deploy (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6362,25 +6504,39 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "Managed platform",
+        "why": "Managed platform: TLS certificates, auto-deploy on push, restarts",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Render docs: auto-deploys, managed TLS certificates, health checks (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 4,
         "why": "Docker images run anywhere",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Render docs: deploy from a Dockerfile (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -6448,14 +6604,21 @@
     "scores": {
       "learning-curve": {
         "value": 4,
-        "why": "Push code or a Dockerfile",
+        "why": "Deploy from a GitHub repository in the dashboard",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Railway quick start: deploy from GitHub repo (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6523,25 +6686,39 @@
       },
       "ops-effort": {
         "value": 4,
-        "why": "Managed platform",
+        "why": "Managed platform: TLS, deploys on push, restart policy",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Railway docs: GitHub autodeploys, public domains with TLS, restart policy (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 4,
         "why": "Docker images run anywhere",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Railway docs: Dockerfiles (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -6590,14 +6767,21 @@
     "scores": {
       "learning-curve": {
         "value": 3,
-        "why": "CLI-driven; Machines and volumes to understand",
+        "why": "The quick start installs the flyctl CLI and runs fly launch",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "fly.io quick start: install flyctl, fly launch (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6670,25 +6854,39 @@
       },
       "ops-effort": {
         "value": 3,
-        "why": "More to configure than other PaaS",
+        "why": "Runs the servers, certificates and restarts, but deploying on push needs a GitHub Actions workflow and token you set up",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "fly.io docs: TLS termination, custom domains (automatic Let's Encrypt), continuous deployment with GitHub Actions (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 4,
         "why": "Docker images run anywhere",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "fly.io docs: deploy with a Dockerfile (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -6741,14 +6939,15 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Many services, IAM permissions and billing",
+        "why": "Many services, IAM permissions and billing before the first deploy",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6816,25 +7015,39 @@
       },
       "ops-effort": {
         "value": 2,
-        "why": "You assemble and secure the pieces",
+        "why": "You join and secure the pieces; on EC2 the guest operating system is yours",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "AWS shared responsibility model (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 2,
         "why": "Managed services tie you to the provider",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -6887,14 +7100,15 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Many services, IAM permissions and billing",
+        "why": "Many services, role-based access and billing before the first deploy",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -6962,25 +7176,39 @@
       },
       "ops-effort": {
         "value": 2,
-        "why": "You assemble and secure the pieces",
+        "why": "You join and secure the pieces; on VMs the operating system is yours",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Azure shared responsibility in the cloud (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 2,
         "why": "Managed services tie you to the provider",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -7033,14 +7261,15 @@
     "scores": {
       "learning-curve": {
         "value": 2,
-        "why": "Many services, IAM permissions and billing",
+        "why": "Many services, IAM permissions and billing before the first deploy",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -7108,25 +7337,39 @@
       },
       "ops-effort": {
         "value": 2,
-        "why": "You assemble and secure the pieces",
+        "why": "You join and secure the pieces; on Compute Engine the operating system is yours",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "ref",
+            "ref": "host-docs",
+            "quality": "S",
+            "note": "Google Cloud shared responsibility (via search results, 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 2,
         "why": "Managed services tie you to the provider",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -7179,11 +7422,12 @@
         "why": "Linux, a web server, TLS and backups to set up",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting learning-curve rubric (KB draft §26, Q20), read from the vendor's own quick start: 4 import a Git repository in the web dashboard, build settings detected · 3 a CLI to install first, or a runtime that differs from standard Node.js · 2 accounts and permissions (IAM), networking or a server to set up before the first deploy",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 3,
@@ -7259,22 +7503,30 @@
         "why": "You patch, secure, back up and monitor it",
         "sources": [
           {
-            "kind": "general",
+            "kind": "ref",
+            "ref": "nist-800-145",
+            "quality": "S",
+            "note": "service models: the PaaS consumer doesn't manage servers or operating systems; the IaaS consumer controls the operating system (definitions quoted from memory, not re-read 2026-11-10)"
+          },
+          {
+            "kind": "design",
+            "note": "hosting ops-effort rubric (KB draft §26, Q20): count four upkeep jobs the provider does for you: runs the servers and operating system (NIST SP 800-145: PaaS, not IaaS), issues and renews HTTPS certificates, deploys on every git push without a CI file of your own, restarts failed instances. All four → 4 · three → 3 · two or fewer → 2",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       },
       "portability": {
         "value": 4,
         "why": "Standard Linux",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "hosting portability rubric (KB draft §26, Q20): 4 you hand over a standard artefact another host runs unchanged (static files, an OCI container image, a plain Linux server) · 3 standard code, but server-side parts use the platform's own function API, runtime or config file · 2 the app is built from the provider's own managed services and permission model",
             "reviewed": false
           }
         ],
-        "checked": "2026-11-08"
+        "checked": "2026-11-10"
       }
     },
     "facts": [
@@ -7332,15 +7584,16 @@
         "checked": "2026-10-24"
       },
       "productivity": {
-        "value": 4,
-        "why": "One language across frontend and backend",
+        "value": 3,
+        "why": "Held even (no fair metric); was 4 (general knowledge: one language across frontend and backend)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "language productivity (KB draft §26, Q20): no public metric compares how fast a language alone is to build with (the framework's built-in features are scored on the backend part), so every language is held at 3 until one exists, like ecosystem under Q32",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 4,
@@ -7504,15 +7757,16 @@
         "checked": "2026-10-24"
       },
       "productivity": {
-        "value": 4,
-        "why": "Concise; huge standard library",
+        "value": 3,
+        "why": "Held even (no fair metric); was 4 (general knowledge: concise; huge standard library)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "language productivity (KB draft §26, Q20): no public metric compares how fast a language alone is to build with (the framework's built-in features are scored on the backend part), so every language is held at 3 until one exists, like ecosystem under Q32",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 1,
@@ -7649,14 +7903,15 @@
       },
       "productivity": {
         "value": 3,
-        "why": "Strong tooling, more ceremony",
+        "why": "Held even (no fair metric); was 3 (general knowledge: strong tooling, more ceremony)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "language productivity (KB draft §26, Q20): no public metric compares how fast a language alone is to build with (the framework's built-in features are scored on the backend part), so every language is held at 3 until one exists, like ecosystem under Q32",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -7808,15 +8063,16 @@
         "checked": "2026-10-24"
       },
       "productivity": {
-        "value": 4,
-        "why": "Strong tooling and libraries",
+        "value": 3,
+        "why": "Held even (no fair metric); was 4 (general knowledge: strong tooling and libraries)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "language productivity (KB draft §26, Q20): no public metric compares how fast a language alone is to build with (the framework's built-in features are scored on the backend part), so every language is held at 3 until one exists, like ecosystem under Q32",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -7965,14 +8221,15 @@
       },
       "productivity": {
         "value": 3,
-        "why": "Simple, but more code by hand",
+        "why": "Held even (no fair metric); was 3 (general knowledge: simple, but more code by hand)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "language productivity (KB draft §26, Q20): no public metric compares how fast a language alone is to build with (the framework's built-in features are scored on the backend part), so every language is held at 3 until one exists, like ecosystem under Q32",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 5,
@@ -8103,15 +8360,16 @@
         "checked": "2026-10-24"
       },
       "productivity": {
-        "value": 4,
-        "why": "Made for the web",
+        "value": 3,
+        "why": "Held even (no fair metric); was 4 (general knowledge: made for the web)",
         "sources": [
           {
-            "kind": "general",
+            "kind": "design",
+            "note": "language productivity (KB draft §26, Q20): no public metric compares how fast a language alone is to build with (the framework's built-in features are scored on the backend part), so every language is held at 3 until one exists, like ecosystem under Q32",
             "reviewed": false
           }
         ],
-        "checked": "2026-10-24"
+        "checked": "2026-11-10"
       },
       "performance": {
         "value": 2,

@@ -167,5 +167,11 @@
     "kind": "vendor",
     "citation": "Vercel CLI and runtimes repository",
     "url": "https://github.com/vercel/vercel"
+  },
+  {
+    "id": "nist-800-145",
+    "kind": "docs",
+    "citation": "Mell & Grance, The NIST Definition of Cloud Computing, NIST Special Publication 800-145 (2011): service models SaaS, PaaS, IaaS",
+    "url": "https://csrc.nist.gov/pubs/sp/800/145/final"
   }
 ]
