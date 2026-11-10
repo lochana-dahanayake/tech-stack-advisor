@@ -17,6 +17,10 @@ private/
 test-results/
 playwright-report/
 
+# graft (local code-search tool): its graph cache and search-ignore file stay on this machine.
+/graft/
+/.ignore
+
 # Copyrighted reference books stay on the owner's disk only; the repo is public (Q41).
 references/**/*.pdf
 references/**/*.epub
