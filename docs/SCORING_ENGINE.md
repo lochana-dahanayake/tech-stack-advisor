@@ -79,7 +79,7 @@ So a product outside the chosen type pays the type gap. It can still be picked w
 The `language` part has one level: its options are scored as products directly.
 
 ## Step 6: Stack assembly
-1. **Candidates per needed part:** the top 5 by `cand` plus any locked option (locked = the only candidate).
+1. **Candidates per needed part:** the top 5 by `cand` plus any locked option (locked = the only candidate). A fired `keep-type` rule (B2) narrows a part's candidates to products of that approach, while one of them is ranked; a lock still wins (owner, 2026-11-10: the pick must match B2's "one project" explanation, KB draft §27).
 2. **Enumerate** combinations (≤ 5⁵ = 3,125; cheap) and drop any that break a `requires` or `conflicts` relation.
 3. **Stack score:**
    ```

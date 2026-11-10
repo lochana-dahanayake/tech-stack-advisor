@@ -20,6 +20,19 @@ const addRule = (r: Partial<Rule> & Pick<Rule, "id" | "when">): KnowledgeBase =>
 const problems = (k: KnowledgeBase) => findIntegrityProblems(k).join("\n");
 
 describe("integrity checks catch broken data", () => {
+  it("flags a keep-type effect whose target isn't a type of that part", () => {
+    const bad: KnowledgeBase = {
+      ...kb,
+      rules: kb.rules.map((r) =>
+        r.id === "B2"
+          ? { ...r, effects: [...r.effects, { type: "keep-type" as const, part: "backend", target: "nestjs" }] }
+          : r,
+      ),
+    };
+    expect(problems(bad)).toMatch(/rule B2: keep-type needs a type of part backend/);
+    expect(problems(kb)).toBe("");
+  });
+
   it("flags a GK-only 5 or 1 and a mislabelled unsourced score", () => {
     const pg = opt("postgresql");
     const gk = [{ kind: "general" as const, reviewed: false }];
@@ -40,7 +53,13 @@ describe("integrity checks catch broken data", () => {
           ...pg,
           scores: {
             ...pg.scores,
-            ecosystem: { ...pg.scores.ecosystem!, sources: [{ kind: "ref", ref: "eol", quality: "P" }] },
+            ecosystem: {
+              ...pg.scores.ecosystem!,
+              value: 3,
+              unsourced: true,
+              proposed: 5,
+              sources: [{ kind: "ref", ref: "eol", quality: "P" }],
+            },
           },
         }),
       ),

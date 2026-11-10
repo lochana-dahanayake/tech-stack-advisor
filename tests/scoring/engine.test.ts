@@ -116,6 +116,24 @@ describe("score", () => {
 });
 
 describe("language part, team skills and stack assembly", () => {
+  it("keep-type (B2): the backend comes from the full-stack approach, unless a lock says otherwise (KB draft §27)", () => {
+    const g5 = golden.find((g) => g.id === "G5")!.input;
+    const r = score(g5, kb);
+    expect(r.parts.backend!.keepType).toEqual({ type: "fullstack", ruleId: "B2" });
+    // NestJS has the higher candidate score, but B2 keeps the pick in the full-stack approach.
+    const cand = (id: string) => r.parts.backend!.products.find((p) => p.id === id)!.cand;
+    expect(cand("nestjs")).toBeGreaterThan(cand("frontend-server"));
+    expect(r.stack.picks.backend).toBe("frontend-server");
+    // Without the effect the stack would take NestJS: the effect, not the scores, decides here.
+    const plain: KnowledgeBase = {
+      ...kb,
+      rules: kb.rules.map((x) => ({ ...x, effects: x.effects.filter((e) => e.type !== "keep-type") })),
+    };
+    expect(score(g5, plain).stack.picks.backend).toBe("nestjs");
+    // A lock still wins.
+    expect(score({ ...g5, locked: { backend: "nestjs" } }, kb).stack.picks.backend).toBe("nestjs");
+  });
+
   it("scores languages as one-level products and adds T1/T2 language points", () => {
     const r = score({ skills: { go: "strong", php: "some" } }, kb);
     const lang = r.parts.language!;

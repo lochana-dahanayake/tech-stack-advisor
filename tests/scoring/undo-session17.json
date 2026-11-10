@@ -1,0 +1,239 @@
+{
+  "astro": {
+    "ecosystem": {
+      "value": 3
+    }
+  },
+  "nextjs": {
+    "learning-curve": {
+      "value": 3
+    }
+  },
+  "backend-templates": {
+    "ecosystem": {
+      "value": 4
+    },
+    "maturity": {
+      "value": 4
+    }
+  },
+  "document": {
+    "real-time": {
+      "value": 3
+    }
+  },
+  "key-value": {
+    "real-time": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "postgresql": {
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "mysql": {
+    "schema-flexibility": {
+      "value": 3
+    },
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "sqlite": {
+    "learning-curve": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "scalability": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 1
+    },
+    "real-time": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 1
+    },
+    "data-integrity": {
+      "value": 4
+    },
+    "schema-flexibility": {
+      "value": 3
+    },
+    "ops-effort": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "mongodb": {
+    "maturity": {
+      "value": 4
+    }
+  },
+  "redis": {
+    "real-time": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "schema-flexibility": {
+      "value": 3
+    },
+    "maturity": {
+      "value": 4
+    }
+  },
+  "valkey": {
+    "real-time": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "ecosystem": {
+      "value": 3
+    },
+    "community": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 1
+    }
+  },
+  "neo4j": {
+    "ecosystem": {
+      "value": 3
+    },
+    "maturity": {
+      "value": 4
+    }
+  },
+  "batteries": {
+    "learning-curve": {
+      "value": 2
+    }
+  },
+  "frontend-server": {
+    "ecosystem": {
+      "value": 4
+    }
+  },
+  "express": {
+    "learning-curve": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "fastify": {
+    "ecosystem": {
+      "value": 4
+    }
+  },
+  "fastapi": {
+    "ecosystem": {
+      "value": 4
+    }
+  },
+  "gin": {
+    "learning-curve": {
+      "value": 3
+    },
+    "scalability": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "community": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 2
+    }
+  },
+  "nestjs": {
+    "ecosystem": {
+      "value": 4
+    }
+  },
+  "django": {
+    "scalability": {
+      "value": 3
+    },
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "spring-boot": {
+    "scalability": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "laravel": {
+    "scalability": {
+      "value": 3
+    },
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "aspnet-core": {
+    "scalability": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    },
+    "ecosystem": {
+      "value": 3,
+      "unsourced": true,
+      "proposed": 5
+    }
+  },
+  "render": {
+    "maturity": {
+      "value": 3
+    }
+  },
+  "railway": {
+    "maturity": {
+      "value": 3
+    }
+  },
+  "fly-io": {
+    "maturity": {
+      "value": 3
+    }
+  },
+  "go": {
+    "learning-curve": {
+      "value": 4
+    }
+  },
+  "php": {
+    "learning-curve": {
+      "value": 4
+    }
+  }
+}

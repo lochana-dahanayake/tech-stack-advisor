@@ -123,6 +123,8 @@ export const effectSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("floor"), criterion: id, level: levelSchema }),
   z.object({ type: z.literal("not-needed"), part: id }),
   z.object({ type: z.literal("note"), text: z.string().min(1) }),
+  // The stack takes this part's product from one approach (when one is ranked); a lock still wins (SCORING_ENGINE step 6).
+  z.object({ type: z.literal("keep-type"), part: id, target: id }),
 ]);
 
 export const ruleSchema = z.object({

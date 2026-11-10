@@ -173,5 +173,17 @@
     "kind": "docs",
     "citation": "Mell & Grance, The NIST Definition of Cloud Computing, NIST Special Publication 800-145 (2011): service models SaaS, PaaS, IaaS",
     "url": "https://csrc.nist.gov/pubs/sp/800/145/final"
+  },
+  {
+    "id": "jb-eco",
+    "kind": "survey",
+    "citation": "JetBrains, State of Developer Ecosystem (Go ecosystem 2025 write-up: Gin used by 48% of Go developers)",
+    "url": "https://blog.jetbrains.com/go/2025/11/10/go-language-trends-ecosystem-2025/"
+  },
+  {
+    "id": "npm-search",
+    "kind": "docs",
+    "citation": "npm registry search API: number of packages carrying a keyword",
+    "url": "https://registry.npmjs.org/-/v1/search"
   }
 ]

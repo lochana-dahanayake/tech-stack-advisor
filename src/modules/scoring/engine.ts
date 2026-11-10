@@ -153,11 +153,14 @@ export function score(input: UserInput, kb: KnowledgeBase, aiDeltas: Record<stri
   const excluded = new Map<string, string>(); // option → the first rule that excluded it
   const notNeeded = new Map<string, string>();
   const notes: string[] = [];
+  const keepType = new Map<string, { type: string; ruleId: string }>(); // part → the first keep-type rule
   for (const { rule, effect } of effects) {
     if (effect.type === "modify") points.set(effect.target, (points.get(effect.target) ?? 0) + effect.points);
     else if (effect.type === "exclude" && !excluded.has(effect.target)) excluded.set(effect.target, rule.id);
     else if (effect.type === "not-needed" && !notNeeded.has(effect.part)) notNeeded.set(effect.part, rule.id);
     else if (effect.type === "note") notes.push(effect.text);
+    else if (effect.type === "keep-type" && !keepType.has(effect.part))
+      keepType.set(effect.part, { type: effect.target, ruleId: rule.id });
   }
   const cap = kb.meta.caps.rules;
   const rulePoints = (id: string) => clamp(points.get(id) ?? 0, -cap, cap);
@@ -258,6 +261,7 @@ export function score(input: UserInput, kb: KnowledgeBase, aiDeltas: Record<stri
             )
           : rank(products, (p) => [p.cand, p.final], order),
       excluded: partExcluded,
+      ...(keepType.has(part.id) ? { keepType: keepType.get(part.id)! } : {}),
     };
   }
   // Relations that hold for this input (their `when`), with K9-style penalties resolved from dated facts.
@@ -367,6 +371,10 @@ export function assemble(
   const lists = needed.map((id) => {
     const all = parts[id]!.products;
     if (locked[id]) return all.filter((p) => p.id === locked[id]);
+    // keep-type (e.g. B2 "one project"): pick from that approach while one of its products is still ranked.
+    const keep = parts[id]!.keepType?.type;
+    if (keep && all.some((p) => p.types.includes(keep)))
+      return all.filter((p) => p.types.includes(keep)).slice(0, CANDIDATES);
     // T6: while a strongly known language is still ranked (no rule excluded it), drop languages nobody knows,
     // except one a locked product needs (a lock beats T6: "we must use Django" means Python).
     if (id !== "language" || !skillOf || !all.some((p) => skillOf(p.id) === "strong")) return all.slice(0, CANDIDATES);

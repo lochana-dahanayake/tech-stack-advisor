@@ -1,6 +1,7 @@
 import type { KnowledgeBase } from "@/modules/knowledge-base";
 import type { UserInput } from "@/modules/scoring";
 import type { Scenario } from "./golden";
+import undoSession17 from "./undo-session17.json";
 
 /**
  * KB variants that reproduce earlier calibration runs (KNOWLEDGE_BASE_DRAFT §5 and §10). Each is the current KB
@@ -16,9 +17,9 @@ export const variants: Record<
   current: { description: "The KB as committed", apply: (kb) => kb },
   session13: {
     description:
-      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4, and the session-15 registry rubric undone: TypeScript, Python and Go ecosystem back at 3; the session-16 hold undone: TypeScript, Python, C# and PHP productivity back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
+      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4, and the session-15 registry rubric undone: TypeScript, Python and Go ecosystem back at 3; the session-16 hold undone: TypeScript, Python, C# and PHP productivity back at 4; the session-17 rubrics undone: every score they changed back to its GK value, listed in undo-session17.json, and B2 without its keep-type effect; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
     apply: (kb) => {
-      const k = setValues(kb, {
+      const k = setValues(withGk(kb, undoSession17), {
         java: { ecosystem: { value: 4, sources: GK } },
         csharp: { ecosystem: { value: 4, sources: GK }, productivity: { value: 4, sources: GK } },
         "typescript-node": {
@@ -46,7 +47,9 @@ export const variants: Record<
       return {
         ...k,
         options: k.options.map((o) => (o.id === "nextjs" ? { ...o, types: ["ssr", "static", "spa"] } : o)),
-        rules: k.rules.filter((r) => r.id !== "K12"),
+        rules: k.rules
+          .filter((r) => r.id !== "K12")
+          .map((r) => ({ ...r, effects: r.effects.filter((e) => e.type !== "keep-type") })),
         compatibility: k.compatibility.filter((c) => c.kind !== "worksBestWith"),
       };
     },
@@ -183,6 +186,27 @@ export const variants: Record<
     },
   },
 };
+
+/** Session 17 (KB draft §27) changed many GK scores at once; the old values live in a JSON file, restored with GK sources. */
+function withGk(
+  kb: KnowledgeBase,
+  undo: Record<string, Record<string, { value: number; unsourced?: boolean; proposed?: number }>>,
+) {
+  return setValues(
+    kb,
+    Object.fromEntries(
+      Object.entries(undo).map(([id, crits]) => [
+        id,
+        Object.fromEntries(
+          Object.entries(crits).map(([c, x]) => [
+            c,
+            { value: x.value, sources: GK, ...(x.unsourced ? { unsourced: true as const, proposed: x.proposed } : {}) },
+          ]),
+        ),
+      ]),
+    ),
+  );
+}
 
 function setValues(
   kb: KnowledgeBase,

@@ -55,6 +55,7 @@ export interface PartResult {
   closeCall?: string; // runner-up type within closeCallPoints of the winner
   products: ProductResult[]; // ranked by cand, excluded ones removed
   excluded: string[];
+  keepType?: { type: string; ruleId: string }; // a keep-type rule: the stack picks this part from that approach
 }
 
 /** Step 6.6: options level at the top of a part, and which rule settled the pick among them. */
