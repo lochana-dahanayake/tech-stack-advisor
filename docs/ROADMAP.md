@@ -8,7 +8,7 @@ Keep this current. At the end of every session, update **Next up** so the next (
 2. ~~`worksBestWith` pair bonuses~~ **done** (PR #10): Next.js + Vercel +2, Django + PostgreSQL +1 (G4 now Django); KB draft §24.
 3. ~~Glossary~~ **done** (PR #11): `glossary.json` (18 entries), option aliases, "You mentioned" on the result, AI `mentions` (prompt v2).
 4. ~~Live AI~~ **done** (session 15, PR #13): keys in Vercel, `AI_MODE=live`; one call per provider passed; prompt v3; v0.7.0 (AI_INTEGRATION §12, Q39 decided).
-5. Remaining rubrics (Q20): ~~language `ecosystem`~~ **done** (session 15, PR #14: registry size from libraries.io, which counts Go too; KB draft §25); next hosting `ops-effort`/`portability`/`learning-curve` (still GK), language `productivity`.
+5. Remaining rubrics (Q20): ~~language `ecosystem`~~ **done** (session 15, PR #14: registry size from libraries.io, which counts Go too; KB draft §25); ~~hosting `ops-effort`/`portability`/`learning-curve`, language `productivity`~~ **done** (session 16, 2026-11-10: three hosting rubrics, values unchanged; language productivity held at 3 for all, no stack pick changes; KB draft §26). Left as GK and listed in Q20: language `learning-curve` (partly), hosting `maturity`, backend `learning-curve`/`scalability`/`ecosystem`, some database criteria; not blocking.
 6. First KB refresh session in about 3 months (Q7).
 
 Done in session 12 (details under Phase 3, steps 5–8): e2e + axe tests and dependency-cruiser (PR #15), share links and "Share & save" (PR #16), locks + `?style=` (PR #17), methodology + about pages and v0.3.0 (PR #18).

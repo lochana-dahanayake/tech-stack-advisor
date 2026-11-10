@@ -16,13 +16,20 @@ export const variants: Record<
   current: { description: "The KB as committed", apply: (kb) => kb },
   session13: {
     description:
-      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4, and the session-15 registry rubric undone: TypeScript, Python and Go ecosystem back at 3; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
+      "current, with the session-14 owner decisions undone (Q32: Java's and C#'s GK-only ecosystem back at 4, and the session-15 registry rubric undone: TypeScript, Python and Go ecosystem back at 3; the session-16 hold undone: TypeScript, Python, C# and PHP productivity back at 4; Q34: hosting scalability before the rubric, Render performance 3, no K12; Q33: React ecosystem 3 and Next.js 4, Svelte productivity 4, Next.js listed under spa; no worksBestWith pairings): the KB of session 13",
     apply: (kb) => {
       const k = setValues(kb, {
         java: { ecosystem: { value: 4, sources: GK } },
-        csharp: { ecosystem: { value: 4, sources: GK } },
-        "typescript-node": { ecosystem: { value: 3, unsourced: true, proposed: 5, sources: GK } },
-        python: { ecosystem: { value: 3, unsourced: true, proposed: 5, sources: GK } },
+        csharp: { ecosystem: { value: 4, sources: GK }, productivity: { value: 4, sources: GK } },
+        "typescript-node": {
+          ecosystem: { value: 3, unsourced: true, proposed: 5, sources: GK },
+          productivity: { value: 4, sources: GK },
+        },
+        python: {
+          ecosystem: { value: 3, unsourced: true, proposed: 5, sources: GK },
+          productivity: { value: 4, sources: GK },
+        },
+        php: { productivity: { value: 4, sources: GK } },
         go: { ecosystem: { value: 3, sources: GK } },
         render: { scalability: { value: 3 }, performance: { value: 3 } },
         react: { ecosystem: { value: 3 } },
